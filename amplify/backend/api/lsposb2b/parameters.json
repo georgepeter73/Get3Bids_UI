@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "lsposb2b",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authlsposb2bui1dab246d",
+      "Outputs.UserPoolId"
+    ]
+  }
+}
