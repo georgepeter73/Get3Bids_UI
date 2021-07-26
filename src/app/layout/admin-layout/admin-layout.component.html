@@ -1,0 +1,16 @@
+<nb-layout>
+  <nb-layout-header fixed>
+    <app-header></app-header>
+  </nb-layout-header>
+  <nb-sidebar tag="left" class="left" [compactedBreakpoints]="[]" [collapsedBreakpoints]="['xs', 'is', 'sm']" responsive>
+    <nb-menu [items]="menuItems"></nb-menu>
+  </nb-sidebar>
+  <nb-layout-column>
+    <div class="container">
+      <router-outlet (activate)="onActivate($event)"></router-outlet>
+    </div>
+  </nb-layout-column>
+  <nb-layout-footer style="z-index: 1;">
+    <app-footer></app-footer>
+  </nb-layout-footer>
+</nb-layout>

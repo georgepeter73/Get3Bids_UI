@@ -1,11 +1,10 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": "",
     "outDir": "../out-tsc/app",
-    "types": []
+    "types": ["node"]
   },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts"
-  ]
+  "files": ["main.ts", "polyfills.ts"],
+  "include": ["src/**/*.d.ts", "declarations.d.ts"]
 }

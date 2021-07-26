@@ -1,0 +1,27 @@
+<div class="wrapper">
+  <div class="toolbar">
+       <div class="">
+        <span>
+          <nb-actions size="small" class="row">
+            <nb-action class="col-sm-6">
+              <span class="branding spacer d-none d-md-inline">
+                <img  alt="" style="width: 180px;" src="assets/images/logo-blue.png"/>
+              </span>
+              <span class="branding spacer d-md-none text-center" style="position: absolute; margin-left: 50%; transform: translateX(-50%);">
+                <img alt="" style="width: 180px;" src="assets/images/logo-blue.png"/>
+              </span>
+              <a (click)="toggleSidebar()" href="#" class="sidebar-toggle d-md-none">
+                <nb-icon icon="menu-2-outline"></nb-icon>
+              </a>
+            </nb-action>
+            <nb-action class="col-sm-6" style="flex-direction: row-reverse;">
+              <a (click)="logout($event)" href="#" class="branding spacer d-none d-md-inline">
+                Logout
+              </a>
+            </nb-action>
+          </nb-actions>
+        </span>
+      </div>
+  </div>
+</div>
+

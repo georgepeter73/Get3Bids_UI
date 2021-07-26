@@ -6,5 +6,10 @@ import { Component } from "@angular/core";
   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
-  title = "black-dashboard-angular";
+  ngOnInit(): void {
+    const el = document.getElementById("nb-global-spinner");
+    if (el) {
+      el.style["display"] = "none";
+    }
+  }
 }

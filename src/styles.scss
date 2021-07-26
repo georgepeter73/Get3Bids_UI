@@ -1,1 +1,153 @@
-/* You can add global styles to this file, and also import other style files */
+@import "styles-variables";
+
+@import "~bootstrap/scss/bootstrap";
+@import "style-reset";
+
+@import "~@angular/material/theming";
+
+@include mat-core();
+
+@import "./styles/themes/black-theme.scss";
+@import "./styles/themes/light-theme.scss";
+
+// import custom component themes here
+@import "styles-reset.scss-theme";
+
+@mixin custom-components-theme($theme) {
+  @include my-styles-reset-theme($theme);
+}
+
+.my-light-theme {
+  @include angular-material-theme($my-light-theme);
+  @include custom-components-theme($my-light-theme);
+}
+
+.my-dark-theme {
+  @include angular-material-theme($my-black-theme);
+  @include custom-components-theme($my-black-theme);
+}
+
+// this is your created themes.scss file, make sure the path to the file is correct
+@import "themes";
+
+// framework component styles which will use your new theme
+@import "~@nebular/theme/styles/globals";
+
+// install the framework
+@include nb-install() {
+  @include nb-theme-global();
+}
+
+nb-action {
+  nb-menu {
+    .menu-items {
+      display: flex;
+      justify-content: center;
+      .menu-item {
+        border: none;
+        a {
+          display: block;
+          &:hover,
+          &.active,
+          &:focus {
+            outline: none !important;
+          }
+        }
+      }
+    }
+  }
+}
+.nb-theme-default nb-context-menu nb-menu .menu-item a {
+  color: inherit;
+}
+nb-layout-header nav {
+  justify-content: center !important;
+}
+.nb-theme-default h3 {
+  color: #ffffff;
+}
+.carousel-caption p {
+  color: #ffffff;
+}
+.nb-theme-default nb-user .user-picture {
+  background-color: #40a7de;
+  color: #ffffff;
+  font-weight: bold;
+}
+app-header {
+  width: 100%;
+}
+.nb-theme-default app-quickquote-layout {
+  #qqcontent {
+    background-color: #ffffff;
+    margin-top: -2.25rem;
+    margin-bottom: -1.25rem;
+    max-width: 840px;
+    width: 100%;
+  }
+  a {
+    color: #222b45;
+  }
+}
+@media (max-width: 767px) {
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: -15px;
+    margin-right: -15px;
+    width: calc(100% + 30px);
+    max-width: 767px;
+  }
+  .floating-video {
+    position: absolute;
+    right: 0px;
+    text-align: right;
+    margin-right: -10px;
+    z-index: 1;
+    width: auto;
+    .web-cam {
+      display: inline !important;
+      position: absolute;
+      left: 20px;
+      transition-property: all;
+      transition-duration: 0.5s;
+      transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+      transition-delay: 0s;
+    }
+  }
+  .video-tab {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 70px;
+    height: 60px;
+    width: 45px;
+    background-color: white;
+    line-height: 20px;
+    margin-left: -37px;
+    border: 5px solid #d6d6d6;
+    border-right: 0;
+    border-top-left-radius: 10px;
+  }
+}
+.blinking {
+  animation: blinkingText 0.4s infinite;
+}
+
+@keyframes blinkingText {
+  0% {
+    color: #000;
+  }
+  49% {
+    color: transparent;
+  }
+  50% {
+    color: transparent;
+  }
+  99% {
+    color: transparent;
+  }
+  100% {
+    color: #000;
+  }
+}
