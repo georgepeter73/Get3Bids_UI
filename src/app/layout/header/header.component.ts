@@ -1,0 +1,73 @@
+import { Component, OnInit } from "@angular/core";
+import { AuthService } from "@app/service/auth.service";
+import { environment } from "@env";
+import { Observable } from "rxjs";
+import { ThemeService } from "app/core/service/theme.service";
+import { NbMenuService, NbSidebarService } from "@nebular/theme";
+
+@Component({
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.scss"]
+})
+export class HeaderComponent implements OnInit {
+  public version = environment.version;
+  public repoUrl = "";
+  public isDarkTheme$: Observable<boolean>;
+  public isAuthenticated = this.authService.getUser() !== null;
+  public authUser: any;
+
+  headerItems = [
+    // { link: '/', title: 'Home' },
+    { link: "/quickquote/property-location", title: "Quick Quote" },
+    { link: "/dashboard/home", title: "Dashboard" },
+    { link: "/about", title: "About" },
+    { link: "/contact", title: "Contact" }
+  ];
+
+  public nbContextMenuItems = [
+    { title: "Profile", data: { id: "profile", link: "/profile" } },
+    { title: "Log out", data: { id: "logout", link: "/auth/logout" } }
+  ];
+
+  constructor(
+    private themeService: ThemeService,
+    public authService: AuthService,
+    private nbMenuService: NbMenuService,
+    private sidebarService: NbSidebarService
+  ) {}
+
+  async ngOnInit() {
+    this.isDarkTheme$ = this.themeService.getDarkTheme();
+    // this.isAuthenticated = await this.authService.checkAuthenticated();
+    // if (this.authService.getUser() !== null) {
+    //   this.authUser = this.authService.getUser();
+    // }
+    // this.nbMenuService
+    //   .onItemClick()
+    //   .pipe(
+    //     filter(({ tag }) => tag === 'nb-context-menu'),
+    //     map(({ item: { data } }) => data)
+    //   )
+    //   .subscribe(data => {
+    //     if (data.id === 'logout') {
+    //       this.logout();
+    //     }
+    //   });
+  }
+
+  toggleTheme(checked: boolean) {
+    this.themeService.setDarkTheme(checked);
+  }
+
+  logout(event) {
+    console.log(event);
+    event.preventDefault();
+    this.authService.logout("/auth/login");
+  }
+
+  toggleSidebar() {
+    this.sidebarService.toggle(true, "left");
+    return false;
+  }
+}

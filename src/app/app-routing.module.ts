@@ -1,49 +1,56 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { BrowserModule } from "@angular/platform-browser";
 import { Routes, RouterModule } from "@angular/router";
-
-import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
-import { LoginComponent } from "./pages/login/login.component";
-import { AuthGuard } from "./auth.guard";
+import { AuthLayoutComponent } from "./layout/auth-layout/auth-layout.component";
+import { AdminLayoutComponent } from "./layout/admin-layout/admin-layout.component";
+import { HttpClientModule } from "@angular/common/http";
+import { AuthGuard } from "@app/guard/auth.guard";
+import { environment } from "@env";
 
 const routes: Routes = [
+  // {
+  //   path: '',
+  //   component: HomepageLayoutComponent,
+  //   pathMatch: 'full'
+  // },
   {
     path: "",
-    redirectTo: "/dynamo",
-    pathMatch: "full",
-    canActivate: [AuthGuard]
+    redirectTo: "/admin",
+    pathMatch: "full"
   },
   {
-    path: "",
+    path: "admin",
     component: AdminLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       {
         path: "",
-        loadChildren:
-          "./layouts/admin-layout/admin-layout.module#AdminLayoutModule"
+        loadChildren: () =>
+          import("@modules/admin/admin.module").then(m => m.AdminModule)
       }
     ]
   },
   {
-    path: "**",
-    redirectTo: "dashboard"
+    path: "auth",
+    component: AuthLayoutComponent,
+    loadChildren: () =>
+      import("@modules/auth/auth.module").then(m => m.AuthModule)
   },
-  {
-    path: "login",
-    component: LoginComponent
-  }
+  // Fallback when no prior routes is matched
+  { path: "**", redirectTo: "/", pathMatch: "full" }
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    BrowserModule,
+    HttpClientModule,
     RouterModule.forRoot(routes, {
-      useHash: true
+      scrollPositionRestoration: "top"
     })
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    // { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+  ]
 })
 export class AppRoutingModule {}
