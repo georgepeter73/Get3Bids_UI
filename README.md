@@ -23,3 +23,8 @@ Run the following comment to generate the production dist folder. You need to ma
 
     ng build --configuration=production
 
+## To Run End to End Tests 
+
+Run the following command to run the end to end test suite.
+
+    ng test
