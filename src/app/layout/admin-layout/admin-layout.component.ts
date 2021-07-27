@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { NbMenuItem, NbSidebarService } from "@nebular/theme";
+import { NbMenuItem, NbSidebarService,NbMenuService } from "@nebular/theme";
 import { ThemeService } from "@app/service/theme.service";
-import { NbMenuService } from "@nebular/theme";
 import { BreakpointObserver } from "@angular/cdk/layout";
 
 @Component({

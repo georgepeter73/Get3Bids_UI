@@ -1,14 +1,10 @@
 import { enableProdMode } from "@angular/core";
 import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
-
 import { AppModule } from "./app/app.module";
-import { environment } from "@env";
-
+import { environment, awsmobile } from "@env";
 import { Amplify, Auth } from "aws-amplify";
-import awsconfig from "./aws-exports";
-
-Amplify.configure(awsconfig);
-Auth.configure(awsconfig);
+Amplify.configure(awsmobile);
+Auth.configure(awsmobile);
 if (environment.production) {
   enableProdMode();
 }

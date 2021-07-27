@@ -4,8 +4,7 @@ import { environment } from "@env";
 import { Observable } from "rxjs";
 import { ThemeService } from "app/core/service/theme.service";
 import { NbMenuService, NbSidebarService } from "@nebular/theme";
-import {UserInfo} from 'os';
-import {CognitoUserInterface} from '@aws-amplify/ui-components';
+
 
 @Component({
   selector: "app-header",
