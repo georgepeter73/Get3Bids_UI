@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { environment } from "@env";
 import { Router } from "@angular/router";
 
 @Injectable({

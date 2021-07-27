@@ -5,7 +5,6 @@ import { AuthLayoutComponent } from "./layout/auth-layout/auth-layout.component"
 import { AdminLayoutComponent } from "./layout/admin-layout/admin-layout.component";
 import { HttpClientModule } from "@angular/common/http";
 import { AuthGuard } from "@app/guard/auth.guard";
-import { environment } from "@env";
 
 const routes: Routes = [
   // {
