@@ -41,7 +41,8 @@ export class LoginComponent implements OnInit {
       this.authState = authState;
       if (authData) {
         this.user = authData as CognitoUserInterface;
-        localStorage.setItem(
+        localStorage.setItem("user",this.user.username);
+         localStorage.setItem(
           "idToken",
           this.user["signInUserSession"]["idToken"]["jwtToken"]
         );

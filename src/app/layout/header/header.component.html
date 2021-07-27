@@ -14,9 +14,9 @@
             </nb-action>
             <nb-action class="col-4" style="flex-direction: row-reverse;">
            <div ngbDropdown>
-              <button nbButton ghost ngbDropdownToggle >Home</button>
+              <button nbButton ghost ngbDropdownToggle >Admin</button>
               <div ngbDropdownMenu>
-                    <button ngbDropdownItem>Edit</button>
+                    <button ngbDropdownItem>New MLO</button>
                     <button ngbDropdownItem>Duplicate</button>
                     <button ngbDropdownItem>Move</button>
                     <div class="dropdown-divider"></div>
@@ -38,8 +38,9 @@
             <nb-action class="col-2" style="flex-direction: row-reverse;">
               <nb-action class="user-action"  >
       <nb-user [nbContextMenu]="userMenu"
-               [name]="user?.name"
-               [picture]="user?.picture">
+               [name] = "username"
+
+                >
       </nb-user>
     </nb-action>
             </nb-action>

@@ -4,6 +4,8 @@ import { environment } from "@env";
 import { Observable } from "rxjs";
 import { ThemeService } from "app/core/service/theme.service";
 import { NbMenuService, NbSidebarService } from "@nebular/theme";
+import {UserInfo} from 'os';
+import {CognitoUserInterface} from '@aws-amplify/ui-components';
 
 @Component({
   selector: "app-header",
@@ -18,6 +20,7 @@ export class HeaderComponent implements OnInit {
   public authUser: any;
   userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
   user: any;
+  username : string;
 
   headerItems = [
     // { link: '/', title: 'Home' },
@@ -40,6 +43,7 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.username = localStorage.getItem("user");
     this.isDarkTheme$ = this.themeService.getDarkTheme();
     this.nbMenuService
        .onItemClick()
@@ -55,8 +59,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-
-    this.authService.logout("/auth/login");
+      this.authService.logout("/auth/login");
   }
 
   toggleSidebar() {
