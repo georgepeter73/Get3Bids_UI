@@ -16,6 +16,8 @@ export class HeaderComponent implements OnInit {
   public isDarkTheme$: Observable<boolean>;
   public isAuthenticated = this.authService.getUser() !== null;
   public authUser: any;
+  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  user: any;
 
   headerItems = [
     // { link: '/', title: 'Home' },
@@ -39,30 +41,21 @@ export class HeaderComponent implements OnInit {
 
   async ngOnInit() {
     this.isDarkTheme$ = this.themeService.getDarkTheme();
-    // this.isAuthenticated = await this.authService.checkAuthenticated();
-    // if (this.authService.getUser() !== null) {
-    //   this.authUser = this.authService.getUser();
-    // }
-    // this.nbMenuService
-    //   .onItemClick()
-    //   .pipe(
-    //     filter(({ tag }) => tag === 'nb-context-menu'),
-    //     map(({ item: { data } }) => data)
-    //   )
-    //   .subscribe(data => {
-    //     if (data.id === 'logout') {
-    //       this.logout();
-    //     }
-    //   });
+    this.nbMenuService
+       .onItemClick()
+       .subscribe(data => {
+        if (data.item.title === 'Log out') {
+           this.logout();
+         }
+       });
   }
 
   toggleTheme(checked: boolean) {
     this.themeService.setDarkTheme(checked);
   }
 
-  logout(event) {
-    console.log(event);
-    event.preventDefault();
+  logout() {
+
     this.authService.logout("/auth/login");
   }
 

@@ -42,55 +42,58 @@ import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { CookieModule } from "ngx-cookie";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AdminLayoutComponent,
-    HeaderComponent,
-    FooterComponent,
-    AuthLayoutComponent
-  ],
-  imports: [
-    // angular
-    BrowserModule,
-    HttpClientModule,
+    declarations: [
+        AppComponent,
+        AdminLayoutComponent,
+        HeaderComponent,
+        FooterComponent,
+        AuthLayoutComponent
+    ],
+    imports: [
+        // angular
+        BrowserModule,
+        HttpClientModule,
 
-    // 3rd party
-    NbLayoutModule,
-    NbMenuModule.forRoot(),
-    NbThemeModule.forRoot(),
-    NbSidebarModule.forRoot(),
-    NbDatepickerModule.forRoot(),
-    NbActionsModule,
-    NbUserModule,
-    NbContextMenuModule,
-    NbEvaIconsModule,
-    NbIconModule,
-    NbCardModule,
-    NbStepperModule,
-    NbInputModule,
-    NbSelectModule,
-    NbDatepickerModule,
-    NbRadioModule,
-    NbAlertModule,
-    NbCheckboxModule,
-    NbButtonModule,
-    NbToggleModule,
-    NbRouteTabsetModule,
-    NbDialogModule.forRoot(),
-    RecaptchaModule,
+        // 3rd party
+        NbLayoutModule,
+        NbMenuModule.forRoot(),
+        NbThemeModule.forRoot(),
+        NbSidebarModule.forRoot(),
+        NbDatepickerModule.forRoot(),
+        NbActionsModule,
+        NbUserModule,
+        NbContextMenuModule,
+        NbEvaIconsModule,
+        NbIconModule,
+        NbCardModule,
+        NbStepperModule,
+        NbInputModule,
+        NbSelectModule,
+        NbDatepickerModule,
+        NbRadioModule,
+        NbAlertModule,
+        NbCheckboxModule,
+        NbButtonModule,
+        NbToggleModule,
+        NbRouteTabsetModule,
+        NbDialogModule.forRoot(),
+        RecaptchaModule,
 
-    // core & shared
-    CoreModule,
-    SharedModule,
+        // core & shared
+        CoreModule,
+        SharedModule,
 
-    // app
-    AuthModule,
-    AppRoutingModule,
+        // app
+        AuthModule,
+        AppRoutingModule,
 
-    BrowserAnimationsModule,
-    CookieModule.forRoot()
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+        BrowserAnimationsModule,
+        CookieModule.forRoot()
+    ],
+    providers: [],
+    exports: [
+        FooterComponent
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

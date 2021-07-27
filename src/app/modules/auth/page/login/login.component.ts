@@ -57,17 +57,6 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
-  // async login() {
-  //   this.isLoading = true;
-
-  //   const username = this.loginForm.get('username').value;
-  //   const password = this.loginForm.get('password').value;
-
-  //   await this.authService.login(username, password).catch(err => {
-  //     this.error = err.message;
-  //     this.isLoading = false;
-  //   });
-  // }
 
   private buildForm(): void {
     this.loginForm = this.formBuilder.group({
