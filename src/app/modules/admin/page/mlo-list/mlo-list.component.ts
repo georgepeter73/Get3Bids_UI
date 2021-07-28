@@ -8,9 +8,13 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 export class MloListComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    console.log("test")
+
+  }
 
   ngOnInit(): void {
+    console.log("test")
   }
 
 }

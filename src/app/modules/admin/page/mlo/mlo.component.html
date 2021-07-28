@@ -1,41 +1,54 @@
-<form>
+<form class="container m-2" #form="ngForm"
+      (ngSubmit)="submitOrder(form)" >
   <div class="form-group row mb-2">
-    <label for="name" class="label col-3 col-form-label">Name</label>
+    <label for="fName" class="label col-3 col-form-label">Name</label>
     <div class="col-9">
-      <input class="mb-2" type="text" nbInput fullWidth id="name" placeholder="First Name">
-      <input class="mb-2" type="text" nbInput fullWidth id="name" placeholder="Last Name">
+      <input class="form-control mb-2" #name="ngModel" name="name" id="fName"
+             [(ngModel)]="userMLO.firstName"
+             type="text" nbInput fullWidth shape="rectangle" placeholder="First Name"
+      />
+      <input class="form-control mb-2" #name="ngModel" name="name" id="lName"
+             [(ngModel)]="userMLO.lastName"
+             type="text" nbInput fullWidth shape="rectangle" placeholder="Last Name"
+      />
     </div>
   </div>
 
   <div class="form-group row mb-2">
     <label for="inputEmail1" class="label col-3 col-form-label">Email</label>
     <div class="col-9">
-      <input  type="email" nbInput fullWidth id="inputEmail1" placeholder="Email">
+      <input class="form-control mb-2" #name="ngModel" name="name" id="inputEmail1"
+             [(ngModel)]="userMLO.userName"
+             type="text" nbInput fullWidth shape="rectangle" placeholder="Email"
+      />
     </div>
   </div>
   <div class="form-group row mb-2">
     <label for="inputEmail1" class="label col-3 col-form-label">Manager</label>
     <div class="col-9">
-      <nb-radio-group>
-        <nb-radio>Is Manager in Floify</nb-radio>
-        <nb-radio>Not a Manager in Floify</nb-radio>
-
-      </nb-radio-group>
+       <nb-checkbox [(ngModel)]="userMLO.floifyTeamManagerFlag"  name="IsFloifyManage" #IsFloifyManage="ngModel">Is Floify Manager</nb-checkbox>
     </div>
   </div>
-  <div class="form-group row mb-2">
+  <div class="form-group row mb-2" *ngIf="!userMLO.floifyTeamManagerFlag">
     <label for="inputEmail1" class="label col-3 col-form-label">Floify Manager</label>
     <div class="col-9">
-      <nb-select selected="1">
-        <nb-option value="1">Manager 1</nb-option>
-        <nb-option value="2">Manager 2</nb-option>
+      <nb-select [(ngModel)]="userMLOManager"   #managerList="ngModel" name="managerList" required size="small"  placeholder="" >
+        <nb-option *ngFor="let manager of userMLOManager" [value]="manager.userId">{{manager.firstName}}</nb-option>
       </nb-select>
     </div>
   </div>
 
   <div class="form-group row mb-2">
     <div class="offset-3 col-9">
-      <button  type="submit" nbButton status="primary">Sign in</button>
+      <button  type="submit" nbButton  status="primary"
+               [disabled]="!userMLO.firstName || !userMLO.lastName || !userMLO.userName"
+               size="medium" [nbSpinner]="loading" nbSpinnerStatus="primary">Sign in</button>
+    </div>
+    <div class="col-12 text-center" *ngIf="userMLO.userId>0">
+      <nb-alert accent="info"  size="tiny" >
+        Operation completed successfully.
+      </nb-alert>
+
     </div>
   </div>
 </form>
