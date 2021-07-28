@@ -14,9 +14,10 @@ import {
   NbTabsetModule
 } from '@nebular/theme';
 import { MloComponent } from './page/mlo/mlo.component';
+import { MloListComponent } from './page/mlo-list/mlo-list.component';
 
 @NgModule({
-  declarations: [AdminComponent, MloComponent],
+  declarations: [AdminComponent, MloComponent, MloListComponent],
   imports: [AdminRoutingModule, SharedModule, NbRouteTabsetModule, NbCardModule, NbTabsetModule, NbAccordionModule, NbRadioModule, NbCheckboxModule, NbSelectModule, NbInputModule, NbButtonModule]
 })
 export class AdminModule {}

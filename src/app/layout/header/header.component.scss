@@ -3,6 +3,10 @@
 @import '../../../themes';
 
 @include nb-install-component() {
+  div {
+    border: 0px solid #000000;
+  }
+
 
   justify-content: space-between;
   width: 100%;
