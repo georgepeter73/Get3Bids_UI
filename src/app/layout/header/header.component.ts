@@ -44,6 +44,7 @@ export class HeaderComponent implements OnInit {
   async ngOnInit() {
     this.username = localStorage.getItem("user");
     this.isDarkTheme$ = this.themeService.getDarkTheme();
+    this.themeService.setDarkTheme(true);
     this.nbMenuService
        .onItemClick()
        .subscribe(data => {

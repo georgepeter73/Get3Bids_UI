@@ -17,27 +17,27 @@ import { AuthLayoutComponent } from "./layout/auth-layout/auth-layout.component"
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RecaptchaModule } from "ng-recaptcha";
 import {
-  NbThemeModule,
-  NbActionsModule,
-  NbLayoutModule,
-  NbButtonModule,
-  NbMenuModule,
-  NbUserModule,
-  NbContextMenuModule,
-  NbSidebarModule,
-  NbIconModule,
-  NbStepperModule,
-  NbCardModule,
-  NbCheckboxModule,
-  NbDatepickerModule,
-  NbInputModule,
-  NbRadioModule,
-  NbSelectModule,
-  NbToggleModule,
-  NbAlertModule,
-  NbRouteTabsetModule,
-  NbDialogModule
-} from "@nebular/theme";
+    NbThemeModule,
+    NbActionsModule,
+    NbLayoutModule,
+    NbButtonModule,
+    NbMenuModule,
+    NbUserModule,
+    NbContextMenuModule,
+    NbSidebarModule,
+    NbIconModule,
+    NbStepperModule,
+    NbCardModule,
+    NbCheckboxModule,
+    NbDatepickerModule,
+    NbInputModule,
+    NbRadioModule,
+    NbSelectModule,
+    NbToggleModule,
+    NbAlertModule,
+    NbRouteTabsetModule,
+    NbDialogModule, NbSearchModule
+} from '@nebular/theme';
 import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { CookieModule } from "ngx-cookie";
 
@@ -88,7 +88,8 @@ import { CookieModule } from "ngx-cookie";
         AppRoutingModule,
 
         BrowserAnimationsModule,
-        CookieModule.forRoot()
+        CookieModule.forRoot(),
+        NbSearchModule
     ],
     providers: [],
     exports: [
