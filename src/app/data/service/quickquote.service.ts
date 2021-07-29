@@ -70,9 +70,9 @@ export class QuickQuoteService {
                 userMedia['deleteFlag'],
               )
           ),
-          (response['userMedia']).map(
+          (response['userMedia']).pipe.map(
             userMLOPricing => {
-              new UserMloPricing(
+              return new UserMloPricing(
                 userMLOPricing['status'],
                 userMLOPricing['transaction'],
                 userMLOPricing['message'],

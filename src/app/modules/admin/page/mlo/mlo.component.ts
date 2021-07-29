@@ -12,7 +12,6 @@ import {UserMloPricing} from '@data/schema/user/user-mlo-pricing';
 })
 export class MloComponent implements OnInit {
   userMLO : UserMlo = new UserMlo();
-
   userMLOManager : UserMlo[] =[];
   loading: any;
   constructor(public quickQuoteService : QuickQuoteService) {
