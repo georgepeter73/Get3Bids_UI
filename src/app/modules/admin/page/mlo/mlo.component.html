@@ -24,6 +24,17 @@
     </div>
   </div>
   <div class="form-group row mb-2">
+    <label for="mloMarginId" class="label col-3 col-form-label">MLO Margin</label>
+    <div class="col-5">
+      <input class="form-control mb-2" #mloMargin="ngModel" name="mloMargin" id="mloMarginId"
+             [(ngModel)]="userMLO.userPricing.loMargin"
+             type="number" nbInput  shape="rectangle" placeholder="MLO Margin"
+      />
+
+    </div>
+    <label  class="label col-4 col-form-label">Basis Points(BPS)</label>
+  </div>
+  <div class="form-group row mb-2">
     <label for="inputEmail1" class="label col-3 col-form-label">Manager</label>
     <div class="col-9">
        <nb-checkbox [(ngModel)]="userMLO.floifyTeamManagerFlag"  name="IsFloifyManage" #IsFloifyManage="ngModel">Is Floify Manager</nb-checkbox>
