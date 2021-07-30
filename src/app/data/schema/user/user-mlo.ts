@@ -1,12 +1,10 @@
-import {UserMedia} from '@data/schema/user/user-media';
-import {UserMloPricing} from '@data/schema/user/user-mlo-pricing';
 export class UserMlo{
-  constructor(userMedias?: UserMedia[], userPricing?: UserMloPricing, firstName?: string, lastName?: string,
+  constructor( firstName?: string, lastName?: string,
               userName?: string, brokerCompanyId?: number, clientId?: number, enterpriseId?: number,
               reportToUserId?: number, userUUID?: string, floifyTeamManagerFlag?: boolean,
-              floifyTeamManagerId?: number, lastUpdatedAt?: Date, lastUpdatedBy?: string, deleteFlag?: boolean) {
-    this.userMedias = userMedias;
-    this.userPricing = userPricing;
+              floifyTeamManagerId?: number, lastUpdatedAt?: Date, lastUpdatedBy?: string, deleteFlag?: boolean,
+               loPricingId? : number, loMargin?: number
+  ) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.userName = userName;
@@ -20,9 +18,11 @@ export class UserMlo{
     this.lastUpdatedAt = lastUpdatedAt;
     this.lastUpdatedBy = lastUpdatedBy;
     this.deleteFlag = deleteFlag;
+    this.loPricingId = loPricingId;
+    this.loMargin = loMargin;
+
   }
-  userMedias : UserMedia[];
-  userPricing : UserMloPricing;
+
   firstName : string;
   lastName : string;
   userName : string;
@@ -38,6 +38,8 @@ export class UserMlo{
   deleteFlag : boolean;
   floifyNotTeamManagerFlag : boolean;
   userId : number;
+  loPricingId : number;
+  loMargin: number;
 
 
 

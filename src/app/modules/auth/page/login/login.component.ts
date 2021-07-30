@@ -31,8 +31,9 @@ export class LoginComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/admin";
+    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/admin/mlo-list";
     if (await this.authService.checkAuthenticated()) {
+
       await this.router.navigate([this.returnUrl]);
     }
     localStorage.clear();
@@ -52,6 +53,7 @@ export class LoginComponent implements OnInit {
         });
       }
     });
+
   }
 
   get f() {

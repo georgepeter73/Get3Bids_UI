@@ -1,1 +1,38 @@
-<p>mlo-list works!</p>
+
+    <div class="text-left">
+      <button nbButton status="primary" (click)="newMLO()" >
+        <fa-icon size="1x" [icon]="cart" class="m-1"></fa-icon>
+        New MLO
+      </button>
+    </div>
+    <br>
+    <div class="text-left">
+      <input class="form-control"
+             [(ngModel)]="searchValue"
+             type="text" nbInput  shape="rectangle" placeholder="Filter"
+      />
+    </div>
+
+    <ag-grid-angular
+      style="width: 900px; height: 400px;"
+      #usersGrid
+      class="ag-theme-alpine"
+      [rowData]="rowData | async"
+      [columnDefs]="columnDefs"
+      [pagination]="true"
+      rowSelection="multiple"
+      paginationAutoPageSize="true"
+      enableCellTextSelection=true
+      [quickFilterText]="searchValue"
+      (rowClicked)="onRowClick($event)"
+      (gridReady)="onGridReady($event)"
+
+    >
+    </ag-grid-angular>
+
+
+
+
+
+
+

@@ -2,12 +2,10 @@ import {Injectable} from '@angular/core';
 import {environment} from 'environments/environment';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {UserMlo} from '@data/schema/user/user-mlo';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {UserMedia} from '@data/schema/user/user-media';
-import {UserMloPricing} from '@data/schema/user/user-mlo-pricing';
 
 const API_URL = environment.API_URL;
 
@@ -34,9 +32,13 @@ export class QuickQuoteService {
 
     return this.http
       .post(
-        API_URL + '/api/v1/auth/save-user-mlo',
-        JSON.stringify(userMlo),
-        this.requestOptions
+        API_URL + '/api/v1/auth/add-user',
+        this.payload,
+        {
+          params: new HttpParams()
+            .set("userDTO", JSON.stringify(userMlo)),
+
+        }
       )
       .pipe(map(result => <UserMlo>result));
   }
@@ -44,7 +46,7 @@ export class QuickQuoteService {
 
   public getAllUserMLO(): Observable<UserMlo[]> {
     return this.http
-      .get(API_URL + '/api/v1/auth/get-all-user-mlo'
+      .get(API_URL + '/api/v1/auth/get-all-users'
       )
       .pipe(
         map(response => {
@@ -57,29 +59,6 @@ export class QuickQuoteService {
     return (<UserMlo[]>response).map(
       user =>
         new UserMlo(
-          (<UserMedia[]>response['userMedia']).map(
-            userMedia =>
-              new UserMedia(
-                userMedia['userMediaId'],
-                userMedia['userId'],
-                userMedia['mediaUrl'],
-                userMedia['mediaType'],
-                userMedia['mediaDescription'],
-                userMedia['lastUpdatedAt'],
-                userMedia['lastUpdatedBy'],
-                userMedia['deleteFlag'],
-              )
-          ),
-          (response['userMedia']).pipe.map(
-            userMLOPricing => {
-              return new UserMloPricing(
-                userMLOPricing['status'],
-                userMLOPricing['transaction'],
-                userMLOPricing['message'],
-                userMLOPricing['status_description']
-              )
-            }
-          ),
           user['firstName'],
           user['lastName'],
           user['userName'],
@@ -93,6 +72,8 @@ export class QuickQuoteService {
           user['lastUpdatedAt'],
           user['lastUpdatedBy'],
           user['deleteFlag'],
+          user['loPricingId'],
+          user['loMargin'],
         )
     );
   }

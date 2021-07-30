@@ -6,9 +6,11 @@ import {
   HttpInterceptor
 } from "@angular/common/http";
 import { Observable, from } from "rxjs";
+import {AuthService} from '@app/service/auth.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
+  constructor(private authService: AuthService) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -21,12 +23,11 @@ export class TokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Promise<HttpEvent<any>> {
-    // Only add an access token to whitelisted origins
-    const allowedOrigins = ["http://localhost"];
-    if (allowedOrigins.some(url => request.urlWithParams.includes(url))) {
+    const accessToken =  this.authService.getUser();
+    if (accessToken && !request.url.includes("no-auth")) {
       request = request.clone({
         setHeaders: {
-          //  Authorization: '' + accessToken
+          Authorization: "Bearer " + accessToken
         }
       });
     }

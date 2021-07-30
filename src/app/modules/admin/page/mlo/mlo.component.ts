@@ -21,7 +21,7 @@ export class MloComponent implements OnInit {
     this.quickQuoteService.getAllUserMLO().subscribe(response =>{
       this.userMLOManager = response.filter(u => u.floifyTeamManagerFlag === true)
     })
-    this.userMLO.userPricing = new UserMloPricing();
+
   }
   submitOrder(form: NgForm) {
     this.loading = true;
