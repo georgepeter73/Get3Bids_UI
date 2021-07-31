@@ -34,8 +34,29 @@ export class MloListComponent implements OnInit {
       checkboxSelection: false
     },
     {
+      headerName: "Margin",
+      field: "loMargin",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false
+    },
+    {
       headerName: "Email",
       field: "userName",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false
+    },
+    {
+      headerName: "is Floify Manager",
+      field: "floifyTeamManagerFlag",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false
+    },
+    {
+      headerName: "Floify Manager",
+      field: "floifyTeamManagerId",
       sortable: true,
       filter: true,
       checkboxSelection: false
@@ -46,6 +67,7 @@ export class MloListComponent implements OnInit {
   ngOnInit(): void {
     this.quickQuoteService.getAllUserMLO().subscribe(
       userList => {
+        userList.sort((a, b) => (a.lastUpdatedAt > b.lastUpdatedAt ? -1 : 1));
         this.rowData = of(userList);
        },
       error => {}
@@ -53,11 +75,12 @@ export class MloListComponent implements OnInit {
   }
 
   newMLO() {
-    this.router.navigate(["/admin/mlo-create"]);
+    this.router.navigate(["/admin/mlo-create/add"]);
   }
 
   onRowClick($event: any) {
-
+    sessionStorage.setItem('userDTO', JSON.stringify(this.usersGrid.api.getSelectedRows()[0]));
+    this.router.navigate(["/admin/mlo-create/edit"]);
   }
 
   onGridReady($event: any) {

@@ -12,7 +12,7 @@ const routes: Routes = [
     component: MloListComponent
   },
   {
-    path: "mlo-create",
+    path: "mlo-create/:crudType",
     canActivate: [AuthGuard],
     component: MloComponent
   },
