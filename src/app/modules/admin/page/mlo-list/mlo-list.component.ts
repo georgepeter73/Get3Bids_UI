@@ -34,12 +34,13 @@ export class MloListComponent implements OnInit {
       checkboxSelection: false
     },
     {
-      headerName: "Margin",
+      headerName: "Margin %",
       field: "loMargin",
       sortable: true,
       filter: true,
       checkboxSelection: false,
-      precision: 3
+      valueFormatter: params => this.percentFormatter(params.data.loMargin, ""),
+
     },
     {
       headerName: "Email",
@@ -70,11 +71,18 @@ export class MloListComponent implements OnInit {
     this.quickQuoteService.getAllUserMLO().subscribe(
       userList => {
         userList.sort((a, b) => (a.lastUpdatedAt > b.lastUpdatedAt ? -1 : 1));
+        userList = userList.filter(u => u.loMargin>0)
         this.rowData = of(userList);
        },
       error => {}
     );
   }
+   percentFormatter(currency, sign) {
+    var sansDec = currency.toFixed(3);
+    return `${sansDec}`+sign;
+  }
+
+
   newMLO() {
     this.router.navigate(["/admin/mlo-create/add"]);
   }

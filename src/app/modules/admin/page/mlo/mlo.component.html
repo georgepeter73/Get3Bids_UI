@@ -18,11 +18,11 @@
     <div class="col-9">
       <input class="form-control mb-2" #name="ngModel" name="name" id="fName"
              [(ngModel)]="userMLO.firstName"
-             type="text" nbInput fullWidth shape="rectangle" placeholder="First Name"
+             type="text" nbInput  shape="rectangle" placeholder="First Name"
       />
       <input class="form-control mb-2" #name="ngModel" name="name" id="lName"
              [(ngModel)]="userMLO.lastName"
-             type="text" nbInput fullWidth shape="rectangle" placeholder="Last Name"
+             type="text" nbInput  shape="rectangle" placeholder="Last Name"
       />
     </div>
   </div>
@@ -32,20 +32,21 @@
     <div class="col-9">
       <input class="form-control mb-2" #name="ngModel" name="name" id="inputEmail1"
              [(ngModel)]="userMLO.userName"
-             type="text" nbInput fullWidth shape="rectangle" placeholder="Email"
+             type="text" nbInput  shape="rectangle" placeholder="Floify account email"
       />
     </div>
   </div>
   <div class="form-group row mb-2">
-    <label for="mloMarginId" class="label col-3 col-form-label">MLO Margin</label>
-    <div class="col-5">
-      <input class="form-control mb-2" #mloMargin="ngModel" name="mloMargin" id="mloMarginId"
+    <label for="mloMarginId" class="label col-3 col-form-label">MLO Margin %</label>
+    <div class="col-3">
+      <input  class="form-control mb-2" #mloMargin="ngModel" name="mloMargin" id="mloMarginId"
              [(ngModel)]="userMLO.loMargin "
-             type="number" nbInput  shape="rectangle" fullWidth placeholder="MLO Margin"
+             type="number" nbInput  shape="rectangle"  placeholder="%"
       />
 
     </div>
-    <label  class="label col-4 col-form-label flex-row ">Percentage</label>
+    <div class="col-6"></div>
+
   </div>
   <div class="form-group row mb-2">
     <label for="inputEmail1" class="label col-3 col-form-label">Manager</label>
