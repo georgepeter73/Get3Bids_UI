@@ -22,7 +22,6 @@ export class HeaderComponent implements OnInit {
   username : string;
 
   headerItems = [
-    // { link: '/', title: 'Home' },
     { link: "/quickquote/property-location", title: "Quick Quote" },
     { link: "/dashboard/home", title: "Dashboard" },
     { link: "/about", title: "About" },
@@ -38,7 +37,8 @@ export class HeaderComponent implements OnInit {
     private themeService: ThemeService,
     public authService: AuthService,
     private nbMenuService: NbMenuService,
-    private sidebarService: NbSidebarService
+    private sidebarService: NbSidebarService,
+
   ) {}
 
   async ngOnInit() {
@@ -52,7 +52,13 @@ export class HeaderComponent implements OnInit {
            this.logout();
          }
        });
+    if(this.authService.isTokenExpired()){
+      this.logout();
+    }
+
+
   }
+
 
   toggleTheme(checked: boolean) {
     this.themeService.setDarkTheme(checked);

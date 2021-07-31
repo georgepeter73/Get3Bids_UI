@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/admin/mlo-list";
+    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/admin";
     if (await this.authService.checkAuthenticated()) {
 
       await this.router.navigate([this.returnUrl]);

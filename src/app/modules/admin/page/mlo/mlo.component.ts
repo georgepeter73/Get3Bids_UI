@@ -2,8 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {UserMlo} from '@data/schema/user/user-mlo';
 import {NgForm} from '@angular/forms';
 import {QuickQuoteService} from '@data/service/quickquote.service';
-import {UserMloPricing} from '@data/schema/user/user-mlo-pricing';
-
+import {Location} from '@angular/common';
 @Component({
   selector: 'app-mlo',
   templateUrl: './mlo.component.html',
@@ -14,7 +13,7 @@ export class MloComponent implements OnInit {
   userMLO : UserMlo = new UserMlo();
   userMLOManager : UserMlo[] =[];
   loading: any;
-  constructor(public quickQuoteService : QuickQuoteService) {
+  constructor(public quickQuoteService : QuickQuoteService, private _location: Location) {
 
   }
   ngOnInit(): void {
@@ -33,5 +32,10 @@ export class MloComponent implements OnInit {
         this.loading = false;
       }
     )
+  }
+
+  backClicked($event: MouseEvent) {
+    event.preventDefault();
+    this._location.back();
   }
 }

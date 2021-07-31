@@ -33,6 +33,13 @@ export class MloListComponent implements OnInit {
       filter: true,
       checkboxSelection: false
     },
+    {
+      headerName: "Email",
+      field: "userName",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false
+    },
 
   ];
   rowData: any;
@@ -46,7 +53,7 @@ export class MloListComponent implements OnInit {
   }
 
   newMLO() {
-    this.router.navigate(["/mlo-create"]);
+    this.router.navigate(["/admin/mlo-create"]);
   }
 
   onRowClick($event: any) {
@@ -54,6 +61,10 @@ export class MloListComponent implements OnInit {
   }
 
   onGridReady($event: any) {
+
+  }
+
+  backClicked($event: MouseEvent) {
 
   }
 }
