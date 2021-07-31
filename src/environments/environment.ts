@@ -10,7 +10,7 @@ export const environment = {
   version: env.npm_package_version + "-dev",
   serverUrl: "/api",
   envName: "DEV",
-  API_URL: "http://localhost:8000",
+  API_URL: "https://uatbff.loanhouse.us",
   is_taxonomy_static: false,
   is_zip_static: false,
   is_common_service_static: false,

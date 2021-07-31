@@ -3,6 +3,7 @@ import {UserMlo} from '@data/schema/user/user-mlo';
 import {NgForm} from '@angular/forms';
 import {QuickQuoteService} from '@data/service/quickquote.service';
 import {Location} from '@angular/common';
+import {Observable, of} from 'rxjs';
 @Component({
   selector: 'app-mlo',
   templateUrl: './mlo.component.html',
@@ -11,16 +12,20 @@ import {Location} from '@angular/common';
 })
 export class MloComponent implements OnInit {
   userMLO : UserMlo = new UserMlo();
-  userMLOManager : UserMlo[] =[];
+  userMLOManager : UserMlo[] ;
   loading: any;
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location) {
-
   }
   ngOnInit(): void {
-    this.quickQuoteService.getAllUserMLO().subscribe(response =>{
-      this.userMLOManager = response.filter(u => u.floifyTeamManagerFlag === true)
-    })
 
+    this.quickQuoteService.getAllUserMLO().subscribe(
+      userList => {
+        this.userMLOManager = userList.filter(u => u.floifyTeamManagerFlag = true);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
   submitOrder(form: NgForm) {
     this.loading = true;
@@ -30,8 +35,12 @@ export class MloComponent implements OnInit {
     },
       error => {
         this.loading = false;
+        console.log(error);
       }
-    )
+    );
+
+
+
   }
 
   backClicked($event: MouseEvent) {

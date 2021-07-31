@@ -3,7 +3,7 @@ export class UserMlo{
               userName?: string, brokerCompanyId?: number, clientId?: number, enterpriseId?: number,
               reportToUserId?: number, userUUID?: string, floifyTeamManagerFlag?: boolean,
               floifyTeamManagerId?: number, lastUpdatedAt?: Date, lastUpdatedBy?: string, deleteFlag?: boolean,
-               loPricingId? : number, loMargin?: number
+               loPricingId? : number, loMargin?: number, userId?:number
   ) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -20,6 +20,7 @@ export class UserMlo{
     this.deleteFlag = deleteFlag;
     this.loPricingId = loPricingId;
     this.loMargin = loMargin;
+    this.userId = userId;
 
   }
 

@@ -74,6 +74,7 @@ export class QuickQuoteService {
           user['deleteFlag'],
           user['loPricingId'],
           user['loMargin'],
+          user['userId'],
         )
     );
   }

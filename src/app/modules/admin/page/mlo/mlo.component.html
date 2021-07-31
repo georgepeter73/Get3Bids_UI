@@ -9,8 +9,10 @@
   </nb-card-header>
   <nb-card-body>
 
+
 <form class="container m-2" #form="ngForm"
       (ngSubmit)="submitOrder(form)" >
+  <fieldset class="field_set">
   <div class="form-group row mb-2">
     <label for="fName" class="label col-3 col-form-label">Name</label>
     <div class="col-9">
@@ -51,11 +53,11 @@
        <nb-checkbox [(ngModel)]="userMLO.floifyTeamManagerFlag"  name="IsFloifyManage" #IsFloifyManage="ngModel">Is Floify Manager</nb-checkbox>
     </div>
   </div>
-  <div class="form-group row mb-2" *ngIf="!userMLO.floifyTeamManagerFlag">
-    <label for="inputEmail1" class="label col-3 col-form-label">Floify Manager</label>
+  <div class="form-group row mb-2" *ngIf="userMLOManager && !userMLO.floifyTeamManagerFlag">
+    <label for="managerListId" class="label col-3 col-form-label">Floify Manager</label>
     <div class="col-9">
-      <nb-select [(ngModel)]="userMLOManager"   #managerList="ngModel" name="managerList" required size="small"  placeholder="" >
-        <nb-option *ngFor="let manager of userMLOManager" [value]="manager.userId">{{manager.firstName}}</nb-option>
+      <nb-select  [(ngModel)]="userMLO.floifyTeamManagerId"   #mlist="ngModel" name="mlist" required size="small"  placeholder="" id="managerListId" >
+        <nb-option *ngFor="let manager of userMLOManager" [value]="manager.userId">{{manager.firstName}}&nbsp;{{manager.lastName}}</nb-option>
       </nb-select>
     </div>
   </div>
@@ -73,6 +75,8 @@
 
     </div>
   </div>
+  </fieldset>
 </form>
+
   </nb-card-body>
 </nb-card>
