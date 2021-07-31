@@ -60,6 +60,11 @@
         <nb-option *ngFor="let manager of userMLOManager" [value]="manager.userId">{{manager.firstName}}&nbsp;{{manager.lastName}}</nb-option>
       </nb-select>
     </div>
+  </div >
+  <div class="form-group  row mb-2" *ngIf="userMLO.userId>0">
+    <label  class="label col-3 col-form-label">MLO Site URL </label>
+    <label  class="label col-7 col-form-label">{{mloLink}}</label>
+     <nb-action class="label col-1 col-form-label" (click)="copyToClipboard(mloLink)" icon="clipboard-outline" nbTooltip="Copy"></nb-action>
   </div>
 
   <div class="form-group row mb-2">

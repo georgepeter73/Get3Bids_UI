@@ -5,6 +5,8 @@ import {QuickQuoteService} from '@data/service/quickquote.service';
 import {Location} from '@angular/common';
 import {Observable, of} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
+import {environment} from '@env';
+
 @Component({
   selector: 'app-mlo',
   templateUrl: './mlo.component.html',
@@ -19,6 +21,9 @@ export class MloComponent implements OnInit {
   buttonText: string;
   buttonPressed = false;
   errorMessage ="";
+  frontendurl = environment.FRONT_END_URL;
+  mloLink : string;
+
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
               private route : ActivatedRoute) {
   }
@@ -26,12 +31,14 @@ export class MloComponent implements OnInit {
     this.crudType = this.route.snapshot.paramMap.get('crudType');
     if(this.crudType == 'edit') {
       this.userMLO = JSON.parse(sessionStorage.getItem("userDTO"));
-      this.buttonText = "Edit MLO";
+      this.buttonText = "Update MLO";
       this.buttonPressed = false;
+      this.mloLink = this.frontendurl+'/quickquote/borrower-info/'+this.userMLO.userUUID+'/website';
      }else{
       this.buttonText = "Create MLO"
       this.buttonPressed = false;
     }
+
     this.quickQuoteService.getAllUserMLO().subscribe(
       userList => {
         this.userMLOManager = userList.filter(u => u.floifyTeamManagerFlag = true);
@@ -53,7 +60,11 @@ export class MloComponent implements OnInit {
     }
     this.quickQuoteService.saveUserMLO(this.userMLO).subscribe(res =>{
       this.userMLO = res;
-       this.loading = false;
+      this.mloLink = this.frontendurl+'/quickquote/borrower-info/'+this.userMLO.userUUID+'/website';
+      this.loading = false;
+      if(this.userMLO.userId>0){
+        this.buttonText = "Update MLO"
+      }
     },
       error => {
         this.loading = false;
@@ -69,5 +80,13 @@ export class MloComponent implements OnInit {
   backClicked($event: MouseEvent) {
     event.preventDefault();
     this._location.back();
+  }
+   copyToClipboard(text) {
+    const elem = document.createElement('textarea');
+    elem.value = text;
+    document.body.appendChild(elem);
+    elem.select();
+    document.execCommand('copy');
+    document.body.removeChild(elem);
   }
 }
