@@ -13,7 +13,7 @@ export const environment = {
   is_floify_service_static: false,
   recapture_site_key: "6LfCHuMUAAAAADoTzhklZiSjcQLT1wZ7N_5g5hGy",
   DEFAULT_CREDIT_SCORE: 620,
-  FRONT_END_URL : "https://uat.d25eilwmxf3mv2.amplifyapp.com",
+  FRONT_END_URL : "https://uatb2c.loanhouse.us",
 };
 export const awsmobile = {
   "aws_project_region": "us-east-1",

@@ -38,7 +38,8 @@ export class MloListComponent implements OnInit {
       field: "loMargin",
       sortable: true,
       filter: true,
-      checkboxSelection: false
+      checkboxSelection: false,
+      precision: 3
     },
     {
       headerName: "Email",
@@ -63,6 +64,7 @@ export class MloListComponent implements OnInit {
     },
 
   ];
+
   rowData: any;
   ngOnInit(): void {
     this.quickQuoteService.getAllUserMLO().subscribe(
@@ -73,7 +75,6 @@ export class MloListComponent implements OnInit {
       error => {}
     );
   }
-
   newMLO() {
     this.router.navigate(["/admin/mlo-create/add"]);
   }

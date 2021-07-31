@@ -37,6 +37,8 @@ export class MloComponent implements OnInit {
      }else{
       this.buttonText = "Create MLO"
       this.buttonPressed = false;
+      //defaulting the new user to be a manager by default
+      this.userMLO.floifyTeamManagerFlag=true;
     }
 
     this.quickQuoteService.getAllUserMLO().subscribe(
@@ -57,6 +59,9 @@ export class MloComponent implements OnInit {
       this.userMLO.floifyTeamManagerId = 0;
     }else{
       this.userMLO.reportToUserId = this.userMLO.floifyTeamManagerId;
+    }
+    if(this.crudType=='edit'){
+      this.userMLO.lastUpdatedAt = new Date();
     }
     this.quickQuoteService.saveUserMLO(this.userMLO).subscribe(res =>{
       this.userMLO = res;
