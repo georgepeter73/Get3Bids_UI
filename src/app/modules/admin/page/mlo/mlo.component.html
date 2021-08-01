@@ -1,8 +1,10 @@
 <nb-card>
   <nb-card-header>
     <div class="row">
-      <div class="text-left col-md-6 "><a href="#" (click)="backClicked($event)">< Previous</a></div>
-      <div class="text-right col-md-6 ">
+      <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)"><nb-icon icon="arrow-back-outline"></nb-icon> Previous</a></div>
+      <div class="text-left col-md-8 ">
+
+          New Mortgage Loan Officer
 
       </div>
     </div>
@@ -79,7 +81,7 @@
     <div class="offset-3 col-9">
       <button  type="submit" nbButton  status="primary"
                [disabled]="!userMLO.firstName || !userMLO.lastName || !userMLO.userName"
-               size="medium" [nbSpinner]="loading" nbSpinnerStatus="primary">{{buttonText}}</button>
+               size="medium" [nbSpinner]="loading" nbSpinnerStatus="primary"><nb-icon icon="save-outline"></nb-icon>{{buttonText}}</button>
     </div>
 
     <div class="col-12 text-center" *ngIf="buttonPressed && !loading">

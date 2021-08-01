@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   public authUser: any;
   user: any;
   username : string;
-  items = [{ title: 'Admin' }, { title: 'Log out' }];
+  items = [{ title: 'Admin', icon: 'settings-outline' }, { title: 'Log out',icon:'arrow-circle-left-outline' }];
 
 
 
@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
 
   async ngOnInit() {
     this.username = localStorage.getItem("user");
-    this.items.push({title:this.username});
+    this.items.push({title:this.username,icon: 'person-outline'});
     this.isDarkTheme$ = this.themeService.getDarkTheme();
     this.themeService.setDarkTheme(true);
     this.nbMenuService
