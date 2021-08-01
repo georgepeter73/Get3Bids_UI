@@ -34,6 +34,7 @@ export class MloComponent implements OnInit {
       this.buttonText = "Update MLO";
       this.buttonPressed = false;
       this.mloLink = this.frontendurl+'/quickquote/borrower-info/'+this.userMLO.userUUID+'/website';
+      alert(JSON.stringify(this.userMLO))
      }else{
       this.buttonText = "Create MLO"
       this.buttonPressed = false;

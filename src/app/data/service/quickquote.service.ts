@@ -76,6 +76,8 @@ export class QuickQuoteService {
           user['loPricingId'],
           user['loMargin'],
           user['userId'],
+          user['floifyAccountApprovalFlag'],
+
         )
     );
   }
