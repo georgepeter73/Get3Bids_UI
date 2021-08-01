@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "watch": "ng test --configuration=test --browsers ChromeHeadless --watch",
-    "build:prod": "ng build --prod --vendor-chunk",
+    "build:prod": "ng build --configuration=prod",
     "clean": "rimraf ./dist/",
     "server": "node ./server.js",
     "format:write": "prettier {src,e2e,cypress}/**/*.{ts,json,md,scss} --write",
