@@ -1,7 +1,7 @@
 import {Component, OnInit, ChangeDetectionStrategy, ViewChild} from '@angular/core';
 import {AgGridAngular} from '@ag-grid-community/angular';
 import {QuickQuoteService} from '@data/service/quickquote.service';
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart ,faUser} from "@fortawesome/free-solid-svg-icons";
 import {of} from 'rxjs';
 import {Router} from '@angular/router';
 @Component({
@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
 })
 export class MloListComponent implements OnInit {
   searchValue: any;
-  cart = faShoppingCart;
+  cart = faUser;
   constructor(public quickQuoteService : QuickQuoteService,
 
               private router: Router,) {
@@ -50,22 +50,21 @@ export class MloListComponent implements OnInit {
       checkboxSelection: false
     },
     {
+      headerName: "Approval Status",
+      field: "floifyAccountApprovalFlag",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      valueFormatter: params => this.approvalStatus(params.data.floifyAccountApprovalFlag),
+    },
+    {
       headerName: "is Floify Manager",
       field: "floifyTeamManagerFlag",
       sortable: true,
       filter: true,
       checkboxSelection: false
     },
-    {
-      headerName: "Floify Manager",
-      field: "floifyTeamManagerId",
-      sortable: true,
-      filter: true,
-      checkboxSelection: false
-    },
-
   ];
-
   rowData: any;
   ngOnInit(): void {
     this.quickQuoteService.getAllUserMLO().subscribe(
@@ -80,6 +79,15 @@ export class MloListComponent implements OnInit {
    percentFormatter(currency, sign) {
     var sansDec = currency.toFixed(3);
     return `${sansDec}`+sign;
+  }
+  approvalStatus(status: boolean) {
+   let approvalStatus = '';
+   if(status == true){
+      approvalStatus = "Approved";
+   }else{
+      approvalStatus = "Pending"
+    }
+    return approvalStatus;
   }
 
 

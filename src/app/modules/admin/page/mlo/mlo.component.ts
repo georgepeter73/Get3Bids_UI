@@ -3,7 +3,6 @@ import {UserMlo} from '@data/schema/user/user-mlo';
 import {NgForm} from '@angular/forms';
 import {QuickQuoteService} from '@data/service/quickquote.service';
 import {Location} from '@angular/common';
-import {Observable, of} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from '@env';
 
@@ -24,6 +23,7 @@ export class MloComponent implements OnInit {
   frontendurl = environment.FRONT_END_URL;
   mloLink : string;
 
+
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
               private route : ActivatedRoute) {
   }
@@ -34,19 +34,17 @@ export class MloComponent implements OnInit {
       this.buttonText = "Update MLO";
       this.buttonPressed = false;
       this.mloLink = this.frontendurl+'/quickquote/borrower-info/'+this.userMLO.userUUID+'/website';
-      alert(JSON.stringify(this.userMLO))
-     }else{
+      }else{
       this.buttonText = "Create MLO"
       this.buttonPressed = false;
       //defaulting the new user to be a manager by default
       this.userMLO.floifyTeamManagerFlag=true;
     }
-
     this.quickQuoteService.getAllUserMLO().subscribe(
       userList => {
         this.userMLOManager = userList.filter(u => u.floifyTeamManagerFlag = true);
+        this.userMLOManager = userList.filter(u => u.floifyAccountApprovalFlag = true);
         this.userMLOManager.sort((a, b) => (a.lastUpdatedAt > b.lastUpdatedAt ? -1 : 1));
-
       },
       error => {
         console.log(error);
@@ -75,12 +73,8 @@ export class MloComponent implements OnInit {
       error => {
         this.loading = false;
         this.errorMessage = JSON.stringify(error);
-
       }
     );
-
-
-
   }
 
   backClicked($event: MouseEvent) {
