@@ -77,8 +77,8 @@ export class MloComponent implements OnInit {
     );
   }
 
-  backClicked($event: MouseEvent) {
-    event.preventDefault();
+  backClicked(mouseEvent: MouseEvent) {
+    mouseEvent.preventDefault();
     this._location.back();
   }
    copyToClipboard(text) {

@@ -1,7 +1,7 @@
 import {Component, OnInit, ChangeDetectionStrategy, ViewChild} from '@angular/core';
 import {AgGridAngular} from '@ag-grid-community/angular';
 import {QuickQuoteService} from '@data/service/quickquote.service';
-import { faShoppingCart ,faUser} from "@fortawesome/free-solid-svg-icons";
+import { faUser} from "@fortawesome/free-solid-svg-icons";
 import {of} from 'rxjs';
 import {Router} from '@angular/router';
 @Component({
@@ -73,7 +73,9 @@ export class MloListComponent implements OnInit {
         userList = userList.filter(u => u.loMargin>0)
         this.rowData = of(userList);
        },
-      error => {}
+      error => {
+        console.error(error)
+      }
     );
   }
    percentFormatter(currency, sign) {
@@ -82,7 +84,7 @@ export class MloListComponent implements OnInit {
   }
   approvalStatus(status: boolean) {
    let approvalStatus = '';
-   if(status == true){
+   if(status){
       approvalStatus = "Approved";
    }else{
       approvalStatus = "Pending"
@@ -100,11 +102,4 @@ export class MloListComponent implements OnInit {
     this.router.navigate(["/admin/mlo-create/edit"]);
   }
 
-  onGridReady($event: any) {
-
-  }
-
-  backClicked($event: MouseEvent) {
-
-  }
 }
