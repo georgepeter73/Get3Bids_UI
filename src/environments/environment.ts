@@ -17,7 +17,8 @@ export const environment = {
   is_ob_service_static: false,
   is_floify_service_static: false,
   recapture_site_key: "6LfZHuMUAAAAAHERjPWL44BWLdtm6Q6A2qNkgqMm",
-  DEFAULT_CREDIT_SCORE: 620
+  DEFAULT_CREDIT_SCORE: 620,
+  FRONT_END_URL : "http://localhost:4200",
 };
 
 export const awsmobile = {

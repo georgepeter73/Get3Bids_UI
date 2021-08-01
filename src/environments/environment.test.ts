@@ -17,7 +17,8 @@ export const environment = {
   is_ob_service_static: true,
   is_floify_service_static: true,
   recapture_site_key: "6LdTHeMUAAAAAKfoUKnLaRxUx0jfBGGGYEYN7cw0",
-  DEFAULT_CREDIT_SCORE: 620
+  DEFAULT_CREDIT_SCORE: 620,
+  FRONT_END_URL : "http://localhost:4200",
 };
 export const awsmobile = {
   "aws_project_region": "us-east-1",

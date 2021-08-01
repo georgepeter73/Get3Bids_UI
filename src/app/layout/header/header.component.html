@@ -1,33 +1,27 @@
-<div class="container flex-row">
-  <nav class="navbar navbar-expand-xl navbar-light " style="background-color: #FFFFFF;">
+<div class="d-none d-lg-block row container">
+<div class="container flex-row col-md-6">
+      <img alt="" style="width: 180px;" src="assets/images/logo-blue.png"/>
+  <button ghost nbButton [nbContextMenu]="items" >
+    Menu
+  </button>
 
-    <span class="branding spacer d-none d-md-inline">
-                <img alt="" style="width: 180px;" src="assets/images/logo-blue.png"/>
-              </span>
-    <span class="branding spacer d-lg-none ">
-                <img alt="" style=" width: 80px;" src="assets/images/logo-blue.png"/>
-           </span>
+  </div>
 
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-item nav-link " href="#">Home <span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link" href="#">Admin</a>
-        <a class="nav-item nav-link" href="#">Settings</a>
-
-      </div>
-    </div>
-    <nb-user class="d-none d-lg-inline" [nbContextMenu]="userMenu"
-             [name]="username">
-    </nb-user>
-    <div class="d-lg-none flex-row-reverse">{{username}}</div>
-
-
-  </nav>
 </div>
+<div class="row d-lg-none container">
+  <div class="navbar-brand minimum flex-row">
+        <img alt="" style=" width: 80px;" src="assets/images/logo-blue.png"/>
+ </div>
+  <div class="flex-">
+  <button ghost nbButton [nbContextMenu]="items" >
+    Menu
+  </button>
 
+
+  </div>
+
+
+
+
+</div>
 

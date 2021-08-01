@@ -7,11 +7,6 @@ import { HttpClientModule } from "@angular/common/http";
 import { AuthGuard } from "@app/guard/auth.guard";
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   component: HomepageLayoutComponent,
-  //   pathMatch: 'full'
-  // },
   {
     path: "",
     redirectTo: "/admin",
@@ -35,8 +30,7 @@ const routes: Routes = [
     loadChildren: () =>
       import("@modules/auth/auth.module").then(m => m.AuthModule)
   },
-  // Fallback when no prior routes is matched
-  { path: "**", redirectTo: "/", pathMatch: "full" }
+
 ];
 
 @NgModule({

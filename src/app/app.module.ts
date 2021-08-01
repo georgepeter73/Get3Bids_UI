@@ -17,26 +17,26 @@ import { AuthLayoutComponent } from "./layout/auth-layout/auth-layout.component"
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RecaptchaModule } from "ng-recaptcha";
 import {
-    NbThemeModule,
-    NbActionsModule,
-    NbLayoutModule,
-    NbButtonModule,
-    NbMenuModule,
-    NbUserModule,
-    NbContextMenuModule,
-    NbSidebarModule,
-    NbIconModule,
-    NbStepperModule,
-    NbCardModule,
-    NbCheckboxModule,
-    NbDatepickerModule,
-    NbInputModule,
-    NbRadioModule,
-    NbSelectModule,
-    NbToggleModule,
-    NbAlertModule,
-    NbRouteTabsetModule,
-    NbDialogModule, NbSearchModule
+  NbThemeModule,
+  NbActionsModule,
+  NbLayoutModule,
+  NbButtonModule,
+  NbMenuModule,
+  NbUserModule,
+  NbContextMenuModule,
+  NbSidebarModule,
+  NbIconModule,
+  NbStepperModule,
+  NbCardModule,
+  NbCheckboxModule,
+  NbDatepickerModule,
+  NbInputModule,
+  NbRadioModule,
+  NbSelectModule,
+  NbToggleModule,
+  NbAlertModule,
+  NbRouteTabsetModule,
+  NbDialogModule, NbSearchModule, NbAccordionModule, NbTabsetModule
 } from '@nebular/theme';
 import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { CookieModule } from "ngx-cookie";
@@ -49,48 +49,50 @@ import { CookieModule } from "ngx-cookie";
         FooterComponent,
         AuthLayoutComponent
     ],
-    imports: [
-        // angular
-        BrowserModule,
-        HttpClientModule,
+  imports: [
+    // angular
+    BrowserModule,
+    HttpClientModule,
 
-        // 3rd party
-        NbLayoutModule,
-        NbMenuModule.forRoot(),
-        NbThemeModule.forRoot(),
-        NbSidebarModule.forRoot(),
-        NbDatepickerModule.forRoot(),
-        NbActionsModule,
-        NbUserModule,
-        NbContextMenuModule,
-        NbEvaIconsModule,
-        NbIconModule,
-        NbCardModule,
-        NbStepperModule,
-        NbInputModule,
-        NbSelectModule,
-        NbDatepickerModule,
-        NbRadioModule,
-        NbAlertModule,
-        NbCheckboxModule,
-        NbButtonModule,
-        NbToggleModule,
-        NbRouteTabsetModule,
-        NbDialogModule.forRoot(),
-        RecaptchaModule,
+    // 3rd party
+    NbLayoutModule,
+    NbMenuModule.forRoot(),
+    NbThemeModule.forRoot(),
+    NbSidebarModule.forRoot(),
+    NbDatepickerModule.forRoot(),
+    NbActionsModule,
+    NbUserModule,
+    NbContextMenuModule,
+    NbEvaIconsModule,
+    NbIconModule,
+    NbCardModule,
+    NbStepperModule,
+    NbInputModule,
+    NbSelectModule,
+    NbDatepickerModule,
+    NbRadioModule,
+    NbAlertModule,
+    NbCheckboxModule,
+    NbButtonModule,
+    NbToggleModule,
+    NbRouteTabsetModule,
+    NbDialogModule.forRoot(),
+    RecaptchaModule,
 
-        // core & shared
-        CoreModule,
-        SharedModule,
+    // core & shared
+    CoreModule,
+    SharedModule,
 
-        // app
-        AuthModule,
-        AppRoutingModule,
+    // app
+    AuthModule,
+    AppRoutingModule,
 
-        BrowserAnimationsModule,
-        CookieModule.forRoot(),
-        NbSearchModule
-    ],
+    BrowserAnimationsModule,
+    CookieModule.forRoot(),
+    NbSearchModule,
+    NbAccordionModule,
+    NbTabsetModule
+  ],
     providers: [],
     exports: [
         FooterComponent

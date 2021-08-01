@@ -2,10 +2,8 @@
   <nb-layout-header >
     <app-header></app-header>
   </nb-layout-header>
-  <nb-layout-column class="large">
-    <div class="container">
-      <router-outlet (activate)="onActivate($event)"></router-outlet>
-    </div>
+  <nb-layout-column class="container">
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
   </nb-layout-column>
 
   <nb-layout-footer >

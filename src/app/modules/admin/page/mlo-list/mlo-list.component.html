@@ -1,1 +1,44 @@
-<p>mlo-list works!</p>
+<nb-card size="large">
+  <nb-card-header>
+  </nb-card-header>
+  <nb-card-body>
+
+    <div class="text-left">
+      <button nbButton status="primary" (click)="newMLO()" >
+        <fa-icon size="1x" [icon]="cart" class="m-1"></fa-icon>
+        New MLO
+      </button>
+    </div>
+    <br>
+    <div class="text-left">
+      <input class="form-control"
+             [(ngModel)]="searchValue"
+             type="text" nbInput  shape="rectangle" placeholder="Filter"
+      />
+    </div>
+
+    <ag-grid-angular
+      style="width: 900px; height: 400px;"
+      #grid
+      class="ag-theme-alpine"
+      [rowData]="rowData | async"
+      [columnDefs]="columnDefs"
+      [pagination]="true"
+      rowSelection="multiple"
+      paginationAutoPageSize="true"
+      enableCellTextSelection=true
+      [quickFilterText]="searchValue"
+      (rowClicked)="onRowClick($event)"
+
+
+    >
+    </ag-grid-angular>
+  </nb-card-body>
+</nb-card>
+
+
+
+
+
+
+

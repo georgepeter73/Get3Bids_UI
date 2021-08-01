@@ -1,15 +1,28 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="text-left col-md-6 "><a href="#" (click)="backClicked($event)">< Previous</a></div>
+      <div class="text-right col-md-6 ">
+
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+
+
 <form class="container m-2" #form="ngForm"
       (ngSubmit)="submitOrder(form)" >
+  <fieldset class="field_set">
   <div class="form-group row mb-2">
     <label for="fName" class="label col-3 col-form-label">Name</label>
     <div class="col-9">
-      <input class="form-control mb-2" #name="ngModel" name="name" id="fName"
+      <input class="form-control mb-2" #firstName="ngModel" name="firstName" id="fName"
              [(ngModel)]="userMLO.firstName"
-             type="text" nbInput fullWidth shape="rectangle" placeholder="First Name"
+             type="text" nbInput  shape="rectangle" placeholder="First Name"
       />
-      <input class="form-control mb-2" #name="ngModel" name="name" id="lName"
+      <input class="form-control mb-2" #lastName="ngModel" name="lastName" id="lName"
              [(ngModel)]="userMLO.lastName"
-             type="text" nbInput fullWidth shape="rectangle" placeholder="Last Name"
+             type="text" nbInput  shape="rectangle" placeholder="Last Name"
       />
     </div>
   </div>
@@ -17,38 +30,72 @@
   <div class="form-group row mb-2">
     <label for="inputEmail1" class="label col-3 col-form-label">Email</label>
     <div class="col-9">
-      <input class="form-control mb-2" #name="ngModel" name="name" id="inputEmail1"
+      <input [disabled]="userMLO.floifyAccountApprovalFlag" class="form-control mb-2" #userName="ngModel" name="userName" id="inputEmail1"
              [(ngModel)]="userMLO.userName"
-             type="text" nbInput fullWidth shape="rectangle" placeholder="Email"
+             type="text" nbInput  shape="rectangle" placeholder="Floify account email"
+
       />
     </div>
   </div>
   <div class="form-group row mb-2">
+    <label for="mloMarginId" class="label col-3 col-form-label">MLO Margin %</label>
+    <div class="col-3">
+      <input  class="form-control mb-2" #mloMargin="ngModel" name="mloMargin" id="mloMarginId"
+             [(ngModel)]="userMLO.loMargin "
+             type="number" nbInput  shape="rectangle"  placeholder="%"
+      />
+
+    </div>
+    <div class="col-6"></div>
+
+  </div>
+  <div class="form-group row mb-2">
     <label for="inputEmail1" class="label col-3 col-form-label">Manager</label>
     <div class="col-9">
-       <nb-checkbox [(ngModel)]="userMLO.floifyTeamManagerFlag"  name="IsFloifyManage" #IsFloifyManage="ngModel">Is Floify Manager</nb-checkbox>
+       <nb-checkbox  [(ngModel)]="userMLO.floifyTeamManagerFlag"  name="IsFloifyManage" #IsFloifyManage="ngModel"  [disabled]="userMLO.floifyAccountApprovalFlag">Is Floify Manager</nb-checkbox>
     </div>
   </div>
-  <div class="form-group row mb-2" *ngIf="!userMLO.floifyTeamManagerFlag">
-    <label for="inputEmail1" class="label col-3 col-form-label">Floify Manager</label>
+  <div class="form-group row mb-2" *ngIf="userMLOManager && !userMLO.floifyTeamManagerFlag">
+    <label for="managerListId" class="label col-3 col-form-label">Floify Manager</label>
     <div class="col-9">
-      <nb-select [(ngModel)]="userMLOManager"   #managerList="ngModel" name="managerList" required size="small"  placeholder="" >
-        <nb-option *ngFor="let manager of userMLOManager" [value]="manager.userId">{{manager.firstName}}</nb-option>
+      <nb-select  [(ngModel)]="userMLO.floifyTeamManagerId"   #mlist="ngModel" name="mlist" required size="small"  placeholder="" id="managerListId"  [disabled]="userMLO.floifyAccountApprovalFlag">
+        <nb-option *ngFor="let manager of userMLOManager" [value]="manager.userId">{{manager.firstName}}&nbsp;{{manager.lastName}}</nb-option>
       </nb-select>
     </div>
+  </div >
+  <div class="form-group  row mb-2" *ngIf="userMLO.userId>0">
+    <label  class="label col-3 col-form-label">MLO Site URL </label>
+    <label  class="label col-7 col-form-label">{{mloLink}}</label>
+     <nb-action class="label col-1 col-form-label" (click)="copyToClipboard(mloLink)" icon="clipboard-outline" nbTooltip="Copy"></nb-action>
   </div>
+    <div class="form-group  row mb-2" *ngIf="crudType=='edit'">
+      <label  class="label col-3 col-form-label">Delete MLO </label>
+      <div class="col-9">
+        <nb-checkbox  [(ngModel)]="userMLO.deleteFlag"  name="deleteFlag" #deleteFlag="ngModel"  [disabled]="userMLO.floifyAccountApprovalFlag"></nb-checkbox>
+      </div>
+    </div>
 
   <div class="form-group row mb-2">
     <div class="offset-3 col-9">
       <button  type="submit" nbButton  status="primary"
                [disabled]="!userMLO.firstName || !userMLO.lastName || !userMLO.userName"
-               size="medium" [nbSpinner]="loading" nbSpinnerStatus="primary">Sign in</button>
+               size="medium" [nbSpinner]="loading" nbSpinnerStatus="primary">{{buttonText}}</button>
     </div>
-    <div class="col-12 text-center" *ngIf="userMLO.userId>0">
-      <nb-alert accent="info"  size="tiny" >
+
+    <div class="col-12 text-center" *ngIf="buttonPressed && !loading">
+      <br>
+      <br>
+      <nb-alert accent="info"  *ngIf="errorMessage.length==0 && userMLO.userId>0" size="tiny" >
         Operation completed successfully.
+      </nb-alert>
+      <nb-alert accent="info" *ngIf="errorMessage.length>0" size="tiny" >
+        Operation failed...
       </nb-alert>
 
     </div>
   </div>
+  </fieldset>
 </form>
+
+  </nb-card-body>
+</nb-card>
