@@ -41,7 +41,7 @@ export class QuickQuoteService {
 
         }
       )
-      .pipe(map(result => <UserMlo>result));
+      .pipe(map(result => this.gerUserMLO(<UserMlo>result)));
   }
 
 
@@ -56,31 +56,37 @@ export class QuickQuoteService {
       )
   }
 
+
   public getUser(response: any): UserMlo[] {
     return (<UserMlo[]>response).map(
       user =>
-        new UserMlo(
-          user['firstName'],
-          user['lastName'],
-          user['userName'],
-          user['brokerCompanyId'],
-          user['clientId'],
-          user['enterpriseId'],
-          user['reportToUserId'],
-          user['userUUID'],
-          user['floifyTeamManagerFlag'],
-          user['floifyTeamManagerId'],
-          user['lastUpdatedAt'],
-          user['lastUpdatedBy'],
-          user['deleteFlag'],
-          user['loPricingId'],
-          user['loMargin'],
-          user['userId'],
-          user['floifyAccountApprovalFlag'],
-
-        )
+        this.gerUserMLO(user)
     );
   }
+  public gerUserMLO(user : UserMlo): UserMlo {
+    let user1 = new UserMlo();
+    user1.firstName = user['firstName'];
+    user1.lastName = user['lastName'];
+    user1.userName = user['userName'];
+    user1.brokerCompanyId = user['brokerCompanyId'];
+    user1.clientId = user['clientId'];
+    user1.enterpriseId = user['enterpriseId'];
+    user1.reportToUserId = user['reportToUserId'];
+    user1.userUUID = user['userUUID'];
+    user1.floifyTeamManagerFlag = user['floifyTeamManagerFlag'];
+    user1.floifyTeamManagerId = user['floifyTeamManagerId'];
+    user1.lastUpdatedAt = user['lastUpdatedAt'];
+    user1.lastUpdatedBy = user['lastUpdatedBy'];
+    user1.deleteFlag = user['deleteFlag'];
+    user1.loPricingId = user['loPricingId'];
+    user1.loMargin = user['loMargin'];
+    user1.userId = user['userId'];
+    user1.floifyAccountApprovalFlag = user['floifyAccountApprovalFlag'];
+    return user1;
+  }
+
+
+
 
 
 }
