@@ -19,6 +19,7 @@ import { NgxMaskModule } from "ngx-mask";
 import { ControlMessagesComponent } from "./component/control-messages/control-messages.component";
 import { SpinnerComponent } from "./component/spinner/spinner.component";
 import { AgmCoreModule } from "@agm/core";
+import {NbCardModule} from '@nebular/theme';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { AgmCoreModule } from "@agm/core";
     FontAwesomeModule,
     AgmCoreModule.forRoot({
       apiKey: "AIzaSyDonQOow4jOPJE-Ch129zQ0qpLEUceCXQ4"
-    })
+    }),
+    NbCardModule
   ],
   declarations: [ControlMessagesComponent, SpinnerComponent],
   exports: [
@@ -49,7 +51,8 @@ import { AgmCoreModule } from "@agm/core";
     NgxMaskModule,
 
     ControlMessagesComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    NbCardModule
   ]
 })
 export class SharedModule {

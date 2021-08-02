@@ -18,9 +18,10 @@ import { MloListComponent } from './page/mlo-list/mlo-list.component';
 import {QuickQuoteService} from '@data/service/quickquote.service';
 import {AgGridModule} from '@ag-grid-community/angular';
 
+
 @NgModule({
   declarations: [AdminComponent, MloComponent, MloListComponent],
-    imports: [AgGridModule.withComponents([]), AdminRoutingModule, SharedModule, NbRouteTabsetModule, NbCardModule, NbTabsetModule, NbAccordionModule, NbRadioModule, NbCheckboxModule, NbSelectModule, NbInputModule, NbButtonModule, NbSpinnerModule, NbAlertModule, NbActionsModule, NbTooltipModule, NbIconModule],
+    imports: [AgGridModule.withComponents([]), AdminRoutingModule, SharedModule, NbRouteTabsetModule, NbCardModule, NbTabsetModule, NbAccordionModule, NbRadioModule, NbCheckboxModule, NbSelectModule, NbInputModule, NbButtonModule, NbSpinnerModule, NbAlertModule, NbActionsModule, NbTooltipModule, NbIconModule ],
   providers: [QuickQuoteService]
 })
 export class AdminModule {}

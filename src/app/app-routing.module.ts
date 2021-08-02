@@ -13,6 +13,18 @@ const routes: Routes = [
     pathMatch: "full"
   },
   {
+    path: 'home',
+    component: AdminLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: "",
+        loadChildren: () =>
+          import('@modules/home/home.module').then(m => m.HomeModule)
+      }
+    ]
+  },
+  {
     path: "admin",
     component: AdminLayoutComponent,
     canActivate: [AuthGuard],
