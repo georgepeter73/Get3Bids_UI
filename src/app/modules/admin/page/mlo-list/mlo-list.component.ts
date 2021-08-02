@@ -62,7 +62,8 @@ export class MloListComponent implements OnInit {
       field: "floifyTeamManagerFlag",
       sortable: true,
       filter: true,
-      checkboxSelection: false
+      checkboxSelection: false,
+      valueFormatter: params => params.data.floifyTeamManagerFlag === true ? 'Yes' : 'No',
     },
   ];
   rowData: any;
