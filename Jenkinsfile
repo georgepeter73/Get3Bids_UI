@@ -2,7 +2,7 @@ properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKe
 pipeline {
 	agent any
 	options {
-    timeout(time: 60)
+    timeout(time: 30)
 		disableResume()
 		disableConcurrentBuilds()
     	}
