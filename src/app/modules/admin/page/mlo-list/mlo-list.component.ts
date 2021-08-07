@@ -71,7 +71,7 @@ export class MloListComponent implements OnInit {
     this.quickQuoteService.getAllUserMLO().subscribe(
       userList => {
         userList.sort((a, b) => (a.lastUpdatedAt > b.lastUpdatedAt ? -1 : 1));
-        userList = userList.filter(u => u.loMargin>0)
+        //userList = userList.filter(u => u.loMargin>0)
         this.rowData = of(userList);
        },
       error => {
