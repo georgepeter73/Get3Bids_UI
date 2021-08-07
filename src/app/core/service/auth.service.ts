@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { Router } from "@angular/router";
-
+import jwt_decode from 'jwt-decode';
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
   token: string;
+
 
   public isAuthenticated = new BehaviorSubject<boolean>(false);
 
@@ -47,5 +48,9 @@ export class AuthService {
   getUserFullName(){
     return (JSON.parse(atob(this.getUser().split('.')[1]))).given_name +" "+
       (JSON.parse(atob(this.getUser().split('.')[1]))).family_name;
+  }
+  getGroups(): string[]{
+    const t = jwt_decode(this.getUser())
+    return t['cognito:groups'];
   }
 }
