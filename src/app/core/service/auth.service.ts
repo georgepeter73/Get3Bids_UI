@@ -44,4 +44,8 @@ export class AuthService {
   isTokenExpired(){
     return this.tokenExpired(this.getUser())
   }
+  getUserFullName(){
+    return (JSON.parse(atob(this.getUser().split('.')[1]))).given_name +" "+
+      (JSON.parse(atob(this.getUser().split('.')[1]))).family_name;
+  }
 }
