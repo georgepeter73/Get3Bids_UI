@@ -33,13 +33,8 @@ export class QuickQuoteService {
     return this.http
       .post(
         API_URL + '/api/v1/auth/add-user',
-        this.payload,
-        {
-          params: new HttpParams()
-            .set("userDTO", JSON.stringify(userMlo)),
-
-
-        }
+        JSON.stringify(userMlo),
+        this.requestOptions
       )
       .pipe(map(result => this.gerUserMLO(<UserMlo>result)));
   }
