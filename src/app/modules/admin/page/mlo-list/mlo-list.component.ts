@@ -4,6 +4,7 @@ import {QuickQuoteService} from '@data/service/quickquote.service';
 import { faUser} from "@fortawesome/free-solid-svg-icons";
 import {of} from 'rxjs';
 import {Router} from '@angular/router';
+import {Location} from '@angular/common';
 @Component({
   selector: 'app-mlo-list',
   templateUrl: './mlo-list.component.html',
@@ -15,7 +16,7 @@ export class MloListComponent implements OnInit {
   cart = faUser;
   constructor(public quickQuoteService : QuickQuoteService,
 
-              private router: Router,) {
+              private router: Router, private _location: Location,) {
   }
   @ViewChild("grid") usersGrid: AgGridAngular;
   columnDefs = [
@@ -103,4 +104,8 @@ export class MloListComponent implements OnInit {
     this.router.navigate(["/admin/mlo-create/edit"]);
   }
 
+  backClicked($event: MouseEvent) {
+    $event.preventDefault();
+    this._location.back();
+  }
 }

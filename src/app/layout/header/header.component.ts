@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit {
            this.logout();
          }
          if (data.item.title === 'Admin') {
-             this.router.navigate(["/admin/mlo-list"]);
+             this.router.navigate(["/admin/admin-dash"]);
          }
 
        });

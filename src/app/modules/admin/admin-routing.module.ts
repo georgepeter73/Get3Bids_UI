@@ -4,12 +4,14 @@ import { Routes, RouterModule } from "@angular/router";
 import {MloComponent} from '@modules/admin/page/mlo/mlo.component';
 import {MloListComponent} from '@modules/admin/page/mlo-list/mlo-list.component';
 import {AuthGuard} from '@app/guard/auth.guard';
+import {AdminDashComponent} from '@modules/admin/page/admin-dash/admin-dash.component';
+import {UploadMediaComponent} from '@modules/admin/page/upload-media/upload-media.component';
 
 
 const routes: Routes = [
   {
     path: "",
-    component: MloListComponent
+    component: AdminDashComponent
   },
   {
     path: "mlo-create/:crudType",
@@ -20,6 +22,16 @@ const routes: Routes = [
     path: "mlo-list",
     canActivate: [AuthGuard],
     component: MloListComponent
+  },
+  {
+    path: "admin-dash",
+    canActivate: [AuthGuard],
+    component: AdminDashComponent
+  },
+  {
+    path: "upload-media",
+    canActivate: [AuthGuard],
+    component: UploadMediaComponent
   },
 
 ];

@@ -1,0 +1,54 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)">
+        <nb-icon icon="arrow-back-outline"></nb-icon>
+        Previous</a></div>
+      <div class="text-left col-md-8 ">
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <fieldset class="border p-2">
+      <legend class="w-auto">Upload Media</legend>
+       <div class="row py-3">
+        <div class="col-6 text-right">
+          Media Description :
+        </div>
+        <div class="col-6 text-left">
+
+          <input nbInput  type="text" name="mediaDesc" [(ngModel)]="mediaDescription"
+                 #mediaDesc="ngModel" required/>
+        </div>
+      </div>
+      <br>
+      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+        <div class="row py-3">
+          <div class="col-3 "></div>
+          <div class="col-6 text-center ">
+            <input type="file" nbInput name="mediaFile" (change)="onFileSelect($event)" required
+                   #mediaFile/>
+          </div>
+        </div>
+        <br>
+        <div class="row py-3">
+          <div class="col-12 text-center">
+            <button nbButton size="medium" type="submit" [nbSpinner]="loading"
+                    nbSpinnerStatus="primary"
+                    status="primary" [disabled]="fileSelected == false || mediaDesc.invalid ">Upload Media
+            </button>
+          </div>
+
+        </div>
+        <div class="row py-3" *ngIf="userMedia.mediaUrl && userMedia.mediaUrl.length > 0 ">
+          <div class="col-12 text-center ">
+            <nb-alert status="success" >Media File uploaded successfully.</nb-alert>
+          </div>
+        </div>
+      </form>
+    </fieldset>
+  </nb-card-body>
+</nb-card>
+
+
+
