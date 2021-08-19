@@ -34,10 +34,10 @@ export class UploadMediaComponent implements OnInit {
   }
 
   upload(form: NgForm) {
-
+     //nothing
   }
   cancelUpload() {
-
+    //nothing
   }
   onSubmit() {
     const formData = new FormData();
