@@ -20,7 +20,7 @@ export class UploadMediaComponent implements OnInit {
   userMedia = new UserMedia();
   fileSelected = false;
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
-              private route : ActivatedRoute,private formBuilder: FormBuilder) { }
+              private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.uploadForm = this.formBuilder.group({

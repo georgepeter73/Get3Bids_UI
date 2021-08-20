@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UploadMediaComponent } from './upload-media.component';
-import {FormsModule} from '@angular/forms';
-import {NbAlertModule, NbCardModule, NbSpinnerModule} from '@nebular/theme';
-import {HttpClient} from '@angular/common/http';
+import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NbAlertModule, NbCardModule, NbIconModule, NbSpinnerModule} from '@nebular/theme';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {QuickQuoteService} from '@data/service/quickquote.service';
 
 describe('UploadMediaComponent', () => {
@@ -16,14 +16,17 @@ describe('UploadMediaComponent', () => {
         FormsModule,
         NbCardModule,
         NbAlertModule,
-        NbSpinnerModule
-      ],
+        NbSpinnerModule,
+        NbIconModule,
+        ReactiveFormsModule,
+        HttpClientModule
+       ],
       declarations: [ UploadMediaComponent ],
       providers: [
         Location,
         HttpClient,
         QuickQuoteService,
-
+        FormBuilder
       ]
     })
     .compileComponents();

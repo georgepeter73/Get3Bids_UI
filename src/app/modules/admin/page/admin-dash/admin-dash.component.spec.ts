@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AdminDashComponent } from './admin-dash.component';
 import {FormsModule} from '@angular/forms';
 import {NbCardModule} from '@nebular/theme';
+import {Router} from '@angular/router';
 
 describe('AdminDashComponent', () => {
   let component: AdminDashComponent;
@@ -14,13 +15,15 @@ describe('AdminDashComponent', () => {
         FormsModule,
         NbCardModule,
       ],
+      providers :[{ provide : Router, useClass: class { navigate = jasmine.createSpy("navigate"); } }],
       declarations: [ AdminDashComponent ]
     })
 
     .compileComponents();
   }));
 
-  /***beforeEach(() => {
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(AdminDashComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -28,5 +31,5 @@ describe('AdminDashComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });***/
+  });
 });
