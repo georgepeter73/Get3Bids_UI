@@ -40,7 +40,7 @@
           </div>
 
         </div>
-        <div class="row py-3" *ngIf="userMedia.mediaUrl && userMedia.mediaUrl.length > 0 ">
+        <div class="row py-3" *ngIf="mediaLocation.mediaURL && mediaLocation.mediaURL.length > 0 && fileSelected===false">
           <div class="col-12 text-center ">
             <nb-alert status="success" >Media File uploaded successfully.</nb-alert>
           </div>

@@ -1,9 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {QuickQuoteService} from '@data/service/quickquote.service';
 import {Location} from '@angular/common';
-import {ActivatedRoute} from '@angular/router';
 import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
-import {UserMedia} from '@data/schema/user/user-media';
+import {MediaLocation} from '@data/schema/user/media-location';
 
 @Component({
   selector: 'app-upload-media',
@@ -17,7 +16,7 @@ export class UploadMediaComponent implements OnInit {
   loading: any;
   uploadMessage: any;
   mediaDescription: any;
-  userMedia = new UserMedia();
+  mediaLocation = new MediaLocation();
   fileSelected = false;
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
               private formBuilder: FormBuilder) { }
@@ -43,9 +42,10 @@ export class UploadMediaComponent implements OnInit {
     const formData = new FormData();
     this.loading = true;
     formData.append('videoFile', this.uploadForm.get('media_file').value);
+    formData.append('mediaDesc', this.mediaDescription);
     this.quickQuoteService.uploadMedia(formData).subscribe(
       (res) => {
-        this.userMedia = res;
+        this.mediaLocation = res;
         this.loading = false;
         this.fileSelected = false;
       },
@@ -63,6 +63,7 @@ export class UploadMediaComponent implements OnInit {
       const file = event.target.files[0];
       this.uploadForm.get('media_file').setValue(file);
       this.fileSelected = true;
+
     }
 
   }

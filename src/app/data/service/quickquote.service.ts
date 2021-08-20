@@ -8,6 +8,7 @@ import {Observable, throwError} from 'rxjs';
 import {map} from 'rxjs/operators';
 import { catchError } from "rxjs/operators";
 import {UserMedia} from '@data/schema/user/user-media';
+import {MediaLocation} from '@data/schema/user/media-location';
 
 const API_URL = environment.API_URL;
 
@@ -81,7 +82,7 @@ export class QuickQuoteService {
     user1.floifyAccountApprovalFlag = user['floifyAccountApprovalFlag'];
     return user1;
   }
-  public uploadMedia(data: FormData): Observable<UserMedia> {
+  public uploadMedia(data: FormData): Observable<MediaLocation> {
     return this.http
       .post(
         API_URL + "/api/v1/auth/upload-media",
@@ -89,9 +90,9 @@ export class QuickQuoteService {
       )
       .pipe(
         map(response => {
-          const userMedia = new UserMedia();
-           userMedia.mediaUrl = response["mediaURL"];
-           return userMedia;
+          const mediaLocation = new MediaLocation();
+          mediaLocation.mediaURL = response["mediaURL"];
+           return mediaLocation;
         })
       )
       .pipe(catchError(this.errorHandler));
