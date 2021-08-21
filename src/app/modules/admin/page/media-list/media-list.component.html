@@ -1,0 +1,48 @@
+<nb-card size="large">
+  <nb-card-header>
+    <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)"><nb-icon icon="arrow-back-outline"></nb-icon> Previous</a></div>
+    <div class="container col-md-8 text-center">
+      All Media Uploads
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="container">
+
+    <div class="text-left">
+      <button nbButton status="primary" (click)="uploadMedia()" >
+        <fa-icon size="1x" [icon]="cart" class="m-1"></fa-icon>
+        Upload Media
+      </button>
+    </div>
+    <br>
+
+
+      <input class="form-control"
+             [(ngModel)]="searchValue"
+             type="text" nbInput  shape="rectangle" placeholder="Filter"
+      />
+
+    <ag-grid-angular
+      style="width: 900px; height: 400px;"
+      #grid
+      class="ag-theme-alpine"
+      [rowData]="rowData | async"
+      [columnDefs]="columnDefs"
+      [pagination]="true"
+      rowSelection="multiple"
+      paginationAutoPageSize="true"
+      enableCellTextSelection=true
+      [quickFilterText]="searchValue"
+      (rowClicked)="onRowClick($event)"
+    >
+    </ag-grid-angular>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+
+
+
+
+
+

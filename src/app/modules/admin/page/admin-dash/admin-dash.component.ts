@@ -20,6 +20,6 @@ export class AdminDashComponent implements OnInit {
   }
 
   media() {
-    this.router.navigate(["/admin/upload-media"]);
+    this.router.navigate(["/admin/media-list"]);
   }
 }

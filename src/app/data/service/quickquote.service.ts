@@ -53,6 +53,32 @@ export class QuickQuoteService {
         })
       )
   }
+  public getAllMediaLocation(): Observable<MediaLocation[]> {
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-all-media-location'
+      )
+      .pipe(
+        map(response => {
+          return this.getMediaLocations(response);
+        })
+      )
+  }
+  public getMediaLocations(response: any): MediaLocation[] {
+    return (<MediaLocation[]>response).map(
+      mediaLoc =>
+        this.gerMediaLocation(mediaLoc)
+    );
+  }
+  public gerMediaLocation(mediaLoc : MediaLocation): MediaLocation {
+    let mediaLocation = new MediaLocation();
+    mediaLocation.mediaId = mediaLoc['mediaId'];
+    mediaLocation.mediaURL = mediaLoc['mediaURL'];
+    mediaLocation.mediaDescription = mediaLoc['mediaDescription'];
+    mediaLocation.deleteFlag = mediaLoc['deleteFlag'];
+    mediaLocation.lastUpdatedAt = mediaLoc['lastUpdatedAt'];
+    mediaLocation.lastUpdatedBy = mediaLoc['lastUpdatedBy'];
+    return mediaLocation;
+  }
 
 
   public getUser(response: any): UserMlo[] {

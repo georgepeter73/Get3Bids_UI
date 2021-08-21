@@ -6,6 +6,7 @@ import {MloListComponent} from '@modules/admin/page/mlo-list/mlo-list.component'
 import {AuthGuard} from '@app/guard/auth.guard';
 import {AdminDashComponent} from '@modules/admin/page/admin-dash/admin-dash.component';
 import {UploadMediaComponent} from '@modules/admin/page/upload-media/upload-media.component';
+import {MediaListComponent} from '@modules/admin/page/media-list/media-list.component';
 
 
 const routes: Routes = [
@@ -32,6 +33,11 @@ const routes: Routes = [
     path: "upload-media",
     canActivate: [AuthGuard],
     component: UploadMediaComponent
+  },
+  {
+    path: "media-list",
+    canActivate: [AuthGuard],
+    component: MediaListComponent
   },
 
 ];
