@@ -31,13 +31,15 @@ export class MediaShowButtonComponent implements ICellRendererAngularComp {
     return false;
   }
   buttonClicked(){
-     open();
+     this.open();
   }
   open() {
-     this.dialogService.open(MediaDialogComponent, {
+    const dialogRef = this.dialogService.open(MediaDialogComponent, {
       context: {
         title: 'This is a title passed to the dialog component',
       },
     });
+
+
   }
 }

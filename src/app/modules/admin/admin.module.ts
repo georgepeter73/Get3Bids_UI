@@ -22,6 +22,7 @@ import { MediaShowButtonComponent } from './component/media-show-button/media-sh
 import { MediaDialogComponent } from './component/media-dialog/media-dialog.component';
 
 @NgModule({
+  entryComponents :[MediaDialogComponent],
   declarations: [ MloComponent, MloListComponent, AdminDashComponent, UploadMediaComponent, MediaListComponent, MediaShowButtonComponent, MediaDialogComponent],
   imports: [AgGridModule.withComponents([MediaShowButtonComponent]), AdminRoutingModule, SharedModule, NbRouteTabsetModule, NbCardModule, NbTabsetModule, NbAccordionModule,
     NbRadioModule, NbCheckboxModule, NbSelectModule, NbInputModule, NbButtonModule, NbSpinnerModule, NbAlertModule, NbActionsModule, NbTooltipModule,

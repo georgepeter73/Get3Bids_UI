@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectionStrategy, Input} from '@angular/core';
+import {Component, OnInit,  Input} from '@angular/core';
 import {NbDialogRef} from '@nebular/theme';
 
 @Component({
@@ -7,7 +7,7 @@ import {NbDialogRef} from '@nebular/theme';
   styleUrls: ['./media-dialog.component.scss'],
 
 })
-export class MediaDialogComponent implements OnInit {
+export class MediaDialogComponent  {
   @Input() title: string;
 
   constructor(protected ref: NbDialogRef<MediaDialogComponent>) {}
@@ -16,7 +16,4 @@ export class MediaDialogComponent implements OnInit {
     this.ref.close();
   }
 
-  ngOnInit(): void {
-    alert("testing")
-  }
 }

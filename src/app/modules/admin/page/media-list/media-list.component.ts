@@ -6,6 +6,8 @@ import {Location} from '@angular/common';
 import {AgGridAngular} from '@ag-grid-community/angular';
 import {of} from 'rxjs';
 import {MediaShowButtonComponent} from '@modules/admin/component/media-show-button/media-show-button.component';
+import {NbDialogService} from '@nebular/theme';
+import {MediaDialogComponent} from '@modules/admin/component/media-dialog/media-dialog.component';
 
 @Component({
   selector: 'app-media-list',
@@ -17,7 +19,7 @@ export class MediaListComponent implements OnInit {
 
   constructor(public quickQuoteService : QuickQuoteService,
 
-              private router: Router, private _location: Location,) {
+              private router: Router, private _location: Location,private dialogService: NbDialogService) {
 
   }
   frameworkComponents: any;
@@ -100,4 +102,6 @@ export class MediaListComponent implements OnInit {
   onRowClick($event: any) {
 
   }
+
+
 }
