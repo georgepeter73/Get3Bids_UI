@@ -92,7 +92,7 @@ export class MediaListComponent implements OnInit {
   }
 
   uploadMedia() {
-    this.router.navigate(["/admin/upload-media"]);
+    this.router.navigate(["/admin/upload-media/create"]);
   }
 
   backClicked($event: MouseEvent) {
@@ -100,7 +100,8 @@ export class MediaListComponent implements OnInit {
   }
 
   onRowClick($event: any) {
-
+    sessionStorage.setItem('mediaLocation', JSON.stringify(this.mediaGrid.api.getSelectedRows()[0]));
+    this.router.navigate(["/admin/upload-media/edit"]);
   }
 
 

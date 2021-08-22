@@ -1,10 +1,13 @@
 <nb-card>
   <nb-card-header>{{ title }}</nb-card-header>
   <nb-card-body>
-    Test
+    <video (click)="playVideo()" nbTooltip="Click to watch video"  class="video-circle" height="100%" width="100%"  onloadedmetadata="this.muted = false"  id="myVideo" #myVide >
+      <source [src]="sanitizedURL()" type="video/mp4">
+    </video>
+
   </nb-card-body>
-  <nb-card-footer>
-    <button nbButton hero status="primary" (click)="dismiss()">Dismiss Dialog</button>
+  <nb-card-footer class="text-right">
+    <button nbButton hero status="primary" (click)="dismiss()">Close</button>
   </nb-card-footer>
 </nb-card>
 

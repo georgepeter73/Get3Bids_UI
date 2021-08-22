@@ -30,10 +30,11 @@ const routes: Routes = [
     component: AdminDashComponent
   },
   {
-    path: "upload-media",
+    path: "upload-media/:crudType",
     canActivate: [AuthGuard],
     component: UploadMediaComponent
   },
+
   {
     path: "media-list",
     canActivate: [AuthGuard],

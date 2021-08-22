@@ -116,9 +116,7 @@ export class QuickQuoteService {
       )
       .pipe(
         map(response => {
-          const mediaLocation = new MediaLocation();
-          mediaLocation.mediaURL = response["mediaURL"];
-           return mediaLocation;
+             return this.gerMediaLocation(<MediaLocation>response);
         })
       )
       .pipe(catchError(this.errorHandler));
