@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {AgGridAngular} from '@ag-grid-community/angular';
 import {of} from 'rxjs';
+import {MediaShowButtonComponent} from '@modules/admin/component/media-show-button/media-show-button.component';
 
 @Component({
   selector: 'app-media-list',
@@ -16,7 +17,10 @@ export class MediaListComponent implements OnInit {
 
   constructor(public quickQuoteService : QuickQuoteService,
 
-              private router: Router, private _location: Location,) { }
+              private router: Router, private _location: Location,) {
+
+  }
+  frameworkComponents: any;
   cart = faUser;
   searchValue: any;
   rowData: any;
@@ -53,12 +57,27 @@ export class MediaListComponent implements OnInit {
       checkboxSelection: false,
 
     },
+    {
+      headerName: "View",
+      field: "mediaURL",
+      cellRenderer: 'btnCellRenderer',
+      cellRendererParams: {
+        clicked: function(field: any) {
+          alert(`${field} was clicked`);
+        }
+      },
+      minWidth: 150
+    },
 
 
   ];
 
 
+
   ngOnInit(): void {
+    this.frameworkComponents = {
+      btnCellRenderer: MediaShowButtonComponent
+    };
     this.quickQuoteService.getAllMediaLocation().subscribe(
       mediaList => {
         mediaList.sort((a, b) => (a.lastUpdatedAt > b.lastUpdatedAt ? -1 : 1));
