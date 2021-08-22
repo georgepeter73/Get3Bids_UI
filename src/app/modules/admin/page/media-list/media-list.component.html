@@ -34,8 +34,9 @@
       paginationAutoPageSize="true"
       enableCellTextSelection=true
       [quickFilterText]="searchValue"
-      (rowClicked)="onRowClick($event)"
+      (rowDoubleClicked)="onRowClick($event)"
       [frameworkComponents]="frameworkComponents"
+      [enableCellTextSelection]="true"
     >
     </ag-grid-angular>
     </div>

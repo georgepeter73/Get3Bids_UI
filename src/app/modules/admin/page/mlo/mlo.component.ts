@@ -69,6 +69,9 @@ export class MloComponent implements OnInit {
       if(this.userMLO.userId>0){
         this.buttonText = "Update MLO"
       }
+        setTimeout(() => {
+          this._location.back();
+        }, 1000);
     },
       error => {
         this.loading = false;

@@ -20,10 +20,15 @@
       </div>
       <br>
       <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
-        <div class="row py-3">
+        <div class="row ">
           <div class="col-md-12 text-center ">
             <input type="file" nbInput name="mediaFile" (change)="onFileSelect($event)" required
-                   #mediaFile/>
+                   #mediaFile accept="video/*"/>
+          </div>
+        </div>
+        <div class="row py-3">
+          <div class="col-md-12 text-center ">
+            (Only video files of size less than 100MB)
           </div>
         </div>
         <br>
@@ -31,12 +36,12 @@
           <div class="col-md-12 text-center">
             <button nbButton size="medium" type="submit" [nbSpinner]="loading"
                     nbSpinnerStatus="primary"
-                    status="primary" [disabled]="fileSelected == false || mediaDesc.invalid ">{{buttonDesc}}
+                    status="primary" [disabled]="fileSelected == false || mediaDesc.invalid || buttonPressed == true">{{buttonDesc}}
             </button>
           </div>
 
         </div>
-        <div class="row py-3" *ngIf="mediaLocation.mediaURL && mediaLocation.mediaURL.length > 0 && fileSelected===false">
+        <div class="row py-3" *ngIf="buttonPressed == true && loading == false">
           <div class="col-md-12 text-center ">
             <nb-alert status="success" >Media File uploaded successfully.</nb-alert>
           </div>

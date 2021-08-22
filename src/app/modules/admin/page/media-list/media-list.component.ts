@@ -1,8 +1,8 @@
-import {Component, OnInit, ChangeDetectionStrategy, ViewChild} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, ViewChild, Inject, LOCALE_ID} from '@angular/core';
 import { faUser} from "@fortawesome/free-solid-svg-icons";
 import {QuickQuoteService} from '@data/service/quickquote.service';
 import {Router} from '@angular/router';
-import {Location} from '@angular/common';
+import {formatDate, Location} from '@angular/common';
 import {AgGridAngular} from '@ag-grid-community/angular';
 import {of} from 'rxjs';
 import {MediaShowButtonComponent} from '@modules/admin/component/media-show-button/media-show-button.component';
@@ -19,7 +19,8 @@ export class MediaListComponent implements OnInit {
 
   constructor(public quickQuoteService : QuickQuoteService,
 
-              private router: Router, private _location: Location,private dialogService: NbDialogService) {
+              private router: Router, private _location: Location,private dialogService: NbDialogService,
+              @Inject(LOCALE_ID) public locale: string) {
 
   }
   frameworkComponents: any;
@@ -42,25 +43,19 @@ export class MediaListComponent implements OnInit {
       filter: true,
       checkboxSelection: false
     },
-
-    {
-      headerName: "Location",
-      field: "mediaURL",
-      sortable: true,
-      filter: true,
-      checkboxSelection: false,
-
-    },
-    {
+   {
       headerName: "Date",
       field: "lastUpdatedAt",
       sortable: true,
       filter: true,
       checkboxSelection: false,
+     cellRenderer: (data) => {
+       return data.value ? formatDate(data.value, 'd MMM yyyy', this.locale) : '';
+     }
 
     },
     {
-      headerName: "View",
+      headerName: "",
       field: "mediaURL",
       cellRenderer: 'btnCellRenderer',
       cellRendererParams: {

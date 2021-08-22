@@ -21,6 +21,7 @@ export class UploadMediaComponent implements OnInit {
   fileSelected = false;
   crudType : string;
   buttonDesc ="Upload Media";
+  buttonPressed = false;
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
               private formBuilder: FormBuilder, private route : ActivatedRoute
               ) { }
@@ -30,8 +31,8 @@ export class UploadMediaComponent implements OnInit {
     if(this.crudType === 'edit'){
       this.mediaLocation = JSON.parse(sessionStorage.getItem("mediaLocation"));
       this.mediaDescription = this.mediaLocation.mediaDescription;
-      this.fileSelected = true;
-      this.buttonDesc = "Change Media"
+       this.buttonDesc = "Change Media"
+      this.fileSelected = false;
     }
     this.uploadForm = this.formBuilder.group({
       media_file: ['']
@@ -55,11 +56,15 @@ export class UploadMediaComponent implements OnInit {
     this.mediaLocation.deleteFlag = false;
     formData.append('videoFile', this.uploadForm.get('media_file').value);
     formData.append('mediaLocationDTO', JSON.stringify(this.mediaLocation));
+    this.buttonPressed = true;
     this.quickQuoteService.uploadMedia(formData).subscribe(
       (res) => {
         this.mediaLocation = res;
         this.loading = false;
         this.fileSelected = false;
+        setTimeout(() => {
+          this._location.back();
+        }, 2000);
       },
       (err) => {
         this.uploadMessage = 'Upload Failed';
@@ -75,6 +80,7 @@ export class UploadMediaComponent implements OnInit {
       const file = event.target.files[0];
       this.uploadForm.get('media_file').setValue(file);
       this.fileSelected = true;
+      this.buttonPressed = false;
 
     }
 
