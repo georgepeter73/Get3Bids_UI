@@ -63,10 +63,10 @@ export class QuickQuoteService {
   public getMediaLocations(response: any): MediaLocation[] {
     return (<MediaLocation[]>response).map(
       mediaLoc =>
-        this.gerMediaLocation(mediaLoc)
+        this.getMediaLocation(mediaLoc)
     );
   }
-  public gerMediaLocation(mediaLoc : MediaLocation): MediaLocation {
+  public getMediaLocation(mediaLoc : MediaLocation): MediaLocation {
     let mediaLocation = new MediaLocation();
     mediaLocation.mediaId = mediaLoc['mediaId'];
     mediaLocation.mediaURL = mediaLoc['mediaURL'];
@@ -113,7 +113,7 @@ export class QuickQuoteService {
       )
       .pipe(
         map(response => {
-             return this.gerMediaLocation(<MediaLocation>response);
+             return this.getMediaLocation(<MediaLocation>response);
         })
       )
       .pipe(catchError(this.errorHandler));
@@ -173,6 +173,19 @@ export class QuickQuoteService {
       .pipe(
         map(response => {
           return this.gerUserMedia(<UserMedia>response)
+        })
+      )
+      .pipe(catchError(this.errorHandler));
+  }
+  public deleteMediaLocation(mediaId: number): Observable<MediaLocation> {
+    return this.http
+      .get(
+        API_URL + "/api/v1/auth/delete-media-location?mediaId="+mediaId
+
+      )
+      .pipe(
+        map(response => {
+          return this.getMediaLocation(<MediaLocation>response)
         })
       )
       .pipe(catchError(this.errorHandler));

@@ -7,6 +7,7 @@ import {AgGridAngular} from '@ag-grid-community/angular';
 import {of} from 'rxjs';
 import {MediaShowButtonComponent} from '@modules/admin/component/media-show-button/media-show-button.component';
 import {NbDialogService} from '@nebular/theme';
+import {MediaDeleteButtonComponent} from '@modules/admin/component/media-delete-button/media-delete-button.component';
 
 @Component({
   selector: 'app-media-list',
@@ -62,17 +63,24 @@ export class MediaListComponent implements OnInit {
           alert(`${field} was clicked`);
         }
       },
-      minWidth: 150
+
     },
+    {
+      headerName: "",
+      field: "mediaId",
+      cellRenderer: 'deleteBtnCellRenderer',
+      cellRendererParams: {
+        clicked: function(field: any) {
+          alert(`${field} was clicked`);
+        }
+      },
 
-
+    },
   ];
-
-
-
   ngOnInit(): void {
     this.frameworkComponents = {
-      btnCellRenderer: MediaShowButtonComponent
+      btnCellRenderer: MediaShowButtonComponent,
+      deleteBtnCellRenderer : MediaDeleteButtonComponent
     };
     this.quickQuoteService.getAllMediaLocation().subscribe(
       mediaList => {

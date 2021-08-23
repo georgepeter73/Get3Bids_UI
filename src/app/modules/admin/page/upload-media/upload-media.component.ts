@@ -85,4 +85,6 @@ export class UploadMediaComponent implements OnInit {
     }
 
   }
+
+
 }
