@@ -1,12 +1,9 @@
 import {Injectable} from '@angular/core';
 import {environment} from 'environments/environment';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {UserMlo} from '@data/schema/user/user-mlo';
 import {Observable, throwError} from 'rxjs';
-import {map} from 'rxjs/operators';
-import { catchError } from "rxjs/operators";
+import {catchError, map} from 'rxjs/operators';
 import {UserMedia} from '@data/schema/user/user-media';
 import {MediaLocation} from '@data/schema/user/media-location';
 

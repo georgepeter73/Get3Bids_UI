@@ -8,7 +8,7 @@ import {
   NbRadioModule,
   NbRouteTabsetModule,
   NbSelectModule, NbSpinnerModule,
-  NbTabsetModule, NbTooltipModule, NbWindowModule
+  NbTabsetModule, NbTooltipModule
 } from '@nebular/theme';
 import { MloComponent } from './page/mlo/mlo.component';
 import { MloListComponent } from './page/mlo-list/mlo-list.component';
