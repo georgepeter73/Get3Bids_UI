@@ -54,7 +54,7 @@ export class QuickQuoteService {
       )
   }
   public getAllMediaLocation(): Observable<MediaLocation[]> {
-    return this.http
+     return this.http
       .get(API_URL + '/api/v1/auth/get-all-media-location'
       )
       .pipe(
@@ -136,6 +136,49 @@ export class QuickQuoteService {
     }
     // return an observable with a user-facing error message
     return throwError("Something bad happened; please try again later.");
+  }
+  public getUserMediaByUserId(userId : string): Observable<UserMedia[]>{
+     return this.http
+      .get(API_URL + '/api/v1/auth/get-all-media-by-userid?userId=' + userId
+      )
+      .pipe(
+        map(response => {
+          return this.getUserMedias(response);
+        })
+      ).pipe(catchError(this.errorHandler));
+  }
+  public getUserMedias(response: any): UserMedia[] {
+    return (<UserMedia[]>response).map(
+      userMedia =>
+        this.gerUserMedia(userMedia)
+    );
+  }
+
+  public gerUserMedia(userM : UserMedia): UserMedia {
+    const userMedia = new UserMedia();
+    userMedia.userMediaId = userM['userMediaId'];
+    userMedia.userId = userM['userId'];
+    userMedia.mediaURL = userM['mediaURL'];
+    userMedia.mediaType = userM['mediaType'];
+    userMedia.mediaDescription = userM['mediaDescription'];
+    userMedia.lastUpdatedAt = userM['lastUpdatedAt'];
+    userMedia.lastUpdatedBy = userM['lastUpdatedBy'];
+    userMedia.deleteFlag = userM['deleteFlag'];
+    userMedia.mediaId = userM['mediaId'];
+    return userMedia;
+  }
+  public saveUserMedia(userMedia: UserMedia): Observable<UserMedia> {
+    return this.http
+      .post(
+        API_URL + "/api/v1/auth/save-user-media",
+        JSON.stringify(userMedia), this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return this.gerUserMedia(<UserMedia>response)
+        })
+      )
+      .pipe(catchError(this.errorHandler));
   }
 
 

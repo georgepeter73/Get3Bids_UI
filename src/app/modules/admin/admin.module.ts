@@ -20,10 +20,11 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MediaListComponent } from './page/media-list/media-list.component';
 import { MediaShowButtonComponent } from './component/media-show-button/media-show-button.component';
 import { MediaDialogComponent } from './component/media-dialog/media-dialog.component';
+import { MloMediaComponent } from './page/mlo-media/mlo-media.component';
 
 @NgModule({
   entryComponents :[MediaDialogComponent],
-  declarations: [ MloComponent, MloListComponent, AdminDashComponent, UploadMediaComponent, MediaListComponent, MediaShowButtonComponent, MediaDialogComponent],
+  declarations: [ MloComponent, MloListComponent, AdminDashComponent, UploadMediaComponent, MediaListComponent, MediaShowButtonComponent, MediaDialogComponent, MloMediaComponent],
   imports: [AgGridModule.withComponents([MediaShowButtonComponent]), AdminRoutingModule, SharedModule, NbRouteTabsetModule, NbCardModule, NbTabsetModule, NbAccordionModule,
     NbRadioModule, NbCheckboxModule, NbSelectModule, NbInputModule, NbButtonModule, NbSpinnerModule, NbAlertModule, NbActionsModule, NbTooltipModule,
     NbIconModule, MatProgressBarModule, NbDialogModule.forRoot()],

@@ -7,7 +7,6 @@ import {AgGridAngular} from '@ag-grid-community/angular';
 import {of} from 'rxjs';
 import {MediaShowButtonComponent} from '@modules/admin/component/media-show-button/media-show-button.component';
 import {NbDialogService} from '@nebular/theme';
-import {MediaDialogComponent} from '@modules/admin/component/media-dialog/media-dialog.component';
 
 @Component({
   selector: 'app-media-list',

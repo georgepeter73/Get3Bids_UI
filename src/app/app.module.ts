@@ -41,13 +41,15 @@ import {
 import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { CookieModule } from "ngx-cookie";
 
+
 @NgModule({
     declarations: [
         AppComponent,
         AdminLayoutComponent,
         HeaderComponent,
         FooterComponent,
-        AuthLayoutComponent
+        AuthLayoutComponent,
+
     ],
     imports: [
         // angular

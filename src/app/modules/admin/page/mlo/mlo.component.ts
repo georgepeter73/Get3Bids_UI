@@ -3,7 +3,7 @@ import {UserMlo} from '@data/schema/user/user-mlo';
 import {NgForm} from '@angular/forms';
 import {QuickQuoteService} from '@data/service/quickquote.service';
 import {Location} from '@angular/common';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '@env';
 
 @Component({
@@ -22,10 +22,11 @@ export class MloComponent implements OnInit {
   errorMessage ="";
   frontendurl = environment.FRONT_END_URL;
   mloLink : string;
+  loading1: any;
 
 
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
-              private route : ActivatedRoute) {
+              private route : ActivatedRoute, private router: Router) {
   }
   ngOnInit(): void {
     this.crudType = this.route.snapshot.paramMap.get('crudType');
@@ -91,5 +92,10 @@ export class MloComponent implements OnInit {
     elem.select();
     document.execCommand('copy');
     document.body.removeChild(elem);
+  }
+
+  mloMedia() {
+     sessionStorage.setItem("userMLOForMedia",JSON.stringify(this.userMLO));
+     this.router.navigate(["/admin/mlo-media"]);
   }
 }

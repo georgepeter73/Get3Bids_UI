@@ -80,9 +80,12 @@
 
   <div class="form-group row mb-2">
     <div class="offset-3 col-9">
-      <button  type="submit" nbButton  status="primary"
+      <button class="m-2" type="submit" nbButton  status="primary"
                [disabled]="!userMLO.firstName || !userMLO.lastName || !userMLO.userName"
                size="medium" [nbSpinner]="loading" nbSpinnerStatus="primary"><nb-icon icon="save-outline"></nb-icon>{{buttonText}}</button>
+      <button [disabled]="crudType==='add'"  class="m-2"  nbButton  status="primary" (click)="mloMedia()"
+
+               size="medium" [nbSpinner]="loading1" nbSpinnerStatus="primary"><nb-icon icon="video-outline"></nb-icon>MLO Media</button>
     </div>
 
     <div class="col-12 text-center" *ngIf="buttonPressed && !loading">

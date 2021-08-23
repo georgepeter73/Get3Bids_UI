@@ -1,0 +1,61 @@
+
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)"><nb-icon icon="arrow-back-outline"></nb-icon> Previous</a></div>
+      <div class="text-left col-md-8 ">
+
+
+
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+
+    <fieldset class="border p-2">
+      <legend  class="w-auto">MLO Site Media</legend>
+
+      <form class="container m-2" #form="ngForm"
+            (ngSubmit)="saveUserMedia(form)" >
+
+          <div class="form-group row">
+            <div class="col-md-6">Welcome Screen Video</div>
+            <div class="col-md-6">
+              <nb-select  [(ngModel)]="welcomeScreenUserMedia.mediaId"   #mLocation="ngModel" required name="mLocation" id="mLocationId" size="small"  placeholder="Select Video"  (selectedChange)="mediaSelected()">
+                <nb-option *ngFor="let mediaLoc of mediaLocations" [value]="mediaLoc.mediaId">{{mediaLoc.mediaDescription}}</nb-option>
+              </nb-select>
+              <button *ngIf="welcomeScreenUserMedia.mediaId" type="button" nbButton  ghost (click)="openVideo()"><fa-icon size="1x" [icon]="video" class="m-1" ></fa-icon></button>
+
+            </div>
+
+          </div>
+        <div class="form-group row mb-2">
+          <div class="col-12 text-center">
+            <button class="m-2" type="submit" nbButton  status="primary"
+                    [disabled]="!welcomeScreenUserMedia.mediaId"
+                    size="medium" [nbSpinner]="loading" nbSpinnerStatus="primary"><nb-icon icon="save-outline"></nb-icon>Save Media</button>
+
+          </div>
+          <div class="col-12 text-center" *ngIf="buttonPressed && !loading">
+            <br>
+            <br>
+            <nb-alert accent="info"  *ngIf="errorMessage.length==0 && welcomeScreenUserMedia.userMediaId > 0" size="tiny" >
+              Operation completed successfully.
+            </nb-alert>
+            <nb-alert accent="info" *ngIf="errorMessage.length > 0" size="tiny" >
+              Operation failed...
+            </nb-alert>
+
+          </div>
+
+
+        </div>
+
+
+      </form>
+    </fieldset>
+
+  </nb-card-body>
+</nb-card>
+
+
