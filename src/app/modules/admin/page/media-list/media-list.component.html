@@ -1,4 +1,4 @@
-<nb-card size="large">
+<nb-card size="large" class="host">
   <nb-card-header>
     <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)"><nb-icon icon="arrow-back-outline"></nb-icon> Previous</a></div>
     <div class="container col-md-8 text-center">
@@ -24,14 +24,15 @@
       />
 
     <ag-grid-angular
-      style="width: 900px; height: 400px;"
+      style="width: 1025px; height: 350px;"
       #grid
       class="ag-theme-alpine"
       [rowData]="rowData | async"
       [columnDefs]="columnDefs"
       [pagination]="true"
       rowSelection="multiple"
-      paginationAutoPageSize="true"
+      paginationPageSize="100"
+      debounceVerticalScrollbar=true
       enableCellTextSelection=true
       [quickFilterText]="searchValue"
       (rowDoubleClicked)="onRowClick($event)"

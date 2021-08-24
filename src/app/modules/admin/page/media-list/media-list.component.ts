@@ -85,24 +85,33 @@ export class MediaListComponent implements OnInit {
       btnCellRenderer: MediaShowButtonComponent,
       deleteBtnCellRenderer : MediaDeleteButtonComponent
     };
+    this.getGridData();
+    this.loanHouseEventService.getRowDeletedEventEmitter().subscribe(e =>{
+      setTimeout(() => {
+        this.getGridData();
+      }, 200);
+
+      setTimeout(() => {
+        this.mediaGrid.api.setRowData(this.rowData)
+      }, 200);
+
+    })
+
+  }
+
+  getGridData(){
     this.quickQuoteService.getAllMediaLocation().subscribe(
       mediaList => {
         mediaList.sort((a, b) => (a.lastUpdatedAt > b.lastUpdatedAt ? -1 : 1));
-           this.rowData = of(mediaList);
+        this.rowData = of(mediaList);
       },
       error => {
         console.error(error)
       }
     );
-    this.loanHouseEventService.getRowDeletedEventEmitter().subscribe(e =>{
-      const params = {
-        force: true,
-        suppressFlash: true,
-      };
-       this.mediaGrid.api.setRowData(this.rowData);
-    })
-
   }
+
+
 
   uploadMedia() {
     this.router.navigate(["/admin/upload-media/create"]);

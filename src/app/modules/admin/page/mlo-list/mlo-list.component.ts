@@ -25,14 +25,18 @@ export class MloListComponent implements OnInit {
       field: "firstName",
       sortable: true,
       filter: true,
-      checkboxSelection: false
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 150
     },
     {
       headerName: "Last Name",
       field: "lastName",
       sortable: true,
       filter: true,
-      checkboxSelection: false
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 150
     },
     {
       headerName: "Margin %",
@@ -41,6 +45,9 @@ export class MloListComponent implements OnInit {
       filter: true,
       checkboxSelection: false,
       valueFormatter: params => this.percentFormatter(params.data.loMargin, ""),
+      width : 120,
+      resizable : true,
+      minWidth: 100
 
     },
     {
@@ -48,7 +55,9 @@ export class MloListComponent implements OnInit {
       field: "userName",
       sortable: true,
       filter: true,
-      checkboxSelection: false
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 200
     },
     {
       headerName: "Approval Status",
@@ -57,6 +66,9 @@ export class MloListComponent implements OnInit {
       filter: true,
       checkboxSelection: false,
       valueFormatter: params => this.approvalStatus(params.data.floifyAccountApprovalFlag),
+      width : 130,
+      resizable : true,
+      minWidth: 100
     },
     {
       headerName: "is Floify Manager",
@@ -65,6 +77,9 @@ export class MloListComponent implements OnInit {
       filter: true,
       checkboxSelection: false,
       valueFormatter: params => params.data.floifyTeamManagerFlag === true ? 'Yes' : 'No',
+      width : 130,
+      resizable : true,
+      minWidth: 100
     },
   ];
   rowData: any;
@@ -73,6 +88,7 @@ export class MloListComponent implements OnInit {
       userList => {
         userList.sort((a, b) => (a.lastUpdatedAt > b.lastUpdatedAt ? -1 : 1));
         this.rowData = of(userList);
+        setTimeout(()=>{this.usersGrid.api.sizeColumnsToFit()}, 50);
        },
       error => {
         console.error(error)
