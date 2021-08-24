@@ -1,4 +1,5 @@
 import {UserMedia} from '@data/schema/user/user-media';
+import {UserContact} from '@data/schema/user/user-contact';
 
 export class UserMlo{
   firstName : string;
@@ -19,7 +20,8 @@ export class UserMlo{
   loPricingId : number;
   loMargin: number;
   floifyAccountApprovalFlag : boolean;
-  userMediaList : UserMedia[]
+  userMediaList : UserMedia[];
+  userContact : UserContact;
 
 
 

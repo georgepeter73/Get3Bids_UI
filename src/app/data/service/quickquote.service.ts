@@ -6,6 +6,7 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {UserMedia} from '@data/schema/user/user-media';
 import {MediaLocation} from '@data/schema/user/media-location';
+import {UserContact} from '@data/schema/user/user-contact';
 
 const API_URL = environment.API_URL;
 
@@ -84,6 +85,13 @@ export class QuickQuoteService {
         this.gerUserMLO(user)
     );
   }
+  public getUserContact(userCon: UserContact): UserContact{
+    const userContact = new UserContact();
+    userContact.contactId = userCon['contactId'];
+    userContact.contactInfoBcc = userCon['contactInfoBcc'];
+    userContact.lastUpdatedBy = userCon['lastUpdatedBy'];
+    return userContact;
+  }
   public gerUserMLO(user : UserMlo): UserMlo {
     let user1 = new UserMlo();
     user1.firstName = user['firstName'];
@@ -104,6 +112,7 @@ export class QuickQuoteService {
     user1.userId = user['userId'];
     user1.floifyAccountApprovalFlag = user['floifyAccountApprovalFlag'];
     user1.userMediaList = this.getUserMedias(user['userMediaDTOList']);
+    user1.userContact = this.getUserContact(user['userContact'])
      return user1;
   }
   public uploadMedia(data: FormData): Observable<MediaLocation> {
@@ -146,7 +155,7 @@ export class QuickQuoteService {
       ).pipe(catchError(this.errorHandler));
   }
   public getUserMedias(response: any): UserMedia[] {
-    return (<UserMedia[]>response).map(
+     return (<UserMedia[]>response).map(
       userMedia =>
         this.gerUserMedia(userMedia)
     );

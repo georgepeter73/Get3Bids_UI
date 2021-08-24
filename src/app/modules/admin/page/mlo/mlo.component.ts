@@ -67,7 +67,7 @@ export class MloComponent implements OnInit {
       this.userMLO = res;
       this.mloLink = this.frontendurl+'/quickquote/borrower-info/'+this.userMLO.userUUID+'/website';
       this.loading = false;
-      if(this.userMLO.userId>0){
+       if(this.userMLO.userId>0){
         this.buttonText = "Update MLO"
       }
         setTimeout(() => {
@@ -76,6 +76,7 @@ export class MloComponent implements OnInit {
     },
       error => {
         this.loading = false;
+        alert(JSON.stringify(error));
         this.errorMessage = JSON.stringify(error);
       }
     );
