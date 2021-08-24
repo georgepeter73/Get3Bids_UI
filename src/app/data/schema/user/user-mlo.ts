@@ -1,3 +1,5 @@
+import {UserMedia} from '@data/schema/user/user-media';
+
 export class UserMlo{
   firstName : string;
   lastName : string;
@@ -17,6 +19,7 @@ export class UserMlo{
   loPricingId : number;
   loMargin: number;
   floifyAccountApprovalFlag : boolean;
+  userMediaList : UserMedia[]
 
 
 

@@ -103,7 +103,8 @@ export class QuickQuoteService {
     user1.loMargin = user['loMargin'];
     user1.userId = user['userId'];
     user1.floifyAccountApprovalFlag = user['floifyAccountApprovalFlag'];
-    return user1;
+    user1.userMediaList = this.getUserMedias(user['userMediaDTOList']);
+     return user1;
   }
   public uploadMedia(data: FormData): Observable<MediaLocation> {
     return this.http

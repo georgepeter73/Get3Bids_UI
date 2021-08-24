@@ -1,11 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {UserMlo} from '@data/schema/user/user-mlo';
 import {QuickQuoteService} from '@data/service/quickquote.service';
 import {Location} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserMedia} from '@data/schema/user/user-media';
-import {faVideo } from '@fortawesome/free-solid-svg-icons';
+import {faVideo} from '@fortawesome/free-solid-svg-icons';
 import {MediaLocation} from '@data/schema/user/media-location';
 import {MediaDialogComponent} from '@modules/admin/component/media-dialog/media-dialog.component';
 import {NbDialogService} from '@nebular/theme';
@@ -19,37 +19,36 @@ import {NbDialogService} from '@nebular/theme';
 export class MloMediaComponent implements OnInit {
 
 
-  constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
-              private route : ActivatedRoute, private router: Router, private dialogService: NbDialogService) { }
-  userMLO : UserMlo = new UserMlo();
-  userMediaList : UserMedia[] = [];
+  constructor(public quickQuoteService: QuickQuoteService, private _location: Location,
+              private route: ActivatedRoute, private router: Router, private dialogService: NbDialogService) {
+  }
+
+  userMLO: UserMlo = new UserMlo();
+  userMediaList: UserMedia[] = [];
   welcomeScreenUserMedia = new UserMedia();
-  mediaLocations : MediaLocation[] = [];
+  mediaLocations: MediaLocation[] = [];
   buttonPressed = false;
   loading: any;
-  errorMessage = "";
+  errorMessage = '';
   video = faVideo;
-  selectedMediaLocation : MediaLocation;
+  selectedMediaLocation: MediaLocation;
   welcomeScreenVideoType = 101;
 
 
-
   ngOnInit(): void {
-    this.userMLO = JSON.parse(sessionStorage.getItem("userMLOForMedia"));
-    this.quickQuoteService.getAllMediaLocation().subscribe(res =>{
+    this.userMLO = JSON.parse(sessionStorage.getItem('userMLOForMedia'));
+    this.quickQuoteService.getAllMediaLocation().subscribe(res => {
       this.mediaLocations = res;
     })
-    this.quickQuoteService.getUserMediaByUserId(this.userMLO.userId.toString()).subscribe(res =>
-    {
-      this.userMediaList = res;
-      this.welcomeScreenUserMedia = this.userMediaList.filter(wel => wel.mediaType === this.welcomeScreenVideoType).pop();
-      if(!this.welcomeScreenUserMedia){
-        this.welcomeScreenUserMedia = new UserMedia();
-      }
-    })
+    this.userMediaList = this.userMLO.userMediaList;
+    this.welcomeScreenUserMedia = this.userMediaList.filter(wel => wel.mediaType === this.welcomeScreenVideoType).pop();
+    if (!this.welcomeScreenUserMedia) {
+      this.welcomeScreenUserMedia = new UserMedia();
+    }
 
 
   }
+
   backClicked($event: MouseEvent) {
     $event.preventDefault();
     this._location.back();
@@ -58,34 +57,37 @@ export class MloMediaComponent implements OnInit {
   saveUserMedia(form: NgForm) {
     this.buttonPressed = true;
     this.loading = true;
-    this.selectedMediaLocation = this.mediaLocations.filter(m =>m.mediaId === this.welcomeScreenUserMedia.mediaId).pop();
+    this.selectedMediaLocation = this.mediaLocations.filter(m => m.mediaId === this.welcomeScreenUserMedia.mediaId).pop();
     this.welcomeScreenUserMedia.mediaURL = this.selectedMediaLocation.mediaURL;
     this.welcomeScreenUserMedia.mediaDescription = this.selectedMediaLocation.mediaDescription;
     this.welcomeScreenUserMedia.deleteFlag = false;
     this.welcomeScreenUserMedia.lastUpdatedAt = new Date();
     this.welcomeScreenUserMedia.userId = this.userMLO.userId;
+    //making it null before save to avoid circular references
+    this.userMLO.userMediaList = null;
     this.welcomeScreenUserMedia.userDTO = this.userMLO;
     this.welcomeScreenUserMedia.mediaType = this.welcomeScreenVideoType;
     this.quickQuoteService.saveUserMedia(this.welcomeScreenUserMedia).subscribe(
-      res =>{
+      res => {
         this.welcomeScreenUserMedia = res;
         this.loading = false;
-        this.errorMessage = "";
+        this.errorMessage = '';
 
-     },
-       error => {
-       this.loading = false;
-       this.errorMessage = error;
-       }
-     )
+      },
+      error => {
+        this.loading = false;
+        this.errorMessage = error;
+      }
+    )
   }
+
   openVideo() {
-    this.selectedMediaLocation = this.mediaLocations.filter(m =>m.mediaId === this.welcomeScreenUserMedia.mediaId).pop();
+    this.selectedMediaLocation = this.mediaLocations.filter(m => m.mediaId === this.welcomeScreenUserMedia.mediaId).pop();
     this.buttonPressed = false;
     this.dialogService.open(MediaDialogComponent, {
       context: {
         title: 'Video Preview Window',
-        videoURL : this.selectedMediaLocation.mediaURL,
+        videoURL: this.selectedMediaLocation.mediaURL,
       },
     });
 
@@ -93,7 +95,7 @@ export class MloMediaComponent implements OnInit {
   }
 
   mediaSelected() {
-    if(this.welcomeScreenUserMedia.mediaId) {
+    if (this.welcomeScreenUserMedia.mediaId) {
       this.selectedMediaLocation = this.mediaLocations.filter(m => m.mediaId === this.welcomeScreenUserMedia.mediaId).pop();
     }
     this.buttonPressed = false;
