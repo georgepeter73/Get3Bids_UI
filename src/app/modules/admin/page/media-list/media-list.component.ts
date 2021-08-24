@@ -6,8 +6,8 @@ import {formatDate, Location} from '@angular/common';
 import {AgGridAngular} from '@ag-grid-community/angular';
 import {of} from 'rxjs';
 import {MediaShowButtonComponent} from '@modules/admin/component/media-show-button/media-show-button.component';
-import {NbDialogService} from '@nebular/theme';
 import {MediaDeleteButtonComponent} from '@modules/admin/component/media-delete-button/media-delete-button.component';
+import { LoanHouseEventService} from '@data/service/loanhouse-event-service';
 
 @Component({
   selector: 'app-media-list',
@@ -19,8 +19,8 @@ export class MediaListComponent implements OnInit {
 
   constructor(public quickQuoteService : QuickQuoteService,
 
-              private router: Router, private _location: Location,private dialogService: NbDialogService,
-              @Inject(LOCALE_ID) public locale: string) {
+              private router: Router, private _location: Location,
+              @Inject(LOCALE_ID) public locale: string, public loanHouseEventService : LoanHouseEventService) {
 
   }
   frameworkComponents: any;
@@ -51,7 +51,8 @@ export class MediaListComponent implements OnInit {
       checkboxSelection: false,
      cellRenderer: (data) => {
        return data.value ? formatDate(data.value, 'd MMM yyyy', this.locale) : '';
-     }
+     },
+
 
     },
     {
@@ -63,6 +64,7 @@ export class MediaListComponent implements OnInit {
           alert(`${field} was clicked`);
         }
       },
+      width: 80
 
     },
     {
@@ -74,6 +76,7 @@ export class MediaListComponent implements OnInit {
           alert(`${field} was clicked`);
         }
       },
+      width: 80
 
     },
   ];
@@ -91,6 +94,14 @@ export class MediaListComponent implements OnInit {
         console.error(error)
       }
     );
+    this.loanHouseEventService.getRowDeletedEventEmitter().subscribe(e =>{
+      const params = {
+        force: true,
+        suppressFlash: true,
+      };
+       this.mediaGrid.api.setRowData(this.rowData);
+    })
+
   }
 
   uploadMedia() {

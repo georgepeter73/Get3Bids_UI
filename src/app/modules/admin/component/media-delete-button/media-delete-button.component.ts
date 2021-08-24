@@ -4,6 +4,7 @@ import {ICellRendererParams} from 'ag-grid-community';
 import {ICellRendererAngularComp} from '@ag-grid-community/angular';
 import {QuickQuoteService} from '@data/service/quickquote.service';
 import {MediaLocation} from '@data/schema/user/media-location';
+import { LoanHouseEventService} from '@data/service/loanhouse-event-service';
 
 @Component({
   selector: 'app-media-delete-button',
@@ -16,7 +17,7 @@ export class MediaDeleteButtonComponent implements  ICellRendererAngularComp {
   buttonLoading: any;
   video = faTrash;
   private cellValue: string;
-  constructor(public quickQuoteService : QuickQuoteService) {
+  constructor(public quickQuoteService : QuickQuoteService, public lheventServices : LoanHouseEventService) {
   }
 
   agInit(params: any): void {
@@ -35,6 +36,7 @@ export class MediaDeleteButtonComponent implements  ICellRendererAngularComp {
       let mediaLocation = new MediaLocation();
       this.quickQuoteService.deleteMediaLocation(this.params.value).subscribe(d =>{
         mediaLocation = d;
+        this.lheventServices.emitRowDeleteCompletedEvent(true);
       })
   }
 }

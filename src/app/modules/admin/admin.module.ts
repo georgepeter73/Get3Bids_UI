@@ -22,6 +22,7 @@ import { MediaShowButtonComponent } from './component/media-show-button/media-sh
 import { MediaDialogComponent } from './component/media-dialog/media-dialog.component';
 import { MloMediaComponent } from './page/mlo-media/mlo-media.component';
 import { MediaDeleteButtonComponent } from './component/media-delete-button/media-delete-button.component';
+import {LoanHouseEventService} from '@data/service/loanhouse-event-service';
 
 @NgModule({
   entryComponents :[MediaDialogComponent],
@@ -29,6 +30,6 @@ import { MediaDeleteButtonComponent } from './component/media-delete-button/medi
   imports: [AgGridModule.withComponents([MediaShowButtonComponent,MediaDeleteButtonComponent]), AdminRoutingModule, SharedModule, NbRouteTabsetModule, NbCardModule, NbTabsetModule, NbAccordionModule,
     NbRadioModule, NbCheckboxModule, NbSelectModule, NbInputModule, NbButtonModule, NbSpinnerModule, NbAlertModule, NbActionsModule, NbTooltipModule,
     NbIconModule, MatProgressBarModule, NbDialogModule.forRoot()],
-  providers: [QuickQuoteService, NbDialogService]
+  providers: [QuickQuoteService, NbDialogService, LoanHouseEventService]
 })
 export class AdminModule {}
