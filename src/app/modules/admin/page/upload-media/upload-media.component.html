@@ -46,6 +46,11 @@
             <nb-alert status="success" >Media File uploaded successfully.</nb-alert>
           </div>
         </div>
+        <div class="row py-3" *ngIf="buttonPressed == true && loading == false && uploadMessage">
+          <div class="col-md-12 text-center ">
+            <nb-alert status="success" >Media File upload failed.</nb-alert>
+          </div>
+        </div>
       </form>
     </fieldset>
   </nb-card-body>
