@@ -40,13 +40,14 @@ export class MloMediaComponent implements OnInit {
     this.quickQuoteService.getAllMediaLocation().subscribe(res => {
       this.mediaLocations = res;
     })
-    this.userMediaList = this.userMLO.userMediaList;
-    this.welcomeScreenUserMedia = this.userMediaList.filter(wel => wel.mediaType === this.welcomeScreenVideoType).pop();
-    if (!this.welcomeScreenUserMedia) {
-      this.welcomeScreenUserMedia = new UserMedia();
-    }
-
-
+    this.quickQuoteService.getUserMediaByUserId(this.userMLO.userId.toString()).subscribe(res =>
+    {
+      this.userMediaList = res;
+      this.welcomeScreenUserMedia = this.userMediaList.filter(wel => wel.mediaType === this.welcomeScreenVideoType).pop();
+      if(!this.welcomeScreenUserMedia){
+        this.welcomeScreenUserMedia = new UserMedia();
+      }
+    })
   }
 
   backClicked($event: MouseEvent) {
