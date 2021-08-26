@@ -1,8 +1,9 @@
 <nb-card>
   <nb-card-header>{{ title }}</nb-card-header>
   <nb-card-body>
-    <video (click)="playVideo()" nbTooltip="Click to watch video"  class="video-circle" height="100%" width="100%"  onloadedmetadata="this.muted = false"  id="myVideo" #myVide >
+    <video title="Watch Video"  (click)="playVideo()" nbTooltip="Click to watch video"  class="video-circle" height="100%" width="100%"  onloadedmetadata="this.muted = false"  id="myVideo" #myVide >
       <source [src]="sanitizedURL()" type="video/mp4">
+      <track label="English" kind="captions" srclang="en" src="" default>
     </video>
 
   </nb-card-body>

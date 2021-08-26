@@ -1,9 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component,  ChangeDetectionStrategy } from '@angular/core';
 import {faTrash} from '@fortawesome/free-solid-svg-icons';
 import {ICellRendererParams} from 'ag-grid-community';
 import {ICellRendererAngularComp} from '@ag-grid-community/angular';
 import {QuickQuoteService} from '@data/service/quickquote.service';
-import {MediaLocation} from '@data/schema/user/media-location';
 import { LoanHouseEventService} from '@data/service/loanhouse-event-service';
 
 @Component({
@@ -33,10 +32,8 @@ export class MediaDeleteButtonComponent implements  ICellRendererAngularComp {
     return true;
   }
   buttonClicked() {
-      let mediaLocation = new MediaLocation();
-      this.quickQuoteService.deleteMediaLocation(this.params.value).subscribe(d =>{
-        mediaLocation = d;
-        this.lheventServices.emitRowDeleteCompletedEvent(true);
+       this.quickQuoteService.deleteMediaLocation(this.params.value).subscribe(d =>{
+          this.lheventServices.emitRowDeleteCompletedEvent(true);
       })
   }
 }

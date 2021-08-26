@@ -34,7 +34,7 @@ export class MediaShowButtonComponent implements ICellRendererAngularComp {
      this.open();
   }
   open() {
-    const dialogRef = this.dialogService.open(MediaDialogComponent, {
+    this.dialogService.open(MediaDialogComponent, {
       context: {
         title: 'Video Preview Window',
         videoURL : this.params.value,

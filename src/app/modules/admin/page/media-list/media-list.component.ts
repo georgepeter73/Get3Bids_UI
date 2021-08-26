@@ -117,9 +117,9 @@ export class MediaListComponent implements OnInit {
     this.router.navigate(["/admin/upload-media/create"]);
   }
 
-  backClicked($event: MouseEvent) {
-
-  }
+  backClicked(mouseEvent: MouseEvent) {
+    mouseEvent.preventDefault();
+    this._location.back();}
 
   onRowClick($event: any) {
     sessionStorage.setItem('mediaLocation', JSON.stringify(this.mediaGrid.api.getSelectedRows()[0]));
