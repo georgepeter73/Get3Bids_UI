@@ -1,5 +1,6 @@
 import {UserMedia} from '@data/schema/user/user-media';
 import {UserContact} from '@data/schema/user/user-contact';
+import {LoSiteDTO} from '@data/schema/user/lo-site';
 
 export class UserMlo{
   firstName : string;
@@ -22,6 +23,7 @@ export class UserMlo{
   floifyAccountApprovalFlag : boolean;
   userMediaList : UserMedia[];
   userContact : UserContact;
+  loSiteDTO : LoSiteDTO;
 
 
 

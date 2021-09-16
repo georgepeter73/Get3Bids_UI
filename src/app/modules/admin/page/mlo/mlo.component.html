@@ -53,6 +53,18 @@
 
   </div>
   <div class="form-group row mb-2">
+    <label for="mloMarginId" class="label col-3 col-form-label">Floify API Key(Optional)</label>
+    <div class="col-3">
+      <input  class="form-control mb-2" #floifyAPIID="ngModel" name="floifyAPI" id="floifyAPIID"
+              [(ngModel)]="userMLO.loSiteDTO.floifyAPIKey"
+              type="text" nbInput  shape="rectangle"  placeholder=""
+      />
+
+    </div>
+    <div class="col-6"></div>
+
+  </div>
+  <div class="form-group row mb-2">
     <label for="inputEmail1" class="label col-3 col-form-label">Manager</label>
     <div class="col-9">
        <nb-checkbox  [(ngModel)]="userMLO.floifyTeamManagerFlag"  name="IsFloifyManage" #IsFloifyManage="ngModel"  [disabled]="userMLO.floifyAccountApprovalFlag">Is Floify Manager</nb-checkbox>

@@ -5,6 +5,7 @@ import {QuickQuoteService} from '@data/service/quickquote.service';
 import {Location} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '@env';
+import {LoSiteDTO} from '@data/schema/user/lo-site';
 
 @Component({
   selector: 'app-mlo',
@@ -14,6 +15,7 @@ import {environment} from '@env';
 })
 export class MloComponent implements OnInit {
   userMLO : UserMlo = new UserMlo();
+  loSite : LoSiteDTO = new LoSiteDTO();
   userMLOManager : UserMlo[] ;
   loading: any;
   crudType : string;
@@ -40,6 +42,8 @@ export class MloComponent implements OnInit {
       this.buttonPressed = false;
       //defaulting the new user to be a manager by default
       this.userMLO.floifyTeamManagerFlag=true;
+      this.loSite.siteType = '103';
+      this.userMLO.loSiteDTO = this.loSite;
     }
     this.quickQuoteService.getAllUserMLO().subscribe(
       userList => {
@@ -76,7 +80,6 @@ export class MloComponent implements OnInit {
     },
       error => {
         this.loading = false;
-        alert(JSON.stringify(error));
         this.errorMessage = JSON.stringify(error);
       }
     );

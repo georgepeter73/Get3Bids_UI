@@ -7,6 +7,7 @@ import {catchError, map} from 'rxjs/operators';
 import {UserMedia} from '@data/schema/user/user-media';
 import {MediaLocation} from '@data/schema/user/media-location';
 import {UserContact} from '@data/schema/user/user-contact';
+import {LoSiteDTO} from '@data/schema/user/lo-site';
 
 const API_URL = environment.API_URL;
 
@@ -85,6 +86,16 @@ export class QuickQuoteService {
         this.gerUserMLO(user)
     );
   }
+  public getLOSite(losite : LoSiteDTO){
+    const loSiteLocal = new LoSiteDTO();
+    if(losite) {
+      loSiteLocal.siteType = losite['siteType'];
+      loSiteLocal.deleteFlag = losite['deleteFlag'];
+      loSiteLocal.floifyAPIKey = losite['floifyAPIKey'];
+      loSiteLocal.lastUpdatedBy = losite['lastUpdatedBy'];
+    }
+   return loSiteLocal;
+  }
   public getUserContact(userCon: UserContact): UserContact{
     const userContact = new UserContact();
     userContact.contactId = userCon['contactId'];
@@ -112,8 +123,9 @@ export class QuickQuoteService {
     user1.userId = user['userId'];
     user1.floifyAccountApprovalFlag = user['floifyAccountApprovalFlag'];
     user1.userMediaList = this.getUserMedias(user['userMediaDTOList']);
-    user1.userContact = this.getUserContact(user['userContact'])
-     return user1;
+    user1.userContact = this.getUserContact(user['userContact']);
+    user1.loSiteDTO = this.getLOSite(user['loSiteDTO'])
+    return user1;
   }
   public uploadMedia(data: FormData): Observable<MediaLocation> {
     return this.http
