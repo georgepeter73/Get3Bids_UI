@@ -62,6 +62,18 @@ export class QuickQuoteService {
         })
       )
   }
+  public getMediaLocationByFormatType(formatType : string): Observable<MediaLocation[]> {
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-media-location-by-format-type?formatType=' + formatType
+      )
+      .pipe(
+        map(response => {
+          return this.getMediaLocations(response);
+        })
+      )
+  }
+
+
   public getMediaLocations(response: any): MediaLocation[] {
     return (<MediaLocation[]>response).map(
       mediaLoc =>
@@ -73,6 +85,7 @@ export class QuickQuoteService {
     mediaLocation.mediaId = mediaLoc['mediaId'];
     mediaLocation.mediaURL = mediaLoc['mediaURL'];
     mediaLocation.mediaDescription = mediaLoc['mediaDescription'];
+    mediaLocation.formatType = mediaLoc['formatType'];
     mediaLocation.deleteFlag = mediaLoc['deleteFlag'];
     mediaLocation.lastUpdatedAt = mediaLoc['lastUpdatedAt'];
     mediaLocation.lastUpdatedBy = mediaLoc['lastUpdatedBy'];

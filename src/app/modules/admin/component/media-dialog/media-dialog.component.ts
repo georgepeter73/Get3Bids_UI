@@ -33,4 +33,13 @@ export class MediaDialogComponent  {
   sanitizedURL() {
     return this._sanitizer.bypassSecurityTrustResourceUrl(this.videoURL);
   }
+
+  isVideoFormat() : boolean{
+    if(this.videoURL.includes("mp4") || this.videoURL.includes("mp3")){
+      return true
+    }
+  }
+
+
+
 }

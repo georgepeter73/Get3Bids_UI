@@ -4,6 +4,8 @@ import {Location} from '@angular/common';
 import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
 import {MediaLocation} from '@data/schema/user/media-location';
 import {ActivatedRoute} from '@angular/router';
+import {TaxonomyService} from '@data/service/taxonomy.service';
+import {Taxonomy} from '@data/schema/taxonomy';
 
 @Component({
   selector: 'app-upload-media',
@@ -22,9 +24,13 @@ export class UploadMediaComponent implements OnInit {
   crudType : string;
   buttonDesc ="Upload Media";
   buttonPressed = false;
+  formatTypeTaxonomy : Taxonomy;
+  videoType = "video/*";
+  imageType = "image/*";
+  acceptType = "video/*,image/*";
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
-              private formBuilder: FormBuilder, private route : ActivatedRoute
-              ) { }
+              private formBuilder: FormBuilder, private route : ActivatedRoute,
+              private taxonomyService: TaxonomyService) { }
 
   ngOnInit(): void {
     this.crudType = this.route.snapshot.paramMap.get('crudType');
@@ -33,9 +39,16 @@ export class UploadMediaComponent implements OnInit {
       this.mediaDescription = this.mediaLocation.mediaDescription;
        this.buttonDesc = "Change Media"
       this.fileSelected = false;
-    }
+    }else{
+      this.mediaLocation.formatType = 101;
+     }
     this.uploadForm = this.formBuilder.group({
       media_file: ['']
+    });
+    this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
+      this.formatTypeTaxonomy = taxonomies
+        .filter(tax => tax.type === 'QQFormatType')
+        .pop();
     });
   }
 
@@ -87,4 +100,15 @@ export class UploadMediaComponent implements OnInit {
   }
 
 
+  mediaTypeChange() {
+
+    if(this.mediaLocation.formatType === 101){
+      this.acceptType = this.videoType;
+     }else if(this.mediaLocation.formatType === 102){
+      this.acceptType = this.imageType;
+    }else{
+      this.acceptType = "video/*,image/*";
+    }
+
+  }
 }

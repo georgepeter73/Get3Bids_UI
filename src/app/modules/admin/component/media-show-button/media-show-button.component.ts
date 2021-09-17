@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import { ICellRendererAngularComp } from '@ag-grid-community/angular';
-import {faVideo } from '@fortawesome/free-solid-svg-icons';
+import {faVideo,faCameraRetro } from '@fortawesome/free-solid-svg-icons';
 import {ICellRendererParams} from 'ag-grid-community';
 import {NbDialogService} from '@nebular/theme';
 import {MediaDialogComponent} from '@modules/admin/component/media-dialog/media-dialog.component';
@@ -21,6 +21,12 @@ export class MediaShowButtonComponent implements ICellRendererAngularComp {
   agInit(params: any): void {
     this.cellValue = this.getValueToDisplay(params);
     this.params = params;
+    if(this.isVideoFormat()){
+      this.video = faVideo;
+
+    }else {
+      this.video = faCameraRetro;
+    }
   }
 
   getValueToDisplay(params: ICellRendererParams) {
@@ -36,11 +42,16 @@ export class MediaShowButtonComponent implements ICellRendererAngularComp {
   open() {
     this.dialogService.open(MediaDialogComponent, {
       context: {
-        title: 'Video Preview Window',
+        title: 'Preview Window',
         videoURL : this.params.value,
       },
     });
 
 
+  }
+  isVideoFormat() : boolean{
+    if(this.params.value.includes("mp4") || this.params.value.includes("mp3")){
+      return true
+    }
   }
 }

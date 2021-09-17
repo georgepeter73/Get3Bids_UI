@@ -18,15 +18,22 @@
                  #mediaDesc="ngModel" required/>
         </div>
       </div>
-      <br>
-      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
-        <div class="row ">
+      <div class="row py-3">
+        <div class="col-md-12 text-center ">
+          Media Type :
+          <nb-select  [(ngModel)]="mediaLocation.formatType"   #mType="ngModel" required name="mType" id="mTypeId" size="small"  placeholder="Select Type"  (selectedChange)="mediaTypeChange()">
+            <nb-option *ngFor="let item of formatTypeTaxonomy.taxonomyItems" [value]="item.key">{{item.description}}</nb-option>
+          </nb-select>
+        </div>
+      </div>
+       <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+        <div class="row py-3">
           <div class="col-md-12 text-center ">
             <input type="file" nbInput name="mediaFile" (change)="onFileSelect($event)" required
-                   #mediaFile accept="video/*"/>
+                   #mediaFile [accept]="acceptType" />
           </div>
         </div>
-        <div class="row py-3">
+        <div class="row py-3" *ngIf="mediaLocation.formatType == '101'">
           <div class="col-md-12 text-center ">
             (Only video files of size less than 70MB)
           </div>
