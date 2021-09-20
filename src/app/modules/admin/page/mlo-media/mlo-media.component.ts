@@ -38,6 +38,8 @@ export class MloMediaComponent implements OnInit {
   selectedPhotoMediaLocation: MediaLocation;
   welcomeScreenVideoType = 101;
   profilePhotoType = 102;
+  clearMessage = true;
+
 
 
   ngOnInit(): void {
@@ -52,8 +54,12 @@ export class MloMediaComponent implements OnInit {
     {
       this.userMediaList = res;
       this.welcomeScreenUserMedia = this.userMediaList.filter(wel => wel.mediaType === this.welcomeScreenVideoType).pop();
+      this.profileUserMedia = this.userMediaList.filter(wel => wel.mediaType === this.profilePhotoType).pop();
       if(!this.welcomeScreenUserMedia){
         this.welcomeScreenUserMedia = new UserMedia();
+      }
+      if(!this.profileUserMedia){
+        this.profileUserMedia = new UserMedia();
       }
     })
   }
@@ -63,10 +69,20 @@ export class MloMediaComponent implements OnInit {
     this._location.back();
   }
 
-  saveUserMedia(form: NgForm) {
+   setMessageDelay() {
+   const root = this;
+    setTimeout(function(){
+     root.buttonPressed = false;
+    }, 2000);
+  }
+
+  saveUserMedia() {
+    this.clearMessage = true;
     this.buttonPressed = true;
     this.loading = true;
-    this.selectedMediaLocation = this.mediaLocations.filter(m => m.mediaId === this.welcomeScreenUserMedia.mediaId).pop();
+    if(!this.selectedMediaLocation) {
+      this.selectedMediaLocation = this.mediaLocations.filter(m => m.mediaId === this.welcomeScreenUserMedia.mediaId).pop();
+    }
     this.welcomeScreenUserMedia.mediaURL = this.selectedMediaLocation.mediaURL;
     this.welcomeScreenUserMedia.mediaDescription = this.selectedMediaLocation.mediaDescription;
     this.welcomeScreenUserMedia.deleteFlag = false;
@@ -76,27 +92,34 @@ export class MloMediaComponent implements OnInit {
     this.userMLO.userMediaList = null;
     this.welcomeScreenUserMedia.userDTO = this.userMLO;
     this.welcomeScreenUserMedia.mediaType = this.welcomeScreenVideoType;
+
     this.quickQuoteService.saveUserMedia(this.welcomeScreenUserMedia).subscribe(
       res => {
         this.welcomeScreenUserMedia = res;
         this.loading = false;
         this.errorMessage = '';
-
-      },
+        this.clearMessage = false;
+        this.setMessageDelay();
+       },
       error => {
         this.loading = false;
         this.errorMessage = error;
+        this.clearMessage = false;
+        this.setMessageDelay();
       }
     )
-    this.saveProfileUserMedia();
+
   }
 
   saveProfileUserMedia() {
+    this.clearMessage = true;
     this.buttonPressed = true;
     this.loading = true;
-    this.selectedMediaLocation = this.mediaLocations.filter(m => m.mediaId === this.profileUserMedia.mediaId).pop();
-    this.profileUserMedia.mediaURL = this.selectedMediaLocation.mediaURL;
-    this.profileUserMedia.mediaDescription = this.selectedMediaLocation.mediaDescription;
+    if(!this.selectedPhotoMediaLocation){
+        this.selectedPhotoMediaLocation = this.profilePhotomediaLocations.filter(m => m.mediaId === this.profileUserMedia.mediaId).pop();
+    }
+    this.profileUserMedia.mediaURL = this.selectedPhotoMediaLocation.mediaURL;
+    this.profileUserMedia.mediaDescription = this.selectedPhotoMediaLocation.mediaDescription;
     this.profileUserMedia.deleteFlag = false;
     this.profileUserMedia.lastUpdatedAt = new Date();
     this.profileUserMedia.userId = this.userMLO.userId;
@@ -105,18 +128,22 @@ export class MloMediaComponent implements OnInit {
     this.profileUserMedia.userDTO = this.userMLO;
     this.profileUserMedia.mediaType = this.profilePhotoType;
     this.quickQuoteService.saveUserMedia(this.profileUserMedia).subscribe(
-      res => {
-        this.profileUserMedia = res;
-        this.loading = false;
-        this.errorMessage = '';
+        res => {
+          this.profileUserMedia = res;
+          this.loading = false;
+          this.errorMessage = '';
+          this.clearMessage = false;
+          this.setMessageDelay();
+        },
+        error => {
+          this.loading = false;
+          this.errorMessage = error;
+          this.clearMessage = false;
+          this.setMessageDelay();
 
-      },
-      error => {
-        this.loading = false;
-        this.errorMessage = error;
-      }
-    )
-  }
+        }
+      )
+   }
 
   openVideo() {
     this.selectedMediaLocation = this.mediaLocations.filter(m => m.mediaId === this.welcomeScreenUserMedia.mediaId).pop();
