@@ -3,17 +3,12 @@
     <div class="row">
       <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)"><nb-icon icon="arrow-back-outline"></nb-icon> Previous</a></div>
       <div class="text-left col-md-8 ">
-
-
-
       </div>
     </div>
   </nb-card-header>
   <nb-card-body>
-
     <fieldset class="border p-2">
       <legend  class="w-auto">Mortgage Loan Officer</legend>
-
 <form class="container m-2" #form="ngForm"
       (ngSubmit)="submitOrder(form)" >
   <fieldset class="border p-2">
@@ -31,14 +26,12 @@
       />
     </div>
   </div>
-
   <div class="form-group row mb-2">
     <label for="inputEmail1" class="label col-3 col-form-label">Email*</label>
     <div class="col-9">
       <input [disabled]="userMLO.floifyAccountApprovalFlag" class="form-control mb-2" #userName="ngModel" name="userName" id="inputEmail1"
              [(ngModel)]="userMLO.userName"
              type="text" nbInput  shape="rectangle" placeholder="Floify account email"
-
       />
     </div>
   </div>
@@ -48,7 +41,6 @@
         <input status="primary"  class="form-control mb-2" #phoneWork="ngModel" name="phoneWork" id="inputPhoneWork"
                [(ngModel)]="userMLO.userContact.phoneWork"
                type="text" nbInput  shape="rectangle" placeholder="Work Phone"
-
         />
       </div>
     </div>
@@ -145,10 +137,8 @@
       <nb-alert accent="info" *ngIf="errorMessage.length>0" size="tiny" >
         Operation failed...
       </nb-alert>
-
     </div>
   </div>
-
 </form>
     </fieldset>
 

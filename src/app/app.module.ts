@@ -6,7 +6,7 @@ import { SharedModule } from "@shared/shared.module";
 
 import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
-import { HttpClientModule } from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import { AdminLayoutComponent } from "./layout/admin-layout/admin-layout.component";
 import { HeaderComponent } from "./layout/header/header.component";
@@ -40,6 +40,7 @@ import {
 } from '@nebular/theme';
 import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { CookieModule } from "ngx-cookie";
+import {NoCacheHeadersInterceptor} from '@app/interceptor/nocacheheaders.interceptor';
 
 
 @NgModule({
@@ -96,7 +97,12 @@ import { CookieModule } from "ngx-cookie";
         NbTabsetModule,
         NbTooltipModule
     ],
-    providers: [],
+    providers: [{
+      provide: HTTP_INTERCEPTORS,
+      useClass: NoCacheHeadersInterceptor,
+      multi: true
+    }
+    ],
     exports: [
         FooterComponent
     ],
