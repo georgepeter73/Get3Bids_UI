@@ -16,8 +16,10 @@
 
 <form class="container m-2" #form="ngForm"
       (ngSubmit)="submitOrder(form)" >
+  <fieldset class="border p-2">
+    <legend  class="w-auto">Personnel Info</legend>
   <div class="form-group row mb-2">
-    <label for="fName" class="label col-3 col-form-label">Name</label>
+    <label for="fName" class="label col-3 col-form-label">Name*</label>
     <div class="col-9">
       <input class="form-control mb-2" #firstName="ngModel" name="firstName" id="fName"
              [(ngModel)]="userMLO.firstName"
@@ -31,7 +33,7 @@
   </div>
 
   <div class="form-group row mb-2">
-    <label for="inputEmail1" class="label col-3 col-form-label">Email</label>
+    <label for="inputEmail1" class="label col-3 col-form-label">Email*</label>
     <div class="col-9">
       <input [disabled]="userMLO.floifyAccountApprovalFlag" class="form-control mb-2" #userName="ngModel" name="userName" id="inputEmail1"
              [(ngModel)]="userMLO.userName"
@@ -40,6 +42,30 @@
       />
     </div>
   </div>
+    <div class="form-group row mb-2">
+      <label for="inputPhoneWork" class="label col-3 col-form-label">Phone(Work)</label>
+      <div class="col-9">
+        <input status="primary"  class="form-control mb-2" #phoneWork="ngModel" name="phoneWork" id="inputPhoneWork"
+               [(ngModel)]="userMLO.userContact.phoneWork"
+               type="text" nbInput  shape="rectangle" placeholder="Work Phone"
+
+        />
+      </div>
+    </div>
+    <div class="form-group row mb-2">
+      <label for="inputPhoneMobile" class="label col-3 col-form-label">Phone(Mobile)</label>
+      <div class="col-9">
+        <input status="primary"  class="form-control mb-2" #phoneMobile="ngModel" name="phoneMobile" id="inputPhoneMobile"
+               [(ngModel)]="userMLO.userContact.phoneMobile"
+               type="text" nbInput  shape="rectangle" placeholder="Mobile"
+
+        />
+      </div>
+    </div>
+  </fieldset>
+  <br>
+  <fieldset class="border p-2">
+    <legend  class="">Website</legend>
   <div class="form-group row mb-2">
     <label for="mloMarginId" class="label col-3 col-form-label">MLO Margin %</label>
     <div class="col-3">
@@ -52,6 +78,16 @@
     <div class="col-6"></div>
 
   </div>
+    <div class="form-group  row mb-2" *ngIf="userMLO.userId>0">
+      <label  class="label col-3 col-form-label">MLO Site URL </label>
+      <label  class="label col-7 col-form-label">{{mloLink}}</label>
+      <nb-action class="label col-1 col-form-label" (click)="copyToClipboard(mloLink)" icon="clipboard-outline" nbTooltip="Copy"></nb-action>
+    </div>
+  </fieldset>
+  <br>
+
+  <fieldset class="border p-2">
+    <legend  class="w-auto">POS</legend>
   <div class="form-group row mb-2">
     <label for="mloMarginId" class="label col-3 col-form-label">Floify API Key(Optional)</label>
     <div class="col-3">
@@ -78,17 +114,17 @@
       </nb-select>
     </div>
   </div >
-  <div class="form-group  row mb-2" *ngIf="userMLO.userId>0">
-    <label  class="label col-3 col-form-label">MLO Site URL </label>
-    <label  class="label col-7 col-form-label">{{mloLink}}</label>
-     <nb-action class="label col-1 col-form-label" (click)="copyToClipboard(mloLink)" icon="clipboard-outline" nbTooltip="Copy"></nb-action>
-  </div>
+  </fieldset>
+  <br>
+  <fieldset class="border p-2">
+    <legend  class="w-auto">General</legend>
     <div class="form-group  row mb-2" *ngIf="crudType=='edit'">
       <label  class="label col-3 col-form-label">Delete MLO </label>
       <div class="col-9">
         <nb-checkbox  [(ngModel)]="userMLO.deleteFlag"  name="deleteFlag" #deleteFlag="ngModel"  ></nb-checkbox>
       </div>
     </div>
+  </fieldset>
 
   <div class="form-group row mb-2">
     <div class="offset-3 col-9">

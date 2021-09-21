@@ -6,6 +6,7 @@ import {Location} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '@env';
 import {LoSiteDTO} from '@data/schema/user/lo-site';
+import {UserContact} from '@data/schema/user/user-contact';
 
 @Component({
   selector: 'app-mlo',
@@ -15,6 +16,7 @@ import {LoSiteDTO} from '@data/schema/user/lo-site';
 })
 export class MloComponent implements OnInit {
   userMLO : UserMlo = new UserMlo();
+  userContactInfo : UserContact = new UserContact();
   loSite : LoSiteDTO = new LoSiteDTO();
   userMLOManager : UserMlo[] ;
   loading: any;
@@ -44,6 +46,8 @@ export class MloComponent implements OnInit {
       this.userMLO.floifyTeamManagerFlag=true;
       this.loSite.siteType = '103';
       this.userMLO.loSiteDTO = this.loSite;
+      this.userContactInfo.deleteFlag = false;
+      this.userMLO.userContact = this.userContactInfo;
     }
     this.quickQuoteService.getAllUserMLO().subscribe(
       userList => {

@@ -113,6 +113,8 @@ export class QuickQuoteService {
     const userContact = new UserContact();
     userContact.contactId = userCon['contactId'];
     userContact.contactInfoBcc = userCon['contactInfoBcc'];
+    userContact.phoneWork = userCon['phoneWork'];
+    userContact.phoneMobile = userCon['phoneMobile'];
     userContact.lastUpdatedBy = userCon['lastUpdatedBy'];
     return userContact;
   }
