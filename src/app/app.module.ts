@@ -41,6 +41,7 @@ import {
 import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { CookieModule } from "ngx-cookie";
 import {NoCacheHeadersInterceptor} from '@app/interceptor/nocacheheaders.interceptor';
+import {NgxMaskModule} from 'ngx-mask';
 
 
 @NgModule({
@@ -95,7 +96,8 @@ import {NoCacheHeadersInterceptor} from '@app/interceptor/nocacheheaders.interce
         NbSearchModule,
         NbAccordionModule,
         NbTabsetModule,
-        NbTooltipModule
+        NbTooltipModule,
+        NgxMaskModule.forRoot(),
     ],
     providers: [{
       provide: HTTP_INTERCEPTORS,

@@ -38,18 +38,18 @@
     <div class="form-group row mb-2">
       <label for="inputPhoneWork" class="label col-3 col-form-label">Phone(Work)</label>
       <div class="col-9">
-        <input status="primary"  class="form-control mb-2" #phoneWork="ngModel" name="phoneWork" id="inputPhoneWork"
+        <input status="primary" fieldSize="small" class="form-control mb-2" #phoneWork="ngModel" name="phoneWork" id="inputPhoneWork"
                [(ngModel)]="userMLO.userContact.phoneWork"
-               type="text" nbInput  shape="rectangle" placeholder="Work Phone"
+               type="text" nbInput  shape="rectangle"  mask="(000) 000-0000" placeholder="Phone work"
         />
       </div>
     </div>
     <div class="form-group row mb-2">
       <label for="inputPhoneMobile" class="label col-3 col-form-label">Phone(Mobile)</label>
       <div class="col-9">
-        <input status="primary"  class="form-control mb-2" #phoneMobile="ngModel" name="phoneMobile" id="inputPhoneMobile"
+        <input status="primary" fieldSize="small"  class="form-control mb-2" #phoneMobile="ngModel" name="phoneMobile" id="inputPhoneMobile"
                [(ngModel)]="userMLO.userContact.phoneMobile"
-               type="text" nbInput  shape="rectangle" placeholder="Mobile"
+               type="text" nbInput  shape="rectangle" placeholder="Mobile"  mask="(000) 000-0000"
 
         />
       </div>
