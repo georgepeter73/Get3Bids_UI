@@ -102,6 +102,7 @@ export class QuickQuoteService {
   public getLOSite(losite : LoSiteDTO){
     const loSiteLocal = new LoSiteDTO();
     if(losite) {
+      loSiteLocal.loSiteId = losite['loSiteId'];
       loSiteLocal.siteType = losite['siteType'];
       loSiteLocal.deleteFlag = losite['deleteFlag'];
       loSiteLocal.floifyAPIKey = losite['floifyAPIKey'];

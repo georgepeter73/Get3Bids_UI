@@ -1,5 +1,5 @@
 export class LoSiteDTO{
-  loPricingId : number;
+  loSiteId : number;
   siteType : string;
   floifyAPIKey : string;
   lastUpdatedBy: string;
