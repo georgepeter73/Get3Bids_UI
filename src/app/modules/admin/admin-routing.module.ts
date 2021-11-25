@@ -8,6 +8,7 @@ import {AdminDashComponent} from '@modules/admin/page/admin-dash/admin-dash.comp
 import {UploadMediaComponent} from '@modules/admin/page/upload-media/upload-media.component';
 import {MediaListComponent} from '@modules/admin/page/media-list/media-list.component';
 import {MloMediaComponent} from '@modules/admin/page/mlo-media/mlo-media.component';
+import {InvestorPricingComponent} from '@modules/admin/page/investor-pricing/investor-pricing.component';
 
 
 const routes: Routes = [
@@ -45,6 +46,11 @@ const routes: Routes = [
     path: "mlo-media",
     canActivate: [AuthGuard],
     component: MloMediaComponent
+  },
+  {
+    path: "investor-pricing",
+    canActivate: [AuthGuard],
+    component: InvestorPricingComponent
   },
 
 ];

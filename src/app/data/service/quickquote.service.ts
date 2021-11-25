@@ -8,6 +8,7 @@ import {UserMedia} from '@data/schema/user/user-media';
 import {MediaLocation} from '@data/schema/user/media-location';
 import {UserContact} from '@data/schema/user/user-contact';
 import {LoSiteDTO} from '@data/schema/user/lo-site';
+import {InvestorPricing} from '@data/schema/investorpricing';
 
 const API_URL = environment.API_URL;
 
@@ -228,9 +229,43 @@ export class QuickQuoteService {
       )
       .pipe(catchError(this.errorHandler));
   }
+  public getAllInvestorPricing(): Observable<InvestorPricing[]>{
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-all-investor-pricing'
+      )
+      .pipe(
+        map(response => {
+          return this.getInvestorPricingList(response);
+        })
+      ).pipe(catchError(this.errorHandler));
+  }
+  public getInvestorPricingList(response: any): InvestorPricing[] {
+    return (<InvestorPricing[]>response).map(
+      pricing =>
+        this.getInvestorPricingSingle(pricing)
+    );
+  }
 
+  public getInvestorPricingSingle(investorPricing : InvestorPricing): InvestorPricing {
+    const pricing = new InvestorPricing();
+    pricing.investorPricingId = investorPricing['investorPricingId'];
+    pricing.investorId = investorPricing['investorId'];
+    pricing.lastUpdatedBy = investorPricing['lastUpdatedBy'];
+    pricing.investorMargin = investorPricing['investorMargin'];
+    pricing.loanType = investorPricing['loanType'];
+    return pricing;
+  }
 
+  public saveInvestorPricing(
+    investorPricing: InvestorPricing[]
+  ): Observable<InvestorPricing[]> {
 
-
-
+    return this.http
+      .post(
+        API_URL + '/api/v1/auth/save-all-investor-pricing',
+        JSON.stringify(investorPricing),
+        this.requestOptions
+      )
+      .pipe(map(result => this.getInvestorPricingList(result)));
+  }
 }

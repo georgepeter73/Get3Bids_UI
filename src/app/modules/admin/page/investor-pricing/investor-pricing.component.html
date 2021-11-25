@@ -1,0 +1,70 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="text-left col-md-4 "><a (click)="backClicked($event)" href="#">
+        <nb-icon icon="arrow-back-outline"></nb-icon>
+        Previous</a></div>
+      <div class="text-left col-md-8 ">
+
+
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <nb-alert accent="info" *ngIf="errorMessage && errorMessage.length >0"  size="tiny" >
+      {{errorMessage}}
+    </nb-alert>
+
+    <fieldset class="border p-2">
+      <legend class="w-auto">Investor Pricing</legend>
+      <div class="col-12 text-right m-2">
+        <button nbButton class="mr-1"  size="medium" type="button" (click)="newInvestor()"
+                nbSpinnerStatus="primary"
+                status="primary" >New Investor
+        </button>
+        <button nbButton class="ml-1" size="medium" type="button" (click)="saveInvestorPricing()"
+                nbSpinnerStatus="primary"
+                status="primary" >Save
+        </button>
+      </div>
+      <div
+      *ngIf="investors">
+         <div *ngFor="let taxonomyItem of investors.taxonomyItems">
+          <fieldset class="border p-2">
+            <h5>{{taxonomyItem.description}}</h5>
+            <div *ngIf="getPricingByInvestor(taxonomyItem.key)">
+            <div *ngFor="let pricing of getPricingByInvestor(taxonomyItem.key)" class="row m-2" >
+              <div class="col-6">
+                {{getLoanTypeDesc(pricing.loanType)}}
+               </div>
+            <div class="col-4" >
+                <input class="form-control" #invMargin="ngModel" [(ngModel)]="pricing.investorMargin" name="invMargin"
+                       id="invMarginId" nbInput type="number" shape="rectangle"  placeholder="%" />
+              </div>
+            </div>
+          </div>
+          </fieldset>
+          <br>
+
+        </div>
+        <div class="col-12 text-right m-2">
+          <button nbButton size="medium" type="button" (click)="saveInvestorPricing()"
+                  nbSpinnerStatus="primary"
+                  status="primary" >Save
+          </button>
+        </div>
+
+
+      </div>
+    </fieldset>
+
+      <nb-alert accent="info" *ngIf="errorMessage && errorMessage.length >0"  size="tiny" >
+       {{errorMessage}}
+      </nb-alert>
+
+
+  </nb-card-body>
+</nb-card>
+
+
+

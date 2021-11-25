@@ -22,4 +22,7 @@ export class AdminDashComponent implements OnInit {
   media() {
     this.router.navigate(["/admin/media-list"]);
   }
+  investorPricing(){
+    this.router.navigate(["/admin/investor-pricing"]);
+  }
 }

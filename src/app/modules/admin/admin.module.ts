@@ -23,10 +23,11 @@ import { MediaDialogComponent } from './component/media-dialog/media-dialog.comp
 import { MloMediaComponent } from './page/mlo-media/mlo-media.component';
 import { MediaDeleteButtonComponent } from './component/media-delete-button/media-delete-button.component';
 import {LoanHouseEventService} from '@data/service/loanhouse-event-service';
+import { InvestorPricingComponent } from './page/investor-pricing/investor-pricing.component';
 
 @NgModule({
   entryComponents :[MediaDialogComponent],
-  declarations: [ MloComponent, MloListComponent, AdminDashComponent, UploadMediaComponent, MediaListComponent, MediaShowButtonComponent, MediaDialogComponent, MloMediaComponent, MediaDeleteButtonComponent],
+  declarations: [ MloComponent, MloListComponent, AdminDashComponent, UploadMediaComponent, MediaListComponent, MediaShowButtonComponent, MediaDialogComponent, MloMediaComponent, MediaDeleteButtonComponent, InvestorPricingComponent],
   imports: [AgGridModule.withComponents([MediaShowButtonComponent,MediaDeleteButtonComponent]), AdminRoutingModule, SharedModule, NbRouteTabsetModule, NbCardModule, NbTabsetModule, NbAccordionModule,
     NbRadioModule, NbCheckboxModule, NbSelectModule, NbInputModule, NbButtonModule, NbSpinnerModule, NbAlertModule, NbActionsModule, NbTooltipModule,
     NbIconModule, MatProgressBarModule, NbDialogModule.forRoot()],
