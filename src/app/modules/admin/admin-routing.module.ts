@@ -9,6 +9,8 @@ import {UploadMediaComponent} from '@modules/admin/page/upload-media/upload-medi
 import {MediaListComponent} from '@modules/admin/page/media-list/media-list.component';
 import {MloMediaComponent} from '@modules/admin/page/mlo-media/mlo-media.component';
 import {InvestorPricingComponent} from '@modules/admin/page/investor-pricing/investor-pricing.component';
+import {InvestorNewComponent} from '@modules/admin/page/investor-new/investor-new.component';
+import {MloPricingBreakupComponent} from '@modules/admin/page/mlo-pricing-breakup/mlo-pricing-breakup.component';
 
 
 const routes: Routes = [
@@ -51,6 +53,16 @@ const routes: Routes = [
     path: "investor-pricing",
     canActivate: [AuthGuard],
     component: InvestorPricingComponent
+  },
+  {
+    path: "investor-new",
+    canActivate: [AuthGuard],
+    component: InvestorNewComponent
+  },
+  {
+    path: "mlo-pricing-breakup/:userUUID",
+    canActivate: [AuthGuard],
+    component: MloPricingBreakupComponent
   },
 
 ];

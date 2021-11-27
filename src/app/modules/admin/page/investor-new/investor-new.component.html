@@ -1,0 +1,47 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="text-left col-md-4 "><a (click)="backClicked($event)" href="#">
+        <nb-icon icon="arrow-back-outline"></nb-icon>
+        Previous</a></div>
+      <div class="text-left col-md-8 ">
+
+
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+<fieldset>
+  <legend class="w-auto">Add Investor</legend>
+  <div class="form-group  row mb-2" >
+    <label  class="label col-3 col-form-label">OB Investor Id</label>
+    <div class="col-9">
+      <input class="form-control" #invId="ngModel" [(ngModel)]="newInvestor.investorId" name="invId"
+             id="inv" nbInput type="number" shape="rectangle"  placeholder="OB Investor ID" />
+    </div>
+  </div>
+  <div class="form-group  row mb-2" >
+    <label  class="label col-3 col-form-label">OB Investor Name</label>
+    <div class="col-9">
+      <input class="form-control" #invName="ngModel" [(ngModel)]="newInvestor.investorName" name="invName"
+             id="invNameName" nbInput type="text" shape="rectangle"  placeholder="ABC" />
+    </div>
+  </div>
+  <div class="col-12 text-right m-2">
+    <button nbButton size="medium" type="button" (click)="saveNewInvestor()"
+            [nbSpinner]="loading" nbSpinnerStatus="primary"
+            status="primary" >Save
+    </button>
+  </div>
+</fieldset>
+    <nb-alert accent="info" *ngIf="errorMessage && errorMessage.length >0"  size="tiny" >
+      {{errorMessage}}
+    </nb-alert>
+
+
+  </nb-card-body>
+</nb-card>
+
+
+
+

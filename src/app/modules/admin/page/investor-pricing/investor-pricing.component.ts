@@ -6,7 +6,7 @@ import {NbDialogService} from '@nebular/theme';
 import {TaxonomyService} from '@data/service/taxonomy.service';
 import {Taxonomy} from '@data/schema/taxonomy';
 import {InvestorPricing} from '@data/schema/investorpricing';
-
+import { faPlus} from "@fortawesome/free-solid-svg-icons";
 @Component({
   selector: 'app-investor-pricing',
   templateUrl: './investor-pricing.component.html',
@@ -24,12 +24,15 @@ export class InvestorPricingComponent implements OnInit {
   optimalBlueLoanTypes : Taxonomy;
   investorPricing : InvestorPricing[];
   errorMessage ="";
+  plus = faPlus;
+  loading =false;
 
 
   ngOnInit(): void {
     this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
       this.investors = taxonomies
         .filter(tax => tax.type === 'OBInvestor')
+        .sort(((a, b) => (b.description > a.description) ? 1 : -1))
         .pop();
     });
     this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
@@ -59,22 +62,25 @@ export class InvestorPricingComponent implements OnInit {
 
   saveInvestorPricing(){
     this.errorMessage = "";
+    this.loading = true;
     if(this.investorPricing) {
       this.quickQuoteService.saveInvestorPricing(this.investorPricing)
         .subscribe(pricing => {
         this.investorPricing = pricing;
         this.errorMessage = "Operation Completed Successfully..."
+          this.loading =false;
           setTimeout(()=> {
             this.errorMessage = "";
           },1000)
       },error => {
           this.errorMessage = "Operation failed ..."
+          this.loading =false
         });
     }
   }
-  newInvestor(){
-    alert("testing")
-  }
+  addInvestor(){
+    this.router.navigate(["/admin/investor-new"]);
+   }
 
 
 }

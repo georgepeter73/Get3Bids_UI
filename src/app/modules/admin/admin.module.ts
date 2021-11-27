@@ -24,10 +24,12 @@ import { MloMediaComponent } from './page/mlo-media/mlo-media.component';
 import { MediaDeleteButtonComponent } from './component/media-delete-button/media-delete-button.component';
 import {LoanHouseEventService} from '@data/service/loanhouse-event-service';
 import { InvestorPricingComponent } from './page/investor-pricing/investor-pricing.component';
+import { InvestorNewComponent } from './page/investor-new/investor-new.component';
+import { MloPricingBreakupComponent } from './page/mlo-pricing-breakup/mlo-pricing-breakup.component';
 
 @NgModule({
   entryComponents :[MediaDialogComponent],
-  declarations: [ MloComponent, MloListComponent, AdminDashComponent, UploadMediaComponent, MediaListComponent, MediaShowButtonComponent, MediaDialogComponent, MloMediaComponent, MediaDeleteButtonComponent, InvestorPricingComponent],
+  declarations: [ MloComponent, MloListComponent, AdminDashComponent, UploadMediaComponent, MediaListComponent, MediaShowButtonComponent, MediaDialogComponent, MloMediaComponent, MediaDeleteButtonComponent, InvestorPricingComponent, InvestorNewComponent, MloPricingBreakupComponent],
   imports: [AgGridModule.withComponents([MediaShowButtonComponent,MediaDeleteButtonComponent]), AdminRoutingModule, SharedModule, NbRouteTabsetModule, NbCardModule, NbTabsetModule, NbAccordionModule,
     NbRadioModule, NbCheckboxModule, NbSelectModule, NbInputModule, NbButtonModule, NbSpinnerModule, NbAlertModule, NbActionsModule, NbTooltipModule,
     NbIconModule, MatProgressBarModule, NbDialogModule.forRoot()],

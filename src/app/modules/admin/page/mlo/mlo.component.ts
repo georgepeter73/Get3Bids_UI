@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '@env';
 import {LoSiteDTO} from '@data/schema/user/lo-site';
 import {UserContact} from '@data/schema/user/user-contact';
+import { faInfo} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-mlo',
@@ -27,6 +28,7 @@ export class MloComponent implements OnInit {
   frontendurl = environment.FRONT_END_URL;
   mloLink : string;
   loading1: any;
+  info = faInfo;
 
 
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
@@ -105,5 +107,8 @@ export class MloComponent implements OnInit {
   mloMedia() {
      sessionStorage.setItem("userMLOForMedia",JSON.stringify(this.userMLO));
      this.router.navigate(["/admin/mlo-media"]);
+  }
+  showBreakUp(){
+    this.router.navigate(["/admin/mlo-pricing-breakup/"+this.userMLO.userUUID]);
   }
 }

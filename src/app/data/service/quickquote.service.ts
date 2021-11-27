@@ -9,6 +9,7 @@ import {MediaLocation} from '@data/schema/user/media-location';
 import {UserContact} from '@data/schema/user/user-contact';
 import {LoSiteDTO} from '@data/schema/user/lo-site';
 import {InvestorPricing} from '@data/schema/investorpricing';
+import {NewInvestor} from '@data/schema/new-investor';
 
 const API_URL = environment.API_URL;
 
@@ -253,6 +254,8 @@ export class QuickQuoteService {
     pricing.lastUpdatedBy = investorPricing['lastUpdatedBy'];
     pricing.investorMargin = investorPricing['investorMargin'];
     pricing.loanType = investorPricing['loanType'];
+    pricing.lastUpdatedAt = investorPricing['lastUpdatedAt'];
+    pricing.loMargin = investorPricing['loMargin'];
     return pricing;
   }
 
@@ -267,5 +270,24 @@ export class QuickQuoteService {
         this.requestOptions
       )
       .pipe(map(result => this.getInvestorPricingList(result)));
+  }
+  public saveNewInvestor(newInvestor : NewInvestor): Observable<Object> {
+    return this.http
+      .post(
+        API_URL + '/api/v1/auth/save-new-investor-pricing',
+        JSON.stringify(newInvestor),
+        this.requestOptions
+      )
+      .pipe();
+  }
+  public getUserMLOPricing(userUUID:string): Observable<InvestorPricing[]>{
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-lo-pricing?userUUID=' + userUUID
+      )
+      .pipe(
+        map(response => {
+          return this.getInvestorPricingList(response);
+        })
+      ).pipe(catchError(this.errorHandler));
   }
 }
