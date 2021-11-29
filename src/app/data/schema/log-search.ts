@@ -15,4 +15,5 @@ export class LogSearch{
   suffixName: string
   email: string
   phone: string
+  lastUpdatedAt : Date
 }

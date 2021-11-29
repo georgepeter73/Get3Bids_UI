@@ -1,7 +1,7 @@
-import {Component, OnInit, ChangeDetectionStrategy, ViewChild} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, ViewChild, Inject, LOCALE_ID} from '@angular/core';
 import {QuickQuoteService} from '@data/service/quickquote.service';
 import {Router} from '@angular/router';
-import {Location} from '@angular/common';
+import {formatDate, Location} from '@angular/common';
 import {AgGridAngular} from '@ag-grid-community/angular';
 import {faUser} from '@fortawesome/free-solid-svg-icons';
 import {of} from 'rxjs';
@@ -16,7 +16,7 @@ export class LogSearchComponent implements OnInit {
 
   constructor(public quickQuoteService : QuickQuoteService,
 
-              private router: Router, private _location: Location,) {
+              private router: Router, private _location: Location, @Inject(LOCALE_ID) public locale: string) {
   }
   searchValue: any;
   cart = faUser;
@@ -94,6 +94,18 @@ export class LogSearchComponent implements OnInit {
       checkboxSelection: false,
       resizable : true,
       minWidth: 150
+    },
+    {
+      headerName: "Date",
+      field: "lastUpdatedAt",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 100,
+      cellRenderer: (data) => {
+        return data.value ? formatDate(data.value, 'd MMM yyyy h:MM', this.locale) : '';
+      },
     },
 
   ];
