@@ -10,6 +10,8 @@ import {UserContact} from '@data/schema/user/user-contact';
 import {LoSiteDTO} from '@data/schema/user/lo-site';
 import {InvestorPricing} from '@data/schema/investorpricing';
 import {NewInvestor} from '@data/schema/new-investor';
+import {LogSearch} from '@data/schema/log-search';
+import {LogSearchComponent} from '@modules/admin/page/log-search/log-search.component';
 
 const API_URL = environment.API_URL;
 
@@ -289,5 +291,37 @@ export class QuickQuoteService {
           return this.getInvestorPricingList(response);
         })
       ).pipe(catchError(this.errorHandler));
+  }
+  public getLogSearchEntity(lSearch : LogSearch): LogSearch {
+    const logSearch = new LogSearch();
+    logSearch.quoteId = lSearch['quoteId'];
+    logSearch.products = lSearch['products'];
+    logSearch.productsBadResponse = lSearch['productsBadResponse'];
+    logSearch.quoteRequest = lSearch['quoteRequest'];
+    logSearch.ineligibleProducts = lSearch['ineligibleProducts'];
+    logSearch.loanId = lSearch['loanId'];
+    logSearch.prospectsId = lSearch['prospectsId'];
+    logSearch.floifyRequestData = lSearch['floifyRequestData'];
+    logSearch.floifyResponseData = lSearch['floifyResponseData'];
+    logSearch.firstName = lSearch['firstName'];
+    logSearch.lastName = lSearch['lastName'];
+    logSearch.middleName = lSearch['middleName'];
+    logSearch.suffixName = lSearch['suffixName'];
+    logSearch.email = lSearch['email'];
+    logSearch.phone = lSearch['phone'];
+    return logSearch;
+  }
+  public searchLog(): Observable<LogSearch[]> {
+    return this.http
+      .get(
+        API_URL + '/api/v1/auth/search-log',
+      )
+      .pipe(map(result => this.getLogSearchList(result)));
+  }
+  public getLogSearchList(response: any): LogSearch[] {
+    return (<LogSearch[]>response).map(
+      logs =>
+        this.getLogSearchEntity(logs)
+    );
   }
 }

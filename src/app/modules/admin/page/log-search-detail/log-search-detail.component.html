@@ -1,0 +1,55 @@
+<nb-card size="large" >
+  <nb-card-header>
+    <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)"><nb-icon icon="arrow-back-outline"></nb-icon> Previous</a></div>
+    <div class="container col-md-8 text-center">
+      Rate Quote Log
+    </div>
+  </nb-card-header>
+  <nb-card-body class="host">
+    <div class="m-5">
+    <div class="row col-12">
+      <strong>Name :</strong> {{logSearch.firstName}} {{logSearch.lastName}}
+    </div>
+      <hr>
+
+   <div class="row col-12">
+     <strong>Quote Id : </strong>{{logSearch.quoteId}}
+   </div>
+    <hr>
+    <div class="row col-12">
+      <strong>OB Request :</strong> <nb-action class="label col-1 col-form-label" (click)="copyToClipboard(logSearch.quoteRequest)" icon="clipboard-outline" nbTooltip="Copy"></nb-action>{{logSearch.quoteRequest}}
+    </div>
+    <hr>
+    <div class="row col-12">
+
+      <strong> OB Response :</strong><nb-action class="label col-1 col-form-label" (click)="copyToClipboard(logSearch.products)" icon="clipboard-outline" nbTooltip="Copy"></nb-action> {{logSearch.products}}
+    </div>
+    <hr>
+    <div class="row col-12">
+      <strong> Floify Request :</strong><nb-action class="label col-1 col-form-label" (click)="copyToClipboard(logSearch.floifyRequestData)" icon="clipboard-outline" nbTooltip="Copy"></nb-action> {{logSearch.floifyRequestData}}
+    </div>
+    <hr>
+    <div class="row col-12">
+      <strong> Floify Response :</strong><nb-action class="label col-1 col-form-label" (click)="copyToClipboard(logSearch.floifyResponseData)" icon="clipboard-outline" nbTooltip="Copy"></nb-action> {{logSearch.floifyResponseData}}
+    </div>
+    <hr>
+    <div class="row col-12">
+      <strong> Floify LoanId : </strong>{{logSearch.loanId}}
+    </div>
+    <hr>
+    <div class="row col-12">
+      <strong> Floify Prospects Id :</strong> {{logSearch.prospectsId}}
+    </div>
+    <hr>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+
+
+
+
+
+
+
+

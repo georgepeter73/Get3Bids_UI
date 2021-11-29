@@ -25,4 +25,7 @@ export class AdminDashComponent implements OnInit {
   investorPricing(){
     this.router.navigate(["/admin/investor-pricing"]);
   }
+  logSearch(){
+    this.router.navigate(["/admin/log-search"]);
+  }
 }

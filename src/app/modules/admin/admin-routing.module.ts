@@ -11,6 +11,8 @@ import {MloMediaComponent} from '@modules/admin/page/mlo-media/mlo-media.compone
 import {InvestorPricingComponent} from '@modules/admin/page/investor-pricing/investor-pricing.component';
 import {InvestorNewComponent} from '@modules/admin/page/investor-new/investor-new.component';
 import {MloPricingBreakupComponent} from '@modules/admin/page/mlo-pricing-breakup/mlo-pricing-breakup.component';
+import {LogSearchComponent} from '@modules/admin/page/log-search/log-search.component';
+import {LogSearchDetailComponent} from '@modules/admin/page/log-search-detail/log-search-detail.component';
 
 
 const routes: Routes = [
@@ -64,6 +66,16 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: MloPricingBreakupComponent
   },
+  {
+    path: "log-search",
+    canActivate: [AuthGuard],
+    component: LogSearchComponent
+  },
+  {
+    path: "log-search-detail",
+    canActivate: [AuthGuard],
+    component: LogSearchDetailComponent
+  }
 
 ];
 
