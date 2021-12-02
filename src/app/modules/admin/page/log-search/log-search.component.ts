@@ -113,6 +113,7 @@ export class LogSearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.quickQuoteService.searchLog().subscribe(logData =>{
+      logData.sort((a, b) => (a.lastUpdatedAt > b.lastUpdatedAt ? -1 : 1));
       this.rowData = of(logData)
      })
   }

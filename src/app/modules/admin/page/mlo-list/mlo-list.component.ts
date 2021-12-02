@@ -60,12 +60,11 @@ export class MloListComponent implements OnInit {
       minWidth: 200
     },
     {
-      headerName: "Approval Status",
-      field: "floifyAccountApprovalFlag",
+      headerName: "Floify Status",
       sortable: true,
       filter: true,
       checkboxSelection: false,
-      valueFormatter: params => this.approvalStatus(params.data.floifyAccountApprovalFlag),
+      valueFormatter: params => this.approvalStatus(params.data.loSiteDTO.floifyAPIKey),
       width : 130,
       resizable : true,
       minWidth: 100
@@ -99,9 +98,9 @@ export class MloListComponent implements OnInit {
     var sansDec = currency.toFixed(3);
     return `${sansDec}`+sign;
   }
-  approvalStatus(status: boolean) {
+  approvalStatus(floifyAPI: string) {
    let approvalStatus = '';
-   if(status){
+   if(floifyAPI && floifyAPI.length > 0){
       approvalStatus = "Approved";
    }else{
       approvalStatus = "Pending"
