@@ -32,6 +32,46 @@ export class LogSearchComponent implements OnInit {
       minWidth: 150
     },
     {
+      headerName: "MLO",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 150,
+      valueGetter: this.getMLOName
+
+    },
+    {
+      headerName: "Loan Amount",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 150,
+      valueGetter: this.getLoanAmount
+
+    },
+    {
+      headerName: "Loan Type",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 150,
+      valueGetter: this.getLoanType
+
+    },
+    {
+      headerName: "Loan Purpose",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 150,
+      valueGetter: this.getLoanPurpose
+
+    },
+    {
       headerName: "First Name",
       field: "firstName",
       sortable: true,
@@ -116,6 +156,33 @@ export class LogSearchComponent implements OnInit {
       logData.sort((a, b) => (a.lastUpdatedAt > b.lastUpdatedAt ? -1 : 1));
       this.rowData = of(logData)
      })
+  }
+  getLoanAmount(params) {
+    if (params.data.quoteRequest) {
+      const quoteRequest = JSON.parse(params.data.quoteRequest)
+       return quoteRequest.loanInformation.baseLoanAmount
+    }
+    return ''
+  }
+  getLoanType(params) {
+    if (params.data.quoteRequest) {
+      const quoteRequest = JSON.parse(params.data.quoteRequest)
+      return quoteRequest.loanInformation.loanType
+    }
+    return ''
+  }
+  getLoanPurpose(params) {
+    if (params.data.quoteRequest) {
+      const quoteRequest = JSON.parse(params.data.quoteRequest)
+       return quoteRequest.loanInformation.loanPurpose
+    }
+    return ''
+  }
+  getMLOName(params) {
+    if (params.data.userMLO) {
+      return params.data.userMLO.firstName +" "+params.data.userMLO.lastName
+    }
+    return ''
   }
   backClicked($event: MouseEvent) {
     $event.preventDefault();

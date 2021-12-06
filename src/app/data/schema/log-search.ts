@@ -1,3 +1,5 @@
+import {UserMlo} from '@data/schema/user/user-mlo';
+
 export class LogSearch{
   quoteId : string;
   products : string;
@@ -16,4 +18,5 @@ export class LogSearch{
   email: string
   phone: string
   lastUpdatedAt : Date
+  userMLO : UserMlo
 }

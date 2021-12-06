@@ -310,7 +310,8 @@ export class QuickQuoteService {
     logSearch.email = lSearch['email'];
     logSearch.phone = lSearch['phone'];
     logSearch.lastUpdatedAt = lSearch['lastUpdatedAt'];
-    return logSearch;
+    logSearch.userMLO = lSearch['userDTO'];
+     return logSearch;
   }
   public searchLog(): Observable<LogSearch[]> {
     return this.http
