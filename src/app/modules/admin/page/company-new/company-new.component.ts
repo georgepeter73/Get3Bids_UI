@@ -6,8 +6,8 @@ import {NbDialogService} from '@nebular/theme';
 import {TaxonomyService} from '@data/service/taxonomy.service';
 import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
 import {Taxonomy} from '@data/schema/taxonomy';
-import {UserMlo} from '@data/schema/user/user-mlo';
-import {of} from 'rxjs';
+import { faInfo} from "@fortawesome/free-solid-svg-icons";
+import {environment} from '@env';
 
 @Component({
   selector: 'app-company-new',
@@ -24,8 +24,10 @@ export class CompanyNewComponent implements OnInit {
   successCreation = false;
   failureCreation = false;
   mode :string ="";
-
+  brokerCompanyLink = "";
   loading2: any;
+  frontendurl = environment.FRONT_END_URL;
+  info = faInfo;
 
   constructor(public quickQuoteService: QuickQuoteService, private _location: Location,
               private route: ActivatedRoute, private router: Router,
@@ -37,14 +39,19 @@ export class CompanyNewComponent implements OnInit {
     this.mode = this.route.snapshot.paramMap.get('mode');
     if(this.mode === 'edit') {
       this.brokerCompanyInfo = JSON.parse(sessionStorage.getItem("brokerCompanyInfo"));
-
     }
+    this.createURL();
      this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
      this.channelTypeTaxonomy = taxonomies
         .filter(tax => tax.type === 'ChannelType')
         .pop();
     });
 
+  }
+  createURL(){
+    if(this.brokerCompanyInfo.companyUUID) {
+      this.brokerCompanyLink = this.frontendurl + '/quickquote/borrower-info/' + this.brokerCompanyInfo.companyUUID + '/website';
+    }
   }
 
 
@@ -53,6 +60,14 @@ export class CompanyNewComponent implements OnInit {
     this.router.navigate(["/admin/company-list"]);
   }
 
+  copyToClipboard(text) {
+    const elem = document.createElement('textarea');
+    elem.value = text;
+    document.body.appendChild(elem);
+    elem.select();
+    document.execCommand('copy');
+    document.body.removeChild(elem);
+  }
 
 
   createCompany() {
@@ -63,6 +78,7 @@ export class CompanyNewComponent implements OnInit {
         this.brokerCompanyInfo = res;
         this.loading = false;
           this.successCreation = true;
+          this.createURL();
       },error => {
         this.failureCreation = true;
         this.loading = false;
@@ -78,6 +94,9 @@ export class CompanyNewComponent implements OnInit {
         this.brokerCompanyInfo = res;
         this.loading1 = false;
         this.successCreation = true;
+        setTimeout(() => {
+        this._location.back();
+      }, 1000);
       },error => {
         this.failureCreation = true;
         this.loading = false;
@@ -88,5 +107,9 @@ export class CompanyNewComponent implements OnInit {
 
   usersList() {
     this.router.navigate(["/admin/company-users-list/"+this.brokerCompanyInfo.brokercompanyId]);
+  }
+
+  showBreakUp() {
+    this.router.navigate(["/admin/company-pricing-breakup/"+this.brokerCompanyInfo.companyUUID]);
   }
 }

@@ -6,5 +6,6 @@ export class InvestorPricing{
   lastUpdatedBy: string;
   lastUpdatedAt : Date
   loMargin : number
+  companyMargin : number = 0;
   totalMargin : number
 }

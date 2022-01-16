@@ -19,7 +19,7 @@
 
             </div>
           </div>
-        <div class="form-group row mb-2">
+         <div class="form-group row mb-2">
           <label for="cTypeId" class="label col-3 col-form-label">Channel Type*</label>
           <div class="col-9">
             <nb-select  [(ngModel)]="brokerCompanyInfo.brokerCompanyDetailDTO.channelType"   #cType="ngModel" name="cType" required size="small"  placeholder="Channel Type" id="cTypeId"  >
@@ -38,6 +38,28 @@
 
           </div>
         </div>
+      <div class="form-group row mb-2">
+        <label for="companyMarginId" class="label col-3 col-form-label">Company Margin %</label>
+        <div class="col-3">
+          <input  class="form-control mb-2" #companyMargin="ngModel" name="companyMargin" id="companyMarginId"
+                  [(ngModel)]="brokerCompanyInfo.companyMargin"
+                  type="number" nbInput  shape="rectangle"  placeholder="%"
+          />
+
+        </div>
+        <div class="col-6 text-left" *ngIf="brokerCompanyInfo.companyUUID">
+          <button  type="button" nbButton  status="primary"
+                  size="tiny" (click)="showBreakUp()"><fa-icon size="1x" [icon]="info" class="m-0"></fa-icon></button>
+        </div>
+
+
+      </div>
+
+      <div class="form-group  row mb-2" *ngIf="brokerCompanyInfo.companyUUID">
+        <label  class="label col-3 col-form-label">Company Site URL </label>
+        <label  class="label col-7 col-form-label">{{brokerCompanyLink}}</label>
+        <nb-action class="label col-1 col-form-label" (click)="copyToClipboard(brokerCompanyLink)" icon="clipboard-outline" nbTooltip="Copy"></nb-action>
+      </div>
 
         <div class="form-group row  mb-2">
           <div class="col-12 text-center" *ngIf="mode==='new'">

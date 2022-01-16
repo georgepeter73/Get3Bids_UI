@@ -271,6 +271,7 @@ export class QuickQuoteService {
     pricing.loanType = investorPricing['loanType'];
     pricing.lastUpdatedAt = investorPricing['lastUpdatedAt'];
     pricing.loMargin = investorPricing['loMargin'];
+    pricing.companyMargin = investorPricing['companyMargin'];
     return pricing;
   }
 
@@ -298,6 +299,16 @@ export class QuickQuoteService {
   public getUserMLOPricing(userUUID:string): Observable<InvestorPricing[]>{
     return this.http
       .get(API_URL + '/api/v1/auth/get-lo-pricing?userUUID=' + userUUID
+      )
+      .pipe(
+        map(response => {
+          return this.getInvestorPricingList(response);
+        })
+      ).pipe(catchError(this.errorHandler));
+  }
+  public getCompanyPricing(companyUUID:string): Observable<InvestorPricing[]>{
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-company-pricing?companyUUID=' + companyUUID
       )
       .pipe(
         map(response => {
@@ -368,6 +379,7 @@ export class QuickQuoteService {
       brokerCompanyInfo.lastUpdatedAt = res['lastUpdatedAt'];
       brokerCompanyInfo.lastUpdatedBy = res['lastUpdatedBy'];
       brokerCompanyInfo.companyUUID = res['companyUUID'];
+      brokerCompanyInfo.companyMargin = res['companyMargin'];
     }
     return brokerCompanyInfo;
   }

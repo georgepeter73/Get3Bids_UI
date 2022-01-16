@@ -12,5 +12,6 @@ export class BrokerCompanyInfo{
   lastUpdatedAt = new Date();
   lastUpdatedBy = '';
   companyUUID = '';
+  companyMargin = 0;
 
 }
