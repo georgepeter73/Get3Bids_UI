@@ -12,6 +12,9 @@ import {InvestorPricing} from '@data/schema/investorpricing';
 import {NewInvestor} from '@data/schema/new-investor';
 import {LogSearch} from '@data/schema/log-search';
 import {LogSearchComponent} from '@modules/admin/page/log-search/log-search.component';
+import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
+import {BrokerCompanyDetail} from '@data/schema/company/broker-company-detail';
+import {Address} from '@data/schema/company/address';
 
 const API_URL = environment.API_URL;
 
@@ -325,5 +328,93 @@ export class QuickQuoteService {
       logs =>
         this.getLogSearchEntity(logs)
     );
+  }
+  public getAllBrokerCompany(): Observable<BrokerCompanyInfo[]> {
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-all-brokercompany'
+      )
+      .pipe(
+        map(response => {
+          return this.getBrokerCompanies(response);
+        })
+      )
+  }
+  public getBrokerCompanies(response: any): BrokerCompanyInfo[] {
+    return (<BrokerCompanyInfo[]>response).map(
+      c =>
+        this.getBrokerCompany(c)
+    );
+  }
+  public getBrokerCompany(res : BrokerCompanyInfo): BrokerCompanyInfo {
+    let brokerCompanyInfo = new BrokerCompanyInfo();
+    if(res) {
+      brokerCompanyInfo.brokercompanyId = res['brokercompanyId'];
+      brokerCompanyInfo.addressId = res['addressId'];
+      brokerCompanyInfo.name = res['name'];
+      brokerCompanyInfo.clientId = res['clientId'];
+      brokerCompanyInfo.statusId = res['statusId'];
+      brokerCompanyInfo.brokerCompanyDetailDTO = this.getBrokerCompanyDetail(res['brokerCompanyDetailDTO']);
+      brokerCompanyInfo.addressDTO = this.getBrokerCompanyAddress(res['addressDTO']);
+      brokerCompanyInfo.lastUpdatedAt = res['lastUpdatedAt'];
+      brokerCompanyInfo.lastUpdatedBy = res['lastUpdatedBy'];
+      brokerCompanyInfo.companyUUID = res['companyUUID'];
+    }
+    return brokerCompanyInfo;
+  }
+  public getBrokerCompanyDetail(res : BrokerCompanyDetail): BrokerCompanyDetail {
+    let brokerCompanyDetail = new BrokerCompanyDetail();
+    if(res) {
+      brokerCompanyDetail.brokercompanyDetailId = res['brokercompanyDetailId'];
+      brokerCompanyDetail.businessTaxId = res['businessTaxId'];
+      brokerCompanyDetail.nmls = res['nmls'];
+      brokerCompanyDetail.mersId = res['mersId'];
+      brokerCompanyDetail.numberOfEmployees = res['numberOfEmployees'];
+      brokerCompanyDetail.channelType = res['channelType'];
+      brokerCompanyDetail.website = res['website'];
+      brokerCompanyDetail.lastUpdatedAt = res['lastUpdatedAt'];
+      brokerCompanyDetail.lastUpdatedBy = res['lastUpdatedBy'];
+    }
+
+
+    return brokerCompanyDetail;
+  }
+  public getBrokerCompanyAddress(res : Address): Address {
+    let address = new Address();
+    if(res) {
+      address.addressId = res['addressId'];
+      address.streetAddress1 = res['streetAddress1'];
+      address.streetAddress2 = res['streetAddress2'];
+      address.city = res['city'];
+      address.zip = res['zip'];
+      address.lastUpdatedAt = res['lastUpdatedAt'];
+      address.lastUpdatedAt = res['lastUpdatedAt'];
+    }
+    return address;
+  }
+  public createNewCompany(brokerCompanyInfo: BrokerCompanyInfo): Observable<BrokerCompanyInfo> {
+    return this.http
+      .post(
+        API_URL + "/api/v1/auth/create-broker-company",
+        JSON.stringify(brokerCompanyInfo), this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return this.getBrokerCompany(<BrokerCompanyInfo>response)
+        })
+      )
+      .pipe(catchError(this.errorHandler));
+  }
+  public saveCompany(brokerCompanyInfo: BrokerCompanyInfo): Observable<BrokerCompanyInfo> {
+    return this.http
+      .post(
+        API_URL + "/api/v1/auth/save-broker-company",
+        JSON.stringify(brokerCompanyInfo), this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return this.getBrokerCompany(<BrokerCompanyInfo>response)
+        })
+      )
+      .pipe(catchError(this.errorHandler));
   }
 }

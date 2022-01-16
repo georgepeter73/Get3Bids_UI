@@ -28,4 +28,8 @@ export class AdminDashComponent implements OnInit {
   logSearch(){
     this.router.navigate(["/admin/log-search"]);
   }
+
+  brokerCompany() {
+    this.router.navigate(["/admin/company-list"]);
+  }
 }

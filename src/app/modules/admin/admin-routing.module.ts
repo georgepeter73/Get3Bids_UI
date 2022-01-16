@@ -13,6 +13,8 @@ import {InvestorNewComponent} from '@modules/admin/page/investor-new/investor-ne
 import {MloPricingBreakupComponent} from '@modules/admin/page/mlo-pricing-breakup/mlo-pricing-breakup.component';
 import {LogSearchComponent} from '@modules/admin/page/log-search/log-search.component';
 import {LogSearchDetailComponent} from '@modules/admin/page/log-search-detail/log-search-detail.component';
+import {CompanyListComponent} from '@modules/admin/page/company-list/company-list.component';
+import {CompanyNewComponent} from '@modules/admin/page/company-new/company-new.component';
 
 
 const routes: Routes = [
@@ -75,6 +77,16 @@ const routes: Routes = [
     path: "log-search-detail",
     canActivate: [AuthGuard],
     component: LogSearchDetailComponent
+  },
+  {
+    path: "company-list",
+    canActivate: [AuthGuard],
+    component: CompanyListComponent
+  },
+  {
+    path: "company-new",
+    canActivate: [AuthGuard],
+    component: CompanyNewComponent
   }
 
 ];

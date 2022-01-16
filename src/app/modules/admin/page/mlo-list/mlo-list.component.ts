@@ -119,7 +119,6 @@ export class MloListComponent implements OnInit {
   }
 
   backClicked($event: MouseEvent) {
-    $event.preventDefault();
-    this._location.back();
+    this.router.navigate(["/admin/mlo-list"]);
   }
 }

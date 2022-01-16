@@ -28,10 +28,12 @@ import { InvestorNewComponent } from './page/investor-new/investor-new.component
 import { MloPricingBreakupComponent } from './page/mlo-pricing-breakup/mlo-pricing-breakup.component';
 import { LogSearchComponent } from './page/log-search/log-search.component';
 import { LogSearchDetailComponent } from './page/log-search-detail/log-search-detail.component';
+import { CompanyListComponent } from './page/company-list/company-list.component';
+import { CompanyNewComponent } from './page/company-new/company-new.component';
 
 @NgModule({
   entryComponents :[MediaDialogComponent],
-  declarations: [ MloComponent, MloListComponent, AdminDashComponent, UploadMediaComponent, MediaListComponent, MediaShowButtonComponent, MediaDialogComponent, MloMediaComponent, MediaDeleteButtonComponent, InvestorPricingComponent, InvestorNewComponent, MloPricingBreakupComponent, LogSearchComponent, LogSearchDetailComponent],
+  declarations: [ MloComponent, MloListComponent, AdminDashComponent, UploadMediaComponent, MediaListComponent, MediaShowButtonComponent, MediaDialogComponent, MloMediaComponent, MediaDeleteButtonComponent, InvestorPricingComponent, InvestorNewComponent, MloPricingBreakupComponent, LogSearchComponent, LogSearchDetailComponent, CompanyListComponent, CompanyNewComponent],
   imports: [AgGridModule.withComponents([MediaShowButtonComponent,MediaDeleteButtonComponent]), AdminRoutingModule, SharedModule, NbRouteTabsetModule, NbCardModule, NbTabsetModule, NbAccordionModule,
     NbRadioModule, NbCheckboxModule, NbSelectModule, NbInputModule, NbButtonModule, NbSpinnerModule, NbAlertModule, NbActionsModule, NbTooltipModule,
     NbIconModule, MatProgressBarModule, NbDialogModule.forRoot()],
