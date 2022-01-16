@@ -59,6 +59,16 @@ export class QuickQuoteService {
         })
       )
   }
+  public getAllUserMLOByBrokerCompanyid(brokerCompanyId : number): Observable<UserMlo[]> {
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-all-users-by-brokercompanyid?brokercompanyid=' + brokerCompanyId
+      )
+      .pipe(
+        map(response => {
+          return this.getUser(response);
+        })
+      )
+  }
   public getAllMediaLocation(): Observable<MediaLocation[]> {
      return this.http
       .get(API_URL + '/api/v1/auth/get-all-media-location'
@@ -131,7 +141,7 @@ export class QuickQuoteService {
     user1.firstName = user['firstName'];
     user1.lastName = user['lastName'];
     user1.userName = user['userName'];
-    user1.brokerCompanyId = user['brokerCompanyId'];
+    user1.brokercompanyId = user['brokercompanyId'];
     user1.clientId = user['clientId'];
     user1.enterpriseId = user['enterpriseId'];
     user1.reportToUserId = user['reportToUserId'];

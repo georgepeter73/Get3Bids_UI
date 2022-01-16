@@ -13,6 +13,15 @@
       (ngSubmit)="submitOrder(form)" >
   <fieldset class="border p-2">
     <legend  class="w-auto">Personnel Info</legend>
+    <div class="form-group row mb-2">
+      <label for="mloMarginId" class="label col-3 col-form-label">Company Name*</label>
+       <div class="col-3">
+        <nb-select  [(ngModel)]="userMLO.brokercompanyId"   #brokerCompany="ngModel" name="brokerCompany" required size="small"  placeholder="" id="brokerCompanyid"  >
+          <nb-option *ngFor="let brokercompany of brokerCompanyList" [value]="brokercompany.brokercompanyId">{{brokercompany.name}}</nb-option>
+        </nb-select>
+      </div>
+      <div class="col-6"></div>
+    </div>
   <div class="form-group row mb-2">
     <label for="fName" class="label col-3 col-form-label">Name*</label>
     <div class="col-9">
@@ -94,7 +103,9 @@
     </div>
     <div class="col-6"></div>
 
+
   </div>
+
   <div class="form-group row mb-2">
     <label for="inputEmail1" class="label col-3 col-form-label">Manager</label>
     <div class="col-9">
@@ -124,7 +135,7 @@
   <div class="form-group row mb-2">
     <div class="offset-3 col-9">
       <button class="m-2" type="submit" nbButton  status="primary"
-               [disabled]="!userMLO.firstName || !userMLO.lastName || !userMLO.userName "
+               [disabled]="!userMLO.firstName || !userMLO.lastName || !userMLO.userName || userMLO.brokerCompanyId ==0"
                size="medium" [nbSpinner]="loading" nbSpinnerStatus="primary"><nb-icon icon="save-outline"></nb-icon>{{buttonText}}</button>
       <button [disabled]="crudType==='add'"  class="m-2"  nbButton  status="primary" (click)="mloMedia()"
 

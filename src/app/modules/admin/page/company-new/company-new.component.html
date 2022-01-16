@@ -40,12 +40,23 @@
         </div>
 
         <div class="form-group row  mb-2">
-          <div class="col-12 text-center">
-        <button class="m-2" type="button" nbButton  status="primary" (click)="createCompany()" [disabled]="!brokerCompanyInfo.name
+          <div class="col-12 text-center" *ngIf="mode==='new'">
+        <button class="m-2" type="button"  nbButton  status="primary" (click)="createCompany()" [disabled]="!brokerCompanyInfo.name
         || !brokerCompanyInfo.brokerCompanyDetailDTO.channelType || !brokerCompanyInfo.brokerCompanyDetailDTO.nmls"
                 size="medium" [nbSpinner]="loading" nbSpinnerStatus="primary"><nb-icon icon="save-outline"></nb-icon>Create Company</button>
+
+          </div>
+          <div class="col-12 text-center" *ngIf="mode==='edit'">
+            <button class="m-2" type="button" nbButton  status="primary" (click)="saveCompany()" [disabled]="!brokerCompanyInfo.name
+        || !brokerCompanyInfo.brokerCompanyDetailDTO.channelType || !brokerCompanyInfo.brokerCompanyDetailDTO.nmls"
+                    size="medium" [nbSpinner]="loading1" nbSpinnerStatus="primary"><nb-icon icon="save-outline"></nb-icon>Save Company</button>
+            <button class="m-2" type="button" nbButton  status="primary" (click)="usersList()"
+                    size="medium" [nbSpinner]="loading2" nbSpinnerStatus="primary"><nb-icon icon="save-outline"></nb-icon>MLO List</button>
+
           </div>
         </div>
+    </fieldset>
+
       <div class="row ">
         <div class="col-12 text-center">
       <nb-alert accent="success"  *ngIf="successCreation" size="large" >
@@ -58,7 +69,7 @@
       </div>
 
 
-    </fieldset>
+
 
 
   </nb-card-body>

@@ -102,11 +102,11 @@ export class CompanyListComponent implements OnInit {
 
   onRowClick($event: any) {
     sessionStorage.setItem('brokerCompanyInfo', JSON.stringify(this.companyGrid.api.getSelectedRows()[0]));
-    this.router.navigate(["/admin/company-new"]);
+    this.router.navigate(["/admin/company-new/edit"]);
   }
 
   newBrokerCompany() {
-    this.router.navigate(["/admin/company-new"]);
+    this.router.navigate(["/admin/company-new/new"]);
   }
 
   backClicked($event: MouseEvent) {

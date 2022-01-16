@@ -15,6 +15,7 @@ import {LogSearchComponent} from '@modules/admin/page/log-search/log-search.comp
 import {LogSearchDetailComponent} from '@modules/admin/page/log-search-detail/log-search-detail.component';
 import {CompanyListComponent} from '@modules/admin/page/company-list/company-list.component';
 import {CompanyNewComponent} from '@modules/admin/page/company-new/company-new.component';
+import {CompanyUsersListComponent} from '@modules/admin/page/company-users-list/company-users-list.component';
 
 
 const routes: Routes = [
@@ -84,9 +85,14 @@ const routes: Routes = [
     component: CompanyListComponent
   },
   {
-    path: "company-new",
+    path: "company-new/:mode",
     canActivate: [AuthGuard],
     component: CompanyNewComponent
+  },
+  {
+    path: "company-users-list/:brokercompanyid",
+    canActivate: [AuthGuard],
+    component: CompanyUsersListComponent
   }
 
 ];

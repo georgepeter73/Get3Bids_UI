@@ -6,7 +6,7 @@ export class UserMlo{
   firstName : string;
   lastName : string;
   userName : string;
-  brokerCompanyId : number;
+  brokercompanyId : number=0;
   clientId : number;
   enterpriseId : number;
   reportToUserId : number;

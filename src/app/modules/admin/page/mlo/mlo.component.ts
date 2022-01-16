@@ -8,6 +8,7 @@ import {environment} from '@env';
 import {LoSiteDTO} from '@data/schema/user/lo-site';
 import {UserContact} from '@data/schema/user/user-contact';
 import { faInfo} from "@fortawesome/free-solid-svg-icons";
+import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
 
 @Component({
   selector: 'app-mlo',
@@ -29,6 +30,7 @@ export class MloComponent implements OnInit {
   mloLink : string;
   loading1: any;
   info = faInfo;
+  brokerCompanyList : BrokerCompanyInfo[] =  [];
 
 
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
@@ -61,6 +63,9 @@ export class MloComponent implements OnInit {
         console.log(error);
       }
     );
+    this.quickQuoteService.getAllBrokerCompany().subscribe(c =>{
+      this.brokerCompanyList = c;
+    })
   }
   submitOrder(form: NgForm) {
     this.loading = true;
