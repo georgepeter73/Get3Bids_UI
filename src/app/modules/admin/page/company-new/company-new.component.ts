@@ -95,7 +95,7 @@ export class CompanyNewComponent implements OnInit {
         this.loading1 = false;
         this.successCreation = true;
         setTimeout(() => {
-        this._location.back();
+          this.router.navigate(["/admin/company-list"]);
       }, 1000);
       },error => {
         this.failureCreation = true;

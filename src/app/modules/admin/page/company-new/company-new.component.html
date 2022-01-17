@@ -121,6 +121,10 @@
 
         </div>
       </div>
+      <div class="col-6 text-left" *ngIf="brokerCompanyInfo.companyUUID">
+        <button  type="button" nbButton  status="primary"
+                 size="tiny" (click)="showBreakUp()">Company Margin Break Up&nbsp;<fa-icon size="1x" [icon]="info" class="m-0"></fa-icon></button>
+      </div>
     </fieldset>
 
       <div class="form-group  row mb-2" *ngIf="brokerCompanyInfo.companyUUID">

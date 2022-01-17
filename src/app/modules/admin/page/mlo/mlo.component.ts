@@ -86,7 +86,7 @@ export class MloComponent implements OnInit {
         this.buttonText = "Update MLO"
       }
         setTimeout(() => {
-          this._location.back();
+          this.router.navigate(["/admin/mlo-list"]);
         }, 1000);
     },
       error => {
@@ -98,7 +98,7 @@ export class MloComponent implements OnInit {
 
   backClicked(mouseEvent: MouseEvent) {
     mouseEvent.preventDefault();
-    this._location.back();
+    this.router.navigate(["/admin/mlo-list"]);
   }
    copyToClipboard(text) {
     const elem = document.createElement('textarea');
