@@ -15,6 +15,7 @@ import {LogSearchComponent} from '@modules/admin/page/log-search/log-search.comp
 import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
 import {BrokerCompanyDetail} from '@data/schema/company/broker-company-detail';
 import {Address} from '@data/schema/company/address';
+import {BrokerCompanyPricing} from '@data/schema/company/broker-company-pricing';
 
 const API_URL = environment.API_URL;
 
@@ -376,6 +377,7 @@ export class QuickQuoteService {
       brokerCompanyInfo.statusId = res['statusId'];
       brokerCompanyInfo.brokerCompanyDetailDTO = this.getBrokerCompanyDetail(res['brokerCompanyDetailDTO']);
       brokerCompanyInfo.addressDTO = this.getBrokerCompanyAddress(res['addressDTO']);
+      brokerCompanyInfo.brokerCompanyPricingDTO = this.getBrokerCompanyPricing(res['brokerCompanyPricingDTO']);
       brokerCompanyInfo.lastUpdatedAt = res['lastUpdatedAt'];
       brokerCompanyInfo.lastUpdatedBy = res['lastUpdatedBy'];
       brokerCompanyInfo.companyUUID = res['companyUUID'];
@@ -412,6 +414,23 @@ export class QuickQuoteService {
       address.lastUpdatedAt = res['lastUpdatedAt'];
     }
     return address;
+  }
+  public getBrokerCompanyPricing(res : BrokerCompanyPricing): BrokerCompanyPricing {
+    let brokerCompanyPricing = new BrokerCompanyPricing();
+    if(res) {
+      brokerCompanyPricing.brokercompanyPricingId = res['brokercompanyPricingId'];
+      brokerCompanyPricing.companyUSDAMargin = res['companyUSDAMargin'];
+      brokerCompanyPricing.companyConformingMargin = res['companyConformingMargin'];
+      brokerCompanyPricing.companyVAMargin = res['companyVAMargin'];
+      brokerCompanyPricing.companyConventionalMargin = res['companyConventionalMargin'];
+      brokerCompanyPricing.companyFHAMargin = res['companyFHAMargin'];
+      brokerCompanyPricing.companyNonConformingMargin = res['companyNonConformingMargin'];
+      brokerCompanyPricing.createdAt = res['createdAt'];
+      brokerCompanyPricing.deleteFlag = res['deleteFlag'];
+      brokerCompanyPricing.lastUpdatedBy = res['lastUpdatedBy'];
+
+    }
+    return brokerCompanyPricing;
   }
   public createNewCompany(brokerCompanyInfo: BrokerCompanyInfo): Observable<BrokerCompanyInfo> {
     return this.http

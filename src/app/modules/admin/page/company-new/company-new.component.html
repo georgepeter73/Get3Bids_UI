@@ -38,22 +38,77 @@
 
           </div>
         </div>
+    </fieldset>
+    <br><br>
+    <fieldset class="border p-2">
+      <legend  class="w-auto">Company Product Category Margin</legend>
       <div class="form-group row mb-2">
-        <label for="companyMarginId" class="label col-3 col-form-label">Company Margin %</label>
+        <label for="companyMarginId" class="label col-3 col-form-label">FHA Margin %</label>
         <div class="col-3">
           <input  class="form-control mb-2" #companyMargin="ngModel" name="companyMargin" id="companyMarginId"
-                  [(ngModel)]="brokerCompanyInfo.companyMargin"
+                  [(ngModel)]="brokerCompanyInfo.brokerCompanyPricingDTO.companyFHAMargin"
                   type="number" nbInput  shape="rectangle"  placeholder="%"
           />
 
         </div>
         <div class="col-6 text-left" *ngIf="brokerCompanyInfo.companyUUID">
-          <button  type="button" nbButton  status="primary"
-                  size="tiny" (click)="showBreakUp()"><fa-icon size="1x" [icon]="info" class="m-0"></fa-icon></button>
+        </div>
+      </div>
+      <div class="form-group row mb-2">
+        <label for="companyMarginId" class="label col-3 col-form-label">VA Margin %</label>
+        <div class="col-3">
+          <input  class="form-control mb-2" #companyMargin="ngModel" name="companyMargin" id="companyMarginId"
+                  [(ngModel)]="brokerCompanyInfo.brokerCompanyPricingDTO.companyVAMargin"
+                  type="number" nbInput  shape="rectangle"  placeholder="%"
+          />
+
+        </div>
+        <div class="col-6 text-left" *ngIf="brokerCompanyInfo.companyUUID">
+
         </div>
 
 
       </div>
+      <div class="form-group row mb-2">
+        <label for="companyMarginId" class="label col-3 col-form-label">Conventional Margin %</label>
+        <div class="col-3">
+          <input  class="form-control mb-2" #companyMargin="ngModel" name="companyMargin" id="companyMarginId"
+                  [(ngModel)]="brokerCompanyInfo.brokerCompanyPricingDTO.companyConventionalMargin"
+                  type="number" nbInput  shape="rectangle"  placeholder="%"
+          />
+
+        </div>
+        <div class="col-6 text-left" *ngIf="brokerCompanyInfo.companyUUID">
+
+        </div>
+      </div>
+      <div class="form-group row mb-2">
+        <label for="companyMarginId" class="label col-3 col-form-label">Conforming Margin %</label>
+        <div class="col-3">
+          <input  class="form-control mb-2" #companyMargin="ngModel" name="companyMargin" id="companyMarginId"
+                  [(ngModel)]="brokerCompanyInfo.brokerCompanyPricingDTO.companyConformingMargin"
+                  type="number" nbInput  shape="rectangle"  placeholder="%"
+          />
+
+        </div>
+        <div class="col-6 text-left" *ngIf="brokerCompanyInfo.companyUUID">
+
+        </div>
+      </div>
+      <div class="form-group row mb-2">
+        <label for="companyMarginId" class="label col-3 col-form-label">Non Conforming Margin %</label>
+        <div class="col-3">
+          <input  class="form-control mb-2" #companyMargin="ngModel" name="companyMargin" id="companyMarginId"
+                  [(ngModel)]="brokerCompanyInfo.brokerCompanyPricingDTO.companyNonConformingMargin"
+                  type="number" nbInput  shape="rectangle"  placeholder="%"
+          />
+
+        </div>
+        <div class="col-6 text-left" *ngIf="brokerCompanyInfo.companyUUID">
+
+        </div>
+      </div>
+    </fieldset>
 
       <div class="form-group  row mb-2" *ngIf="brokerCompanyInfo.companyUUID">
         <label  class="label col-3 col-form-label">Company Site URL </label>
@@ -77,7 +132,7 @@
 
           </div>
         </div>
-    </fieldset>
+
 
       <div class="row ">
         <div class="col-12 text-center">

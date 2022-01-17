@@ -1,5 +1,6 @@
 import {BrokerCompanyDetail} from '@data/schema/company/broker-company-detail';
 import {Address} from '@data/schema/company/address';
+import {BrokerCompanyPricing} from '@data/schema/company/broker-company-pricing';
 
 export class BrokerCompanyInfo{
   brokercompanyId =0;
@@ -8,6 +9,7 @@ export class BrokerCompanyInfo{
   addressId = 0;
   clientId =0;
   brokerCompanyDetailDTO = new BrokerCompanyDetail();
+  brokerCompanyPricingDTO = new BrokerCompanyPricing();
   addressDTO = new Address();
   lastUpdatedAt = new Date();
   lastUpdatedBy = '';
