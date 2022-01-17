@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NbDialogService} from '@nebular/theme';
 import {TaxonomyService} from '@data/service/taxonomy.service';
 import {NewInvestor} from '@data/schema/new-investor';
+import {Taxonomy} from '@data/schema/taxonomy';
 
 @Component({
   selector: 'app-investor-new',
@@ -22,8 +23,8 @@ export class InvestorNewComponent implements OnInit {
   newInvestor = new NewInvestor()
   errorMessage ="";
   loading = false;
-
   ngOnInit(): void {
+
   }
   backClicked($event: MouseEvent) {
     $event.preventDefault();

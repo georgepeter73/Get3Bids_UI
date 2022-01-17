@@ -27,6 +27,12 @@
                 status="primary" >Save
         </button>
       </div>
+      <div class="col-12 text-left m-2">
+        <nb-select  [(ngModel)]="selectedChannelType"  (ngModelChange)="getInvestorPricing()"  #cType="ngModel" name="cType" required size="small"  placeholder="Channel Type*" id="cTypeId"  >
+          <nb-option *ngFor="let item of channelTypeTaxonomy.taxonomyItems" [value]="item.key">{{item.description}}</nb-option>
+        </nb-select>
+
+      </div>
       <div
       *ngIf="investors">
          <div *ngFor="let taxonomyItem of investors.taxonomyItems">

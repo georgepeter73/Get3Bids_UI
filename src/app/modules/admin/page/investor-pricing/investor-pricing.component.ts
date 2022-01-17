@@ -26,6 +26,8 @@ export class InvestorPricingComponent implements OnInit {
   errorMessage ="";
   plus = faPlus;
   loading =false;
+  channelTypeTaxonomy : Taxonomy;
+  selectedChannelType =0;
 
 
   ngOnInit(): void {
@@ -40,14 +42,16 @@ export class InvestorPricingComponent implements OnInit {
         .filter(tax => tax.type === 'OBLoanType')
         .pop();
     });
-    this.quickQuoteService.getAllInvestorPricing().subscribe(pricing => {
-        this.investorPricing = pricing;
-       }
-    );
+
+    this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
+      this.channelTypeTaxonomy = taxonomies
+        .filter(tax => tax.type === 'ChannelType')
+        .pop();
+    });
   }
   backClicked($event: MouseEvent) {
     $event.preventDefault();
-    this._location.back();
+    this.router.navigate(["/admin/admin-dash"]);
   }
   getPricingByInvestor(invId: string) {
        if(this.investorPricing) {
@@ -83,4 +87,10 @@ export class InvestorPricingComponent implements OnInit {
    }
 
 
+  getInvestorPricing() {
+    this.quickQuoteService.getAllInvestorPricingByChannelType(this.selectedChannelType).subscribe(pricing => {
+        this.investorPricing = pricing;
+      }
+    );
+  }
 }

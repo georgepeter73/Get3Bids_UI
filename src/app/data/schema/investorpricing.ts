@@ -7,5 +7,6 @@ export class InvestorPricing{
   lastUpdatedAt : Date
   loMargin : number
   companyMargin : number = 0;
-  totalMargin : number
+  totalMargin : number;
+  channelType : number;
 }

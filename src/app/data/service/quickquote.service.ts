@@ -256,6 +256,16 @@ export class QuickQuoteService {
         })
       ).pipe(catchError(this.errorHandler));
   }
+  public getAllInvestorPricingByChannelType(channelType: number): Observable<InvestorPricing[]>{
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-all-investor-pricing-by-channeltype?channelType='+channelType
+      )
+      .pipe(
+        map(response => {
+          return this.getInvestorPricingList(response);
+        })
+      ).pipe(catchError(this.errorHandler));
+  }
   public getInvestorPricingList(response: any): InvestorPricing[] {
     return (<InvestorPricing[]>response).map(
       pricing =>
@@ -267,6 +277,7 @@ export class QuickQuoteService {
     const pricing = new InvestorPricing();
     pricing.investorPricingId = investorPricing['investorPricingId'];
     pricing.investorId = investorPricing['investorId'];
+    pricing.channelType = investorPricing['channelType'];
     pricing.lastUpdatedBy = investorPricing['lastUpdatedBy'];
     pricing.investorMargin = investorPricing['investorMargin'];
     pricing.loanType = investorPricing['loanType'];
