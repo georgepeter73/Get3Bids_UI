@@ -121,26 +121,28 @@
 
         </div>
       </div>
-      <div class="col-6 text-left" *ngIf="brokerCompanyInfo.companyUUID">
-        <button  type="button" nbButton  status="primary"
-                 size="tiny" (click)="showBreakUp()">Company Margin Break Up&nbsp;<fa-icon size="1x" [icon]="info" class="m-0"></fa-icon></button>
-      </div>
+
     </fieldset>
+    <br>
+    <fieldset class="border p-2">
+      <legend  class="w-auto">Company Link</legend>
 
       <div class="form-group  row mb-2" *ngIf="brokerCompanyInfo.companyUUID">
         <label  class="label col-3 col-form-label">Company Site URL </label>
         <label  class="label col-7 col-form-label">{{brokerCompanyLink}}</label>
         <nb-action class="label col-1 col-form-label" (click)="copyToClipboard(brokerCompanyLink)" icon="clipboard-outline" nbTooltip="Copy"></nb-action>
       </div>
+    </fieldset>
+    <br>
 
         <div class="form-group row  mb-2">
-          <div class="col-12 text-center" *ngIf="mode==='new'">
+          <div class="text-center col-12" *ngIf="mode==='new'">
         <button class="m-2" type="button"  nbButton  status="primary" (click)="createCompany()" [disabled]="!brokerCompanyInfo.name
         || !brokerCompanyInfo.brokerCompanyDetailDTO.channelType || !brokerCompanyInfo.brokerCompanyDetailDTO.nmls"
                 size="medium" [nbSpinner]="loading" nbSpinnerStatus="primary"><nb-icon icon="save-outline"></nb-icon>Create Company</button>
 
           </div>
-          <div class="col-12 text-center" *ngIf="mode==='edit'">
+          <div class="" *ngIf="mode==='edit'">
             <button class="m-2" type="button" nbButton  status="primary" (click)="saveCompany()" [disabled]="!brokerCompanyInfo.name
         || !brokerCompanyInfo.brokerCompanyDetailDTO.channelType || !brokerCompanyInfo.brokerCompanyDetailDTO.nmls"
                     size="medium" [nbSpinner]="loading1" nbSpinnerStatus="primary"><nb-icon icon="save-outline"></nb-icon>Save Company</button>
@@ -148,7 +150,13 @@
                     size="medium" [nbSpinner]="loading2" nbSpinnerStatus="primary"><nb-icon icon="save-outline"></nb-icon>MLO List</button>
 
           </div>
+          <div class="m-2" *ngIf="brokerCompanyInfo.companyUUID">
+            <button  type="button" nbButton  status="primary"
+                     size="medium" (click)="showBreakUp()"><fa-icon size="1x" [icon]="info" class="m-0"></fa-icon>&nbsp;Margin Break Up&nbsp;</button>
+          </div>
+
         </div>
+
 
 
       <div class="row ">

@@ -362,6 +362,8 @@ export class QuickQuoteService {
         this.getLogSearchEntity(logs)
     );
   }
+
+
   public getAllBrokerCompany(): Observable<BrokerCompanyInfo[]> {
     return this.http
       .get(API_URL + '/api/v1/auth/get-all-brokercompany'
@@ -468,5 +470,42 @@ export class QuickQuoteService {
         })
       )
       .pipe(catchError(this.errorHandler));
+  }
+  public getInvestor(res : NewInvestor): NewInvestor {
+    let newInvestor = new NewInvestor();
+    if (res){
+      newInvestor.obInvestorId = res['obInvestorId'];
+      newInvestor.investorName = res['investorName'];
+      newInvestor.investorId = res['investorId'];
+      newInvestor.channelType = res['channelType'];
+    }
+
+    return newInvestor;
+  }
+  public getAllNewInvestors(): Observable<NewInvestor[]> {
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-all_investors'
+      )
+      .pipe(
+        map(response => {
+          return this.getAllInvestors(response);
+        })
+      )
+  }
+  public getAllNewInvestorsByChannelType(channelType : number): Observable<NewInvestor[]> {
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-all_investors-by-channeltype?channelType=' +channelType
+      )
+      .pipe(
+        map(response => {
+          return this.getAllInvestors(response);
+        })
+      )
+  }
+  public getAllInvestors(response: any): NewInvestor[] {
+    return (<NewInvestor[]>response).map(
+      c =>
+        this.getInvestor(c)
+    );
   }
 }

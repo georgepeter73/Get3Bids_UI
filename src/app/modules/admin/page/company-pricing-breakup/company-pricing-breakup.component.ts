@@ -7,6 +7,8 @@ import {TaxonomyService} from '@data/service/taxonomy.service';
 import {Taxonomy} from '@data/schema/taxonomy';
 import {InvestorPricing} from '@data/schema/investorpricing';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
+import {NewInvestor} from '@data/schema/new-investor';
+import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
 
 @Component({
   selector: 'app-company-pricing-breakup',
@@ -20,21 +22,22 @@ export class CompanyPricingBreakupComponent implements OnInit {
               private formBuilder: FormBuilder, private route : ActivatedRoute,
               private taxonomyService: TaxonomyService,private router: Router) { }
   companyUUID : string
-  investors : Taxonomy;
+  investors : NewInvestor[];
   optimalBlueLoanTypes : Taxonomy;
   investorPricing : InvestorPricing[];
   errorMessage ="";
   plus = faPlus;
   loading = false;
+  brokerCompanyInfo :BrokerCompanyInfo = null;
 
   ngOnInit(): void {
+    this.brokerCompanyInfo = JSON.parse(sessionStorage.getItem('brokerCompanyInfo'));
     this.companyUUID = this.route.snapshot.paramMap.get('companyUUID');
-    this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
-      this.investors = taxonomies
-        .filter(tax => tax.type === 'OBInvestor')
-        .sort(((a, b) => (b.description > a.description) ? 1 : -1))
-        .pop();
-    });
+
+
+    this.quickQuoteService.getAllNewInvestorsByChannelType(this.brokerCompanyInfo.brokerCompanyDetailDTO.channelType).subscribe(i =>{
+      this.investors = i;
+    })
     this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
       this.optimalBlueLoanTypes = taxonomies
         .filter(tax => tax.type === 'OBLoanType')

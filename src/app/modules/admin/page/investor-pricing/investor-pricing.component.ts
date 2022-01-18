@@ -7,6 +7,7 @@ import {TaxonomyService} from '@data/service/taxonomy.service';
 import {Taxonomy} from '@data/schema/taxonomy';
 import {InvestorPricing} from '@data/schema/investorpricing';
 import { faPlus} from "@fortawesome/free-solid-svg-icons";
+import {NewInvestor} from '@data/schema/new-investor';
 @Component({
   selector: 'app-investor-pricing',
   templateUrl: './investor-pricing.component.html',
@@ -20,7 +21,7 @@ export class InvestorPricingComponent implements OnInit {
               private dialogService: NbDialogService,
               private taxonomyService: TaxonomyService) {
   }
-  investors : Taxonomy;
+  investors : NewInvestor[];
   optimalBlueLoanTypes : Taxonomy;
   investorPricing : InvestorPricing[];
   errorMessage ="";
@@ -31,12 +32,11 @@ export class InvestorPricingComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
-      this.investors = taxonomies
-        .filter(tax => tax.type === 'OBInvestor')
-        .sort(((a, b) => (b.description > a.description) ? 1 : -1))
-        .pop();
-    });
+    this.quickQuoteService.getAllNewInvestors().subscribe(i =>{
+      this.investors = i;
+
+    })
+
     this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
       this.optimalBlueLoanTypes = taxonomies
         .filter(tax => tax.type === 'OBLoanType')
@@ -88,6 +88,10 @@ export class InvestorPricingComponent implements OnInit {
 
 
   getInvestorPricing() {
+    this.quickQuoteService.getAllNewInvestorsByChannelType(this.selectedChannelType).subscribe(i =>{
+      this.investors = i;
+
+    })
     this.quickQuoteService.getAllInvestorPricingByChannelType(this.selectedChannelType).subscribe(pricing => {
         this.investorPricing = pricing;
       }

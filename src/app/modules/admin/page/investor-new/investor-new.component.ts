@@ -23,7 +23,13 @@ export class InvestorNewComponent implements OnInit {
   newInvestor = new NewInvestor()
   errorMessage ="";
   loading = false;
+  channelTypeTaxonomy : Taxonomy;
   ngOnInit(): void {
+    this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
+      this.channelTypeTaxonomy = taxonomies
+        .filter(tax => tax.type === 'ChannelType')
+        .pop();
+    });
 
   }
   backClicked($event: MouseEvent) {

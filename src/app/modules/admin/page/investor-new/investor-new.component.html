@@ -5,8 +5,6 @@
         <nb-icon icon="arrow-back-outline"></nb-icon>
         Previous</a></div>
       <div class="text-left col-md-8 ">
-
-
       </div>
     </div>
   </nb-card-header>
@@ -14,22 +12,31 @@
 <fieldset>
   <legend class="w-auto">Add Investor</legend>
   <div class="form-group  row mb-2" >
-    <label  class="label col-3 col-form-label">OB Investor Id</label>
+    <label  class="label col-3 col-form-label">OB Investor Id*</label>
     <div class="col-9">
       <input class="form-control" #invId="ngModel" [(ngModel)]="newInvestor.investorId" name="invId"
              id="inv" nbInput type="number" shape="rectangle"  placeholder="OB Investor ID" />
     </div>
   </div>
   <div class="form-group  row mb-2" >
-    <label  class="label col-3 col-form-label">OB Investor Name</label>
+    <label  class="label col-3 col-form-label">OB Investor Name*</label>
     <div class="col-9">
       <input class="form-control" #invName="ngModel" [(ngModel)]="newInvestor.investorName" name="invName"
              id="invNameName" nbInput type="text" shape="rectangle"  placeholder="ABC" />
     </div>
   </div>
+  <div class="form-group  row mb-2">
+    <label  class="label col-3 col-form-label">Channel Type*</label>
+    <div class="col-9">
+    <nb-select  [(ngModel)]="newInvestor.channelType"   #cType="ngModel" name="cType" required size="small"  placeholder="Channel Type*" id="cTypeId"  >
+      <nb-option *ngFor="let item of channelTypeTaxonomy.taxonomyItems" [value]="item.key">{{item.description}}</nb-option>
+    </nb-select>
+    </div>
+
+  </div>
   <div class="col-12 text-right m-2">
     <button nbButton size="medium" type="button" (click)="saveNewInvestor()"
-            [nbSpinner]="loading" nbSpinnerStatus="primary"
+            [nbSpinner]="loading" nbSpinnerStatus="primary" [disabled]="!newInvestor.investorId || !newInvestor.channelType || !newInvestor.investorName"
             status="primary" >Save
     </button>
   </div>
