@@ -112,4 +112,8 @@ export class CompanyNewComponent implements OnInit {
   showBreakUp() {
     this.router.navigate(["/admin/company-pricing-breakup/"+this.brokerCompanyInfo.companyUUID]);
   }
+
+  showMedia() {
+    this.router.navigate(["/admin/company-media"]);
+  }
 }

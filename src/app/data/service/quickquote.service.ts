@@ -16,6 +16,7 @@ import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
 import {BrokerCompanyDetail} from '@data/schema/company/broker-company-detail';
 import {Address} from '@data/schema/company/address';
 import {BrokerCompanyPricing} from '@data/schema/company/broker-company-pricing';
+import {BrokerCompanyMedia} from '@data/schema/company/broker-company-media';
 
 const API_URL = environment.API_URL;
 
@@ -190,6 +191,16 @@ export class QuickQuoteService {
     // return an observable with a user-facing error message
     return throwError("Something bad happened; please try again later.");
   }
+  public getCompanyMediaById(brokerCompanyId : string): Observable<BrokerCompanyMedia[]>{
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-all-media-by-brokercompanyid?brokerCompanyId=' + brokerCompanyId
+      )
+      .pipe(
+        map(response => {
+          return this.getBrokerCompanyMedias(response);
+        })
+      ).pipe(catchError(this.errorHandler));
+  }
   public getUserMediaByUserId(userId : string): Observable<UserMedia[]>{
      return this.http
       .get(API_URL + '/api/v1/auth/get-all-media-by-userid?userId=' + userId
@@ -205,6 +216,27 @@ export class QuickQuoteService {
       userMedia =>
         this.gerUserMedia(userMedia)
     );
+  }
+  public getBrokerCompanyMedias(response: any): BrokerCompanyMedia[] {
+    return (<BrokerCompanyMedia[]>response).map(
+      b =>
+        this.getBrokerCompanyMedia(b)
+    );
+  }
+
+
+  public getBrokerCompanyMedia(userM : BrokerCompanyMedia): BrokerCompanyMedia {
+    const brokerCompanyMedia = new BrokerCompanyMedia();
+    brokerCompanyMedia.brokerCompanyMediaId = userM['brokerCompanyMediaId'];
+    brokerCompanyMedia.userId = userM['userId'];
+    brokerCompanyMedia.mediaURL = userM['mediaURL'];
+    brokerCompanyMedia.mediaType = userM['mediaType'];
+    brokerCompanyMedia.mediaDescription = userM['mediaDescription'];
+    brokerCompanyMedia.lastUpdatedAt = userM['lastUpdatedAt'];
+    brokerCompanyMedia.lastUpdatedBy = userM['lastUpdatedBy'];
+    brokerCompanyMedia.deleteFlag = userM['deleteFlag'];
+    brokerCompanyMedia.mediaId = userM['mediaId'];
+    return brokerCompanyMedia;
   }
 
   public gerUserMedia(userM : UserMedia): UserMedia {
@@ -229,6 +261,19 @@ export class QuickQuoteService {
       .pipe(
         map(response => {
           return this.gerUserMedia(<UserMedia>response)
+        })
+      )
+      .pipe(catchError(this.errorHandler));
+  }
+  public saveBrokerCompanyMedia(brokerCompanyMedia: BrokerCompanyMedia): Observable<BrokerCompanyMedia> {
+    return this.http
+      .post(
+        API_URL + "/api/v1/auth/save-brokercompany-media",
+        JSON.stringify(brokerCompanyMedia), this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return this.getBrokerCompanyMedia(<BrokerCompanyMedia>response)
         })
       )
       .pipe(catchError(this.errorHandler));

@@ -154,6 +154,10 @@
             <button  type="button" nbButton  status="primary"
                      size="medium" (click)="showBreakUp()"><fa-icon size="1x" [icon]="info" class="m-0"></fa-icon>&nbsp;Margin Break Up&nbsp;</button>
           </div>
+          <div class="m-2" *ngIf="brokerCompanyInfo.companyUUID">
+            <button  type="button" nbButton  status="primary"
+                     size="medium" (click)="showMedia()"><fa-icon size="1x" [icon]="info" class="m-0"></fa-icon>&nbsp;Media&nbsp;</button>
+          </div>
 
         </div>
 
