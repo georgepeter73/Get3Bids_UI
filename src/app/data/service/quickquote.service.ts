@@ -63,7 +63,7 @@ export class QuickQuoteService {
   }
   public getAllUserMLOByBrokerCompanyid(brokerCompanyId : number): Observable<UserMlo[]> {
     return this.http
-      .get(API_URL + '/api/v1/auth/get-all-users-by-brokercompanyid?brokercompanyid=' + brokerCompanyId
+      .get(API_URL + '/api/v1/no-auth/get-all-users-by-brokercompanyid?brokercompanyid=' + brokerCompanyId
       )
       .pipe(
         map(response => {
