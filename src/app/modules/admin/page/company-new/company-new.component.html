@@ -150,11 +150,11 @@
                     size="medium" [nbSpinner]="loading2" nbSpinnerStatus="primary"><nb-icon icon="save-outline"></nb-icon>MLO List</button>
 
           </div>
-          <div class="m-2" *ngIf="brokerCompanyInfo.companyUUID">
+          <div class="m-2" *ngIf="mode==='edit'">
             <button  type="button" nbButton  status="primary"
                      size="medium" (click)="showBreakUp()"><fa-icon size="1x" [icon]="info" class="m-0"></fa-icon>&nbsp;Margin Break Up&nbsp;</button>
           </div>
-          <div class="m-2" *ngIf="brokerCompanyInfo.companyUUID">
+          <div class="m-2" *ngIf="mode==='edit'">
             <button  type="button" nbButton  status="primary"
                      size="medium" (click)="showMedia()"><fa-icon size="1x" [icon]="info" class="m-0"></fa-icon>&nbsp;Media&nbsp;</button>
           </div>
