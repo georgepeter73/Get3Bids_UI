@@ -3,7 +3,7 @@ import {AgGridAngular} from '@ag-grid-community/angular';
 import {QuickQuoteService} from '@data/service/quickquote.service';
 import { faUser} from "@fortawesome/free-solid-svg-icons";
 import {of} from 'rxjs';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 @Component({
   selector: 'app-mlo-list',
@@ -14,9 +14,10 @@ import {Location} from '@angular/common';
 export class MloListComponent implements OnInit {
   searchValue: any;
   cart = faUser;
+  brokerCompanyId = "";
   constructor(public quickQuoteService : QuickQuoteService,
 
-              private router: Router, private _location: Location,) {
+              private router: Router, private _location: Location,private route : ActivatedRoute) {
   }
   @ViewChild("grid") usersGrid: AgGridAngular;
   columnDefs = [
@@ -83,16 +84,25 @@ export class MloListComponent implements OnInit {
   ];
   rowData: any;
   ngOnInit(): void {
-    this.quickQuoteService.getAllUserMLO().subscribe(
-      userList => {
-        userList.sort((a, b) => (a.lastUpdatedAt > b.lastUpdatedAt ? -1 : 1));
-        this.rowData = of(userList);
-        setTimeout(()=>{this.usersGrid.api.sizeColumnsToFit()}, 50);
-       },
-      error => {
-        console.error(error)
-      }
-    );
+    this.brokerCompanyId = this.route.snapshot.paramMap.get('brokerCompanyId');
+    if(this.brokerCompanyId && this.brokerCompanyId == "0") {
+      this.quickQuoteService.getAllUserMLO().subscribe(
+        userList => {
+          userList.sort((a, b) => (a.lastUpdatedAt > b.lastUpdatedAt ? -1 : 1));
+          this.rowData = of(userList);
+          setTimeout(() => {
+            this.usersGrid.api.sizeColumnsToFit()
+          }, 50);
+        },
+        error => {
+          console.error(error)
+        }
+      );
+    }else{
+      this.quickQuoteService.getAllUserMLOByBrokerCompanyid(parseInt(this.brokerCompanyId)).subscribe(res =>{
+         this.rowData = of(res);
+      })
+    }
   }
    percentFormatter(currency, sign) {
     var sansDec = currency.toFixed(3);
@@ -119,6 +129,8 @@ export class MloListComponent implements OnInit {
   }
 
   backClicked($event: MouseEvent) {
-    this.router.navigate(["/admin/mlo-list"]);
+    $event.preventDefault();
+    this.router.navigate(["/admin/admin-dash"]);
+
   }
 }

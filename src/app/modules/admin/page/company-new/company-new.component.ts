@@ -109,7 +109,7 @@ export class CompanyNewComponent implements OnInit {
   }
 
   usersList() {
-    this.router.navigate(["/admin/company-users-list/"+this.brokerCompanyInfo.brokercompanyId]);
+    this.router.navigate(["/admin/mlo-list/"+this.brokerCompanyInfo.brokercompanyId]);
   }
 
   showBreakUp() {

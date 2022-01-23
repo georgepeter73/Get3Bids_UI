@@ -98,7 +98,7 @@ export class MloComponent implements OnInit {
 
   backClicked(mouseEvent: MouseEvent) {
     mouseEvent.preventDefault();
-    this.router.navigate(["/admin/mlo-list"]);
+    this.router.navigate(["/admin/mlo-list/"+this.userMLO.brokercompanyId]);
   }
    copyToClipboard(text) {
     const elem = document.createElement('textarea');

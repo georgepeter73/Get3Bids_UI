@@ -31,7 +31,7 @@ const routes: Routes = [
     component: MloComponent
   },
   {
-    path: "mlo-list",
+    path: "mlo-list/:brokerCompanyId",
     canActivate: [AuthGuard],
     component: MloListComponent
   },

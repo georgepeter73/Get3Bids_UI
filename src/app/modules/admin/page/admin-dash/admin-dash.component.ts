@@ -16,7 +16,7 @@ export class AdminDashComponent implements OnInit {
   }
 
   mlo() {
-    this.router.navigate(["/admin/mlo-list"]);
+    this.router.navigate(["/admin/mlo-list/0"]);
   }
 
   media() {
