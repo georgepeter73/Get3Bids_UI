@@ -26,7 +26,7 @@ const routes: Routes = [
     component: AdminDashComponent
   },
   {
-    path: "mlo-create/:crudType",
+    path: "mlo-create/:crudType/:brokerCompanyId",
     canActivate: [AuthGuard],
     component: MloComponent
   },

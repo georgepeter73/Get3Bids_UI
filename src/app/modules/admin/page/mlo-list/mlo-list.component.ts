@@ -120,12 +120,12 @@ export class MloListComponent implements OnInit {
 
 
   newMLO() {
-    this.router.navigate(["/admin/mlo-create/add"]);
+    this.router.navigate(["/admin/mlo-create/add/"+this.brokerCompanyId]);
   }
 
   onRowClick($event: any) {
     sessionStorage.setItem('userDTO', JSON.stringify(this.usersGrid.api.getSelectedRows()[0]));
-    this.router.navigate(["/admin/mlo-create/edit"]);
+    this.router.navigate(["/admin/mlo-create/edit/"+this.brokerCompanyId]);
   }
 
   backClicked($event: MouseEvent) {

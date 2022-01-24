@@ -31,6 +31,7 @@ export class MloComponent implements OnInit {
   loading1: any;
   info = faInfo;
   brokerCompanyList : BrokerCompanyInfo[] =  [];
+  brokerCompanyId ="";
 
 
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
@@ -38,6 +39,8 @@ export class MloComponent implements OnInit {
   }
   ngOnInit(): void {
     this.crudType = this.route.snapshot.paramMap.get('crudType');
+    this.brokerCompanyId = this.route.snapshot.paramMap.get('brokerCompanyId');
+    this.userMLO.brokercompanyId = parseInt(this.brokerCompanyId);
     if(this.crudType == 'edit') {
       this.userMLO = JSON.parse(sessionStorage.getItem("userDTO"));
       this.buttonText = "Update MLO";
