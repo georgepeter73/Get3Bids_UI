@@ -43,7 +43,7 @@ export class MloPricingBreakupComponent implements OnInit {
     this.quickQuoteService.getUserMLOPricing(this.userUUID).subscribe(pricing => {
         this.investorPricing = pricing;
         this.investorPricing.forEach(i =>{
-          i.totalMargin = i.loMargin + i.investorMargin;
+          i.totalMargin = i.loMargin + i.investorMargin + i.companyMargin;
         })
       }
     );

@@ -16,8 +16,9 @@
         *ngIf="investors">
         <div class="row">
         <h5 class="col-3"></h5>
-        <h5 class="col-3">Investor Margin</h5>
-        <h5 class="col-3">MLO Margin</h5>
+        <h5 class="col-2">Corporate Margin</h5>
+        <h5 class="col-2">Branch Margin</h5>
+        <h5 class="col-2">MLO Margin</h5>
         <h5 class="col-3">Total Margin</h5>
         </div>
         <div *ngFor="let taxonomyItem of investors.taxonomyItems">
@@ -28,10 +29,13 @@
                 <div class="col-3">
                   {{getLoanTypeDesc(pricing.loanType)}}
                 </div>
-                <div class="col-3" >
+                <div class="col-2" >
                   {{pricing.investorMargin}}%
                 </div>
-                <div class="col-3" >
+                <div class="col-2" >
+                  {{pricing.companyMargin}}%
+                </div>
+                <div class="col-2" >
                   {{pricing.loMargin}}%
                 </div>
                 <div class="col-3" >

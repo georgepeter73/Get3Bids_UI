@@ -8,9 +8,9 @@
   </nb-card-header>
   <nb-card-body>
     <fieldset class="border p-2">
-      <legend  class="w-auto">Mortgage Broker Company</legend>
+      <legend  class="w-auto">Mortgage Broker Company / Branch</legend>
         <div class="form-group row mb-2">
-            <label for="cnameid" class="label col-3 col-form-label">Company Name*</label>
+            <label for="cnameid" class="label col-3 col-form-label">Company/Branch Name*</label>
             <div class="col-9">
               <input class="form-control mb-2" #cname="ngModel" name="cname" id="cnameid"
                      [(ngModel)]="brokerCompanyInfo.name"
@@ -41,7 +41,7 @@
     </fieldset>
     <br><br>
     <fieldset class="border p-2">
-      <legend  class="w-auto">Company Product Category Margin</legend>
+      <legend  class="w-auto">Company/Branch Product Category Margin</legend>
       <div class="form-group row mb-2">
         <label for="companyMarginId" class="label col-3 col-form-label">FHA Margin %</label>
         <div class="col-3">
@@ -145,7 +145,7 @@
           <div class="" *ngIf="mode==='edit'">
             <button class="m-2" type="button" nbButton  status="primary" (click)="saveCompany()" [disabled]="!brokerCompanyInfo.name
         || !brokerCompanyInfo.brokerCompanyDetailDTO.channelType || !brokerCompanyInfo.brokerCompanyDetailDTO.nmls"
-                    size="medium" [nbSpinner]="loading1" nbSpinnerStatus="primary"><nb-icon icon="save-outline"></nb-icon>Save Company</button>
+                    size="medium" [nbSpinner]="loading1" nbSpinnerStatus="primary"><nb-icon icon="save-outline"></nb-icon>Save Company/Branch</button>
             <button class="m-2" type="button" nbButton  status="primary" (click)="usersList()"
                     size="medium" [nbSpinner]="loading2" nbSpinnerStatus="primary"><nb-icon icon="save-outline"></nb-icon>MLO List</button>
 
