@@ -24,6 +24,35 @@
 
       <strong> OB Response :</strong><nb-action class="label col-1 col-form-label" (click)="copyToClipboard(logSearch.products)" icon="clipboard-outline" nbTooltip="Copy"></nb-action> {{logSearch.products}}
     </div>
+      <hr>
+
+      <div class="text-left">
+       Selected Products
+      </div>
+      <br>
+      <div class="text-left">
+        <input class="form-control"
+               [(ngModel)]="searchValue"
+               type="text" nbInput  shape="rectangle" placeholder="Filter"
+        />
+      </div>
+
+      <ag-grid-angular
+        style="width: 1025px; height: 350px;"
+        #grid
+        class="ag-theme-alpine"
+        [rowData]="rowData | async"
+        [columnDefs]="columnDefs"
+        [pagination]="true"
+        rowSelection="multiple"
+        paginationPageSize="100"
+        debounceVerticalScrollbar=true
+        enableCellTextSelection=true
+        [quickFilterText]="searchValue"
+        [enableCellTextSelection]="true"
+        (rowDoubleClicked)="onRowClick($event)"
+      >
+      </ag-grid-angular>
     <hr>
     <div class="row col-12">
       <strong> Floify Request :</strong><nb-action class="label col-1 col-form-label" (click)="copyToClipboard(logSearch.floifyRequestData)" icon="clipboard-outline" nbTooltip="Copy"></nb-action> {{logSearch.floifyRequestData}}
@@ -41,6 +70,7 @@
       <strong> Floify Prospects Id :</strong> {{logSearch.prospectsId}}
     </div>
     <hr>
+
     </div>
   </nb-card-body>
 </nb-card>

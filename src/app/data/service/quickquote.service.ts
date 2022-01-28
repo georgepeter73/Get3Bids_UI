@@ -17,6 +17,7 @@ import {BrokerCompanyDetail} from '@data/schema/company/broker-company-detail';
 import {Address} from '@data/schema/company/address';
 import {BrokerCompanyPricing} from '@data/schema/company/broker-company-pricing';
 import {BrokerCompanyMedia} from '@data/schema/company/broker-company-media';
+import {LogSearchDetails} from '@data/schema/log-search-details';
 
 const API_URL = environment.API_URL;
 
@@ -392,7 +393,25 @@ export class QuickQuoteService {
     logSearch.phone = lSearch['phone'];
     logSearch.lastUpdatedAt = lSearch['lastUpdatedAt'];
     logSearch.userMLO = lSearch['userDTO'];
+    logSearch.logSearchDetailsDTOList = this.getLogSearchDetailsList(lSearch['logSearchDetailsDTOList']);
      return logSearch;
+  }
+  public getLogSearchDetailsList(response: any): LogSearchDetails[] {
+    return (<LogSearchDetails[]>response).map(
+      logDetails =>
+        this.getLogSearchDetailsEntity(logDetails)
+    );
+  }
+
+  public getLogSearchDetailsEntity(lSearchDetailsParam : LogSearchDetails) : LogSearchDetails{
+    const logSearchDetails = new LogSearchDetails();
+    logSearchDetails.productDetailId = lSearchDetailsParam['productDetailId'];
+    logSearchDetails.lastUpdatedAt = lSearchDetailsParam['lastUpdatedAt'];
+    logSearchDetails.products = lSearchDetailsParam['products'];
+    logSearchDetails.productId = lSearchDetailsParam['productId'];
+    logSearchDetails.productsBadResponse = lSearchDetailsParam['productsBadResponse'];
+    return logSearchDetails;
+
   }
   public searchLog(): Observable<LogSearch[]> {
     return this.http

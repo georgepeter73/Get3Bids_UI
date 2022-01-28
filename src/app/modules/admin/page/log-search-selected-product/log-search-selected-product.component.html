@@ -1,0 +1,37 @@
+<nb-card size="large" >
+  <nb-card-header>
+    <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)"><nb-icon icon="arrow-back-outline"></nb-icon> Previous</a></div>
+    <div class="container col-md-8 text-center">
+      Selected Product Quote Log
+    </div>
+  </nb-card-header>
+  <nb-card-body class="host">
+    <div class="m-5">
+      <div class="row col-12">
+        <strong>Product Detail Id : </strong>{{logSearchSelectedProduct.productDetailId}}
+      </div>
+      <hr>
+      <div class="row col-12">
+        <strong>Product  Id : </strong>{{logSearchSelectedProduct.productId}}
+      </div>
+      <hr>
+      <div class="row col-12">
+        <strong>Selected Product Quotes :</strong> <nb-action class="label col-1 col-form-label" (click)="copyToClipboard(logSearchSelectedProduct.products)" icon="clipboard-outline" nbTooltip="Copy"></nb-action>{{logSearchSelectedProduct.products}}
+      </div>
+      <hr>
+      <div class="row col-12">
+        <strong>Selected Product Bad Response :</strong><nb-action class="label col-1 col-form-label" (click)="copyToClipboard(logSearchSelectedProduct.productsBadResponse)" icon="clipboard-outline" nbTooltip="Copy"></nb-action> {{logSearchSelectedProduct.productsBadResponse}}
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+
+
+
+
+
+
+
+
+

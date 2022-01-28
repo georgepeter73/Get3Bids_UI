@@ -1,8 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, ViewChild, Inject, LOCALE_ID} from '@angular/core';
 import {QuickQuoteService} from '@data/service/quickquote.service';
 import {Router} from '@angular/router';
-import {Location} from '@angular/common';
+import {formatDate, Location} from '@angular/common';
 import {LogSearch} from '@data/schema/log-search';
+import {AgGridAngular} from '@ag-grid-community/angular';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-log-search-detail',
@@ -14,12 +16,65 @@ export class LogSearchDetailComponent implements OnInit {
 
   constructor(public quickQuoteService : QuickQuoteService,
 
-              private router: Router, private _location: Location,) {
+              private router: Router, private _location: Location, @Inject(LOCALE_ID) public locale: string) {
   }
+
   logSearch : LogSearch;
+  @ViewChild("grid") logDetailsGrid: AgGridAngular;
+  columnDefs = [
+    {
+      headerName: "Product Detail Id",
+      field: "productDetailId",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 150
+    },
+    {
+      headerName: "Product Id",
+      field: "productId",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 150,
+
+
+    },
+    {
+      headerName: "Quotes",
+      field: "products",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 150,
+
+
+    },
+
+    {
+      headerName: "Date",
+      field: "lastUpdatedAt",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 100,
+      cellRenderer: (data) => {
+        return data.value ? formatDate(data.value, 'd MMM yyyy h:MM', this.locale) : '';
+      },
+    },
+
+  ];
+  rowData: any;
+  searchValue: any;
 
   ngOnInit(): void {
    this.logSearch = JSON.parse(sessionStorage.getItem("LogSearchSelection"))
+   this.rowData = of(this.logSearch.logSearchDetailsDTOList);
+
   }
   backClicked(mouseEvent: MouseEvent) {
     mouseEvent.preventDefault();
@@ -32,6 +87,10 @@ export class LogSearchDetailComponent implements OnInit {
     elem.select();
     document.execCommand('copy');
     document.body.removeChild(elem);
+  }
+  onRowClick($event: any) {
+    sessionStorage.setItem('LogSearchSelectedProduct', JSON.stringify(this.logDetailsGrid.api.getSelectedRows()[0]));
+    this.router.navigate(["/admin/log-search-selected-product"]);
   }
 
 }

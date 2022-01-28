@@ -18,6 +18,7 @@ import {CompanyNewComponent} from '@modules/admin/page/company-new/company-new.c
 import {CompanyUsersListComponent} from '@modules/admin/page/company-users-list/company-users-list.component';
 import {CompanyPricingBreakupComponent} from '@modules/admin/page/company-pricing-breakup/company-pricing-breakup.component';
 import {CompanyMediaComponent} from '@modules/admin/page/company-media/company-media.component';
+import {LogSearchSelectedProductComponent} from '@modules/admin/page/log-search-selected-product/log-search-selected-product.component';
 
 
 const routes: Routes = [
@@ -105,6 +106,11 @@ const routes: Routes = [
     path: "company-media",
     canActivate: [AuthGuard],
     component: CompanyMediaComponent
+  },
+  {
+    path: "log-search-selected-product",
+    canActivate: [AuthGuard],
+    component: LogSearchSelectedProductComponent
   }
 
 ];

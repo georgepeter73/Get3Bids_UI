@@ -1,4 +1,5 @@
 import {UserMlo} from '@data/schema/user/user-mlo';
+import {LogSearchDetails} from '@data/schema/log-search-details';
 
 export class LogSearch{
   quoteId : string;
@@ -19,4 +20,5 @@ export class LogSearch{
   phone: string
   lastUpdatedAt : Date
   userMLO : UserMlo
+  logSearchDetailsDTOList : LogSearchDetails[] =[];
 }
