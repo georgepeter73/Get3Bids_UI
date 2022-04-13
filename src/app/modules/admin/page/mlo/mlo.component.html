@@ -16,7 +16,7 @@
     <div class="form-group row mb-2">
       <label for="mloMarginId" class="label col-3 col-form-label">Company Name*</label>
        <div class="col-3">
-        <nb-select  [(ngModel)]="userMLO.brokercompanyId"   #brokerCompany="ngModel" name="brokerCompany" required size="small"  placeholder="" id="brokerCompanyid"  >
+        &nbsp;<nb-select  [(ngModel)]="userMLO.brokercompanyId"   #brokerCompany="ngModel" name="brokerCompany" required size="small"  placeholder="" id="brokerCompanyid"  >
           <nb-option *ngFor="let brokercompany of brokerCompanyList" [value]="brokercompany.brokercompanyId">{{brokercompany.name}}</nb-option>
         </nb-select>
       </div>
@@ -92,6 +92,16 @@
 
   <fieldset class="border p-2">
     <legend  class="w-auto">POS</legend>
+    <div class="form-group row mb-2">
+
+      <label for="mloMarginId" class="label col-3 col-form-label">POS Type</label>
+      <div class="col-3">
+        &nbsp;<nb-select  [(ngModel)]="userMLO.loSiteDTO.posType"   #posTypeName="ngModel" required name="posTypeName" id="posTypeId" size="medium"  placeholder="Pont of Sale System"  >
+          <nb-option *ngFor="let posTypeTaxItem of posTypeTaxonomy.taxonomyItems" [value]="posTypeTaxItem.key">{{posTypeTaxItem.description}}</nb-option>
+        </nb-select>
+      </div>
+       <div class="col-6"></div>
+    </div>
   <div class="form-group row mb-2">
     <label for="mloMarginId" class="label col-3 col-form-label">Floify API Key(Optional)</label>
     <div class="col-3">
@@ -99,23 +109,35 @@
               [(ngModel)]="userMLO.loSiteDTO.floifyAPIKey"
               type="text" nbInput  shape="rectangle"  placeholder=""
       />
-
     </div>
     <div class="col-6"></div>
 
 
   </div>
+    <div class="form-group row mb-2">
+      <label for="mloMarginId" class="label col-3 col-form-label">Lendingpad API Key(Optional)</label>
+      <div class="col-3">
+        <input  class="form-control mb-2" #lendingpadAPIID="ngModel" name="lendingpadAPI" id="lendingpadAPIID"
+                [(ngModel)]="userMLO.loSiteDTO.lendingpadAPIKey"
+                type="text" nbInput  shape="rectangle"  placeholder=""
+        />
+
+      </div>
+      <div class="col-6"></div>
+
+
+    </div>
 
   <div class="form-group row mb-2">
     <label for="inputEmail1" class="label col-3 col-form-label">Manager</label>
     <div class="col-9">
-       <nb-checkbox  [(ngModel)]="userMLO.floifyTeamManagerFlag"  name="IsFloifyManage" #IsFloifyManage="ngModel"  [disabled]="userMLO.floifyAccountApprovalFlag">Is Floify Manager</nb-checkbox>
+       &nbsp;<nb-checkbox  [(ngModel)]="userMLO.floifyTeamManagerFlag"  name="IsFloifyManage" #IsFloifyManage="ngModel"  [disabled]="userMLO.floifyAccountApprovalFlag">Is Floify Manager</nb-checkbox>
     </div>
   </div>
   <div class="form-group row mb-2" *ngIf="userMLOManager && !userMLO.floifyTeamManagerFlag">
     <label for="managerListId" class="label col-3 col-form-label">Floify Manager</label>
     <div class="col-9">
-      <nb-select  [(ngModel)]="userMLO.floifyTeamManagerId"   #mlist="ngModel" name="mlist" required size="small"  placeholder="" id="managerListId"  [disabled]="userMLO.floifyAccountApprovalFlag">
+      &nbsp;<nb-select  [(ngModel)]="userMLO.floifyTeamManagerId"   #mlist="ngModel" name="mlist" required size="small"  placeholder="" id="managerListId"  [disabled]="userMLO.floifyAccountApprovalFlag">
         <nb-option *ngFor="let manager of userMLOManager" [value]="manager.userId">{{manager.firstName}}&nbsp;{{manager.lastName}}</nb-option>
       </nb-select>
     </div>

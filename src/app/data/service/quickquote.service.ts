@@ -126,6 +126,8 @@ export class QuickQuoteService {
       loSiteLocal.siteType = losite['siteType'];
       loSiteLocal.deleteFlag = losite['deleteFlag'];
       loSiteLocal.floifyAPIKey = losite['floifyAPIKey'];
+      loSiteLocal.lendingpadAPIKey = losite['lendingpadAPIKey'];
+      loSiteLocal.posType = losite['posType'];
       loSiteLocal.lastUpdatedBy = losite['lastUpdatedBy'];
     }
    return loSiteLocal;

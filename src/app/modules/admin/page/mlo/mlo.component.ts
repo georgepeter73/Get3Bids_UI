@@ -9,6 +9,8 @@ import {LoSiteDTO} from '@data/schema/user/lo-site';
 import {UserContact} from '@data/schema/user/user-contact';
 import { faInfo} from "@fortawesome/free-solid-svg-icons";
 import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
+import {TaxonomyService} from '@data/service/taxonomy.service';
+import {Taxonomy} from '@data/schema/taxonomy';
 
 @Component({
   selector: 'app-mlo',
@@ -32,15 +34,25 @@ export class MloComponent implements OnInit {
   info = faInfo;
   brokerCompanyList : BrokerCompanyInfo[] =  [];
   brokerCompanyId ="";
+  floidfyChecked="checked";
+  lendingpadChecked="";
+  posTypeTaxonomy : Taxonomy;
 
 
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
-              private route : ActivatedRoute, private router: Router) {
+              private route : ActivatedRoute, private router: Router,private taxonomyService: TaxonomyService) {
   }
   ngOnInit(): void {
     this.crudType = this.route.snapshot.paramMap.get('crudType');
     this.brokerCompanyId = this.route.snapshot.paramMap.get('brokerCompanyId');
     this.userMLO.brokercompanyId = parseInt(this.brokerCompanyId);
+    this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
+      this.posTypeTaxonomy = taxonomies
+        .filter(tax => tax.type === 'POSType')
+        .sort(((a, b) => (b.description > a.description) ? 1 : -1))
+        .pop();
+    });
+
     if(this.crudType == 'edit') {
       this.userMLO = JSON.parse(sessionStorage.getItem("userDTO"));
       this.buttonText = "Update MLO";
@@ -55,6 +67,7 @@ export class MloComponent implements OnInit {
       this.userMLO.loSiteDTO = this.loSite;
       this.userContactInfo.deleteFlag = false;
       this.userMLO.userContact = this.userContactInfo;
+      this.userMLO.loSiteDTO.posType="101";
     }
     this.quickQuoteService.getAllUserMLO().subscribe(
       userList => {
@@ -81,7 +94,7 @@ export class MloComponent implements OnInit {
     if(this.crudType=='edit'){
       this.userMLO.lastUpdatedAt = new Date();
     }
-    this.quickQuoteService.saveUserMLO(this.userMLO).subscribe(res =>{
+      this.quickQuoteService.saveUserMLO(this.userMLO).subscribe(res =>{
       this.userMLO = res;
       this.mloLink = this.frontendurl+'/quickquote/borrower-info/'+this.userMLO.userUUID+'/website';
       this.loading = false;
