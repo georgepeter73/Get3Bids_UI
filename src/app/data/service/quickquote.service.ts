@@ -128,6 +128,9 @@ export class QuickQuoteService {
       loSiteLocal.floifyAPIKey = losite['floifyAPIKey'];
       loSiteLocal.lendingpadAPIKey = losite['lendingpadAPIKey'];
       loSiteLocal.posType = losite['posType'];
+      loSiteLocal.welcomeScreenFlag = losite['welcomeScreenFlag'];
+      loSiteLocal.contactInfoScreenFlag = losite['contactInfoScreenFlag'];
+      loSiteLocal.helpVideoFlag = losite['helpVideoFlag'];
       loSiteLocal.lastUpdatedBy = losite['lastUpdatedBy'];
     }
    return loSiteLocal;
