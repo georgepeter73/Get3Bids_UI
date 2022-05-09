@@ -87,24 +87,7 @@
       <label  class="label col-7 col-form-label">{{mloLink}}</label>
       <nb-action class="label col-1 col-form-label" (click)="copyToClipboard(mloLink)" icon="clipboard-outline" nbTooltip="Copy"></nb-action>
     </div>
-    <div class="form-group  row mb-2" >
-      <div  class="label col-3 col-form-label"></div>
-      <div class="col-9">
-       <nb-checkbox  [(ngModel)]="userMLO.loSiteDTO.welcomeScreenFlag"  name="showWelcomeScreen" #showWelcomeScreen="ngModel"  >Show Welcome Screen</nb-checkbox>
-      </div>
-    </div>
-    <div class="form-group  row mb-2" >
-      <div  class="label col-3 col-form-label"></div>
-      <div class="col-9">
-        <nb-checkbox  [(ngModel)]="userMLO.loSiteDTO.contactInfoScreenFlag"  name="showContactInfoScreen" #showContactInfoScreen="ngModel"  >Show Contact Info Screen</nb-checkbox>
-      </div>
-    </div>
-    <div class="form-group  row mb-2" >
-      <div  class="label col-3 col-form-label"></div>
-      <div class="col-9">
-        <nb-checkbox  [(ngModel)]="userMLO.loSiteDTO.helpVideoFlag"  name="showHelpVideo" #showHelpVideo="ngModel"  >Show Help Video</nb-checkbox>
-      </div>
-    </div>
+
   </fieldset>
   <br>
 
