@@ -3,9 +3,13 @@ export class BrokerCompanyDetail{
   nmls = '';
   website = '';
   mersId = ''
-  numberOfEmployees =0
+  numberOfEmployees =0;
   businessTaxId =0;
   lastUpdatedAt = new Date();
   lastUpdatedBy = '';
   channelType =0;
+  welcomeScreenFlag = true;
+  helpVideoFlag = true;
+  contactInfoScreenFlag = true;
+
 }

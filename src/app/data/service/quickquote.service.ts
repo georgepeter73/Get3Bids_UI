@@ -479,6 +479,9 @@ export class QuickQuoteService {
       brokerCompanyDetail.website = res['website'];
       brokerCompanyDetail.lastUpdatedAt = res['lastUpdatedAt'];
       brokerCompanyDetail.lastUpdatedBy = res['lastUpdatedBy'];
+      brokerCompanyDetail.welcomeScreenFlag = res['welcomeScreenFlag'];
+      brokerCompanyDetail.contactInfoScreenFlag = res['contactInfoScreenFlag'];
+      brokerCompanyDetail.helpVideoFlag = res['helpVideoFlag'];
     }
 
 
