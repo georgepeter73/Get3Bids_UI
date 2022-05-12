@@ -7,6 +7,7 @@ export const environment = {
   serverUrl: "/api",
   envName: "PROD",
   API_URL: "https://prodbff.loanhouse.us",
+  LOCKDESK_API_URL : "http://localhost:5000",
   is_taxonomy_static: false,
   is_zip_static: false,
   is_common_service_static: false,

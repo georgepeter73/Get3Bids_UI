@@ -42,6 +42,10 @@ import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { CookieModule } from "ngx-cookie";
 import {NoCacheHeadersInterceptor} from '@app/interceptor/nocacheheaders.interceptor';
 import {NgxMaskModule} from 'ngx-mask';
+import { LockdeskLayoutComponent } from './layout/lockdesk-layout/lockdesk-layout.component';
+import { LockdeskHeaderComponent } from './layout/lockdesk-header/lockdesk-header.component';
+import { LockdeskFooterComponent } from './layout/lockdesk-footer/lockdesk-footer.component';
+
 
 
 @NgModule({
@@ -51,6 +55,10 @@ import {NgxMaskModule} from 'ngx-mask';
         HeaderComponent,
         FooterComponent,
         AuthLayoutComponent,
+        LockdeskLayoutComponent,
+        LockdeskHeaderComponent,
+        LockdeskFooterComponent,
+
 
     ],
     imports: [

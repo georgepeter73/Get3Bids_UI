@@ -1,0 +1,14 @@
+<nb-layout>
+  <nb-layout-header >
+    <app-lockdesk-header></app-lockdesk-header>
+  </nb-layout-header>
+  <nb-layout-column class="container">
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
+  </nb-layout-column>
+
+  <nb-layout-footer >
+    <app-lockdesk-footer></app-lockdesk-footer>
+  </nb-layout-footer>
+
+</nb-layout>
+

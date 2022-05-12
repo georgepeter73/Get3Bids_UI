@@ -5,6 +5,7 @@ import { AuthLayoutComponent } from "./layout/auth-layout/auth-layout.component"
 import { AdminLayoutComponent } from "./layout/admin-layout/admin-layout.component";
 import { HttpClientModule } from "@angular/common/http";
 import { AuthGuard } from "@app/guard/auth.guard";
+import {LockdeskLayoutComponent} from './layout/lockdesk-layout/lockdesk-layout.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,18 @@ const routes: Routes = [
         path: "",
         loadChildren: () =>
           import("@modules/admin/admin.module").then(m => m.AdminModule)
+      }
+    ]
+  },
+  {
+    path: "lockdesk",
+    component: LockdeskLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: "",
+        loadChildren: () =>
+          import("@modules/lockdesk/lockdesk.module").then(m => m.LockdeskModule)
       }
     ]
   },

@@ -11,6 +11,7 @@ export const environment = {
   serverUrl: "/api",
   envName: "DEV",
   API_URL: "http://localhost:8000",
+  LOCKDESK_API_URL : "http://localhost:5000",
   is_taxonomy_static: false,
   is_zip_static: false,
   is_common_service_static: false,
