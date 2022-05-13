@@ -8,11 +8,10 @@ import { LoanPipelineComponent } from './pages/loan-pipeline/loan-pipeline.compo
 import {AgGridModule} from '@ag-grid-community/angular';
 import {LockDeskService} from '@data/service/lockdesk.service';
 
-
 @NgModule({
   declarations: [LockdeskHomeComponent, LoanPipelineComponent],
   imports: [
-    CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule, NbInputModule, NbIconModule
+    CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule.forRoot(), NbInputModule, NbIconModule
   ],
   providers: [LockDeskService],
 })

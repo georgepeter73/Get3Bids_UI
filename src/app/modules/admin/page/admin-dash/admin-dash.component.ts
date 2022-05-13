@@ -32,4 +32,8 @@ export class AdminDashComponent implements OnInit {
   brokerCompany() {
     this.router.navigate(["/admin/company-list"]);
   }
+
+  lockDesk() {
+    this.router.navigate(["/lockdesk"]);
+  }
 }

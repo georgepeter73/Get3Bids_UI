@@ -6,6 +6,7 @@ import {Taxonomy} from '@data/schema/taxonomy';
 import {AgGridAngular} from '@ag-grid-community/angular';
 import {LockDeskService} from '@data/service/lockdesk.service';
 import {of} from 'rxjs';
+
 @Component({
   selector: 'app-loan-pipeline',
   templateUrl: './loan-pipeline.component.html',
@@ -21,8 +22,7 @@ export class LoanPipelineComponent implements OnInit {
   searchValue: any;
   cart = faUser;
   rowData: any;
-  channelTypeTaxonomy : Taxonomy = null;
-  @ViewChild("grid") loanPipelineGrid: AgGridAngular;
+   @ViewChild("grid") loanPipelineGrid: AgGridAngular;
   columnDefs = [
     {
       headerName: "Loan #",
@@ -42,24 +42,80 @@ export class LoanPipelineComponent implements OnInit {
       resizable : true,
       minWidth: 150
     },
+    {
+      headerName: "Loan Amount",
+      field: "loanAmount",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 150
+    },
+    {
+      headerName: "Appraisal Value",
+      field: "appraisalValue",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 150
+    },
+    {
+      headerName: "Purpose",
+      field: "purpose.name",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 150
+    },
+    {
+      headerName: "Loan Type",
+      field: "loanType.name",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 150
+    },
    ];
 
   ngOnInit(): void {
     this.lockDeskService.getLoanPipeline("tibor.benke@loanhouse.us").subscribe(
       plist => {
-        alert(JSON.stringify(plist))
         this.rowData = of(plist);
+        //hack for data not displaying with out a mouse click
+        this.eventFire(document.getElementById('refreshButtonId'), 'click');
+        setTimeout(()=>{this.loanPipelineGrid.api.sizeColumnsToFit()}, 50);
       },
       error => {
-        console.error(error)
+         console.error(error)
       }
     );
   }
   backClicked($event: MouseEvent) {
-
+    $event.preventDefault();
   }
 
   newBrokerCompany() {
 
+  }
+
+  onRowClick($event: any) {
+    alert("clickded")
+  }
+
+  refreshGrid($event: MouseEvent) {
+    $event.preventDefault();
+    this.loanPipelineGrid.api.sizeColumnsToFit();
+  }
+  eventFire(el, etype){
+    if (el.fireEvent) {
+      el.fireEvent('on' + etype);
+    } else {
+      var evObj = document.createEvent('Events');
+      evObj.initEvent(etype, true, false);
+      el.dispatchEvent(evObj);
+    }
   }
 }

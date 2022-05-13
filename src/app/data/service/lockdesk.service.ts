@@ -5,6 +5,8 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {LoanInfo} from '@data/schema/lockdesk/loan-info';
 import {Borrower} from '@data/schema/lockdesk/borrower';
+import {Purpose} from '@data/schema/lockdesk/purpose';
+import {LoanType} from '@data/schema/lockdesk/loantype';
 const API_URL = environment.LOCKDESK_API_URL;
 
 @Injectable()
@@ -29,7 +31,7 @@ export class LockDeskService {
       )
       .pipe(
         map(response => {
-          return this.getLoanInfos(response);
+           return this.getLoanInfos(response);
         })
       )
   }
@@ -43,6 +45,10 @@ export class LockDeskService {
     let loanInfo = new LoanInfo();
     loanInfo.loanNumber = info['loanNumber'];
     loanInfo.borrower = this.getBorrower(info['borrower'])
+    loanInfo.loanAmount = info['loanAmount'];
+    loanInfo.appraisalValue = info['appraisalValue'];
+    loanInfo.purpose = this.getPurpose(info['purpose']);
+    loanInfo.loanType = this.getLoanType(info['loanType']);
     return loanInfo;
   }
   private getBorrower(bor : Borrower): Borrower {
@@ -51,6 +57,16 @@ export class LockDeskService {
     borrower.lastName = bor['lastName'];
     borrower.middleName = bor['middleName'];
     return borrower;
+  }
+  private getPurpose(bor : Purpose): Purpose {
+    let pur = new Purpose();
+    pur.name = bor['name'];
+    return pur;
+  }
+  private getLoanType(bor : LoanType): LoanType {
+    let lType = new LoanType();
+    lType.name = bor['name'];
+    return lType;
   }
 
 }
