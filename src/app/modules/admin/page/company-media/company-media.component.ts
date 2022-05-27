@@ -20,10 +20,12 @@ import {faCameraRetro, faVideo} from '@fortawesome/free-solid-svg-icons';
 export class CompanyMediaComponent implements OnInit {
   mediaLocations: MediaLocation[] = [];
   profilePhotomediaLocations: MediaLocation[] = [];
+  companyLogoMediaLocations: MediaLocation[] = [];
   brokerCompanyInfo : BrokerCompanyInfo = new BrokerCompanyInfo();
   companyMediaList: BrokerCompanyMedia[] = [];
   welcomeScreenUserMedia = new BrokerCompanyMedia();
   profileUserMedia = new BrokerCompanyMedia();
+  companyLogoMedia = new BrokerCompanyMedia();
   buttonPressed = false;
   loading: any;
   errorMessage = '';
@@ -31,8 +33,10 @@ export class CompanyMediaComponent implements OnInit {
   facamera = faCameraRetro;
   selectedMediaLocation: MediaLocation;
   selectedPhotoMediaLocation: MediaLocation;
+  selectedCompanyMediaLocation: MediaLocation;
   welcomeScreenVideoType = 101;
   profilePhotoType = 102;
+  comapnyLogoType = 103;
   clearMessage = true;
   constructor(public quickQuoteService: QuickQuoteService, private _location: Location,
               private route: ActivatedRoute, private router: Router,
@@ -52,16 +56,26 @@ export class CompanyMediaComponent implements OnInit {
     this.quickQuoteService.getMediaLocationByFormatType('102').subscribe(res => {
       this.profilePhotomediaLocations = res;
     })
+    this.quickQuoteService.getMediaLocationByFormatType('103').subscribe(res => {
+       this.companyLogoMediaLocations = res;
+    })
+
     this.quickQuoteService.getCompanyMediaById(this.brokerCompanyInfo.brokercompanyId.toString()).subscribe(res =>
     {
       this.companyMediaList = res;
       this.welcomeScreenUserMedia = this.companyMediaList.filter(wel => wel.mediaType === this.welcomeScreenVideoType).pop();
       this.profileUserMedia = this.companyMediaList.filter(wel => wel.mediaType === this.profilePhotoType).pop();
+      this.companyLogoMedia = this.companyMediaList.filter(wel => wel.mediaType === this.comapnyLogoType).pop();
+
+
       if(!this.welcomeScreenUserMedia){
         this.welcomeScreenUserMedia = new BrokerCompanyMedia();
       }
       if(!this.profileUserMedia){
         this.profileUserMedia = new BrokerCompanyMedia();
+      }
+      if(!this.companyLogoMedia){
+        this.companyLogoMedia = new BrokerCompanyMedia();
       }
     })
 
@@ -105,6 +119,16 @@ export class CompanyMediaComponent implements OnInit {
       context: {
         title: 'Preview Window',
         videoURL: this.selectedPhotoMediaLocation.mediaURL,
+      },
+    });
+  }
+  openCompanyLogo() {
+    this.selectedCompanyMediaLocation = this.companyLogoMediaLocations.filter(m => m.mediaId === this.companyLogoMedia.mediaId).pop();
+    this.buttonPressed = false;
+    this.dialogService.open(MediaDialogComponent, {
+      context: {
+        title: 'Preview Window',
+        videoURL: this.selectedCompanyMediaLocation.mediaURL,
       },
     });
   }
@@ -178,5 +202,44 @@ export class CompanyMediaComponent implements OnInit {
       }
     )
   }
+  saveCompanyLogoMedia() {
+    this.clearMessage = true;
+    this.buttonPressed = true;
+    this.loading = true;
+    if(!this.selectedCompanyMediaLocation){
+      this.selectedCompanyMediaLocation = this.companyLogoMediaLocations.filter(m => m.mediaId === this.companyLogoMedia.mediaId).pop();
+    }
+    this.companyLogoMedia.mediaURL = this.selectedCompanyMediaLocation.mediaURL;
+    this.companyLogoMedia.mediaDescription = this.selectedCompanyMediaLocation.mediaDescription;
+    this.companyLogoMedia.deleteFlag = false;
+    this.companyLogoMedia.lastUpdatedAt = new Date();
+    this.companyLogoMedia.userId = this.brokerCompanyInfo.brokercompanyId;
+    //making it null before save to avoid circular references
+    this.brokerCompanyInfo.brokerCompanyMediaList = null;
+    this.companyLogoMedia.brokerCompanyDTO = this.brokerCompanyInfo;
+    this.companyLogoMedia.mediaType = this.comapnyLogoType;
+    this.quickQuoteService.saveBrokerCompanyMedia(this.companyLogoMedia).subscribe(
+      res => {
+        this.companyLogoMedia = res;
+        this.loading = false;
+        this.errorMessage = '';
+        this.clearMessage = false;
+        this.setMessageDelay();
+      },
+      error => {
+        this.loading = false;
+        this.errorMessage = error;
+        this.clearMessage = false;
+        this.setMessageDelay();
 
+      }
+    )
+  }
+
+  companyMediaSelected() {
+     if (this.companyLogoMedia.mediaId) {
+      this.selectedCompanyMediaLocation = this.companyLogoMediaLocations.filter(m => m.mediaId === this.companyLogoMedia.mediaId).pop();
+    }
+    this.buttonPressed = false;
+  }
 }

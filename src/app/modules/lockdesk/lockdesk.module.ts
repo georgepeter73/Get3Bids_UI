@@ -7,9 +7,10 @@ import {NbButtonModule, NbDialogService, NbIconModule, NbInputModule} from '@neb
 import { LoanPipelineComponent } from './pages/loan-pipeline/loan-pipeline.component';
 import {AgGridModule} from '@ag-grid-community/angular';
 import {LockDeskService} from '@data/service/lockdesk.service';
+import { LockConfirmationComponent } from './pages/lock-confirmation/lock-confirmation.component';
 
 @NgModule({
-  declarations: [LockdeskHomeComponent, LoanPipelineComponent],
+  declarations: [LockdeskHomeComponent, LoanPipelineComponent, LockConfirmationComponent],
   imports: [
     CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule.forRoot(), NbInputModule, NbIconModule
   ],

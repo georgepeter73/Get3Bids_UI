@@ -46,6 +46,20 @@
           </div>
 
         </div>
+        <div class="form-group row">
+          <div class="col-md-6">Company Logo</div>
+          <div class="col-md-4">
+            <nb-select  [(ngModel)]="companyLogoMedia.mediaId"   #cmLocation="ngModel" required name="cmLocation" id="cmLocationId" size="small"  placeholder="Select Photo"  (ngModelChange)="companyMediaSelected()">
+              <nb-option *ngFor="let companyLogomediaLoc of companyLogoMediaLocations" [value]="companyLogomediaLoc.mediaId">{{companyLogomediaLoc.mediaDescription}}</nb-option>
+            </nb-select>
+            <button *ngIf="companyLogoMedia.mediaId" type="button" nbButton  ghost (click)="openCompanyLogo()"><fa-icon size="1x" [icon]="facamera" class="m-1" ></fa-icon></button>
+
+          </div>
+          <div class="col-md-2">
+            <button nbButton type="button" (click)="saveCompanyLogoMedia()"><nb-icon icon="save-outline"></nb-icon>Save</button>
+          </div>
+
+        </div>
         <div class="form-group row mb-2">
           <div class="col-12 text-center" *ngIf="buttonPressed && !loading ">
             <br>

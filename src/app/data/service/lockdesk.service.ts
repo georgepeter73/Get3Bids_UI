@@ -43,6 +43,7 @@ export class LockDeskService {
   }
   private getLoanInfo(info : LoanInfo): LoanInfo {
     let loanInfo = new LoanInfo();
+    loanInfo.loanId = info['loanId'];
     loanInfo.loanNumber = info['loanNumber'];
     loanInfo.borrower = this.getBorrower(info['borrower'])
     loanInfo.loanAmount = info['loanAmount'];
