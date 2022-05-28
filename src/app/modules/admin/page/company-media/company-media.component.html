@@ -64,7 +64,7 @@
           <div class="col-12 text-center" *ngIf="buttonPressed && !loading ">
             <br>
             <br>
-            <nb-alert accent="info"  *ngIf="errorMessage.length==0 && (welcomeScreenUserMedia.brokerCompanyMediaId > 0 || profileUserMedia.brokerCompanyMediaId > 0)" size="tiny" >
+            <nb-alert accent="info"  *ngIf="errorMessage.length==0 && (welcomeScreenUserMedia.brokerCompanyMediaId > 0 || profileUserMedia.brokerCompanyMediaId > 0) || companyLogoMedia.brokerCompanyMediaId > 0" size="tiny" >
               Operation completed successfully.
             </nb-alert>
             <nb-alert accent="info" *ngIf="errorMessage.length > 0" size="tiny" >
