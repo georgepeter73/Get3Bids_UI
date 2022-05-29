@@ -11,4 +11,5 @@ export class LoanInfo{
    purpose : Purpose;
    loanAmount : string;
    appraisalValue : string;
+   id : string;
 }

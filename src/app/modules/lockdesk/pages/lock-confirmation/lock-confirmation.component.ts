@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {LockDeskService} from '@data/service/lockdesk.service';
 
 @Component({
   selector: 'app-lock-confirmation',
@@ -9,12 +10,13 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class LockConfirmationComponent implements OnInit {
 
-  constructor(private route : ActivatedRoute) { }
-  private loanId = "";
+  constructor(private route : ActivatedRoute,private lockDeskService : LockDeskService) { }
+  private itemId = "";
 
   ngOnInit(): void {
-    this.loanId = this.route.snapshot.paramMap.get('loanId');
-
+    this.itemId = this.route.snapshot.paramMap.get('itemId');
+    this.lockDeskService.getLoanById(this.itemId).subscribe(i =>{
+      alert(JSON.stringify(i));
+    })
   }
-
 }

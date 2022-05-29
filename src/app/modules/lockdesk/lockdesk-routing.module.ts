@@ -22,7 +22,7 @@ const routes: Routes = [
     component: LoanPipelineComponent
   },
   {
-    path: "lock-confirmation/:loanId",
+    path: "lock-confirmation/:itemId",
     canActivate: [AuthGuard],
     component: LockConfirmationComponent
   },

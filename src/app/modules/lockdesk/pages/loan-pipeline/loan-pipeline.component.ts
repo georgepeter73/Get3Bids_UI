@@ -102,7 +102,8 @@ export class LoanPipelineComponent implements OnInit {
   }
 
   onRowClick($event: any) {
-     this.router.navigate(["/lockdesk/lock-confirmation/"+this.loanPipelineGrid.rowData[0].loanId]);
+
+     this.router.navigate(["/lockdesk/lock-confirmation/"+this.loanPipelineGrid.rowData[0].id]);
   }
 
   refreshGrid($event: MouseEvent) {

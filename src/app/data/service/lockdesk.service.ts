@@ -44,6 +44,7 @@ export class LockDeskService {
   private getLoanInfo(info : LoanInfo): LoanInfo {
     let loanInfo = new LoanInfo();
     loanInfo.loanId = info['loanId'];
+    loanInfo.id = info['id'];
     loanInfo.loanNumber = info['loanNumber'];
     loanInfo.borrower = this.getBorrower(info['borrower'])
     loanInfo.loanAmount = info['loanAmount'];
@@ -69,5 +70,14 @@ export class LockDeskService {
     lType.name = bor['name'];
     return lType;
   }
-
+  public getLoanById(itemId : string): Observable<LoanInfo> {
+    return this.http
+      .get(API_URL + '/api/v1/lockdesk/get_loan_by_itemId?itemId=' + itemId
+      )
+      .pipe(
+        map(response => {
+          return this.getLoanInfo(<LoanInfo>response);
+        })
+      )
+  }
 }
