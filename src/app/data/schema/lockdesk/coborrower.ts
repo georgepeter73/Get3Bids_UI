@@ -1,6 +1,6 @@
 import {CurrentAddress} from '@data/schema/lockdesk/current-address';
 
-export class Borrower{
+export class Coborrower{
   firstName : string;
   lastName : string;
   middleName : string;

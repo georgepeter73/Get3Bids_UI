@@ -6,7 +6,7 @@ export const environment = {
   serverUrl: "/api",
   envName: "uat",
   API_URL: "https://uatbff.loanhouse.us",
-  LOCKDESK_API_URL : "http://localhost:5000",
+  LOCKDESK_API_URL : "http://lhposb2bbff1uat-env.eba-ytqkw66v.us-east-1.elasticbeanstalk.com",
   is_taxonomy_static: false,
   is_zip_static: false,
   is_common_service_static: false,
