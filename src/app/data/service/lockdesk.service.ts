@@ -20,8 +20,7 @@ export class LockDeskService {
   private payload: string;
   headerDict = {
     'Content-Type': 'application/json',
-    Accept: 'application/json',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Accept': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET',
    };
