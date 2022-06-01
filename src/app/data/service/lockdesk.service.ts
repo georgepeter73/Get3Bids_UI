@@ -22,8 +22,9 @@ export class LockDeskService {
     'Content-Type': 'application/json',
     Accept: 'application/json',
     'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Origin': '*'
-  };
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET',
+   };
   requestOptions = {
     headers: new HttpHeaders(this.headerDict)
   };
