@@ -26,78 +26,78 @@
    </div>
     <div class="row p-2 row-striped">
       <div class="col-6">Loan Status</div>
-      <div class="col-3">{{loanInfo.loanStatus.name}}</div>
+      <div class="col-3">{{loanInfo?.loanStatus?.name}}</div>
       <div class="col-3"></div>
     </div>
     <div class="row p-2 row-striped">
       <div class="col-6 ">Loan Type</div>
-      <div class="col-3">{{loanInfo.loanType.name}}</div>
+      <div class="col-3">{{loanInfo?.loanType?.name}}</div>
       <div class="col-3"></div>
     </div>
     <div class="row p-2 row-striped">
       <div class="col-6 ">Purpose</div>
-      <div class="col-3">{{loanInfo.purpose.name}}</div>
+      <div class="col-3">{{loanInfo?.purpose?.name}}</div>
       <div class="col-3"></div>
     </div>
     <div class="row p-2 row-striped">
       <div class="col-6 ">Loan Amount</div>
-      <div class="col-3">{{loanInfo.loanAmount | number : '1.2-2'}}</div>
+      <div class="col-3">{{loanInfo?.loanAmount | number : '1.2-2'}}</div>
       <div class="col-3"></div>
     </div>
     <div class="row p-2 row-striped">
       <div class="col-6 ">Purchase Price</div>
-      <div class="col-3">{{loanInfo.purchasePrice | number : '1.2-2'}}</div>
+      <div class="col-3">{{loanInfo?.purchasePrice | number : '1.2-2'}}</div>
       <div class="col-3"></div>
     </div>
     <div class="row p-2 row-striped">
       <div class="col-6 ">Appraisal Amount</div>
-      <div class="col-3">{{loanInfo.appraisalValue |number : '1.2-2'}}</div>
+      <div class="col-3">{{loanInfo?.appraisalValue |number : '1.2-2'}}</div>
       <div class="col-3"></div>
     </div>
     <div class="row p-2 row-striped">
       <div class="col-6 ">Occupancy</div>
-      <div class="col-3">{{loanInfo.occupancy.name}}</div>
+      <div class="col-3">{{loanInfo?.occupancy?.name}}</div>
       <div class="col-3"></div>
     </div>
     <div class="row p-2 row-striped" >
       <div class="col-6 ">Escrow Waiver</div>
-      <div class="col-3">{{loanInfo.escrowWaiver}}</div>
+      <div class="col-3">{{loanInfo?.escrowWaiver}}</div>
       <div class="col-3"></div>
     </div>
     <div class="row p-2 row-striped">
       <div class="col-6 ">Property Type</div>
-      <div class="col-3">{{loanInfo.propertyType.name}}</div>
+      <div class="col-3">{{loanInfo?.propertyType?.name}}</div>
       <div class="col-3"></div>
     </div>
     <div class="row p-2 row-striped" >
       <div class="col-6 ">LTV/CLTV</div>
-      <div class="col-3">{{loanInfo.ltvRatioPercent |number : '1.3-3' }}/{{loanInfo.combinedLtvRatioPercent |number : '1.3-3'}}</div>
+      <div class="col-3">{{loanInfo?.ltvRatioPercent |number : '1.3-3' }}/{{loanInfo?.combinedLtvRatioPercent |number : '1.3-3'}}</div>
       <div class="col-3"></div>
     </div>
 
     <div class="row p-2 row-striped">
       <div class="col-6 ">Credit Score</div>
-      <div class="col-3">{{loanInfo.creditScore}}</div>
+      <div class="col-3">{{loanInfo?.creditScore}}</div>
       <div class="col-3"></div>
     </div>
     <div class="row p-2 row-striped">
       <div class="col-6 ">Subject Property Zip</div>
-      <div class="col-3">{{loanInfo.subjectPropertyAddress.zipCode}}</div>
+      <div class="col-3">{{loanInfo?.subjectPropertyAddress?.zipCode}}</div>
       <div class="col-3"></div>
     </div>
     <div class="row p-2 row-striped">
       <div class="col-6 ">Note Rate</div>
-      <div class="col-3">{{loanInfo.noteRate |number : '1.2-2'}}</div>
+      <div class="col-3">{{loanInfo?.noteRate |number : '1.2-2'}}</div>
       <div class="col-3"></div>
     </div>
     <div class="row p-2 row-striped">
       <div class="col-6 ">Term</div>
-      <div class="col-3">{{loanInfo.term}}</div>
+      <div class="col-3">{{loanInfo?.term}}</div>
       <div class="col-3"></div>
     </div>
     <div class="row p-2 row-striped">
       <div class="col-6 ">Units</div>
-      <div class="col-3">{{loanInfo.units}}</div>
+      <div class="col-3">{{loanInfo?.units}}</div>
       <div class="col-3"></div>
     </div>
     <hr>

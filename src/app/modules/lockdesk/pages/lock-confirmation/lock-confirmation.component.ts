@@ -8,7 +8,7 @@ import {Location} from '@angular/common';
   selector: 'app-lock-confirmation',
   templateUrl: './lock-confirmation.component.html',
   styleUrls: ['./lock-confirmation.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class LockConfirmationComponent implements OnInit {
 
@@ -22,6 +22,7 @@ export class LockConfirmationComponent implements OnInit {
     this.itemId = this.route.snapshot.paramMap.get('itemId');
     this.lockDeskService.getLoanById(this.itemId).subscribe(i =>{
       this.loanInfo = i;
+
     })
   }
 
@@ -31,6 +32,9 @@ export class LockConfirmationComponent implements OnInit {
   }
 
   requestRateLock() {
+    this.lockDeskService.getQuoteResults("123").subscribe(r =>{
+      alert(JSON.stringify(r))
+    })
 
   }
 }

@@ -1,5 +1,5 @@
-import { Product } from './product';
-import { Message } from '@data/schema/message';
+import { Product } from '@data/schema/lockdesk/product';
+import { Message } from '@data/schema/lockdesk/message';
 
 export class TotalLoanAmountDetails {
   totalLoanAmount: number;

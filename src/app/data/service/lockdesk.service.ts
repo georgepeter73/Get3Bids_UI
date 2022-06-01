@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from 'environments/environment';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {LoanInfo} from '@data/schema/lockdesk/loan-info';
@@ -13,6 +13,7 @@ import {Coborrower} from '@data/schema/lockdesk/coborrower';
 import {LoanOfficer} from '@data/schema/lockdesk/loan-officer';
 import {PropertyType} from '@data/schema/lockdesk/property-type';
 import {LoanStatus} from '@data/schema/lockdesk/loan-status';
+import {QuickQuoteResultsRoot} from '@data/schema/lockdesk/quick-quote-results-root';
 const API_URL = environment.LOCKDESK_API_URL;
 
 @Injectable()
@@ -21,9 +22,8 @@ export class LockDeskService {
   headerDict = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET',
-   };
+    'Access-Control-Allow-Origin': '/',
+    };
   requestOptions = {
     headers: new HttpHeaders(this.headerDict)
   };
@@ -160,4 +160,21 @@ export class LockDeskService {
         })
       )
   }
+  public getQuoteResults(
+   itemId : string
+  ): Observable<QuickQuoteResultsRoot> {
+      return this.http
+        .get(API_URL + '/api/v1/lockdesk/get_quote_results?itemId=' + itemId )
+        .pipe(
+          map(qqResRoot => {
+            return new QuickQuoteResultsRoot(
+              qqResRoot['obBestExResponseDTO'],
+              qqResRoot['obBadRequestResponsDTO'],
+              qqResRoot['obIneligibleResponseDTO'],
+              qqResRoot['quoteId'],
+              qqResRoot['success']
+            );
+          })
+        );
+    }
 }
