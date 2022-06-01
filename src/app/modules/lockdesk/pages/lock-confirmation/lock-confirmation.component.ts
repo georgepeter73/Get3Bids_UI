@@ -15,7 +15,7 @@ export class LockConfirmationComponent implements OnInit {
   constructor(private route : ActivatedRoute,private lockDeskService : LockDeskService, private router: Router,
               private _location: Location) { }
   private itemId = "";
-  private loanInfo : LoanInfo;
+  loanInfo : LoanInfo;
   rateLockButtonLoading : false;
 
   ngOnInit(): void {
