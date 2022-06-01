@@ -7,7 +7,6 @@ import {LoanInfo} from '@data/schema/lockdesk/loan-info';
 import {Borrower} from '@data/schema/lockdesk/borrower';
 import {Purpose} from '@data/schema/lockdesk/purpose';
 import {LoanType} from '@data/schema/lockdesk/loantype';
-import {loadingSceneName} from 'aws-amplify';
 import {SubjectPropertyAddress} from '@data/schema/lockdesk/subject-property-address';
 import {Occupancy} from '@data/schema/lockdesk/occupancy';
 import {Coborrower} from '@data/schema/lockdesk/coborrower';
@@ -22,7 +21,8 @@ export class LockDeskService {
   headerDict = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    'Access-Control-Allow-Headers': 'Content-Type'
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Origin': '*'
   };
   requestOptions = {
     headers: new HttpHeaders(this.headerDict)
@@ -34,7 +34,7 @@ export class LockDeskService {
   }
   public getLoanPipeline(mloEmail : string): Observable<LoanInfo[]> {
     return this.http
-      .get(API_URL + '/api/v1/lockdesk/get_loan_pipeline?mloEmail=' + mloEmail
+      .get(API_URL + '/api/v1/lockdesk/get_loan_pipeline?mloEmail=' + mloEmail, this.requestOptions
       )
       .pipe(
         map(response => {
@@ -152,7 +152,7 @@ export class LockDeskService {
   }
   public getLoanById(itemId : string): Observable<LoanInfo> {
     return this.http
-      .get(API_URL + '/api/v1/lockdesk/get_loan_by_itemId?itemId=' + itemId
+      .get(API_URL + '/api/v1/lockdesk/get_loan_by_itemId?itemId=' + itemId, this.requestOptions
       )
       .pipe(
         map(response => {
