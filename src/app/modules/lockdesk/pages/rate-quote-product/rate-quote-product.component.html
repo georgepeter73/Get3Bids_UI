@@ -1,0 +1,174 @@
+<div>
+  <nb-card id="content" >
+    <nb-card-header>
+      <div class="row">
+        <div class="col-lg-2 d-none d-md-inline"><a href="#" (click)="backClicked($event)">< Previous</a></div>
+        <div class="col-lg-8">
+          <div class="text-center">Search Results</div>
+
+        </div>
+        <div class="text-left col-md-4 "><a hidden id="refreshButtonId" href="#" (click)="refreshGrid($event)"><nb-icon icon="refresh-outline"></nb-icon></a></div>
+        <div class="col-lg-2 block floating-video" *ngIf="!noLoanProducts && moreInfoClicked==false">
+
+        </div>
+        <div class="col-lg-2 block floating-video" *ngIf="noLoanProducts">
+
+        </div>
+      </div>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="text-left" style="max-width: 860px;width: 100%;margin-left: 50%; transform: translateX(-50%);" *ngIf="products?.length > 0; else loadingOrError">
+        <div class="row pt-1 pb-3">
+          <div class="col-lg-4 text-center">
+            <label class="label d-none d-md-inline">Loan Type</label>
+            <nb-select [(ngModel)]="loanTypeSelected"  (ngModelChange)="filterProductsByLoanType($event)"  size="small"  placeholder="Loan Type" >
+              <nb-option *ngFor="let loanType of loanTypeList" [value]="loanType.key">{{loanType.value}}</nb-option>
+            </nb-select>
+          </div>
+          <div class="col-lg-4 text-center">
+            <label class="label d-none d-md-inline">Product Selection</label>
+            <nb-select [(ngModel)]="productFilterSelected" size="small"  placeholder="Select a Product" >
+              <nb-option *ngFor="let prod of productFilterList" [value]="prod.key">{{prod.value}}</nb-option>
+            </nb-select>
+          </div>
+          <div class="d-md-none" style="height:10px">&nbsp;</div>
+          <div class="col-lg-4 text-center">
+            <label class="label d-none d-md-inline">Sort Offers By</label>
+            <nb-select [(ngModel)]="sortBy" (ngModelChange)="onSortChange($event)" size="small" fullWidth placeholder="Select a Criteria">
+              <nb-option value="interestRate">Lowest Interest Rate</nb-option>
+              <nb-option value="monthlyPayment">Lowest Monthly Payment</nb-option>
+              <nb-option value="highInterestRate">Highest Interest Rate</nb-option>
+              <nb-option value="lowestapr">Lowest APR</nb-option>
+            </nb-select>
+          </div>
+        </div>
+
+        <!-- Desktop only starts -->
+        <span *ngIf="products">
+          <ng-container  *ngFor="let product of products ;let i = index">
+             <nb-card
+            class="product e" style="border: 1px solid #d4d4d4;">
+              <nb-card-body>
+
+
+                <div class="row">
+                  <div class="col-md-3 nmls">
+                    </div>
+                  <div class="col-md-9 col-md-offset-3 text-left" style="font-size: 14px; font-weight: 600; line-height: 35px;">
+                    {{product?.productName}}
+                  </div>
+                </div>
+                  <div class="row">
+                  <div class="col-md-3 nmls">
+                   <div *ngIf="investorName(product?.investorId)?.name">
+                    <img src="assets/images/investor/{{investorName(product?.investorId)?.name}}.png" class="img-fluid" style="width: 6rem;  max-width:6rem" >
+                   </div>
+                     <div *ngIf="!investorName(product?.investorId)?.name">
+                       <img src="https://via.placeholder.com/105x45/DD0033/FFFF00?text={{product?.investorId}}">
+                     </div>
+                   <br>
+                    NMLS #{{investorName(product?.investorId)?.nmls}}<br>
+
+                    <star-rating [value]="investorName(product?.investorId)?.numberOfStars" totalstars="5" checkedcolor="#ffbf00" uncheckedcolor="white" size="18px" readonly="true" ></star-rating>
+
+                   </div>
+                  <div class="col-md-4">
+                     <div class="big1"> Note Rate</div>
+
+                    <hr>
+                    <div class="big pt-3 pb-1">{{product?.rate | number:'1.3-3'}}<sup>%</sup></div>
+                    <div style="padding-top: 6px;">APR: {{product?.apr | number:'1.3-3'}}%</div>
+                    <div style="padding-top: 0px;">Price: {{product?.price | number:'1.3-3'}}%</div>
+                    <div *ngIf="product?.discount > 0" >Fees: {{product?.discount | currency:'USD':'symbol':'1.0-0'}}</div>
+                    <div *ngIf="product?.rebate > 0">Credit: {{product?.rebate | currency:'USD':'symbol':'1.0-0'}}</div>
+                  </div>
+                  <div class="col-md-3">
+                    Monthly Payment
+                    <hr>
+                    <div class="big pt-3 pb-1"><sup>$</sup>{{product?.principalAndInterest | currency:'':'':'1.0-0'}}</div>
+                    <div>Principal & Interest</div>
+                    <hr>
+                    <br>
+                     <button *ngIf="product?.guidelines[0]?.guidelineLink?.href && !isWholesaleChannel"  ghost status="info" size="small" nbButton  nbSpinnerStatus="basic">Underwriting Guide<nb-icon icon="download-outline"></nb-icon></button>
+                  </div>
+                  <div class="col-md-2"><br>
+                    <button  status="info" size="small" nbButton [nbSpinner]="i === selectedMoreInfoButtonIndex" nbSpinnerStatus="basic">More Info</button>
+
+                  </div>
+                </div>
+
+
+              </nb-card-body>
+            </nb-card>
+          </ng-container>
+           <ngb-alert accent="info"><a routerLink="/quickquote/ineligible-products">Click to see ineligible products</a></ngb-alert>
+        </span>
+        <!-- Desktop only ends -->
+
+        <div class="d-md-none text-center"><br><a href="#" (click)="backClicked($event)">< Previous</a></div>
+      </div>
+      <ng-template #noProducts >
+        <div class="text-center"><br>
+          <h4>Well That's Strange....</h4>
+          <img width="200" src="assets/images/strange-face.png">
+          <p>
+            <b>It appears that none of our wholesale lenders made a bid on <br>your loan request. Here's what to do next.</b>
+          </p>
+          <p>
+            <b>Check to make sure the loan parameters you entered <br>into the questionnaire are accurate.</b>
+          </p>
+          <p>
+            <b>If problem continues, please select Get Help <br>and a Customer Advocate will guide you <br>through the questions.</b>
+          </p>
+          <div *ngIf="qqResRoot.quoteId>0">
+            <p>
+              <b>Your Reference number is {{qqResRoot.quoteId}}</b>
+            </p>
+          </div>
+
+        </div>
+        <br>
+        <br>
+        <div *ngIf="!qqResRoot.success">
+          <ng-container *ngIf="qqResRoot.obBadRequestResponsDTO[0].messages.length>0">
+            <ngb-alert accent="warning">Invalid response from the server.
+
+            </ngb-alert>
+          </ng-container>
+        </div>
+        <div *ngIf="qqResRoot.success && qqResRoot.obBestExResponseDTO.messages.length > 0">
+          <ng-container *ngFor="let message of qqResRoot.obBestExResponseDTO.messages[0].messages; let i=index;">
+            <ngb-alert accent="warning">{{message}}.</ngb-alert>
+            <ngb-alert accent="warning"><a routerLink="/quickquote/ineligible-products">Click to see ineligible products</a></ngb-alert>
+          </ng-container>
+        </div>
+        <br>
+        <div class="d-md-none text-center"><br><a href="#" (click)="backClicked($event)">< Previous</a></div>
+
+
+      </ng-template>
+      <ng-template #loadingOrError>
+        <ng-container *ngIf="errorMessage; else loading">
+          <div class="col-12 text-center">
+            <div class="alert alert-danger">
+              Operation completed Unsuccessfully, Sorry for the inconvenience.
+            </div>
+
+          </div>
+        </ng-container>
+
+        <ng-template #loading>
+          <div
+            class="col-12 text-center"
+            *ngIf="!noLoanProducts; else noProducts"
+            [hidden]="(products)?.length == 0"
+          >
+            <strong> <span class="blinking">Loading...</span></strong>
+          </div>
+        </ng-template>
+
+      </ng-template>
+      <br><br>
+    </nb-card-body>
+  </nb-card>
+</div>

@@ -1,4 +1,4 @@
-import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
+import {BrokerCompanyInfo} from '@data/schema/lockdesk/broker-company-info';
 
 export class BrokerCompanyMedia{
   brokerCompanyMediaId : number;

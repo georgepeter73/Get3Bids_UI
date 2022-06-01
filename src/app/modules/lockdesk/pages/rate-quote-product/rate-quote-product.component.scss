@@ -1,0 +1,267 @@
+.block {
+  nb-card {
+    margin: 0;
+    cursor: pointer;
+    border: 1px solid #ffffff;
+  }
+  nb-card-body {
+    padding: 0.5rem 0.25rem;
+  }
+  nb-card:hover {
+    background-color: #eeeeee;
+    border: 1px solid #aaaaaa;
+  }
+}
+.product {
+  font-size: 12px;
+  hr {
+    margin: 1px;
+  }
+  .big {
+    font-size: 2rem;
+  }
+}
+.e:hover {
+  background-color: #eeeeee;
+  border: 1px solid #aaaaaa;
+}
+
+.nmls {
+  font-size: 10px;
+  nb-icon {
+    color: gold;
+  }
+}
+.bottom-box {
+  width: 100%;
+  margin-top: 10px;
+  padding: 20px;
+  font-size: 0.8rem;
+}
+hr {
+  margin: 0.5rem 0;
+}
+.big {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+.cell {
+  display: table-cell;
+  vertical-align: middle;
+  height: 40px;
+}
+div {
+  border: 1px solid #000000;
+}
+
+@mixin rangeThumb {
+  width: 18px;
+  height: 18px;
+  margin: -8px 0 0;
+  border-radius: 50%;
+  background: #0095ff;
+  cursor: pointer;
+  border: 0 !important;
+}
+
+@mixin rangeTrack {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  background: #b2b2b2;
+}
+
+.range {
+  position: relative;
+  width: 175px;
+  display: inline-block;
+  height: 30px;
+}
+
+.range input {
+  width: 100%;
+  top: 2px;
+  -webkit-appearance: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 1;
+  background-color: transparent;
+
+  // Thumb
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none; // needed again for Chrome & Safari
+    @include rangeThumb;
+  }
+
+  &::-moz-range-thumb {
+    @include rangeThumb;
+  }
+
+  &::-ms-thumb {
+    @include rangeThumb;
+  }
+
+  // Track
+  &::-webkit-slider-runnable-track {
+    @include rangeTrack;
+  }
+
+  &::-moz-range-track {
+    @include rangeTrack;
+  }
+
+  &::-ms-track {
+    @include rangeTrack;
+  }
+
+  &:focus {
+    // override outline/background on focus
+    background: none;
+    outline: none;
+  }
+
+  &::-ms-track {
+    // A little somethin' somethin' for IE
+    width: 100%;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: -8px;
+  z-index: 0;
+  width: 100%;
+  top: 20px;
+  position: absolute;
+}
+li {
+  height: 5px;
+  width: 2px;
+  background-color: #9c9c9c;
+  margin: 0 7px;
+}
+.head {
+  nb-card {
+    max-width: 70px;
+    position: relative;
+    margin: 3px 3rem 3px auto;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  nb-card-body {
+    padding: 0.5rem;
+  }
+}
+div {
+  border: 0px solid #000000;
+}
+.big1 {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+.big2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.big3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #aaaaaa;
+  line-height: 1.6rem;
+}
+.lbl {
+  color: #aaaaaa;
+  font-size: 11px;
+}
+.borrowerPopup {
+  width: 650px;
+}
+nb-layout {
+  .scrollable-container {
+    overflow-y: scroll !important;
+  }
+}
+@media (max-width: 767px) {
+  .dialogFS {
+    width: 100vw !important;
+    height: 100vh !important;
+    top: 0 !important;
+  }
+  nb-card.dialogFS nb-card-body {
+    padding-top: 4px;
+  }
+  .dialogFS .prodName {
+    text-align: center;
+  }
+  .bottom-box {
+    padding: 0 !important;
+  }
+  @media (min-width: 767px) {
+    .tabl {
+      margin-left: -20px !important;
+      margin-right: -20px !important;
+      width: calc(100% + 40px) !important;
+    }
+  }
+  .borrowerPopup {
+    width: 100vw;
+  }
+  .max300 {
+    max-width: 300px;
+    right: 0;
+    left: 0;
+    margin: auto;
+  }
+  .mobClose {
+    top: 0;
+    position: absolute;
+    padding: 10px;
+  }
+  .hide {
+    display: none;
+  }
+  @media (min-width: 64em) {
+    .desktop-show {
+      display: initial;
+    }
+  }
+
+  /* ----------- iPhone XR, XS Max ----------- */
+  @media only screen and (device-width: 414px) and (device-height: 896px) {
+    .handIcons {
+      padding-bottom: 200px;
+    }
+  }
+  /* ----------- iPhone X ----------- */
+  @media only screen and (device-width: 375px) and (device-height: 812px) {
+    .handIcons {
+      padding-bottom: 140px;
+    }
+  }
+
+  /* ----------- iPhone 6+, 7+ and 8+ ----------- */
+  @media all and (device-width: 411px),
+  (device-width: 414px) and (device-height: 731px),
+  (device-height: 736px) {
+    .handIcons {
+      padding-bottom: 60px;
+    }
+  }
+
+  @media only screen and (device-width: 411px) and (device-height: 823px) {
+    .handIcons {
+      padding-bottom: 140px;
+    }
+  }
+}

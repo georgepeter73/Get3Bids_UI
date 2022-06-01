@@ -32,9 +32,8 @@ export class LockConfirmationComponent implements OnInit {
   }
 
   requestRateLock() {
-    this.lockDeskService.getQuoteResults("123").subscribe(r =>{
-      alert(JSON.stringify(r))
-    })
+    this.router.navigate(["/lockdesk/rate-quote-product/"+this.itemId]);
+
 
   }
 }
