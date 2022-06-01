@@ -22,7 +22,7 @@ export class LockDeskService {
   headerDict = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'Access-Control-Allow-Origin': 'https://uat.d25eilwmxf3mv2.amplifyapp.com',
+    'Access-Control-Allow-Origin': '*',
     };
   requestOptions = {
     headers: new HttpHeaders(this.headerDict)
