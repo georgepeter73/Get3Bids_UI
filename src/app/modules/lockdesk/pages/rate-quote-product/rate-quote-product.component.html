@@ -101,7 +101,7 @@
               </nb-card-body>
             </nb-card>
           </ng-container>
-           <ngb-alert accent="info"><a routerLink="/quickquote/ineligible-products">Click to see ineligible products</a></ngb-alert>
+
         </span>
         <!-- Desktop only ends -->
 
@@ -112,15 +112,9 @@
           <h4>Well That's Strange....</h4>
           <img width="200" src="assets/images/strange-face.png">
           <p>
-            <b>It appears that none of our wholesale lenders made a bid on <br>your loan request. Here's what to do next.</b>
+            <b>Check to make sure the loan parameters you entered <br>in lendingpad LOS are accurate.</b>
           </p>
-          <p>
-            <b>Check to make sure the loan parameters you entered <br>into the questionnaire are accurate.</b>
-          </p>
-          <p>
-            <b>If problem continues, please select Get Help <br>and a Customer Advocate will guide you <br>through the questions.</b>
-          </p>
-          <div *ngIf="qqResRoot.quoteId>0">
+           <div *ngIf="qqResRoot.quoteId>0">
             <p>
               <b>Your Reference number is {{qqResRoot.quoteId}}</b>
             </p>
@@ -139,8 +133,7 @@
         <div *ngIf="qqResRoot.success && qqResRoot.obBestExResponseDTO.messages.length > 0">
           <ng-container *ngFor="let message of qqResRoot.obBestExResponseDTO.messages[0].messages; let i=index;">
             <ngb-alert accent="warning">{{message}}.</ngb-alert>
-            <ngb-alert accent="warning"><a routerLink="/quickquote/ineligible-products">Click to see ineligible products</a></ngb-alert>
-          </ng-container>
+            </ng-container>
         </div>
         <br>
         <div class="d-md-none text-center"><br><a href="#" (click)="backClicked($event)">< Previous</a></div>

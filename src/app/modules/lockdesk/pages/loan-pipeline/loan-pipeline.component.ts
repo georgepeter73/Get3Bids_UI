@@ -97,9 +97,7 @@ export class LoanPipelineComponent implements OnInit {
     this.router.navigate(["/lockdesk/lockdeskhome"])
   }
 
-  newBrokerCompany() {
 
-  }
 
   onRowClick($event: any) {
      this.router.navigate(["/lockdesk/lock-confirmation/"+this.loanPipelineGrid.rowData[0].id]);

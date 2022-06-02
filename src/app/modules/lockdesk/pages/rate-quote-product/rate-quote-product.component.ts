@@ -39,41 +39,25 @@ export class RateQuoteProductComponent implements OnInit {
   product_detail: ProductDetail;
   rateIndexSelected: string;
   rateSelected: Quote;
-  firstName: string;
-  middleName: string;
-  lastName: string;
-  email: string;
-  phone: string;
   productFilterList: KeyValuePair[] = [];
   productFilterSelected: string;
   rateLockFilterList: KeyValuePair[] = [];
   rateLockFilterSelected: string;
   sortBy = 'interestRate';
-  propertyInfoTypeDesc = 'n/a';
   transactionTypeDesc = 'n/a';
-  occupancyTypeDesc = 'n/a';
   documentationTypeDesc = 'n/a';
-  mortgageInsuranceTypeDesc = 'n/a';
-  taxInsuranceEscrowTypeDesc = 'n/a';
-  prepaymentPenaltyTypeDesc = 'n/a';
   loading = false;
-  prodFilterReturn = false;
   radioButtonrateSelected = false;
   private miTypeShortDesc: string;
   mobileButtonShow = false;
   private errorMessage: string;
   noLoanProducts = false;
   selectedMoreInfoButtonIndex = 0;
-  phone1: string;
-  phone2: string;
-  phone3: string;
   loanTypeList: KeyValuePair[] = [];
   loanTypeSelected: string;
   filteredProductList: Product[];
   loanType: KeyValuePair[] = [];
   creditScoreTypeDesc = 'n/a';
-  videoURL: string;
-  videoURL1: any;
   noPricing: TaxonomyItem;
   pricingFound: TaxonomyItem;
   moreInfoClicked = false;
@@ -151,7 +135,7 @@ export class RateQuoteProductComponent implements OnInit {
     if (this.products) {
       this.products.forEach(result => {
         this.productFilterList = this.productFilterList.filter(keyPair =>
-          this.isKeyAvailable(keyPair.key, result)
+          this.isKeyAvailable(keyPair.key, this.products)
         );
         this.productFilterSelected = this.productFilterList.length
           ? this.productFilterList[0].key
@@ -165,7 +149,7 @@ export class RateQuoteProductComponent implements OnInit {
     if (this.products) {
       this.products.forEach(result => {
         this.loanTypeList = this.loanTypeList.filter(keyPair =>
-          this.isLoanTypeKeyAvailable(keyPair.key, result)
+          this.isLoanTypeKeyAvailable(keyPair.key, this.products)
         );
         this.loanTypeSelected = '';
          this.onSortChange(this.sortBy);
@@ -174,8 +158,8 @@ export class RateQuoteProductComponent implements OnInit {
   }
   isLoanTypeKeyAvailable(key, products) {
     if (products) {
-      for (let i = 0; i < products.length; i++) {
-        if (products[i].loanType === key) {
+      for (let product of products) {
+        if (product.loanType === key) {
           return true;
         }
       }
@@ -184,13 +168,13 @@ export class RateQuoteProductComponent implements OnInit {
   }
   isKeyAvailable(key, products) {
     if (products) {
-      for (let i = 0; i < products.length; i++) {
+      for (let product of products) {
         if (
-          products[i].amortizationType ===
+          product.amortizationType ===
           this.productGrouping(key).amortizationType &&
-          products[i].amortizationTerm ===
+          product.amortizationTerm ===
           String(this.productGrouping(key).amortizationTerm) &&
-          products[i].productName.includes(
+          product.productName.includes(
             this.productGrouping(key).productName
           )
         ) {
