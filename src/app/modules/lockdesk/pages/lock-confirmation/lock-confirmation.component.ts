@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {LockDeskService} from '@data/service/lockdesk.service';
 import {LoanInfo} from '@data/schema/lockdesk/loan-info';
 import {Location} from '@angular/common';
+import {GlobalService} from '@app/service/global.service';
+
 
 @Component({
   selector: 'app-lock-confirmation',
@@ -13,7 +15,7 @@ import {Location} from '@angular/common';
 export class LockConfirmationComponent implements OnInit {
 
   constructor(private route : ActivatedRoute,private lockDeskService : LockDeskService, private router: Router,
-              private _location: Location) { }
+              private _location: Location, private globalService: GlobalService,) { }
   private itemId = "";
   loanInfo : LoanInfo;
   rateLockButtonLoading : false;
@@ -22,6 +24,7 @@ export class LockConfirmationComponent implements OnInit {
     this.itemId = this.route.snapshot.paramMap.get('itemId');
     this.lockDeskService.getLoanById(this.itemId).subscribe(i =>{
       this.loanInfo = i;
+      this.globalService.setRQSelectedLoanInfo(this.loanInfo);
 
     })
   }

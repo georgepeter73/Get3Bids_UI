@@ -34,7 +34,7 @@ const routes: Routes = [
     component: RateQuoteProductComponent
   },
   {
-    path: "rate-quote-product-details/:productId/:searchId/:quoteId/:itemId",
+    path: "rate-quote-product-details/:productId/:quoteId/:itemId",
     canActivate: [AuthGuard],
     component: RateQuoteProductDetailsComponent
   },

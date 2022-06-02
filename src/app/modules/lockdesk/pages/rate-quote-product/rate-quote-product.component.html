@@ -4,18 +4,13 @@
       <div class="row">
         <div class="col-lg-2 d-none d-md-inline"><a href="#" (click)="backClicked($event)">< Previous</a></div>
         <div class="col-lg-8">
-          <div class="text-center">Search Results</div>
+          <div class="text-center">Products Available for this deal</div>
 
         </div>
         <div class="text-left col-md-4 "><a hidden id="refreshButtonId" href="#" (click)="refreshGrid($event)">
           <nb-icon icon="refresh-outline"></nb-icon>
         </a></div>
-        <div class="col-lg-2 block floating-video" *ngIf="!noLoanProducts && moreInfoClicked==false">
 
-        </div>
-        <div class="col-lg-2 block floating-video" *ngIf="noLoanProducts">
-
-        </div>
       </div>
     </nb-card-header>
     <nb-card-body>
@@ -105,7 +100,7 @@
                        icon="download-outline"></nb-icon></button>
                   </div>
                   <div class="col-md-2"><br>
-                    <button (click)="moreInfo(product?.productId)" status="info" size="small" nbButton
+                    <button (click)="moreInfo(product?.productId,i)" status="info" size="small" nbButton
                             [nbSpinner]="i === selectedMoreInfoButtonIndex" nbSpinnerStatus="basic">More Info</button>
 
                   </div>
@@ -126,7 +121,7 @@
           <h4>Well That's Strange....</h4>
           <img width="200" src="assets/images/strange-face.png">
           <p>
-            <b>Check to make sure the loan parameters you entered <br>in lendingpad LOS are accurate.</b>
+            <b>Check to make sure the loan parameters you entered <br>in Lending-pad LOS are accurate.</b>
           </p>
           <div *ngIf="qqResRoot.quoteId>0">
             <p>

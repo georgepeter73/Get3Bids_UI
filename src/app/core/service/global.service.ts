@@ -18,6 +18,7 @@ import { UserMLO } from '@data/schema/lockdesk/user-mlo';
 import { BrokerCompanyMedia } from '@data/schema/lockdesk/broker-company-media';
 import { BrokerCompanyInfo } from '@data/schema/lockdesk/broker-company-info';
 import {Taxonomy} from '@data/schema/lockdesk/taxonomy';
+import {LoanInfo} from '@data/schema/lockdesk/loan-info';
 
 @Injectable({
   providedIn: 'root'
@@ -198,6 +199,12 @@ export class GlobalService {
   }
   setQQRes(quickQuoteResults: QuickQuoteResults) {
      sessionStorage.setItem('quickQuoteResults', JSON.stringify(quickQuoteResults));
+  }
+  setRQSelectedLoanInfo(loanInfo: LoanInfo) {
+    sessionStorage.setItem('loanInfo', JSON.stringify(loanInfo));
+  }
+  getRQSelectedLoanInfo() {
+    return JSON.parse(sessionStorage.getItem('loanInfo'));
   }
   getQQRes(): QuickQuoteResults {
     if (JSON.parse(sessionStorage.getItem('quickQuoteResults')) == null) {

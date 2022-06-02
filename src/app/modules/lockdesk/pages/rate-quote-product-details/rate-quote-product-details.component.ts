@@ -7,6 +7,7 @@ import {ProductDetail} from '@data/schema/lockdesk/product-detail';
 import {UserMLO} from '@data/schema/lockdesk/user-mlo';
 import {Investor} from '@data/schema/lockdesk/investor';
 import {QuickQuoteResults} from '@data/schema/lockdesk';
+import {LoanInfo} from '@data/schema/lockdesk/loan-info';
 
 @Component({
   selector: 'app-rate-quote-product-details',
@@ -27,6 +28,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
   userMLO: UserMLO;
   rateLockFilterList: { value: string; key: string }[];
   rateLockFilterSelected: string;
+  loanInfo : LoanInfo;
   errorMessage: string;
 
   constructor(private route: ActivatedRoute, private lockDeskService: LockDeskService, private router: Router,
@@ -39,7 +41,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
   priceTesting: any;
   rateIndexSelected: any;
   radioButtonrateSelected: any;
-  loading: any;
+  loading  = false;
 
   ngOnInit(): void {
 
@@ -49,28 +51,26 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     this.globalQQ = this.globalService.getQuickQuote();
     this.qqRes = this.globalService.getQQRes();
     this.itemId = this.route.snapshot.paramMap.get('itemId');
+    this.loanInfo = this.globalService.getRQSelectedLoanInfo();
     this.moreInfo();
-
-
   }
 
   moreInfo() {
     const pipe = new DatePipe('en-US');
     this.mobileButtonShow = false;
+    this.loading = true;
     this.moreInfoClicked = true;
     this.product = this.qqRes.products.filter(p => p.productId === parseInt(this.productId)).pop();
     this.lockDeskService
-      .getProductDetails(this.productId, this.searchId, this.quoteId)
+      .getProductDetails(this.productId, this.product.searchId, this.quoteId)
       .subscribe(
         productDetailRoot => {
           if (productDetailRoot.success) {
             this.product_detail = productDetailRoot.product_detail;
-
+            this.loading = false;
             // hack for data not displaying with out a mouse click
             this.eventFire(document.getElementById('refreshButtonId'), 'click');
-
             this.userMLO = productDetailRoot.userMLO;
-
             this.rateLockFilterList = this.product_detail.quotes.map(quote => ({
               key: String(quote.lockPeriod),
               value:
@@ -103,8 +103,6 @@ export class RateQuoteProductDetailsComponent implements OnInit {
           this.selectedMoreInfoButtonIndex = -1;
         }
       );
-
-
   }
 
   investorName(investorId): Investor {

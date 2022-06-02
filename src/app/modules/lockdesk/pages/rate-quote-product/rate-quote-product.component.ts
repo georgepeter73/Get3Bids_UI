@@ -77,6 +77,7 @@ export class RateQuoteProductComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.selectedMoreInfoButtonIndex = -1;
     this.loanTypeList = this.globalService.loanTypeList;
     this.itemId = this.route.snapshot.paramMap.get('itemId');
     this.QuoteResults();
@@ -105,7 +106,7 @@ export class RateQuoteProductComponent implements OnInit {
         quickQuoteResultsRoot => {
           this.qqRes = quickQuoteResultsRoot.obBestExResponseDTO;
           this.qqResRoot = quickQuoteResultsRoot;
-          if (quickQuoteResultsRoot.obBestExResponseDTO) {
+           if (quickQuoteResultsRoot.obBestExResponseDTO) {
             this.products = quickQuoteResultsRoot.obBestExResponseDTO.products;
             // hack for data not displaying with out a mouse click
             this.eventFire(document.getElementById('refreshButtonId'), 'click');
@@ -253,9 +254,9 @@ export class RateQuoteProductComponent implements OnInit {
     }
   }
 
-  moreInfo(productId: number) {
+  moreInfo(productId: number,moreInfoIndex : number) {
+    this.selectedMoreInfoButtonIndex = moreInfoIndex;
     this.globalService.setQQRes(this.qqRes);
-    this.product = this.qqRes.products.filter(p => p.productId === productId).pop();
-    this.router.navigate(['/lockdesk/rate-quote-product-details/' + productId + '/' + this.product.searchId + '/' + this.qqResRoot.quoteId + '/' + this.itemId]);
+    this.router.navigate(['/lockdesk/rate-quote-product-details/' + productId + '/' + this.qqResRoot.quoteId + '/' + this.itemId]);
   }
 }
