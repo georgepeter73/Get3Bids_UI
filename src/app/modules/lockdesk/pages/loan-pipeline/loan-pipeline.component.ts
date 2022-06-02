@@ -2,7 +2,6 @@ import {Component, OnInit, ChangeDetectionStrategy, ViewChild} from '@angular/co
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {faUser} from '@fortawesome/free-solid-svg-icons';
-import {Taxonomy} from '@data/schema/taxonomy';
 import {AgGridAngular} from '@ag-grid-community/angular';
 import {LockDeskService} from '@data/service/lockdesk.service';
 import {of} from 'rxjs';
@@ -95,6 +94,7 @@ export class LoanPipelineComponent implements OnInit {
   }
   backClicked($event: MouseEvent) {
     $event.preventDefault();
+    this.router.navigate(["/lockdesk/lockdeskhome"])
   }
 
   newBrokerCompany() {
@@ -102,7 +102,6 @@ export class LoanPipelineComponent implements OnInit {
   }
 
   onRowClick($event: any) {
-
      this.router.navigate(["/lockdesk/lock-confirmation/"+this.loanPipelineGrid.rowData[0].id]);
   }
 

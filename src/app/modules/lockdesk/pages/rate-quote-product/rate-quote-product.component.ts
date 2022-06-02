@@ -17,6 +17,7 @@ import {UserMLO} from '@data/schema/lockdesk/user-mlo';
 import {ProductGroup} from '@data/schema/lockdesk/productgroup';
 import {GlobalService} from '@app/service/global.service';
 import {Investor} from '@data/schema/lockdesk/investor';
+import { firstBy } from 'thenby';
 
 @Component({
   selector: 'app-rate-quote-product',
@@ -26,9 +27,9 @@ import {Investor} from '@data/schema/lockdesk/investor';
 })
 export class RateQuoteProductComponent implements OnInit {
 
-  constructor(private route : ActivatedRoute,private lockDeskService : LockDeskService, private router: Router,
-              private _location: Location, private globalService: GlobalService,) { }
-  private itemId = "";
+  constructor(private route : ActivatedRoute, private lockDeskService : LockDeskService, private router: Router,
+              private _location: Location, private globalService: GlobalService, ) { }
+  private itemId = '';
   qqRes: QuickQuoteResults;
   qqResRoot: QuickQuoteResultsRoot;
   globalQQ: QuickQuote;
@@ -80,8 +81,8 @@ export class RateQuoteProductComponent implements OnInit {
   companyUserMLOList: UserMLO[] = [];
   companyLOUUID = '';
   brokerCompanyInfo = new BrokerCompanyInfo();
-  //set this to true to test pricing at company, mlo and investor level
-  //by default it needs to be false
+  // set this to true to test pricing at company, mlo and investor level
+  // by default it needs to be false
   priceTesting = false;
   showHelpVideo = true;
   isWholesaleChannel = false;
@@ -99,7 +100,7 @@ export class RateQuoteProductComponent implements OnInit {
     if (el.fireEvent) {
       el.fireEvent('on' + etype);
     } else {
-      var evObj = document.createEvent('Events');
+      const evObj = document.createEvent('Events');
       evObj.initEvent(etype, true, false);
       el.dispatchEvent(evObj);
     }
@@ -118,7 +119,7 @@ export class RateQuoteProductComponent implements OnInit {
           this.qqResRoot = quickQuoteResultsRoot;
           if (quickQuoteResultsRoot.obBestExResponseDTO) {
             this.products = quickQuoteResultsRoot.obBestExResponseDTO.products;
-          //hack for data not displaying with out a mouse click
+          // hack for data not displaying with out a mouse click
             this.eventFire(document.getElementById('refreshButtonId'), 'click');
 
           } else {
@@ -146,6 +147,7 @@ export class RateQuoteProductComponent implements OnInit {
   }
   filterProductFilter() {
     this.productFilterList = this.globalService.productFilterList;
+
     if (this.products) {
       this.products.forEach(result => {
         this.productFilterList = this.productFilterList.filter(keyPair =>
@@ -154,9 +156,10 @@ export class RateQuoteProductComponent implements OnInit {
         this.productFilterSelected = this.productFilterList.length
           ? this.productFilterList[0].key
           : '';
-        //this.onSortChange(this.sortBy);
+         this.onSortChange(this.sortBy);
       });
     }
+
   }
   filterLoanTypeFilter() {
     if (this.products) {
@@ -165,7 +168,7 @@ export class RateQuoteProductComponent implements OnInit {
           this.isLoanTypeKeyAvailable(keyPair.key, result)
         );
         this.loanTypeSelected = '';
-        //this.onSortChange(this.sortBy);
+         this.onSortChange(this.sortBy);
       });
     }
   }
@@ -203,7 +206,7 @@ export class RateQuoteProductComponent implements OnInit {
         this.qqResRoot.obBestExResponseDTO.products.filter(
           p => p.loanType === this.loanTypeSelected
         ) ;
-      //this.onSortChange(this.sortBy);
+       this.onSortChange(this.sortBy);
     }
   }
 
@@ -217,6 +220,40 @@ export class RateQuoteProductComponent implements OnInit {
 
   backClicked($event: MouseEvent) {
     $event.preventDefault();
-    this.router.navigate(["/lockdesk/lock-confirmation/" + this.itemId]);
+    this.router.navigate(['/lockdesk/lock-confirmation/' + this.itemId]);
+  }
+  onSortChange(event) {
+    if (this.products) {
+        if (event === 'interestRate') {
+          this.products.sort(
+            firstBy(function(a: Product, b: Product) {
+              return a.rate - b.rate;
+            }, 1)
+              .thenBy('rebate', -1)
+              .thenBy('discount', 1)
+          );
+        } else if (event === 'monthlyPayment') {
+          this.products.sort((a: Product, b: Product) =>
+            a.principalAndInterest > b.principalAndInterest ? 1 : -1
+          );
+        } else if (event === 'highInterestRate') {
+          this.products.sort(
+            firstBy(function(v1: Product, v2: Product) {
+              return v1.rate - v2.rate;
+            }, -1)
+              .thenBy('rebate', 1)
+              .thenBy('discount', -1)
+          );
+        } else if (event === 'lowestapr') {
+          this.products.sort(
+            firstBy(function(v1: Product, v2: Product) {
+              return v1.apr - v2.apr;
+            }, 1)
+              .thenBy('rebate', -1)
+              .thenBy('discount', 1)
+          );
+        }
+
+    }
   }
 }
