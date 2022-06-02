@@ -196,6 +196,15 @@ export class GlobalService {
     this.quickQuote.next(quickQuote);
     sessionStorage.setItem('quickQuote', JSON.stringify(this.quickQuote.value));
   }
+  setQQRes(quickQuoteResults: QuickQuoteResults) {
+     sessionStorage.setItem('quickQuoteResults', JSON.stringify(quickQuoteResults));
+  }
+  getQQRes(): QuickQuoteResults {
+    if (JSON.parse(sessionStorage.getItem('quickQuoteResults')) == null) {
+      return new QuickQuoteResults();
+    }
+    return JSON.parse(sessionStorage.getItem('quickQuoteResults'));
+  }
 
   getQuickQuote(): Observable<QuickQuote> {
     if (JSON.parse(sessionStorage.getItem('quickQuote')) == null) {

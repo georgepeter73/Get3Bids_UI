@@ -5,6 +5,7 @@ import {LockdeskHomeComponent} from '@modules/lockdesk/pages/lockdesk-home/lockd
 import {LoanPipelineComponent} from '@modules/lockdesk/pages/loan-pipeline/loan-pipeline.component';
 import {LockConfirmationComponent} from '@modules/lockdesk/pages/lock-confirmation/lock-confirmation.component';
 import {RateQuoteProductComponent} from '@modules/lockdesk/pages/rate-quote-product/rate-quote-product.component';
+import {RateQuoteProductDetailsComponent} from '@modules/lockdesk/pages/rate-quote-product-details/rate-quote-product-details.component';
 
 
 const routes: Routes = [
@@ -31,6 +32,11 @@ const routes: Routes = [
     path: "rate-quote-product/:itemId",
     canActivate: [AuthGuard],
     component: RateQuoteProductComponent
+  },
+  {
+    path: "rate-quote-product-details/:productId/:searchId/:quoteId/:itemId",
+    canActivate: [AuthGuard],
+    component: RateQuoteProductDetailsComponent
   },
 
 

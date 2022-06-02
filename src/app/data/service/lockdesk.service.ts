@@ -14,6 +14,9 @@ import {LoanOfficer} from '@data/schema/lockdesk/loan-officer';
 import {PropertyType} from '@data/schema/lockdesk/property-type';
 import {LoanStatus} from '@data/schema/lockdesk/loan-status';
 import {QuickQuoteResultsRoot} from '@data/schema/lockdesk/quick-quote-results-root';
+import {UserMLO} from '@data/schema/lockdesk/user-mlo';
+import {ProductDetailRoot} from '@data/schema/lockdesk/product-detail-root';
+import {UserContact} from '@data/schema/lockdesk/user-contact';
 const API_URL = environment.LOCKDESK_API_URL;
 
 @Injectable()
@@ -177,4 +180,57 @@ export class LockDeskService {
           })
         );
     }
+  public gerUserMLO(user: UserMLO): UserMLO {
+    let user1 = new UserMLO();
+    user1.firstName = user['firstName'];
+    user1.lastName = user['lastName'];
+    user1.userName = user['userName'];
+    user1.brokerCompanyId = user['brokerCompanyId'];
+    user1.clientId = user['clientId'];
+    user1.enterpriseId = user['enterpriseId'];
+    user1.reportToUserId = user['reportToUserId'];
+    user1.userUUID = user['userUUID'];
+    user1.floifyTeamManagerFlag = user['floifyTeamManagerFlag'];
+    user1.floifyTeamManagerId = user['floifyTeamManagerId'];
+    user1.lastUpdatedAt = user['lastUpdatedAt'];
+    user1.lastUpdatedBy = user['lastUpdatedBy'];
+    user1.deleteFlag = user['deleteFlag'];
+    user1.loPricingId = user['loPricingId'];
+    user1.loMargin = user['loMargin'];
+    user1.userId = user['userId'];
+    user1.floifyAccountApprovalFlag = user['floifyAccountApprovalFlag'];
+    if (user['userContact']) {
+      user1.userContact = this.getUserContact(user['userContact']);
+    }
+    return user1;
+  }
+  public getUserContact(userCon: UserContact): UserContact {
+    const userContact = new UserContact();
+    userContact.contactId = userCon['contactId'];
+    userContact.contactInfoBcc = userCon['contactInfoBcc'];
+    userContact.phoneWork = userCon['phoneWork'];
+    userContact.phoneMobile = userCon['phoneMobile'];
+    userContact.lastUpdatedBy = userCon['lastUpdatedBy'];
+    return userContact;
+  }
+
+  public getProductDetails(productId: string,
+                           searchId: string,
+                           quoteId: string
+  ): Observable<ProductDetailRoot> {
+    return this.http
+      .get(API_URL + '/api/v1/lockdesk/get_product_details?productId=' + productId+"&searchId="+searchId+"&quoteId="+quoteId
+      )
+      .pipe(
+        map(productDetailRoot => {
+           return new ProductDetailRoot(
+            productDetailRoot['obBestExProductDetailResponseDTO'],
+            productDetailRoot['quoteId'],
+            productDetailRoot['obBadRequestResponsDTO'],
+            productDetailRoot['success'],
+            this.gerUserMLO(<UserMLO>productDetailRoot['userDTO'])
+          );
+        })
+      );
+  }
 }
