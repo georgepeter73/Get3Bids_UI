@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {environment} from 'environments/environment';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 import {LoanInfo} from '@data/schema/lockdesk/loan-info';
 import {Borrower} from '@data/schema/lockdesk/borrower';
 import {Purpose} from '@data/schema/lockdesk/purpose';
@@ -17,6 +17,8 @@ import {QuickQuoteResultsRoot} from '@data/schema/lockdesk/quick-quote-results-r
 import {UserMLO} from '@data/schema/lockdesk/user-mlo';
 import {ProductDetailRoot} from '@data/schema/lockdesk/product-detail-root';
 import {UserContact} from '@data/schema/lockdesk/user-contact';
+import {MediaLocation} from '@data/schema/user/media-location';
+import {LockLoan} from '@data/schema/lockdesk/lock-loan';
 const API_URL = environment.LOCKDESK_API_URL;
 
 @Injectable()
@@ -232,5 +234,49 @@ export class LockDeskService {
           );
         })
       );
+  }
+
+  public requestRateLock(data: LockLoan): Observable<LockLoan> {
+    return this.http
+      .post(
+        API_URL + "/api/v1/lockdesk/lock_loan",
+        data, this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return this.getLockLoan(<LockLoan>response);
+        })
+      )
+      .pipe(catchError(this.errorHandler));
+  }
+  public getLockLoan(ll : LockLoan): LockLoan {
+    const lockLoan = new LockLoan();
+    lockLoan.loanInfo = ll['loanInfo'];
+    lockLoan.lockStatus = ll['lockStatus'];
+    lockLoan.lockRequestStatus = ll['lockRequestStatus'];
+    lockLoan.lockDays = ll['lockDays'];
+    lockLoan.selectedQuote = ll['selectedQuote'];
+    lockLoan.selectedProduct = ll['selectedProduct'];
+    lockLoan.productDetail = ll['productDetail'];
+    lockLoan.lockDate = ll['lockDate'];
+    lockLoan.id = ll['id'];
+
+    return lockLoan;
+  }
+  public errorHandler(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error("An error occurred:", error.error.message);
+      console.log(error);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.log(error);
+      console.error(
+        `Backend returned code ${error.status}, ` + `body was: ${error.error}`
+      );
+    }
+    // return an observable with a user-facing error message
+    return throwError("Something bad happened; please try again later.");
   }
 }

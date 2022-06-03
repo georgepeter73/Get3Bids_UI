@@ -9,7 +9,7 @@
 
     </div>
   </nb-card-header>
-  <nb-card-body [nbSpinner]="loading" nbSpinnerStatus="basic" >
+  <nb-card-body [nbSpinner]="loading" nbSpinnerStatus="basic">
     <div class="row head">
       <div class="col-md-12 nmls text-left d-none d-md-inline-block">
 
@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <div class="bottom-box" >
+    <div class="bottom-box">
       <div class="text-center">
         <b>The below rates and prices are based on an interest rate lock expiring on:</b>
       </div>
@@ -102,7 +102,7 @@
 
 
     <!-- desktop starts here -->
-    <span class="d-none d-xl-inline" >
+    <span class="d-none d-xl-inline">
         <div class="row" *ngIf="!loading">
           <div class="col-md-10 offset-md-1 tabl">
               <table class="table table-sm table-responsive-md table-striped table-hover"
@@ -143,14 +143,57 @@
                       <td *ngIf="priceTesting" class="text-center">{{quote?.companyPricingMarginApplied}}</td>
 
                     </tr>
-
                     </ng-container>
                 </ng-container>
+
+
               </tbody>
             </table>
           </div>
         </div>
+
+          <div class="row">
+          <div class="col-md-12 text-center" style="padding: 0 15px 0 15px;">
+            <nb-card style="overflow: hidden;cursor: pointer;width: 150px;display: inline-block;margin: 10px;"
+            >
+              <nb-card-body style="padding: 1rem .5rem;" (click)="backClicked($event)">
+                <div class="text-center">
+                  <img src="assets/images/icons/consequences.png" style="width:65px; height: 65px;margin-top: 10px;">
+                </div>
+                <div style="display: table; width: 100%; height: 25px;">
+                  <div style="display: table-cell; font-size: .8rem;"
+                       class="text-center font-weight-bold align-bottom ">Nope, not ready yet</div>
+                </div>
+              </nb-card-body>
+            </nb-card>
+
+            <nb-card *ngIf="radioButtonrateSelected"
+                     style="overflow: hidden;cursor: pointer;width: 150px;display: inline-block;margin: 10px;"
+                     (click)="requestRateLock()" [nbSpinner]="isRateLockRequestloading" nbSpinnerStatus="basic" >
+              <nb-card-body style="padding: 1rem .5rem;" >
+                <div class="text-center">
+                  <img src="assets/images/icons/implications.png" style="width:65px; height: 65px;margin-top: 10px;">
+                </div>
+                <div style="display: table; width: 100%; height: 25px;">
+                  <div style="display: table-cell; font-size: .8rem;" class="text-center font-weight-bold align-bottom" >Yes, Request Rate Lock</div>
+                </div>
+              </nb-card-body>
+            </nb-card>
+          </div>
+
+        </div>
+       <div class="row ">
+        <div class="col-12 text-center">
+      <nb-alert accent="success"  *ngIf="isRateLockRequestComplete" size="medium" >
+        Rate Lock requested successfully.
+      </nb-alert>
+      <nb-alert accent="warning"  *ngIf="isRateLockRequestFailed" size="medium" >
+        Operation failed.
+      </nb-alert>
+        </div>
+      </div>
         </span>
+
 
 
   </nb-card-body>

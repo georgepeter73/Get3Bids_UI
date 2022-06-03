@@ -6,8 +6,11 @@ import {GlobalService} from '@app/service/global.service';
 import {ProductDetail} from '@data/schema/lockdesk/product-detail';
 import {UserMLO} from '@data/schema/lockdesk/user-mlo';
 import {Investor} from '@data/schema/lockdesk/investor';
-import {QuickQuoteResults} from '@data/schema/lockdesk';
+import {Product, QuickQuoteResults} from '@data/schema/lockdesk';
 import {LoanInfo} from '@data/schema/lockdesk/loan-info';
+import {Quote} from '@data/schema/lockdesk/quote';
+import {LockLoan} from '@data/schema/lockdesk/lock-loan';
+
 @Component({
   selector: 'app-rate-quote-product-details',
   templateUrl: './rate-quote-product-details.component.html',
@@ -16,7 +19,7 @@ import {LoanInfo} from '@data/schema/lockdesk/loan-info';
 })
 export class RateQuoteProductDetailsComponent implements OnInit {
   selectedMoreInfoButtonIndex: any;
-  product: any;
+  product: Product;
   qqResRoot: any;
   qqRes: QuickQuoteResults;
   globalQQ: any;
@@ -27,20 +30,24 @@ export class RateQuoteProductDetailsComponent implements OnInit {
   userMLO: UserMLO;
   rateLockFilterList: { value: string; key: string }[];
   rateLockFilterSelected: string;
-  loanInfo : LoanInfo;
+  loanInfo: LoanInfo;
   errorMessage: string;
-
-  constructor(private route: ActivatedRoute, private lockDeskService: LockDeskService, private router: Router,
-              private _location: Location, private globalService: GlobalService,) {
-  }
-
+  rateSelected: Quote;
+  lockLoan = new LockLoan();
+  isRateLockRequestloading = false;
+  isRateLockRequestComplete = false;
+  isRateLockRequestFailed = false;
   productId: string;
   quoteId: string;
   searchId: string;
   priceTesting: any;
   rateIndexSelected: any;
   radioButtonrateSelected: any;
-  loading  = false;
+  loading = false;
+
+  constructor(private route: ActivatedRoute, private lockDeskService: LockDeskService, private router: Router,
+              private _location: Location, private globalService: GlobalService,) {
+  }
 
   ngOnInit(): void {
 
@@ -108,22 +115,15 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     return this.globalService.investorName(investorId);
   }
 
-  onRateLockFilterSelect() {
-
-  }
 
   onSelectRate($event: any) {
+    this.radioButtonrateSelected = true;
 
   }
 
   isCompany() {
     return false;
   }
-
-  startLoanApplication($event: MouseEvent, borrowerInfoPopup: any, newloanmessage: any, newloanmessage1: any, ref: any) {
-
-  }
-
   refreshGrid($event: MouseEvent) {
     $event.preventDefault();
 
@@ -142,5 +142,37 @@ export class RateQuoteProductDetailsComponent implements OnInit {
   backClicked($event: MouseEvent) {
     $event.preventDefault();
     this.router.navigate(['/lockdesk/rate-quote-product/' + this.itemId]);
+  }
+
+  requestRateLock() {
+    this.isRateLockRequestloading = true;
+    this.rateSelected = this.product_detail['quotes'][this.rateIndexSelected];
+    this.lockLoan.itemId = this.itemId;
+    this.lockLoan.selectedProduct = this.product;
+    this.lockLoan.selectedQuote = this.rateSelected;
+    this.lockLoan.productDetail = this.product_detail;
+    this.lockLoan.lockDays = this.rateSelected.lockPeriod;
+    this.lockLoan.lockStatus = 101;
+    this.lockLoan.lockRequestStatus = 101;
+    this.lockLoan.loanInfo = this.globalService.getRQSelectedLoanInfo();
+    this.lockDeskService.requestRateLock(this.lockLoan).subscribe(ll => {
+
+        this.lockLoan = ll;
+
+        this.isRateLockRequestloading = false;
+        this.isRateLockRequestComplete = true;
+        this.isRateLockRequestFailed = false;
+        // hack for data not displaying with out a mouse click
+        this.eventFire(document.getElementById('refreshButtonId'), 'click');
+
+      }, error => {
+        this.isRateLockRequestloading = false;
+        this.isRateLockRequestComplete = false;
+        this.isRateLockRequestFailed = true;
+        console.log(error)
+      }
+    );
+
+
   }
 }
