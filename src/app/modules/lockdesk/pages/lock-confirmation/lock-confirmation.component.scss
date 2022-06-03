@@ -1,7 +1,14 @@
 .row-striped:nth-of-type(odd){
-  background-color: #addde6;
+  background-color: #EBF5FB;
 }
 
 .row-striped:nth-of-type(even){
   background-color: #ffffff;
+}
+
+.dohover:hover {
+  background-color: #89CFF0;
+}
+.tableheader{
+  background-color:#E5E4E2
 }

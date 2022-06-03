@@ -15,7 +15,7 @@ import { RateQuoteProductDetailsComponent } from './pages/rate-quote-product-det
 @NgModule({
   declarations: [LockdeskHomeComponent, LoanPipelineComponent, LockConfirmationComponent, RateQuoteProductComponent, RateQuoteProductDetailsComponent],
     imports: [
-        CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule.forRoot(), NbInputModule, NbIconModule, NbSpinnerModule, NbSelectModule, RatingModule, NbRadioModule
+        CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule.forRoot(), NbInputModule, NbIconModule, NbSpinnerModule, NbSelectModule, RatingModule, NbRadioModule,
     ],
   providers: [LockDeskService],
 })

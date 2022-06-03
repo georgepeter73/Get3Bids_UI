@@ -46,8 +46,6 @@ import { LockdeskLayoutComponent } from './layout/lockdesk-layout/lockdesk-layou
 import { LockdeskHeaderComponent } from './layout/lockdesk-header/lockdesk-header.component';
 import { LockdeskFooterComponent } from './layout/lockdesk-footer/lockdesk-footer.component';
 
-
-
 @NgModule({
     declarations: [
         AppComponent,
@@ -106,6 +104,7 @@ import { LockdeskFooterComponent } from './layout/lockdesk-footer/lockdesk-foote
         NbTabsetModule,
         NbTooltipModule,
         NgxMaskModule.forRoot(),
+
     ],
     providers: [{
       provide: HTTP_INTERCEPTORS,

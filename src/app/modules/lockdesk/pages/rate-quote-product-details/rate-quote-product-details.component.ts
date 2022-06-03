@@ -8,7 +8,6 @@ import {UserMLO} from '@data/schema/lockdesk/user-mlo';
 import {Investor} from '@data/schema/lockdesk/investor';
 import {QuickQuoteResults} from '@data/schema/lockdesk';
 import {LoanInfo} from '@data/schema/lockdesk/loan-info';
-
 @Component({
   selector: 'app-rate-quote-product-details',
   templateUrl: './rate-quote-product-details.component.html',
