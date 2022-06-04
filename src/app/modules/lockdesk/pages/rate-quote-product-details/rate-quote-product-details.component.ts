@@ -175,4 +175,8 @@ export class RateQuoteProductDetailsComponent implements OnInit {
 
 
   }
+
+  onRateLockFilterSelect() {
+
+  }
 }
