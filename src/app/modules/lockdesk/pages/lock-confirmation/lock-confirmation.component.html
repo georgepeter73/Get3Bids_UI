@@ -6,6 +6,7 @@
         Previous</a></div>
       <div class="text-left col-md-8 ">
       </div>
+      <div class="text-left col-md-4 "><a hidden id="refreshButtonId" href="#" (click)="refreshGrid($event)"><nb-icon icon="refresh-outline"></nb-icon></a></div>
     </div>
   </nb-card-header>
   <nb-card-body>
@@ -112,18 +113,27 @@
       </div>
     </ng-container>
     <hr>
-    <div class="row p-5 ">
-      <button class="m-2" type="button" nbButton status="primary" (click)="requestRateLock()"
-              size="medium" [nbSpinner]="rateLockButtonLoading" nbSpinnerStatus="primary">
-        <nb-icon icon="save-outline"></nb-icon>
-        Request Rate Lock
-      </button>
-      <button class="m-2" type="button" nbButton status="primary" (click)="requestRateLock()"
-              size="medium" [nbSpinner]="rateLockButtonLoading" nbSpinnerStatus="primary">
-        <nb-icon icon="save-outline"></nb-icon>
-        Request Re-Lock
-      </button>
+    <div class="row p-2 tableheader">
+      Lock WorkFlow
     </div>
+    <br>
+
+    <ag-grid-angular
+      style="width: 1025px; height: 350px;"
+      #grid
+      class="ag-theme-alpine"
+      [rowData]="rowData | async"
+      [columnDefs]="columnDefs"
+      [pagination]="true"
+      paginationPageSize="100"
+      debounceVerticalScrollbar=true
+      enableCellTextSelection=true
+      (rowClicked)="onRowClick($event)"
+
+    >
+    </ag-grid-angular>
+
+
 
   </nb-card-body>
 

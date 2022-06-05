@@ -259,8 +259,10 @@ export class LockDeskService {
     lockLoan.selectedProduct = ll['selectedProduct'];
     lockLoan.productDetail = ll['productDetail'];
     lockLoan.lockDate = ll['lockDate'];
+    lockLoan.loanNumber = ll['loanNumber'];
+    lockLoan.lastUpdatedDate = ll['lastUpdatedDate'];
+    lockLoan.lastUpdatedBy = ll['lastUpdatedBy'];
     lockLoan.id = ll['id'];
-
     return lockLoan;
   }
   public errorHandler(error: HttpErrorResponse) {
@@ -278,5 +280,20 @@ export class LockDeskService {
     }
     // return an observable with a user-facing error message
     return throwError("Something bad happened; please try again later.");
+  }
+  public getLockLoanItemsByLoanNumber(loanNumber : string): Observable<LockLoan[]> {
+    return this.http
+      .get(API_URL + '/api/v1/lockdesk/get_lock_loan_items?loanNumber=' + loanNumber, this.requestOptions
+      ).pipe(
+        map(response => {
+          return this.getLockLoans(response);
+        })
+      )
+  }
+  public getLockLoans(response: any): LockLoan[] {
+    return (<LockLoan[]>response).map(
+      ll =>
+        this.getLockLoan(ll)
+    );
   }
 }

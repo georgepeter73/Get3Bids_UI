@@ -154,6 +154,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     this.lockLoan.lockDays = this.rateSelected.lockPeriod;
     this.lockLoan.lockStatus = 101;
     this.lockLoan.lockRequestStatus = 101;
+    this.lockLoan.loanNumber = this.loanInfo.loanNumber;
     this.lockLoan.loanInfo = this.globalService.getRQSelectedLoanInfo();
     this.lockDeskService.requestRateLock(this.lockLoan).subscribe(ll => {
 

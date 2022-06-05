@@ -16,6 +16,9 @@ export class LockLoan{
   lockDate : Date;
   lockDays : number;
   lastUpdatedDate : Date;
+  lastUpdatedBy :string;
+  lockStatusStr : string;
+  lockRequestStatusStr : string;
   productDetail : ProductDetail;
 
 }
