@@ -29,12 +29,12 @@ const routes: Routes = [
     component: LockConfirmationComponent
   },
   {
-    path: "rate-quote-product/:itemId",
+    path: "rate-quote-product/:itemId/:requestType",
     canActivate: [AuthGuard],
     component: RateQuoteProductComponent
   },
   {
-    path: "rate-quote-product-details/:productId/:quoteId/:itemId",
+    path: "rate-quote-product-details/:productId/:quoteId/:itemId/:requestType",
     canActivate: [AuthGuard],
     component: RateQuoteProductDetailsComponent
   },

@@ -74,12 +74,14 @@ export class RateQuoteProductComponent implements OnInit {
   isWholesaleChannel = false;
   isGuidelineDownloaded = false;
   companyLogoMedia = new BrokerCompanyMedia();
+  requestType :string;
 
 
   ngOnInit(): void {
     this.selectedMoreInfoButtonIndex = -1;
     this.loanTypeList = this.globalService.loanTypeList;
     this.itemId = this.route.snapshot.paramMap.get('itemId');
+    this.requestType = this.route.snapshot.paramMap.get('requestType');
     this.QuoteResults();
 
   }
@@ -216,7 +218,7 @@ export class RateQuoteProductComponent implements OnInit {
 
   backClicked($event: MouseEvent) {
     $event.preventDefault();
-    this.router.navigate(['/lockdesk/lock-confirmation/' + this.itemId]);
+    this.router.navigate(['/lockdesk/lock-confirmation/' + this.itemId ]);
   }
 
   onSortChange(event) {
@@ -257,6 +259,6 @@ export class RateQuoteProductComponent implements OnInit {
   moreInfo(productId: number,moreInfoIndex : number) {
     this.selectedMoreInfoButtonIndex = moreInfoIndex;
     this.globalService.setQQRes(this.qqRes);
-    this.router.navigate(['/lockdesk/rate-quote-product-details/' + productId + '/' + this.qqResRoot.quoteId + '/' + this.itemId]);
+    this.router.navigate(['/lockdesk/rate-quote-product-details/' + productId + '/' + this.qqResRoot.quoteId + '/' + this.itemId + '/' + this.requestType]);
   }
 }

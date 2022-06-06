@@ -11,6 +11,7 @@ import {Taxonomy} from '@data/schema/taxonomy';
 import {LockLoan} from '@data/schema/lockdesk/lock-loan';
 import {GridOptions} from 'ag-grid-community';
 import {faLock, faUnlock} from '@fortawesome/free-solid-svg-icons';
+import {AuthService} from '@app/service/auth.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ import {faLock, faUnlock} from '@fortawesome/free-solid-svg-icons';
 export class LockConfirmationComponent implements OnInit {
 
   constructor(@Inject(LOCALE_ID) public locale: string,private route : ActivatedRoute,private lockDeskService : LockDeskService, private router: Router,
-              private _location: Location, private globalService: GlobalService,private taxonomyService: TaxonomyService,) { }
+              private _location: Location, private globalService: GlobalService,private taxonomyService: TaxonomyService,private authService: AuthService,) { }
   private itemId = "";
   loanInfo : LoanInfo = new LoanInfo();
   rateLockButtonLoading : false;
@@ -129,8 +130,10 @@ export class LockConfirmationComponent implements OnInit {
        })
     });
     this.getTaxonomy();
-
-
+    //based on the logged in users groups set the group
+    if(this.authService.getGroups().filter(g => g === 'lockdesk')){
+        this.globalService.setIsLockDesk(true);
+    }
   }
 
   getActiveLockLoan(loanNumber:string){
@@ -174,7 +177,12 @@ export class LockConfirmationComponent implements OnInit {
   }
 
   requestRateLock() {
-    this.router.navigate(["/lockdesk/rate-quote-product/"+this.itemId]);
+    this.router.navigate(["/lockdesk/rate-quote-product/"+this.itemId+"/101"]);
+
+
+  }
+  requestLock() {
+    this.router.navigate(["/lockdesk/rate-quote-product/"+this.itemId+"/102"]);
 
 
   }

@@ -44,6 +44,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
   rateIndexSelected: any;
   radioButtonrateSelected: any;
   loading = false;
+  requestType : string;
 
   constructor(private route: ActivatedRoute, private lockDeskService: LockDeskService, private router: Router,
               private _location: Location, private globalService: GlobalService,) {
@@ -58,6 +59,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     this.qqRes = this.globalService.getQQRes();
     this.itemId = this.route.snapshot.paramMap.get('itemId');
     this.loanInfo = this.globalService.getRQSelectedLoanInfo();
+    this.requestType = this.route.snapshot.paramMap.get('requestType');
     this.moreInfo();
   }
 
@@ -141,7 +143,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
 
   backClicked($event: MouseEvent) {
     $event.preventDefault();
-    this.router.navigate(['/lockdesk/rate-quote-product/' + this.itemId]);
+    this.router.navigate(['/lockdesk/rate-quote-product/' + this.itemId + '/' + this.requestType]);
   }
 
   requestRateLock() {
@@ -152,9 +154,15 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     this.lockLoan.selectedQuote = this.rateSelected;
     this.lockLoan.productDetail = this.product_detail;
     this.lockLoan.lockDays = this.rateSelected.lockPeriod;
-    this.lockLoan.lockStatus = 101;
+    if(this.requestType == '101') {
+      this.lockLoan.lockStatus = 101;
+    }
+    if(this.requestType == '102') {
+      this.lockLoan.lockStatus = 102;
+    }
     this.lockLoan.lockRequestStatus = 101;
     this.lockLoan.loanNumber = this.loanInfo.loanNumber;
+
     this.lockLoan.loanInfo = this.globalService.getRQSelectedLoanInfo();
     this.lockDeskService.requestRateLock(this.lockLoan).subscribe(ll => {
 

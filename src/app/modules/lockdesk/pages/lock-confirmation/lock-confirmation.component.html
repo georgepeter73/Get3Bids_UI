@@ -16,10 +16,10 @@
         <nb-icon icon="save-outline"></nb-icon>
         Request Rate Lock
       </button>
-      <button class="m-2" type="button" nbButton status="primary" (click)="requestRateLock()"
+      <button *ngIf="globalService.getIsLockDesk()" class="m-2" type="button" nbButton status="primary" (click)="requestLock()"
               size="medium" [nbSpinner]="rateLockButtonLoading" nbSpinnerStatus="primary">
         <nb-icon icon="save-outline"></nb-icon>
-        Request Re-Lock
+        Request Lock
       </button>
     </div>
     <ng-container>

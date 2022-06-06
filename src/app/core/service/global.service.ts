@@ -36,7 +36,6 @@ export class GlobalService {
   productFilterList: KeyValuePair[] = [];
   loanTypeList: KeyValuePair[] = [];
   productGroup = new Map();
-
   constructor() {
     this.quickQuote = new BehaviorSubject<QuickQuote>(
       JSON.parse(sessionStorage.getItem('quickQuote'))
@@ -221,6 +220,12 @@ export class GlobalService {
   }
   setMLOFlag(userFlag: string) {
     sessionStorage.setItem('isUser', userFlag);
+  }
+  setIsLockDesk(lockDesk: boolean) {
+    sessionStorage.setItem('isLockDesk', lockDesk.toString());
+  }
+  getIsLockDesk(): boolean {
+    return Boolean(sessionStorage.getItem('isLockDesk'));
   }
   setBrokerCompany(brokerCompanyInfo: BrokerCompanyInfo) {
     sessionStorage.setItem('brokerCompany', JSON.stringify(brokerCompanyInfo));
