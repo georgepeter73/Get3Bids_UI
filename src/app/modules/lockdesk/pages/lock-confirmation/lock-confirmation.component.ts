@@ -35,6 +35,7 @@ export class LockConfirmationComponent implements OnInit {
   lock = faLock;
   unlock = faUnlock;
   public gridOptions: GridOptions;
+  mainDataLoading : boolean= false;
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
     {
@@ -75,7 +76,7 @@ export class LockConfirmationComponent implements OnInit {
       minWidth: 150
     },
     {
-      headerName: "Product",
+      headerName: "Note Rate",
       field: "selectedQuote.rate",
       sortable: true,
       filter: true,
@@ -84,7 +85,7 @@ export class LockConfirmationComponent implements OnInit {
       minWidth: 150
     },
     {
-      headerName: "Product",
+      headerName: "Price",
       field: "selectedQuote.price",
       sortable: true,
       filter: true,
@@ -118,15 +119,20 @@ export class LockConfirmationComponent implements OnInit {
   ];
 
 
+
   ngOnInit(): void {
+    this.mainDataLoading = true;
     this.itemId = this.route.snapshot.paramMap.get('itemId');
     this.lockDeskService.getLoanById(this.itemId).subscribe(i =>{
       this.loanInfo = i;
       this.getActiveLockLoan(i.loanNumber);
       this.globalService.setRQSelectedLoanInfo(this.loanInfo);
       this.lockDeskService.getLockLoanItemsByLoanNumber(i.loanNumber).subscribe(items =>{
-        console.log(JSON.stringify(items))
-        this.rowData = of(items);
+           this.rowData = of(items);
+        this.mainDataLoading = false;
+          //hack for data not displaying with out a mouse click
+          this.eventFire(document.getElementById('refreshButtonId'), 'click');
+
        })
     });
     this.getTaxonomy();
@@ -137,9 +143,11 @@ export class LockConfirmationComponent implements OnInit {
   }
 
   getActiveLockLoan(loanNumber:string){
+
      this.lockDeskService.getActiveLockLoan(loanNumber).subscribe(activeLoan =>{
       this.activeLockLoan = activeLoan;
-      this.activeLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.activeLockLoan.lockStatus).pop().description
+       this.mainDataLoading = false;
+       this.activeLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.activeLockLoan.lockStatus).pop().description
     })
   }
   lockRequestStatus(cType: string) {

@@ -160,6 +160,9 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     if(this.requestType == '102') {
       this.lockLoan.lockStatus = 102;
     }
+    if(this.requestType == '103') {
+      this.lockLoan.lockStatus = 102;
+    }
     this.lockLoan.lockRequestStatus = 101;
     this.lockLoan.loanNumber = this.loanInfo.loanNumber;
 

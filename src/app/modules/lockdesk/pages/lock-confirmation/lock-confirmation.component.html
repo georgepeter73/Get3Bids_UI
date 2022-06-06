@@ -9,20 +9,25 @@
       <div class="text-left col-md-4 "><a hidden id="refreshButtonId" href="#" (click)="refreshGrid($event)"><nb-icon icon="refresh-outline"></nb-icon></a></div>
     </div>
   </nb-card-header>
-  <nb-card-body>
+  <nb-card-body [nbSpinner]="mainDataLoading" nbSpinnerStatus="primary">
     <div class="row p-5 ">
-      <button class="m-2" type="button" nbButton status="primary" (click)="requestRateLock('101')"
+      <button class="m-2" *ngIf="activeLockLoan?.lockStatus!=102" type="button" nbButton status="primary" (click)="requestRateLock('101')"
               size="medium" [nbSpinner]="rateLockButtonLoading" nbSpinnerStatus="primary">
         <nb-icon icon="save-outline"></nb-icon>
         Request Rate Lock
       </button>
-      <button  class="m-2" type="button" nbButton status="primary" (click)="requestRateLock('102')"
+      <button *ngIf="activeLockLoan?.lockStatus==101" class="m-2" type="button" nbButton status="primary" (click)="requestRateLock('102')"
               size="medium" [nbSpinner]="rateLockButtonLoading" nbSpinnerStatus="primary">
         <nb-icon icon="save-outline"></nb-icon>
         Request Lock
       </button>
+      <button *ngIf="activeLockLoan?.lockStatus==102" class="m-2" type="button" nbButton status="primary" (click)="requestRateLock('103')"
+               size="medium" [nbSpinner]="rateLockButtonLoading" nbSpinnerStatus="primary">
+        <nb-icon icon="save-outline"></nb-icon>
+        Rate Re-Lock
+      </button>
     </div>
-    <ng-container>
+    <ng-container >
       <div class="row p-2 tableheader">
         <div class="col-4 pl-3"><strong>Deal Data</strong></div>
         <div class="col-4"><strong>Before Lock</strong></div>
@@ -31,9 +36,9 @@
       <hr>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Lock Status</div>
-        <div class="col-4">{{activeLockLoan.lockStatusStr}}
-          <fa-icon *ngIf="activeLockLoan.lockStatus==102" size="1x" [icon]="lock" class="m-1"></fa-icon>
-          <fa-icon *ngIf="activeLockLoan.lockStatus==101" size="1x" [icon]="unlock" class="m-1"></fa-icon>
+        <div class="col-4">{{activeLockLoan?.lockStatusStr}}
+          <fa-icon *ngIf="activeLockLoan?.lockStatus==102" size="1x" [icon]="lock" class="m-1"></fa-icon>
+          <fa-icon *ngIf="activeLockLoan?.lockStatus==101" size="1x" [icon]="unlock" class="m-1"></fa-icon>
         </div>
         <div class="col-4"></div>
       </div>
