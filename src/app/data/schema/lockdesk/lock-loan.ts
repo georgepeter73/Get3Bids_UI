@@ -21,5 +21,7 @@ export class LockLoan{
   lockRequestStatusStr : string;
   productDetail : ProductDetail;
   isActive : boolean;
+  lockExpirationDate : Date;
+  lockExpired : boolean;
 
 }

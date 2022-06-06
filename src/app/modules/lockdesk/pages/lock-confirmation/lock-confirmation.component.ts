@@ -26,6 +26,8 @@ export class LockConfirmationComponent implements OnInit {
               private _location: Location,private  globalService: GlobalService,private taxonomyService: TaxonomyService,private authService: AuthService,) { }
   private itemId = "";
   loanInfo : LoanInfo = new LoanInfo();
+  beforeLock : LoanInfo = new LoanInfo();
+  afterLock : LoanInfo = new LoanInfo();
   rateLockButtonLoading : false;
   lockLoans =[];
   rowData: any ;
@@ -36,6 +38,10 @@ export class LockConfirmationComponent implements OnInit {
   unlock = faUnlock;
   public gridOptions: GridOptions;
   mainDataLoading : boolean= false;
+  LockStatusType = {
+    float: 101,
+    locked: 102,
+  };
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
     {
@@ -125,7 +131,7 @@ export class LockConfirmationComponent implements OnInit {
     this.itemId = this.route.snapshot.paramMap.get('itemId');
     this.lockDeskService.getLoanById(this.itemId).subscribe(i =>{
       this.loanInfo = i;
-      this.getActiveLockLoan(i.loanNumber);
+      this.getActiveLockLoan(i.loanNumber,i);
       this.globalService.setRQSelectedLoanInfo(this.loanInfo);
       this.lockDeskService.getLockLoanItemsByLoanNumber(i.loanNumber).subscribe(items =>{
            this.rowData = of(items);
@@ -133,21 +139,38 @@ export class LockConfirmationComponent implements OnInit {
           //hack for data not displaying with out a mouse click
           this.eventFire(document.getElementById('refreshButtonId'), 'click');
 
-       })
+       });
+
     });
     this.getTaxonomy();
     //based on the logged in users groups set the group
     if(this.authService.getGroups().filter(g => g === 'lockdesk')){
         this.globalService.setIsLockDesk(true);
     }
+
+
   }
 
-  getActiveLockLoan(loanNumber:string){
+  getActiveLockLoan(loanNumber:string,curretnLoanInfo:LoanInfo){
 
      this.lockDeskService.getActiveLockLoan(loanNumber).subscribe(activeLoan =>{
       this.activeLockLoan = activeLoan;
        this.mainDataLoading = false;
-       this.activeLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.activeLockLoan.lockStatus).pop().description
+       //if the loan is locked then before lock will have the loan info that is stored while the loan is locked
+       //after lock will the current loan info.
+       if(this.activeLockLoan.lockStatus === this.LockStatusType.locked){
+         this.beforeLock = this.activeLockLoan.loanInfo;
+         this.afterLock = this.loanInfo;
+       }
+       //if the status is null or does not exist or if there is already a lock reqeuest
+       //then before lock and after lock will have current loan info
+       if(!this.activeLockLoan.lockStatus || this.activeLockLoan.lockStatus === this.LockStatusType.float ){
+         this.beforeLock = curretnLoanInfo;
+         this.afterLock = curretnLoanInfo;
+       }
+       //hack for data not displaying with out a mouse click
+       this.eventFire(document.getElementById('refreshButtonId'), 'click');
+        this.activeLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.activeLockLoan.lockStatus).pop().description
     })
   }
   lockRequestStatus(cType: string) {

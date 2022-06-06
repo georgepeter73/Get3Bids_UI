@@ -277,6 +277,8 @@ export class LockDeskService {
     lockLoan.lastUpdatedBy = ll['lastUpdatedBy'];
     lockLoan.id = ll['id'];
     lockLoan.isActive = ll['isActive'];
+    lockLoan.lockExpirationDate = ll['lockExpirationDate'];
+    lockLoan.lockExpired = ll['lockExpired'];
     return lockLoan;
   }
   public errorHandler(error: HttpErrorResponse) {

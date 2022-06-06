@@ -45,6 +45,15 @@ export class RateQuoteProductDetailsComponent implements OnInit {
   radioButtonrateSelected: any;
   loading = false;
   requestType : string;
+  LockStatusType = {
+    float: 101,
+    locked: 102,
+  };
+  LockRequestStatusType = {
+    RequestRateLock: 101,
+    Locked: 102,
+    RequestReLock :103
+  };
 
   constructor(private route: ActivatedRoute, private lockDeskService: LockDeskService, private router: Router,
               private _location: Location, private globalService: GlobalService,) {
@@ -155,17 +164,19 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     this.lockLoan.productDetail = this.product_detail;
     this.lockLoan.lockDays = this.rateSelected.lockPeriod;
     if(this.requestType == '101') {
-      this.lockLoan.lockStatus = 101;
+      this.lockLoan.lockStatus = this.LockStatusType.float;
+
     }
     if(this.requestType == '102') {
-      this.lockLoan.lockStatus = 102;
+      this.lockLoan.lockStatus = this.LockStatusType.locked;
+
     }
     if(this.requestType == '103') {
-      this.lockLoan.lockStatus = 102;
-    }
-    this.lockLoan.lockRequestStatus = 101;
-    this.lockLoan.loanNumber = this.loanInfo.loanNumber;
+      this.lockLoan.lockStatus = this.LockStatusType.locked;
 
+    }
+    this.lockLoan.lockRequestStatus = parseInt(this.requestType);
+    this.lockLoan.loanNumber = this.loanInfo.loanNumber;
     this.lockLoan.loanInfo = this.globalService.getRQSelectedLoanInfo();
     this.lockDeskService.requestRateLock(this.lockLoan).subscribe(ll => {
 
