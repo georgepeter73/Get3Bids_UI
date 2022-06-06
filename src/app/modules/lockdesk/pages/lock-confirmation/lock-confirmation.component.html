@@ -30,6 +30,14 @@
       </div>
       <hr>
       <div class="row p-2 row-striped dohover">
+        <div class="col-4 ">Lock Status</div>
+        <div class="col-4">{{activeLockLoan.lockStatusStr}}
+          <fa-icon *ngIf="activeLockLoan.lockStatus==102" size="1x" [icon]="lock" class="m-1"></fa-icon>
+          <fa-icon *ngIf="activeLockLoan.lockStatus==101" size="1x" [icon]="unlock" class="m-1"></fa-icon>
+        </div>
+        <div class="col-4"></div>
+      </div>
+      <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Loan Number</div>
         <div class="col-4">{{loanInfo.loanNumber}}</div>
         <div class="col-4"></div>
@@ -129,6 +137,8 @@
       debounceVerticalScrollbar=true
       enableCellTextSelection=true
       (rowClicked)="onRowClick($event)"
+      [gridOptions]="gridOptions"
+
 
     >
     </ag-grid-angular>

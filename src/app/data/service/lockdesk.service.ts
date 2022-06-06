@@ -249,6 +249,19 @@ export class LockDeskService {
       )
       .pipe(catchError(this.errorHandler));
   }
+  public getActiveLockLoan(loanNumber: string): Observable<LockLoan> {
+    return this.http
+      .get(
+        API_URL + "/api/v1/lockdesk/get_active_lock_loan?loanNumber="+loanNumber
+        , this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return this.getLockLoan(<LockLoan>response);
+        })
+      )
+      .pipe(catchError(this.errorHandler));
+  }
   public getLockLoan(ll : LockLoan): LockLoan {
     const lockLoan = new LockLoan();
     lockLoan.loanInfo = ll['loanInfo'];
@@ -263,6 +276,7 @@ export class LockDeskService {
     lockLoan.lastUpdatedDate = ll['lastUpdatedDate'];
     lockLoan.lastUpdatedBy = ll['lastUpdatedBy'];
     lockLoan.id = ll['id'];
+    lockLoan.isActive = ll['isActive'];
     return lockLoan;
   }
   public errorHandler(error: HttpErrorResponse) {

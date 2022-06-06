@@ -8,6 +8,9 @@ import {AgGridAngular} from '@ag-grid-community/angular';
 import {of} from 'rxjs';
 import {TaxonomyService} from '@data/service/taxonomy.service';
 import {Taxonomy} from '@data/schema/taxonomy';
+import {LockLoan} from '@data/schema/lockdesk/lock-loan';
+import {GridOptions} from 'ag-grid-community';
+import {faLock, faUnlock} from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -21,13 +24,17 @@ export class LockConfirmationComponent implements OnInit {
   constructor(@Inject(LOCALE_ID) public locale: string,private route : ActivatedRoute,private lockDeskService : LockDeskService, private router: Router,
               private _location: Location, private globalService: GlobalService,private taxonomyService: TaxonomyService,) { }
   private itemId = "";
-  loanInfo : LoanInfo;
+  loanInfo : LoanInfo = new LoanInfo();
   rateLockButtonLoading : false;
   lockLoans =[];
   rowData: any ;
   lockStatusType : Taxonomy;
   lockRequestStatusType : Taxonomy;
-  @ViewChild("grid") lockLoanGrid: AgGridAngular;
+  activeLockLoan : LockLoan = new LockLoan();
+  lock = faLock;
+  unlock = faUnlock;
+  public gridOptions: GridOptions;
+   @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
     {
       headerName: "Lock Status",
@@ -109,19 +116,28 @@ export class LockConfirmationComponent implements OnInit {
 
   ];
 
+
   ngOnInit(): void {
     this.itemId = this.route.snapshot.paramMap.get('itemId');
     this.lockDeskService.getLoanById(this.itemId).subscribe(i =>{
       this.loanInfo = i;
+      this.getActiveLockLoan(i.loanNumber);
       this.globalService.setRQSelectedLoanInfo(this.loanInfo);
       this.lockDeskService.getLockLoanItemsByLoanNumber(i.loanNumber).subscribe(items =>{
         console.log(JSON.stringify(items))
         this.rowData = of(items);
-
-      })
+       })
     });
     this.getTaxonomy();
 
+
+  }
+
+  getActiveLockLoan(loanNumber:string){
+     this.lockDeskService.getActiveLockLoan(loanNumber).subscribe(activeLoan =>{
+      this.activeLockLoan = activeLoan;
+      this.activeLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.activeLockLoan.lockStatus).pop().description
+    })
   }
   lockRequestStatus(cType: string) {
     let lockRequestStatusDesc = '';

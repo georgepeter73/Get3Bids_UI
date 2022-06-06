@@ -20,5 +20,6 @@ export class LockLoan{
   lockStatusStr : string;
   lockRequestStatusStr : string;
   productDetail : ProductDetail;
+  isActive : boolean;
 
 }
