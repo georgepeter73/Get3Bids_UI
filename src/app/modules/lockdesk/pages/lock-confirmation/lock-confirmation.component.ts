@@ -23,7 +23,7 @@ import {AuthService} from '@app/service/auth.service';
 export class LockConfirmationComponent implements OnInit {
 
   constructor(@Inject(LOCALE_ID) public locale: string,private route : ActivatedRoute,private lockDeskService : LockDeskService, private router: Router,
-              private _location: Location, private globalService: GlobalService,private taxonomyService: TaxonomyService,private authService: AuthService,) { }
+              private _location: Location,private  globalService: GlobalService,private taxonomyService: TaxonomyService,private authService: AuthService,) { }
   private itemId = "";
   loanInfo : LoanInfo = new LoanInfo();
   rateLockButtonLoading : false;
@@ -176,20 +176,14 @@ export class LockConfirmationComponent implements OnInit {
     this.router.navigate(["/lockdesk/loan-pipeline"]);
   }
 
-  requestRateLock() {
-    this.router.navigate(["/lockdesk/rate-quote-product/"+this.itemId+"/101"]);
-
-
-  }
-  requestLock() {
-    this.router.navigate(["/lockdesk/rate-quote-product/"+this.itemId+"/102"]);
+  requestRateLock(requestType : string) {
+    this.router.navigate(["/lockdesk/rate-quote-product/"+this.itemId+ "/" + requestType]);
 
 
   }
 
-  onRowClick($event: any) {
 
-  }
+
   eventFire(el, etype){
     if (el.fireEvent) {
       el.fireEvent('on' + etype);

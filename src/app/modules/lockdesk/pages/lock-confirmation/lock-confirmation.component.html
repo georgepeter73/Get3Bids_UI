@@ -11,12 +11,12 @@
   </nb-card-header>
   <nb-card-body>
     <div class="row p-5 ">
-      <button class="m-2" type="button" nbButton status="primary" (click)="requestRateLock()"
+      <button class="m-2" type="button" nbButton status="primary" (click)="requestRateLock('101')"
               size="medium" [nbSpinner]="rateLockButtonLoading" nbSpinnerStatus="primary">
         <nb-icon icon="save-outline"></nb-icon>
         Request Rate Lock
       </button>
-      <button *ngIf="globalService.getIsLockDesk()" class="m-2" type="button" nbButton status="primary" (click)="requestLock()"
+      <button  class="m-2" type="button" nbButton status="primary" (click)="requestRateLock('102')"
               size="medium" [nbSpinner]="rateLockButtonLoading" nbSpinnerStatus="primary">
         <nb-icon icon="save-outline"></nb-icon>
         Request Lock
