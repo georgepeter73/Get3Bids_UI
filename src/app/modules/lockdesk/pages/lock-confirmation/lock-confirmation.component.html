@@ -69,11 +69,6 @@
         <div class="col-4 pr-3"><strong>After Lock</strong></div>
       </div>
       <div class="row p-2 row-striped dohover">
-        <div class="col-4">Loan Status</div>
-        <div class="col-4">{{beforeLock?.loanStatus?.name}}</div>
-        <div class="col-4">{{afterLock?.loanStatus?.name}}</div>
-      </div>
-      <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Loan Type</div>
         <div class="col-4">{{beforeLock?.loanType?.name}}</div>
         <div class="col-4">{{afterLock?.loanType?.name}}</div>
@@ -131,11 +126,7 @@
         <div class="col-4">{{beforeLock?.subjectPropertyAddress?.zipCode}}</div>
         <div class="col-4">{{afterLock?.subjectPropertyAddress?.zipCode}}</div>
       </div>
-      <div class="row p-2 row-striped dohover" >
-        <div class="col-4 ">Note Rate</div>
-        <div class="col-4">{{beforeLock?.noteRate |number : '1.2-2'}}</div>
-        <div class="col-4">{{afterLock?.noteRate |number : '1.2-2'}}</div>
-      </div>
+
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Term</div>
         <div class="col-4">{{beforeLock?.term}}</div>
@@ -146,6 +137,23 @@
         <div class="col-4">{{beforeLock?.units}}</div>
         <div class="col-4">{{afterLock?.units}}</div>
       </div>
+      <div *ngIf="activeLockLoan?.lockStatus == LockStatusType.locked">
+        <div class="row p-2 tableheader">
+          <div class="col-6 pl-3"><strong>Pricing</strong></div>
+          <div class="col-6 "></div>
+
+        </div>
+        <div class="row p-2 row-striped dohover" >
+          <div class="col-6 ">Note Rate</div>
+          <div class="col-6">{{activeLockLoan?.selectedQuote.rate |number : '1.2-2'}}</div>
+
+        </div>
+        <div class="row p-2 row-striped dohover" >
+          <div class="col-6 ">APR</div>
+          <div class="col-6">{{activeLockLoan?.selectedQuote.apr |number : '1.2-2'}}</div>
+
+        </div>
+        </div>
     </ng-container>
     <hr>
     <div class="row p-2 tableheader">
