@@ -8,7 +8,6 @@ import {of} from 'rxjs';
 import {TaxonomyService} from '@data/service/taxonomy.service';
 import {QuickQuoteService} from '@data/service/quickquote.service';
 import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
-import {Taxonomy} from '@data/schema/taxonomy';
 import {GlobalService} from '@app/service/global.service';
 import {AuthService} from '@app/service/auth.service';
 import {UserMlo} from '@data/schema/user/user-mlo';
@@ -93,7 +92,6 @@ export class LoanPipelineComponent implements OnInit {
       minWidth: 150
     },
   ];
-  channelTypeTaxonomy: Taxonomy;
   brokercompanyId: any;
   userMLOList: UserMlo[] = [];
   userUUID: any;
@@ -102,7 +100,6 @@ export class LoanPipelineComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadGroups();
-
     if(!this.globalService.getIsLockDesk()){
       this.mloUserName = this.authService.getUserEmail();
       this.loadLoansFromLendingpad();
@@ -110,6 +107,8 @@ export class LoanPipelineComponent implements OnInit {
     }else{
       this.loadBrokerCompany();
     }
+    this.brokercompanyId='-1';
+    this.mloUserName='-1';
 
 
   }
@@ -120,8 +119,7 @@ export class LoanPipelineComponent implements OnInit {
     })
   }
   loadLoansFromLendingpad(){
-    this.mloUserName='tibor.benke@loanhouse.us';
-    this.lockDeskService.getLoanPipeline(this.mloUserName).subscribe(
+     this.lockDeskService.getLoanPipeline(this.mloUserName).subscribe(
       plist => {
         this.rowData = of(plist);
         this.emitAClickEvent();
@@ -173,10 +171,10 @@ export class LoanPipelineComponent implements OnInit {
     this.router.navigate(['/lockdesk/lockdeskhome'])
   }
   getSelectedUserMLO() :UserMlo{
-    return this.userMLOList.filter(user => user.userName === 'gp@loanhouse.us').pop();
+    return this.userMLOList.filter(user => user.userName === this.mloUserName).pop();
   }
   onRowClick($event: any) {
-    this.router.navigate(['/lockdesk/lock-confirmation/' + this.loanPipelineGrid.rowData[0].id+'/'+this.getSelectedUserMLO().userUUID]);
+     this.router.navigate(['/lockdesk/lock-confirmation/' + this.loanPipelineGrid.rowData[0].id+'/'+this.getSelectedUserMLO().userUUID]);
   }
 
   refreshGrid($event: MouseEvent) {
