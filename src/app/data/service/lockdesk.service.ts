@@ -279,6 +279,7 @@ export class LockDeskService {
     lockLoan.isActive = ll['isActive'];
     lockLoan.lockExpirationDate = ll['lockExpirationDate'];
     lockLoan.lockExpired = ll['lockExpired'];
+    lockLoan.adjustments = ll['adjustments'];
     return lockLoan;
   }
   public errorHandler(error: HttpErrorResponse) {

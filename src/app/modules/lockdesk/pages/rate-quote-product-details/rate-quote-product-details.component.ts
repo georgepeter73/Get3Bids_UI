@@ -162,16 +162,17 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     this.lockLoan.selectedProduct = this.product;
     this.lockLoan.selectedQuote = this.rateSelected;
     this.lockLoan.productDetail = this.product_detail;
+    this.lockLoan.adjustments = this.product_detail.adjustments;
     this.lockLoan.lockDays = this.rateSelected.lockPeriod;
-    if(this.requestType == '101') {
+    if(this.requestType === this.LockRequestStatusType.RequestRateLock.toString()) {
       this.lockLoan.lockStatus = this.LockStatusType.float;
 
     }
-    if(this.requestType == '102') {
+    if(this.requestType === this.LockRequestStatusType.Locked.toString()) {
       this.lockLoan.lockStatus = this.LockStatusType.locked;
 
     }
-    if(this.requestType == '103') {
+    if(this.requestType === this.LockRequestStatusType.RequestReLock.toString()) {
       this.lockLoan.lockStatus = this.LockStatusType.locked;
 
     }

@@ -62,7 +62,25 @@
         <div class="col-4">{{loanInfo.loanNumber}}</div>
         <div class="col-4"></div>
       </div>
-      </div>
+        <div class="row p-2 row-striped dohover" >
+          <div class="col-4 ">Price</div>
+          <div class="col-4">{{activeLockLoan?.selectedQuote.price |number : '1.3-3'}}</div>
+          <div class="col-4"></div>
+
+        </div>
+        <div class="row p-2 row-striped dohover" >
+          <div class="col-4 ">Note Rate</div>
+          <div class="col-4">{{activeLockLoan?.selectedQuote.rate |number : '1.2-2'}}</div>
+          <div class="col-4"></div>
+
+        </div>
+        <div class="row p-2 row-striped dohover" >
+          <div class="col-4 ">APR</div>
+          <div class="col-4">{{activeLockLoan?.selectedQuote.apr |number : '1.2-2'}}</div>
+          <div class="col-4"></div>
+
+        </div>
+       </div>
       <div class="row p-2 tableheader">
         <div class="col-4 pl-3"><strong>Deal Data</strong></div>
         <div class="col-4"><strong>Before Lock</strong></div>
@@ -139,21 +157,19 @@
       </div>
       <div *ngIf="activeLockLoan?.lockStatus == LockStatusType.locked">
         <div class="row p-2 tableheader">
-          <div class="col-6 pl-3"><strong>Pricing</strong></div>
+          <div class="col-6 pl-3"><strong>Adjustments</strong></div>
           <div class="col-6 "></div>
 
         </div>
-        <div class="row p-2 row-striped dohover" >
-          <div class="col-6 ">Note Rate</div>
-          <div class="col-6">{{activeLockLoan?.selectedQuote.rate |number : '1.2-2'}}</div>
+        <div *ngFor="let adjustment of activeLockLoan?.productDetail?.adjustments">
+        <div class="row p-2  dohover" >
+          <div class="col-4 ">{{adjustment.type}}</div>
+          <div class="col-4 ">{{adjustment.reason}}</div>
+          <div class="col-4 ">{{adjustment.adjustor}}</div>
+        </div>
+        </div>
 
-        </div>
-        <div class="row p-2 row-striped dohover" >
-          <div class="col-6 ">APR</div>
-          <div class="col-6">{{activeLockLoan?.selectedQuote.apr |number : '1.2-2'}}</div>
-
-        </div>
-        </div>
+      </div>
     </ng-container>
     <hr>
     <div class="row p-2 tableheader">

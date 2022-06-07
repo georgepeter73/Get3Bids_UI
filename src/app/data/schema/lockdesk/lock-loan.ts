@@ -2,6 +2,7 @@ import {LoanInfo} from '@data/schema/lockdesk/loan-info';
 import {Product} from '@data/schema/lockdesk/product';
 import {Quote} from '@data/schema/lockdesk/quote';
 import {ProductDetail} from '@data/schema/lockdesk/product-detail';
+import {Adjustment} from '@data/schema/lockdesk/adjustment';
 
 export class LockLoan{
   id : string;
@@ -23,5 +24,6 @@ export class LockLoan{
   isActive : boolean;
   lockExpirationDate : Date;
   lockExpired : boolean;
+  adjustments: Adjustment[];
 
 }
