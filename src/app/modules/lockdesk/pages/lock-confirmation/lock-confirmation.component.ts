@@ -21,6 +21,7 @@ import {AuthService} from '@app/service/auth.service';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class LockConfirmationComponent implements OnInit {
+  private selectedUserMloUUID: string;
 
   constructor(@Inject(LOCALE_ID) public locale: string,private route : ActivatedRoute,private lockDeskService : LockDeskService, private router: Router,
               private _location: Location,private  globalService: GlobalService,private taxonomyService: TaxonomyService,private authService: AuthService,) { }
@@ -129,6 +130,7 @@ export class LockConfirmationComponent implements OnInit {
   ngOnInit(): void {
     this.mainDataLoading = true;
     this.itemId = this.route.snapshot.paramMap.get('itemId');
+    this.selectedUserMloUUID = this.route.snapshot.paramMap.get('selectedUserMloUUID');
     this.lockDeskService.getLoanById(this.itemId).subscribe(i =>{
       this.loanInfo = i;
       this.getActiveLockLoan(i.loanNumber,i);
@@ -143,10 +145,7 @@ export class LockConfirmationComponent implements OnInit {
 
     });
     this.getTaxonomy();
-    //based on the logged in users groups set the group
-    if(this.authService.getGroups().filter(g => g === 'lockdesk')){
-        this.globalService.setIsLockDesk(true);
-    }
+
 
 
   }
@@ -208,7 +207,7 @@ export class LockConfirmationComponent implements OnInit {
   }
 
   requestRateLock(requestType : string) {
-    this.router.navigate(["/lockdesk/rate-quote-product/"+this.itemId+ "/" + requestType]);
+    this.router.navigate(["/lockdesk/rate-quote-product/"+this.itemId+ "/" + requestType+'/'+this.selectedUserMloUUID]);
 
 
   }

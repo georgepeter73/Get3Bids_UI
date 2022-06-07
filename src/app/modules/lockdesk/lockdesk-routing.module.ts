@@ -24,17 +24,17 @@ const routes: Routes = [
     component: LoanPipelineComponent
   },
   {
-    path: "lock-confirmation/:itemId",
+    path: "lock-confirmation/:itemId/:selectedUserMloUUID",
     canActivate: [AuthGuard],
     component: LockConfirmationComponent
   },
   {
-    path: "rate-quote-product/:itemId/:requestType",
+    path: "rate-quote-product/:itemId/:requestType/:selectedUserMloUUID",
     canActivate: [AuthGuard],
     component: RateQuoteProductComponent
   },
   {
-    path: "rate-quote-product-details/:productId/:quoteId/:itemId/:requestType",
+    path: "rate-quote-product-details/:productId/:quoteId/:itemId/:requestType/:selectedUserMloUUID",
     canActivate: [AuthGuard],
     component: RateQuoteProductDetailsComponent
   },

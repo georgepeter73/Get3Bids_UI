@@ -14,11 +14,10 @@ import {LoanOfficer} from '@data/schema/lockdesk/loan-officer';
 import {PropertyType} from '@data/schema/lockdesk/property-type';
 import {LoanStatus} from '@data/schema/lockdesk/loan-status';
 import {QuickQuoteResultsRoot} from '@data/schema/lockdesk/quick-quote-results-root';
-import {UserMLO} from '@data/schema/lockdesk/user-mlo';
 import {ProductDetailRoot} from '@data/schema/lockdesk/product-detail-root';
-import {UserContact} from '@data/schema/lockdesk/user-contact';
-import {MediaLocation} from '@data/schema/user/media-location';
 import {LockLoan} from '@data/schema/lockdesk/lock-loan';
+import {UserContact} from '@data/schema/user/user-contact';
+import {UserMlo} from '@data/schema/user/user-mlo';
 const API_URL = environment.LOCKDESK_API_URL;
 
 @Injectable()
@@ -166,10 +165,10 @@ export class LockDeskService {
       )
   }
   public getQuoteResults(
-   itemId : string
+   itemId : string,selectedUserMloUUID : string
   ): Observable<QuickQuoteResultsRoot> {
       return this.http
-        .get(API_URL + '/api/v1/lockdesk/get_quote_results?itemId=' + itemId )
+        .get(API_URL + '/api/v1/lockdesk/get_quote_results?itemId=' + itemId + '&selectedUserMloUUID=' + encodeURIComponent(selectedUserMloUUID))
         .pipe(
           map(qqResRoot => {
             return new QuickQuoteResultsRoot(
@@ -182,12 +181,12 @@ export class LockDeskService {
           })
         );
     }
-  public gerUserMLO(user: UserMLO): UserMLO {
-    let user1 = new UserMLO();
+  public gerUserMLO(user: UserMlo): UserMlo {
+    let user1 = new UserMlo();
     user1.firstName = user['firstName'];
     user1.lastName = user['lastName'];
     user1.userName = user['userName'];
-    user1.brokerCompanyId = user['brokerCompanyId'];
+    user1.brokercompanyId = user['brokerCompanyId'];
     user1.clientId = user['clientId'];
     user1.enterpriseId = user['enterpriseId'];
     user1.reportToUserId = user['reportToUserId'];
@@ -230,7 +229,7 @@ export class LockDeskService {
             productDetailRoot['quoteId'],
             productDetailRoot['obBadRequestResponsDTO'],
             productDetailRoot['success'],
-            this.gerUserMLO(<UserMLO>productDetailRoot['userDTO'])
+            this.gerUserMLO(<UserMlo>productDetailRoot['userDTO'])
           );
         })
       );

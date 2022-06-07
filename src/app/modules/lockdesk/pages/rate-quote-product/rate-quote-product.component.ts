@@ -13,11 +13,11 @@ import {TaxonomyItem} from '@data/schema/taxonomy-item';
 import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
 import {BrokerCompanyMedia} from '@data/schema/company/broker-company-media';
 import {KeyValuePair} from '@data/schema/lockdesk';
-import {UserMLO} from '@data/schema/lockdesk/user-mlo';
 import {ProductGroup} from '@data/schema/lockdesk/productgroup';
 import {GlobalService} from '@app/service/global.service';
 import {Investor} from '@data/schema/lockdesk/investor';
 import {firstBy} from 'thenby';
+import {UserMlo} from '@data/schema/user/user-mlo';
 
 @Component({
   selector: 'app-rate-quote-product',
@@ -26,6 +26,7 @@ import {firstBy} from 'thenby';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class RateQuoteProductComponent implements OnInit {
+  private selectedUserMloUUID: string;
 
   constructor(private route: ActivatedRoute, private lockDeskService: LockDeskService, private router: Router,
               private _location: Location, private globalService: GlobalService,) {
@@ -63,8 +64,8 @@ export class RateQuoteProductComponent implements OnInit {
   noPricing: TaxonomyItem;
   pricingFound: TaxonomyItem;
   moreInfoClicked = false;
-  userMLO: UserMLO;
-  companyUserMLOList: UserMLO[] = [];
+  userMLO: UserMlo;
+  companyUserMLOList: UserMlo[] = [];
   companyLOUUID = '';
   brokerCompanyInfo = new BrokerCompanyInfo();
   // set this to true to test pricing at company, mlo and investor level
@@ -82,6 +83,7 @@ export class RateQuoteProductComponent implements OnInit {
     this.loanTypeList = this.globalService.loanTypeList;
     this.itemId = this.route.snapshot.paramMap.get('itemId');
     this.requestType = this.route.snapshot.paramMap.get('requestType');
+    this.selectedUserMloUUID = this.route.snapshot.paramMap.get('selectedUserMloUUID');
     this.QuoteResults();
 
   }
@@ -103,7 +105,7 @@ export class RateQuoteProductComponent implements OnInit {
 
   QuoteResults() {
     this.lockDeskService
-      .getQuoteResults(this.itemId)
+      .getQuoteResults(this.itemId,this.selectedUserMloUUID)
       .subscribe(
         quickQuoteResultsRoot => {
           this.qqRes = quickQuoteResultsRoot.obBestExResponseDTO;
@@ -218,7 +220,7 @@ export class RateQuoteProductComponent implements OnInit {
 
   backClicked($event: MouseEvent) {
     $event.preventDefault();
-    this.router.navigate(['/lockdesk/lock-confirmation/' + this.itemId ]);
+    this.router.navigate(['/lockdesk/lock-confirmation/' + this.itemId+'/'+this.selectedUserMloUUID ]);
   }
 
   onSortChange(event) {
@@ -259,6 +261,6 @@ export class RateQuoteProductComponent implements OnInit {
   moreInfo(productId: number,moreInfoIndex : number) {
     this.selectedMoreInfoButtonIndex = moreInfoIndex;
     this.globalService.setQQRes(this.qqRes);
-    this.router.navigate(['/lockdesk/rate-quote-product-details/' + productId + '/' + this.qqResRoot.quoteId + '/' + this.itemId + '/' + this.requestType]);
+    this.router.navigate(['/lockdesk/rate-quote-product-details/' + productId + '/' + this.qqResRoot.quoteId + '/' + this.itemId + '/' + this.requestType+'/'+this.selectedUserMloUUID]);
   }
 }

@@ -13,12 +13,12 @@ import { Investor } from '@data/schema/lockdesk/investor';
 import { ProductGroup } from '@data/schema/lockdesk/productgroup';
 import { Router } from '@angular/router';
 import { QuoteBorrowerInfo } from '@data/schema/lockdesk/quote-borrower-info';
-import { UserMedia } from '@data/schema/lockdesk/user-media';
-import { UserMLO } from '@data/schema/lockdesk/user-mlo';
 import { BrokerCompanyMedia } from '@data/schema/lockdesk/broker-company-media';
 import { BrokerCompanyInfo } from '@data/schema/lockdesk/broker-company-info';
-import {Taxonomy} from '@data/schema/lockdesk/taxonomy';
 import {LoanInfo} from '@data/schema/lockdesk/loan-info';
+import {UserMedia} from '@data/schema/user/user-media';
+import {UserMlo} from '@data/schema/user/user-mlo';
+import {Taxonomy} from '@data/schema/taxonomy';
 
 @Injectable({
   providedIn: 'root'
@@ -255,12 +255,12 @@ export class GlobalService {
     }
     return JSON.parse(sessionStorage.getItem('userMedias'));
   }
-  setUserMLO(userMLO: UserMLO) {
+  setUserMLO(userMLO: UserMlo) {
     sessionStorage.setItem('userMLO', JSON.stringify(userMLO));
   }
-  getUserMLO(): UserMLO {
+  getUserMLO(): UserMlo {
     if (JSON.parse(sessionStorage.getItem('userMLO')) == null) {
-      return new UserMLO();
+      return new UserMlo();
     }
     return JSON.parse(sessionStorage.getItem('userMLO'));
   }

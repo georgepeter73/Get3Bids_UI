@@ -49,6 +49,10 @@ export class AuthService {
     return (JSON.parse(atob(this.getUser().split('.')[1]))).given_name +" "+
       (JSON.parse(atob(this.getUser().split('.')[1]))).family_name;
   }
+  getUserEmail(){
+    return (JSON.parse(atob(this.getUser().split('.')[1])).email);
+
+  }
   getGroups(): string[]{
     const t = jwt_decode(this.getUser())
     return t['cognito:groups'];

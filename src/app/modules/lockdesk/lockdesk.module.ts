@@ -20,12 +20,13 @@ import { LockConfirmationComponent } from './pages/lock-confirmation/lock-confir
 import { RateQuoteProductComponent } from './pages/rate-quote-product/rate-quote-product.component';
 import {RatingModule} from 'ng-starrating';
 import { RateQuoteProductDetailsComponent } from './pages/rate-quote-product-details/rate-quote-product-details.component';
+import {QuickQuoteService} from '@data/service/quickquote.service';
 
 @NgModule({
   declarations: [LockdeskHomeComponent, LoanPipelineComponent, LockConfirmationComponent, RateQuoteProductComponent, RateQuoteProductDetailsComponent],
     imports: [
         CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule.forRoot(), NbInputModule, NbIconModule, NbSpinnerModule, NbSelectModule, RatingModule, NbRadioModule, NbAlertModule,
     ],
-  providers: [LockDeskService],
+  providers: [LockDeskService,QuickQuoteService],
 })
 export class LockdeskModule { }

@@ -4,12 +4,12 @@ import {LockDeskService} from '@data/service/lockdesk.service';
 import {DatePipe, Location} from '@angular/common';
 import {GlobalService} from '@app/service/global.service';
 import {ProductDetail} from '@data/schema/lockdesk/product-detail';
-import {UserMLO} from '@data/schema/lockdesk/user-mlo';
 import {Investor} from '@data/schema/lockdesk/investor';
 import {Product, QuickQuoteResults} from '@data/schema/lockdesk';
 import {LoanInfo} from '@data/schema/lockdesk/loan-info';
 import {Quote} from '@data/schema/lockdesk/quote';
 import {LockLoan} from '@data/schema/lockdesk/lock-loan';
+import {UserMlo} from '@data/schema/user/user-mlo';
 
 @Component({
   selector: 'app-rate-quote-product-details',
@@ -27,7 +27,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
   mobileButtonShow: boolean;
   moreInfoClicked: boolean;
   product_detail: ProductDetail;
-  userMLO: UserMLO;
+  userMLO: UserMlo;
   rateLockFilterList: { value: string; key: string }[];
   rateLockFilterSelected: string;
   loanInfo: LoanInfo;
@@ -54,6 +54,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     Locked: 102,
     RequestReLock :103
   };
+  private selectedUserMloUUID: string;
 
   constructor(private route: ActivatedRoute, private lockDeskService: LockDeskService, private router: Router,
               private _location: Location, private globalService: GlobalService,) {
@@ -69,6 +70,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     this.itemId = this.route.snapshot.paramMap.get('itemId');
     this.loanInfo = this.globalService.getRQSelectedLoanInfo();
     this.requestType = this.route.snapshot.paramMap.get('requestType');
+    this.selectedUserMloUUID = this.route.snapshot.paramMap.get('selectedUserMloUUID');
     this.moreInfo();
   }
 
@@ -188,6 +190,9 @@ export class RateQuoteProductDetailsComponent implements OnInit {
         this.isRateLockRequestFailed = false;
         // hack for data not displaying with out a mouse click
         this.eventFire(document.getElementById('refreshButtonId'), 'click');
+        setTimeout(()=>{
+          this.router.navigate(['/lockdesk/lock-confirmation/' + this.itemId+'/'+this.selectedUserMloUUID]);
+        }, 3000);
 
       }, error => {
         this.isRateLockRequestloading = false;
