@@ -32,7 +32,7 @@ export class RateQuoteProductComponent implements OnInit {
               private _location: Location, private globalService: GlobalService,) {
   }
 
-  private itemId = '';
+  itemId = '';
   qqRes: QuickQuoteResults;
   qqResRoot: QuickQuoteResultsRoot;
   globalQQ: QuickQuote;
@@ -51,9 +51,9 @@ export class RateQuoteProductComponent implements OnInit {
   documentationTypeDesc = 'n/a';
   loading = false;
   radioButtonrateSelected = false;
-  private miTypeShortDesc: string;
+  miTypeShortDesc: string;
   mobileButtonShow = false;
-  private errorMessage: string;
+  errorMessage: string;
   noLoanProducts = false;
   selectedMoreInfoButtonIndex = 0;
   loanTypeList: KeyValuePair[] = [];
@@ -135,6 +135,8 @@ export class RateQuoteProductComponent implements OnInit {
         },
         err => {
           this.errorMessage = JSON.stringify(err);
+          // hack for data not displaying with out a mouse click
+          this.eventFire(document.getElementById('refreshButtonId'), 'click');
           console.log(this.errorMessage);
         }
       );
