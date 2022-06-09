@@ -91,6 +91,15 @@ export class LoanPipelineComponent implements OnInit {
       resizable: true,
       minWidth: 150
     },
+    {
+      headerName: 'Property Type',
+      field: 'propertyType.name',
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable: true,
+      minWidth: 150
+    },
   ];
   brokercompanyId: any;
   userMLOList: UserMlo[] = [];

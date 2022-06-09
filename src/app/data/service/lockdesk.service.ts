@@ -77,7 +77,7 @@ export class LockDeskService {
     loanInfo.loanOfficer = this.getLoanOfficer(info['loanOfficer']);
     loanInfo.propertyType = this.getPropertyType(info['propertyType']);
     loanInfo.loanStatus = this.getLoanStatus(info['loanStatus']);
-    return loanInfo;
+     return loanInfo;
   }
   private getLoanStatus(pt : LoanStatus): LoanStatus {
     let loanStatus = new LoanStatus();

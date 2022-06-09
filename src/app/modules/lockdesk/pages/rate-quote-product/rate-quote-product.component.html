@@ -123,9 +123,11 @@
           <p>
             <b>Check to make sure the loan parameters you entered <br>in Lending-pad LOS are accurate.</b>
           </p>
-          <div *ngIf="qqResRoot.quoteId>0">
-            <p>
-              <b>Your Reference number is {{qqResRoot.quoteId}}</b>
+
+          <div *ngIf="qqResRoot.obBadRequestResponsDTO">
+            <p>Some of the issues are:</p>
+            <p *ngFor="let message of qqResRoot.obBadRequestResponsDTO">
+              <b>{{message.message}}</b>
             </p>
           </div>
 
