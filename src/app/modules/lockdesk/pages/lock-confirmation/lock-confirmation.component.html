@@ -57,11 +57,7 @@
           <div class="col-4"></div>
         </div>
 
-      <div class="row p-2 row-striped dohover">
-        <div class="col-4 ">Loan Number</div>
-        <div class="col-4">{{loanInfo.loanNumber}}</div>
-        <div class="col-4"></div>
-      </div>
+
         <div class="row p-2 row-striped dohover" >
           <div class="col-4 ">Price</div>
           <div class="col-4">{{activeLockLoan?.selectedQuote.price |number : '1.3-3'}}</div>
@@ -74,13 +70,13 @@
           <div class="col-4"></div>
 
         </div>
-        <div class="row p-2 row-striped dohover" >
-          <div class="col-4 ">APR</div>
-          <div class="col-4">{{activeLockLoan?.selectedQuote.apr |number : '1.2-2'}}</div>
-          <div class="col-4"></div>
 
-        </div>
        </div>
+      <div class="row p-2 row-striped dohover">
+        <div class="col-4 ">Loan Number</div>
+        <div class="col-4">{{loanInfo.loanNumber}}</div>
+        <div class="col-4"></div>
+      </div>
       <div class="row p-2 tableheader">
         <div class="col-4 pl-3"><strong>Deal Data</strong></div>
         <div class="col-4"><strong>Before Lock</strong></div>

@@ -154,7 +154,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
 
   backClicked($event: MouseEvent) {
     $event.preventDefault();
-    this.router.navigate(['/lockdesk/rate-quote-product/' + this.itemId + '/' + this.requestType]);
+    this.router.navigate(['/lockdesk/rate-quote-product/' + this.itemId + '/' + this.requestType+'/'+this.selectedUserMloUUID]);
   }
 
   requestRateLock() {

@@ -112,36 +112,39 @@ export class RateQuoteProductComponent implements OnInit {
           this.qqResRoot = quickQuoteResultsRoot;
            if (quickQuoteResultsRoot.obBestExResponseDTO) {
             this.products = quickQuoteResultsRoot.obBestExResponseDTO.products;
-            // hack for data not displaying with out a mouse click
-            this.eventFire(document.getElementById('refreshButtonId'), 'click');
+             this.emitClickEvent();
+            this.filterProductFilter();
+            this.filterLoanTypeFilter();
+            if (
+              quickQuoteResultsRoot.obBestExResponseDTO.products &&
+              quickQuoteResultsRoot.obBestExResponseDTO.products.length === 0
+            ) {
+              this.noLoanProducts = true;
+            } else if (!quickQuoteResultsRoot.obBestExResponseDTO.products) {
+              this.noLoanProducts = true;
+            }
+            this.globalQQ.searchId = this.qqRes.searchId;
+            this.globalQQ.quoteId = this.qqResRoot.quoteId;
+            this.globalService.setQuickQuote(this.globalQQ);
+            this.globalService.setQQRes(this.qqRes);
+             } else {
+               this.noLoanProducts = true;
+             }
+            this.emitClickEvent();
 
-          } else {
-            this.noLoanProducts = true;
-          }
-          this.filterProductFilter();
-          this.filterLoanTypeFilter();
-          if (
-            quickQuoteResultsRoot.obBestExResponseDTO.products &&
-            quickQuoteResultsRoot.obBestExResponseDTO.products.length === 0
-          ) {
-            this.noLoanProducts = true;
-          } else if (!quickQuoteResultsRoot.obBestExResponseDTO.products) {
-            this.noLoanProducts = true;
-          }
-          this.globalQQ.searchId = this.qqRes.searchId;
-          this.globalQQ.quoteId = this.qqResRoot.quoteId;
-          this.globalService.setQuickQuote(this.globalQQ);
-          this.globalService.setQQRes(this.qqRes);
         },
         err => {
           this.errorMessage = JSON.stringify(err);
-          // hack for data not displaying with out a mouse click
-          this.eventFire(document.getElementById('refreshButtonId'), 'click');
+          this.emitClickEvent();
           console.log(this.errorMessage);
         }
       );
   }
 
+  emitClickEvent(){
+    // hack for data not displaying with out a mouse click
+    this.eventFire(document.getElementById('refreshButtonId'), 'click');
+  }
   filterProductFilter() {
     this.productFilterList = this.globalService.productFilterList;
 
