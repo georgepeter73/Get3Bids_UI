@@ -3,6 +3,7 @@ import {Product} from '@data/schema/lockdesk/product';
 import {Quote} from '@data/schema/lockdesk/quote';
 import {ProductDetail} from '@data/schema/lockdesk/product-detail';
 import {Adjustment} from '@data/schema/lockdesk/adjustment';
+import {UserMlo} from '@data/schema/user/user-mlo';
 
 export class LockLoan{
   id : string;
@@ -13,7 +14,7 @@ export class LockLoan{
   selectedProduct : Product;
   selectedQuote : Quote;
   lockStatus : number;
-  lockRequestStatus : number;
+  lockState : number;
   lockDate : Date;
   lockDays : number;
   lastUpdatedDate : Date;
@@ -25,5 +26,9 @@ export class LockLoan{
   lockExpirationDate : Date;
   lockExpired : boolean;
   adjustments: Adjustment[];
+  selectedUserMloUUID : String;
+  lockLoanSuccessful : boolean;
+
+
 
 }

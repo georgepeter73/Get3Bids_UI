@@ -13,9 +13,8 @@
     <div class="form-group row mb-2" >
       <label class="label col-3 col-form-label">Company Name</label>
       <div class="col-3">
-        &nbsp;<nb-select  [(ngModel)]="brokercompanyId"   #brokerCompany="ngModel" name="brokerCompany" required size="small"  placeholder="" id="brokerCompanyid" [nbSpinner]="brokerCompanyLoading" nbSpinnerStatus="primary" (ngModelChange)="loadUsers()" >
-        <nb-option value="-1">Select a company</nb-option>
-        <nb-option *ngFor="let brokercompany of brokerCompanyList" [value]="brokercompany.brokercompanyId">{{brokercompany.name}}</nb-option>
+        &nbsp;<nb-select  [(ngModel)]="brokercompanyId"   #brokerCompany="ngModel" name="brokerCompany" required size="small"  placeholder="Select a company" id="brokerCompanyid" [nbSpinner]="brokerCompanyLoading" nbSpinnerStatus="primary" (ngModelChange)="loadUsers()" >
+          <nb-option *ngFor="let brokercompany of brokerCompanyList" [value]="brokercompany.brokercompanyId">{{brokercompany.name}}</nb-option>
       </nb-select>
       </div>
       <div class="col-6"></div>
@@ -23,9 +22,8 @@
       <div class="form-group row mb-2" *ngIf="brokercompanyId!='-1'">
         <label class="label col-3 col-form-label" >MLO</label>
         <div class="col-3" >
-          &nbsp;<nb-select  [(ngModel)]="mloUserName"   #userMLO="ngModel" name="userMLO" required size="small"  placeholder="" id="usrMLOId"  [nbSpinner]="userLoading" nbSpinnerStatus="primary" (ngModelChange)="loadLoansFromLendingpad()">
-          <nb-option value="-1">Select a MLO</nb-option>
-          <nb-option *ngFor="let user of userMLOList" [value]="user.userName">{{user.firstName+" "+user.lastName}}</nb-option>
+          &nbsp;<nb-select  [(ngModel)]="mloUserName"   #userMLO="ngModel" name="userMLO" required size="small"  placeholder="Select a MLO" id="usrMLOId"  [nbSpinner]="userLoading" nbSpinnerStatus="primary" (ngModelChange)="loadLoansFromLendingpad()">
+           <nb-option *ngFor="let user of userMLOList" [value]="user.userName">{{user.firstName+" "+user.lastName}}</nb-option>
         </nb-select>
         </div>
         <div class="col-6"></div>

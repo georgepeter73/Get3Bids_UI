@@ -10,23 +10,18 @@
     </div>
   </nb-card-header>
   <nb-card-body [nbSpinner]="mainDataLoading" nbSpinnerStatus="primary">
-    <div class="row p-5 ">
-      <button class="m-2" *ngIf="activeLockLoan?.lockStatus!=102" type="button" nbButton status="primary" (click)="requestRateLock('101')"
-              size="medium" [nbSpinner]="rateLockButtonLoading" nbSpinnerStatus="primary">
-        <nb-icon icon="save-outline"></nb-icon>
-        Request Rate Lock
-      </button>
-      <button *ngIf="activeLockLoan?.lockStatus==101" class="m-2" type="button" nbButton status="primary" (click)="requestRateLock('102')"
-              size="medium" [nbSpinner]="rateLockButtonLoading" nbSpinnerStatus="primary">
-        <nb-icon icon="save-outline"></nb-icon>
-        Request Lock
-      </button>
-      <button *ngIf="activeLockLoan?.lockStatus==102" class="m-2" type="button" nbButton status="primary" (click)="requestRateLock('103')"
-               size="medium" [nbSpinner]="rateLockButtonLoading" nbSpinnerStatus="primary">
-        <nb-icon icon="save-outline"></nb-icon>
-        Rate Re-Lock
-      </button>
+    <div class="row p-5 " [nbSpinner]="actionSpinnerLoading" nbSpinnerStatus="primary">
+     <nb-select shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="giant"  placeholder="Locking Actions..." id="lockRequestWFId"  (ngModelChange)="requestRateLock(lockState)" >
+       <nb-option  [disabled]="disableActionItem(lock_work_flow.key)"  *ngFor="let lock_work_flow of lockRequestStatusType.taxonomyItems" [value]="lock_work_flow.key">{{lock_work_flow.description}}</nb-option>
+    </nb-select>
+
     </div>
+    <nb-alert accent="success"  *ngIf="lockLoanSuccessful" size="small" >
+      Loan Locked Successfully
+    </nb-alert>
+    <nb-alert accent="success"  *ngIf="lockLoanFailure" size="small" >
+      Unable to Lock the loan.
+    </nb-alert>
     <ng-container >
       <div *ngIf="activeLockLoan?.lockStatus == LockStatusType.locked">
       <div class="row p-2 tableheader">

@@ -43,6 +43,12 @@ export class LockConfirmationComponent implements OnInit {
     float: 101,
     locked: 102,
   };
+  LockStates = {
+    RequestRateLock: 101,
+    AcceptLock: 102,
+    RejectLock: 103,
+  };
+  lockLoanSuccessful = false;
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
     {
@@ -57,7 +63,7 @@ export class LockConfirmationComponent implements OnInit {
     {
       headerName: "Work Flow Status",
       sortable: true,
-      valueFormatter: params => this.lockRequestStatus(params.data.lockRequestStatus),
+      valueFormatter: params => this.lockRequestStatus(params.data.lockState),
       filter: true,
       checkboxSelection: false,
       resizable : true,
@@ -124,6 +130,9 @@ export class LockConfirmationComponent implements OnInit {
 
 
   ];
+  actionSpinnerLoading=false ;
+  lockLoanFailure = false;
+  lockState: number =-1
 
 
 
@@ -137,7 +146,7 @@ export class LockConfirmationComponent implements OnInit {
       this.globalService.setRQSelectedLoanInfo(this.loanInfo);
       this.lockDeskService.getLockLoanItemsByLoanNumber(i.loanNumber).subscribe(items =>{
            this.rowData = of(items);
-        this.mainDataLoading = false;
+           this.mainDataLoading = false;
           //hack for data not displaying with out a mouse click
           this.eventFire(document.getElementById('refreshButtonId'), 'click');
 
@@ -150,12 +159,20 @@ export class LockConfirmationComponent implements OnInit {
 
   }
 
+  disableActionItem(taxonomyItemKey :string){
+    if(taxonomyItemKey && this.activeLockLoan && parseInt(taxonomyItemKey) <= this.activeLockLoan.lockState ){
+      return true;
+    }
+    return false;
+
+  }
+
   getActiveLockLoan(loanNumber:string,curretnLoanInfo:LoanInfo){
 
      this.lockDeskService.getActiveLockLoan(loanNumber).subscribe(activeLoan =>{
       this.activeLockLoan = activeLoan;
        this.mainDataLoading = false;
-       //if the loan is locked then before lock will have the loan info that is stored while the loan is locked
+        //if the loan is locked then before lock will have the loan info that is stored while the loan is locked
        //after lock will the current loan info.
        if(this.activeLockLoan.lockStatus === this.LockStatusType.locked){
          this.beforeLock = this.activeLockLoan.loanInfo;
@@ -174,7 +191,7 @@ export class LockConfirmationComponent implements OnInit {
   }
   lockRequestStatus(cType: string) {
     let lockRequestStatusDesc = '';
-    lockRequestStatusDesc = this.lockRequestStatusType.taxonomyItems.filter(t => t.key === cType).pop().description
+     lockRequestStatusDesc = this.lockRequestStatusType.taxonomyItems.filter(t => t.key === cType).pop().description
     return lockRequestStatusDesc;
 
   }
@@ -197,6 +214,7 @@ export class LockConfirmationComponent implements OnInit {
         .filter(tax => tax.type === 'LockRequestStatus')
         .pop();
 
+
     });
   }
 
@@ -206,8 +224,29 @@ export class LockConfirmationComponent implements OnInit {
     this.router.navigate(["/lockdesk/loan-pipeline"]);
   }
 
-  requestRateLock(requestType : string) {
-    this.router.navigate(["/lockdesk/rate-quote-product/"+this.itemId+ "/" + requestType+'/'+this.selectedUserMloUUID]);
+  requestRateLock(lockState : number) {
+    this.actionSpinnerLoading = true;
+    this.lockLoanFailure = false;
+    if(lockState === this.LockStates.RequestRateLock) {
+      this.router.navigate(["/lockdesk/rate-quote-product/" + this.itemId + "/" + lockState.toString() + '/' + this.selectedUserMloUUID]);
+    }else{
+      if(lockState === this.LockStates.AcceptLock){
+        this.lockLoanSuccessful = false;
+        this.lockDeskService.acceptLock(this.activeLockLoan.id, this.LockStates.AcceptLock.toString()).subscribe(ll =>{
+          this.lockLoanSuccessful = ll.lockLoanSuccessful;
+          if(ll.lockLoanSuccessful) {
+             this.getActiveLockLoan(ll.loanNumber, ll.loanInfo);
+          }else{
+              this.lockLoanFailure = true;
+          }
+          this.actionSpinnerLoading = false;
+
+        })
+      }
+      if(lockState === this.LockStates.RejectLock){
+        this.actionSpinnerLoading = false;
+      }
+    }
 
 
   }

@@ -49,7 +49,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     float: 101,
     locked: 102,
   };
-  LockRequestStatusType = {
+  LockStates = {
     RequestRateLock: 101,
     Locked: 102,
     RequestReLock :103
@@ -166,19 +166,20 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     this.lockLoan.productDetail = this.product_detail;
     this.lockLoan.adjustments = this.product_detail.adjustments;
     this.lockLoan.lockDays = this.rateSelected.lockPeriod;
-    if(this.requestType === this.LockRequestStatusType.RequestRateLock.toString()) {
+    this.lockLoan.selectedUserMloUUID = this.selectedUserMloUUID;
+    if(this.requestType === this.LockStates.RequestRateLock.toString()) {
       this.lockLoan.lockStatus = this.LockStatusType.float;
 
     }
-    if(this.requestType === this.LockRequestStatusType.Locked.toString()) {
+    if(this.requestType === this.LockStates.Locked.toString()) {
       this.lockLoan.lockStatus = this.LockStatusType.locked;
 
     }
-    if(this.requestType === this.LockRequestStatusType.RequestReLock.toString()) {
+    if(this.requestType === this.LockStates.RequestReLock.toString()) {
       this.lockLoan.lockStatus = this.LockStatusType.locked;
 
     }
-    this.lockLoan.lockRequestStatus = parseInt(this.requestType);
+    this.lockLoan.lockState = parseInt(this.requestType);
     this.lockLoan.loanNumber = this.loanInfo.loanNumber;
     this.lockLoan.loanInfo = this.globalService.getRQSelectedLoanInfo();
     this.lockDeskService.requestRateLock(this.lockLoan).subscribe(ll => {

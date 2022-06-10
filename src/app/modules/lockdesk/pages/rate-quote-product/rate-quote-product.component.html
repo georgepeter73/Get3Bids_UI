@@ -94,10 +94,7 @@
                       class="big pt-3 pb-1"><sup>$</sup>{{product?.principalAndInterest | currency:'':'':'1.0-0'}}</div>
                     <div>Principal & Interest</div>
                     <hr>
-                    <br>
-                     <button *ngIf="product?.guidelines[0]?.guidelineLink?.href && !isWholesaleChannel" ghost
-                             status="info" size="small" nbButton nbSpinnerStatus="basic">Underwriting Guide<nb-icon
-                       icon="download-outline"></nb-icon></button>
+
                   </div>
                   <div class="col-md-2"><br>
                     <button (click)="moreInfo(product?.productId,i)" status="info" size="small" nbButton

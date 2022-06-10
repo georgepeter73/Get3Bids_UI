@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LockdeskHomeComponent } from './pages/lockdesk-home/lockdesk-home.component';
 import { LockdeskRoutingModule } from './lockdesk-routing.module';
 import {SharedModule} from '@shared/shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
     NbAlertModule,
     NbButtonModule,
@@ -25,7 +26,7 @@ import {QuickQuoteService} from '@data/service/quickquote.service';
 @NgModule({
   declarations: [LockdeskHomeComponent, LoanPipelineComponent, LockConfirmationComponent, RateQuoteProductComponent, RateQuoteProductDetailsComponent],
     imports: [
-        CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule.forRoot(), NbInputModule, NbIconModule, NbSpinnerModule, NbSelectModule, RatingModule, NbRadioModule, NbAlertModule,
+        CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule.forRoot(), NbInputModule, NbIconModule, NbSpinnerModule, NbSelectModule, RatingModule, NbRadioModule, NbAlertModule, NgbModule
     ],
   providers: [LockDeskService,QuickQuoteService],
 })

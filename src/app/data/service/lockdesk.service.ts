@@ -238,8 +238,21 @@ export class LockDeskService {
   public requestRateLock(data: LockLoan): Observable<LockLoan> {
     return this.http
       .post(
-        API_URL + "/api/v1/lockdesk/lock_loan",
+        API_URL + "/api/v1/lockdesk/request_lock_loan",
         data, this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return this.getLockLoan(<LockLoan>response);
+        })
+      )
+      .pipe(catchError(this.errorHandler));
+  }
+  public acceptLock(lockLoanItemId: string, lockState:string): Observable<LockLoan> {
+    return this.http
+      .post(
+        API_URL + "/api/v1/lockdesk/accept_lock_loan?lockLoanItemId="+lockLoanItemId+'&lockState='+lockState
+        , this.requestOptions
       )
       .pipe(
         map(response => {
@@ -265,7 +278,7 @@ export class LockDeskService {
     const lockLoan = new LockLoan();
     lockLoan.loanInfo = ll['loanInfo'];
     lockLoan.lockStatus = ll['lockStatus'];
-    lockLoan.lockRequestStatus = ll['lockRequestStatus'];
+    lockLoan.lockState = ll['lockState'];
     lockLoan.lockDays = ll['lockDays'];
     lockLoan.selectedQuote = ll['selectedQuote'];
     lockLoan.selectedProduct = ll['selectedProduct'];
@@ -279,6 +292,7 @@ export class LockDeskService {
     lockLoan.lockExpirationDate = ll['lockExpirationDate'];
     lockLoan.lockExpired = ll['lockExpired'];
     lockLoan.adjustments = ll['adjustments'];
+    lockLoan.lockLoanSuccessful = ll['lockLoanSuccessful'];
     return lockLoan;
   }
   public errorHandler(error: HttpErrorResponse) {
