@@ -52,13 +52,25 @@ export class LockConfirmationComponent implements OnInit {
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
     {
+      headerName: "When",
+      field: "lastUpdatedDate",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 190,
+      cellRenderer: (data) => {
+        return data.value ? formatDate(data.value, 'd MMM yyyy hh mm aa', this.locale) : '';
+      },
+    },
+    {
       headerName: "Lock Status",
       valueFormatter: params => this.lockStatus(params.data.lockStatus),
       sortable: true,
       filter: true,
       checkboxSelection: false,
       resizable : true,
-      minWidth: 150
+      minWidth: 100
     },
     {
       headerName: "Work Flow Status",
@@ -76,7 +88,10 @@ export class LockConfirmationComponent implements OnInit {
       filter: true,
       checkboxSelection: false,
       resizable : true,
-      minWidth: 150
+      minWidth: 190,
+      cellRenderer: (data) => {
+        return data.value ? formatDate(data.value, 'd MMM yyyy', this.locale) : '';
+      },
     },
 
     {
@@ -86,7 +101,7 @@ export class LockConfirmationComponent implements OnInit {
       filter: true,
       checkboxSelection: false,
       resizable : true,
-      minWidth: 150
+      minWidth: 250
     },
     {
       headerName: "Note Rate",
@@ -95,7 +110,7 @@ export class LockConfirmationComponent implements OnInit {
       filter: true,
       checkboxSelection: false,
       resizable : true,
-      minWidth: 150
+      minWidth: 100
     },
     {
       headerName: "Price",
@@ -104,20 +119,9 @@ export class LockConfirmationComponent implements OnInit {
       filter: true,
       checkboxSelection: false,
       resizable : true,
-      minWidth: 150
+      minWidth: 100
     },
-    {
-      headerName: "When",
-      field: "lastUpdatedDate",
-      sortable: true,
-      filter: true,
-      checkboxSelection: false,
-      resizable : true,
-      minWidth: 150,
-      cellRenderer: (data) => {
-        return data.value ? formatDate(data.value, 'd MMM yyyy hh mm aa', this.locale) : '';
-      },
-    },
+
     {
       headerName: "Who",
       field: "lastUpdatedBy",
@@ -125,16 +129,13 @@ export class LockConfirmationComponent implements OnInit {
       filter: true,
       checkboxSelection: false,
       resizable : true,
-      minWidth: 150
+      minWidth: 200
     },
-
-
   ];
   actionSpinnerLoading=false ;
   lockLoanFailure = false;
   lockState: number =-1
-
-
+  basePrice = 0;
 
   ngOnInit(): void {
     this.mainDataLoading = true;
@@ -145,31 +146,37 @@ export class LockConfirmationComponent implements OnInit {
       this.getActiveLockLoan(i.loanNumber,i);
       this.globalService.setRQSelectedLoanInfo(this.loanInfo);
       this.lockDeskService.getLockLoanItemsByLoanNumber(i.loanNumber).subscribe(items =>{
+           items.sort((a, b) => (a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1));
            this.rowData = of(items);
            this.mainDataLoading = false;
-          //hack for data not displaying with out a mouse click
-          this.eventFire(document.getElementById('refreshButtonId'), 'click');
-
+           this.emitEvent();
        });
-
     });
     this.getTaxonomy();
-
-
-
+  }
+  emitEvent(){
+    //hack for data not displaying with out a mouse click
+    this.eventFire(document.getElementById('refreshButtonId'), 'click');
   }
 
   disableActionItem(taxonomyItemKey :string){
-    if(taxonomyItemKey && this.activeLockLoan && parseInt(taxonomyItemKey) <= this.activeLockLoan.lockState ){
-      return true;
-    }
-    return false;
+     return false;
+  }
 
+  getBasePrice(){
+    if(this.activeLockLoan && this.activeLockLoan.productDetail && this.activeLockLoan.productDetail.adjustments){
+      this.basePrice =  this.activeLockLoan.selectedQuote.price;
+      this.activeLockLoan.productDetail.adjustments.forEach(ad => {
+         if(ad.adjustor) {
+            this.basePrice = parseFloat(ad.adjustor) + this.basePrice;
+        }
+
+      })
+      }
   }
 
   getActiveLockLoan(loanNumber:string,curretnLoanInfo:LoanInfo){
-
-     this.lockDeskService.getActiveLockLoan(loanNumber).subscribe(activeLoan =>{
+      this.lockDeskService.getActiveLockLoan(loanNumber).subscribe(activeLoan =>{
       this.activeLockLoan = activeLoan;
        this.mainDataLoading = false;
         //if the loan is locked then before lock will have the loan info that is stored while the loan is locked
@@ -184,6 +191,7 @@ export class LockConfirmationComponent implements OnInit {
          this.beforeLock = curretnLoanInfo;
          this.afterLock = curretnLoanInfo;
        }
+       this.getBasePrice();
        //hack for data not displaying with out a mouse click
        this.eventFire(document.getElementById('refreshButtonId'), 'click');
         this.activeLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.activeLockLoan.lockStatus).pop().description
