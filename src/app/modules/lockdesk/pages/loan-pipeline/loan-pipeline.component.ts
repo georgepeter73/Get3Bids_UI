@@ -160,11 +160,14 @@ export class LoanPipelineComponent implements OnInit {
   }
 
   loadGroups() {
+
     //based on the logged in users groups set the group
-    if (this.authService.getGroups().filter(g => g === 'lockdesk')) {
-      this.globalService.setIsLockDesk(true);
-    }
-  }
+    if (this.authService.getGroups().filter(g => g == 'lockdesk').length>0) {
+       this.globalService.setIsLockDesk(true);
+       }else{
+      this.globalService.setIsLockDesk(false);
+      }
+   }
 
   loadBrokerCompany() {
     this.brokerCompanyLoading = true;

@@ -225,7 +225,7 @@ export class GlobalService {
     sessionStorage.setItem('isLockDesk', lockDesk.toString());
   }
   getIsLockDesk(): boolean {
-    return Boolean(sessionStorage.getItem('isLockDesk'));
+    return JSON.parse(sessionStorage.getItem('isLockDesk').toLowerCase());
   }
   setBrokerCompany(brokerCompanyInfo: BrokerCompanyInfo) {
     sessionStorage.setItem('brokerCompany', JSON.stringify(brokerCompanyInfo));

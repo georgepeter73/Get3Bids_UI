@@ -30,7 +30,7 @@ export class LockConfirmationComponent implements OnInit {
               private _location: Location,
               private  globalService: GlobalService,
               private taxonomyService: TaxonomyService,
-              private authService: AuthService,) { }
+             ) { }
   private itemId = "";
   loanInfo : LoanInfo = new LoanInfo();
   initialLock : LoanInfo = new LoanInfo();
@@ -121,7 +121,8 @@ export class LockConfirmationComponent implements OnInit {
       filter: true,
       checkboxSelection: false,
       resizable : true,
-      minWidth: 100
+      minWidth: 100,
+      valueFormatter: params => params.data.selectedQuote.rate.toFixed(2),
     },
     {
       headerName: "Price",
@@ -130,7 +131,8 @@ export class LockConfirmationComponent implements OnInit {
       filter: true,
       checkboxSelection: false,
       resizable : true,
-      minWidth: 100
+      minWidth: 100,
+      valueFormatter: params => params.data.selectedQuote.price.toFixed(3),
     },
 
     {
@@ -153,10 +155,13 @@ export class LockConfirmationComponent implements OnInit {
 
   ngOnInit(): void {
     this.mainDataLoading = true;
+    //primary key in lendingpad collection
     this.itemId = this.route.snapshot.paramMap.get('itemId');
     this.selectedUserMloUUID = this.route.snapshot.paramMap.get('selectedUserMloUUID');
+    //loading from lendingpad using the primary key
     this.lockDeskService.getLoanById(this.itemId).subscribe(i =>{
       this.loanInfo = i;
+      //loading the latest active record for lock loan collection
       this.getInitialLockLoan(i.loanNumber,i);
       this.globalService.setRQSelectedLoanInfo(this.loanInfo);
       this.getLockLoanHistory(i.loanNumber);
@@ -180,99 +185,112 @@ export class LockConfirmationComponent implements OnInit {
     //hack for data not displaying with out a mouse click
     this.eventFire(document.getElementById('refreshButtonId'), 'click');
   }
+  requestRateLockRule(taxonomyItemKey :string){
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
+      return false;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
+      return false;
+    }
+  }
+  acceptRateLockRule(taxonomyItemKey :string){
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
+      return false;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
+      return false;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
+      return true;
+    }
+  }
+  rejectLockRequestRule(taxonomyItemKey :string){
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
+      return false;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
+      return true;
+    }
+  }
+  extendLockRule(taxonomyItemKey :string){
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
+      return false;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
+      return false;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
+      return true;
+    }
+  }
+  unlockRule(taxonomyItemKey: string){
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
+      return false;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
+      return true;
+    }
+
+  }
 
   disableActionItem(taxonomyItemKey :string){
-
     if(this.initialLockLoan.lockState == this.LockStatesType.RequestRateLock){
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
-        return true;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
-        return false;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
-        return true;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
-        return true;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
-        return false;
-      }
 
+        return this.requestRateLockRule(taxonomyItemKey);
     }
-
     if(this.initialLockLoan.lockState == this.LockStatesType.AcceptLock){
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
-        return true;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
-        return true;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
-        return false;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
-        return false;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
-        return true;
-      }
 
+       return this.acceptRateLockRule(taxonomyItemKey);
     }
     if(this.initialLockLoan.lockState == this.LockStatesType.RejectLockRequest){
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
-        return false;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
-        return true;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
-        return true;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
-        return true;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
-        return true;
-      }
 
+      return this.rejectLockRequestRule(taxonomyItemKey);
     }
     if(this.initialLockLoan.lockState == this.LockStatesType.ExtendLock){
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
-        return true;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
-        return true;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
-        return false;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
-        return false;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
-        return true;
-      }
 
+     return this.extendLockRule(taxonomyItemKey);
     }
     if(this.initialLockLoan.lockState == this.LockStatesType.Unlock){
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
-        return false;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
-        return true;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
-        return true;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
-        return true;
-      }
-      if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
-        return true;
-      }
-
+     return this.unlockRule(taxonomyItemKey);
     }
     return false;
   }
@@ -343,6 +361,10 @@ export class LockConfirmationComponent implements OnInit {
         .filter(tax => tax.type === 'LockRequestStatus')
         .pop();
      });
+    //if not lock desk then filter it.
+    if(!this.globalService.getIsLockDesk()){
+      this.lockRequestStatusType.taxonomyItems = this.lockRequestStatusType.taxonomyItems.filter(ti => ti.key === this.LockStatesType.RequestRateLock.toString())
+    }
   }
 
 
