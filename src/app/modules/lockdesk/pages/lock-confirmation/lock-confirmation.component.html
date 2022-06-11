@@ -17,45 +17,45 @@
 
     </div>
     <nb-alert accent="success"  *ngIf="lockLoanSuccessful" size="small" >
-      Loan Locked Successfully
+      {{lockLoanActionSuccessMessage}}
     </nb-alert>
     <nb-alert accent="success"  *ngIf="lockLoanFailure" size="small" >
       Unable to Lock the loan.
     </nb-alert>
     <ng-container >
-      <div *ngIf="activeLockLoan?.lockStatus == LockStatusType.locked">
+      <div *ngIf="initialLockLoan?.lockStatus == LockStatusType.locked">
       <div class="row p-2 tableheader">
         <div class="col-12 pl-3"><strong>Lock Data</strong></div>
 
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Lock Status</div>
-        <div class="col-4">{{activeLockLoan?.lockStatusStr}}
-          <fa-icon *ngIf="activeLockLoan?.lockStatus==102" size="1x" [icon]="lock" class="m-1"></fa-icon>
-          <fa-icon *ngIf="activeLockLoan?.lockStatus==101" size="1x" [icon]="unlock" class="m-1"></fa-icon>
+        <div class="col-4">{{initialLockLoan?.lockStatusStr}}
+          <fa-icon *ngIf="initialLockLoan?.lockStatus==102" size="1x" [icon]="lock" class="m-1"></fa-icon>
+          <fa-icon *ngIf="initialLockLoan?.lockStatus==101" size="1x" [icon]="unlock" class="m-1"></fa-icon>
         </div>
         <div class="col-4"></div>
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Lock  Days</div>
-        <div class="col-4">{{activeLockLoan?.lockDays }}</div>
+        <div class="col-4">{{initialLockLoan?.lockDays }}</div>
         <div class="col-4"></div>
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Lock Expiration Date</div>
-        <div class="col-4">{{activeLockLoan?.lockExpirationDate | date: 'MM/dd/yyyy hh:mm aa'}}</div>
+        <div class="col-4">{{initialLockLoan?.lockExpirationDate | date: 'MM/dd/yyyy hh:mm aa'}}</div>
         <div class="col-4"></div>
       </div>
         <div class="row p-2 row-striped dohover">
           <div class="col-4 ">Is Lock Expired</div>
-          <div class="col-4">{{activeLockLoan?.lockExpired}}</div>
+          <div class="col-4">{{initialLockLoan?.lockExpired}}</div>
           <div class="col-4"></div>
         </div>
 
 
         <div class="row p-2 row-striped dohover" >
           <div class="col-4 ">Note Rate</div>
-          <div class="col-4">{{activeLockLoan?.selectedQuote.rate |number : '1.2-2'}}</div>
+          <div class="col-4">{{initialLockLoan?.selectedQuote.rate |number : '1.2-2'}}</div>
           <div class="col-4"></div>
 
         </div>
@@ -73,74 +73,74 @@
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Loan Type</div>
-        <div class="col-4">{{beforeLock?.loanType?.name}}</div>
-        <div class="col-4">{{afterLock?.loanType?.name}}</div>
+        <div class="col-4">{{initialLock?.loanType?.name}}</div>
+        <div class="col-4">{{finallock?.loanType?.name}}</div>
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Purpose</div>
-        <div class="col-4">{{beforeLock?.purpose?.name}}</div>
-        <div class="col-4">{{afterLock?.purpose?.name}}</div>
+        <div class="col-4">{{initialLock?.purpose?.name}}</div>
+        <div class="col-4">{{finallock?.purpose?.name}}</div>
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Loan Amount</div>
-        <div class="col-4">{{beforeLock?.loanAmount | number : '1.2-2'}}</div>
-        <div class="col-4">{{afterLock?.loanAmount | number : '1.2-2'}}</div>
+        <div class="col-4">{{initialLock?.loanAmount | number : '1.2-2'}}</div>
+        <div class="col-4">{{finallock?.loanAmount | number : '1.2-2'}}</div>
       </div>
       <div class="row p-2 row-striped dohover" >
         <div class="col-4 ">Purchase Price</div>
-        <div class="col-4">{{beforeLock?.purchasePrice | number : '1.2-2'}}</div>
-        <div class="col-4">{{afterLock?.purchasePrice | number : '1.2-2'}}</div>
+        <div class="col-4">{{initialLock?.purchasePrice | number : '1.2-2'}}</div>
+        <div class="col-4">{{finallock?.purchasePrice | number : '1.2-2'}}</div>
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Appraisal Amount</div>
-        <div class="col-4">{{beforeLock?.appraisalValue |number : '1.2-2'}}</div>
-        <div class="col-4">{{afterLock?.appraisalValue |number : '1.2-2'}}</div>
+        <div class="col-4">{{initialLock?.appraisalValue |number : '1.2-2'}}</div>
+        <div class="col-4">{{finallock?.appraisalValue |number : '1.2-2'}}</div>
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Occupancy</div>
-        <div class="col-4">{{beforeLock?.occupancy?.name}}</div>
-        <div class="col-4">{{afterLock?.occupancy?.name}}</div>
+        <div class="col-4">{{initialLock?.occupancy?.name}}</div>
+        <div class="col-4">{{finallock?.occupancy?.name}}</div>
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Escrow Waiver</div>
-        <div class="col-4">{{beforeLock?.escrowWaiver}}</div>
-        <div class="col-4">{{afterLock?.escrowWaiver}}</div>
+        <div class="col-4">{{initialLock?.escrowWaiver}}</div>
+        <div class="col-4">{{finallock?.escrowWaiver}}</div>
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Property Type</div>
-        <div class="col-4">{{beforeLock?.propertyType?.name}}</div>
-        <div class="col-4">{{afterLock?.propertyType?.name}}</div>
+        <div class="col-4">{{initialLock?.propertyType?.name}}</div>
+        <div class="col-4">{{finallock?.propertyType?.name}}</div>
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">LTV/CLTV</div>
-        <div class="col-4">{{beforeLock?.ltvRatioPercent |number : '1.3-3' }}
-          /{{beforeLock?.combinedLtvRatioPercent |number : '1.3-3'}}</div>
-        <div class="col-4">{{afterLock?.ltvRatioPercent |number : '1.3-3' }}
-          /{{afterLock?.combinedLtvRatioPercent |number : '1.3-3'}}</div>
+        <div class="col-4">{{initialLock?.ltvRatioPercent |number : '1.3-3' }}
+          /{{initialLock?.combinedLtvRatioPercent |number : '1.3-3'}}</div>
+        <div class="col-4">{{finallock?.ltvRatioPercent |number : '1.3-3' }}
+          /{{finallock?.combinedLtvRatioPercent |number : '1.3-3'}}</div>
       </div>
 
       <div class="row p-2 row-striped dohover" >
         <div class="col-4 ">Credit Score</div>
-        <div class="col-4">{{beforeLock?.creditScore}}</div>
-        <div class="col-4">{{afterLock?.creditScore}}</div>
+        <div class="col-4">{{initialLock?.creditScore}}</div>
+        <div class="col-4">{{finallock?.creditScore}}</div>
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Subject Property Zip</div>
-        <div class="col-4">{{beforeLock?.subjectPropertyAddress?.zipCode}}</div>
-        <div class="col-4">{{afterLock?.subjectPropertyAddress?.zipCode}}</div>
+        <div class="col-4">{{initialLock?.subjectPropertyAddress?.zipCode}}</div>
+        <div class="col-4">{{finallock?.subjectPropertyAddress?.zipCode}}</div>
       </div>
 
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Term</div>
-        <div class="col-4">{{beforeLock?.term}}</div>
-        <div class="col-4">{{afterLock?.term}}</div>
+        <div class="col-4">{{initialLock?.term}}</div>
+        <div class="col-4">{{finallock?.term}}</div>
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Units</div>
-        <div class="col-4">{{beforeLock?.units}}</div>
-        <div class="col-4">{{afterLock?.units}}</div>
+        <div class="col-4">{{initialLock?.units}}</div>
+        <div class="col-4">{{finallock?.units}}</div>
       </div>
-      <div *ngIf="activeLockLoan?.lockStatus == LockStatusType.locked">
+      <div *ngIf="initialLockLoan?.lockStatus == LockStatusType.locked">
         <div class="row p-2 tableheader">
           <div class="col-6 pl-3"><strong>Adjustments</strong></div>
           <div class="col-6 "></div>
@@ -150,22 +150,20 @@
           <div class="col-4 ">Base Price</div>
           <div class="col-4 ">{{basePrice}}</div>
           <div class="col-4 "></div>
-          <div class="col-4 "></div>
         </div>
-        <div *ngFor="let adjustment of activeLockLoan?.productDetail?.adjustments ;let i = index">
+        <div *ngFor="let adjustment of initialLockLoan?.productDetail?.adjustments ;let i = index">
         <div class="row p-2 dohover " [ngClass]="{'row-striped': i % 2==0}">
           <div class="col-4 ">{{adjustment.reason}}</div>
           <div class="col-4 ">{{adjustment.adjustor | number : '1.3-3'}}</div>
-          <div class="col-4 "></div>
         </div>
         </div>
-
         <div class="row p-2 dohover row-striped">
           <div class="col-4 ">Price</div>
-          <div class="col-4">{{activeLockLoan?.selectedQuote.price |number : '1.3-3'}}</div>
+          <div class="col-4">{{initialLockLoan?.selectedQuote.price |number : '1.3-3'}}</div>
           <div class="col-4 "></div>
           <div class="col-4 "></div>
         </div>
+
 
 
 

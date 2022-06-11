@@ -182,7 +182,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     this.lockLoan.lockState = parseInt(this.requestType);
     this.lockLoan.loanNumber = this.loanInfo.loanNumber;
     this.lockLoan.loanInfo = this.globalService.getRQSelectedLoanInfo();
-    this.lockDeskService.requestRateLock(this.lockLoan).subscribe(ll => {
+    this.lockDeskService.saveLockLoan(this.lockLoan).subscribe(ll => {
 
         this.lockLoan = ll;
 

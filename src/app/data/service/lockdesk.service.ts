@@ -235,10 +235,10 @@ export class LockDeskService {
       );
   }
 
-  public requestRateLock(data: LockLoan): Observable<LockLoan> {
+  public saveLockLoan(data: LockLoan): Observable<LockLoan> {
     return this.http
       .post(
-        API_URL + "/api/v1/lockdesk/request_lock_loan",
+        API_URL + "/api/v1/lockdesk/save_lock_loan",
         data, this.requestOptions
       )
       .pipe(
@@ -248,10 +248,11 @@ export class LockDeskService {
       )
       .pipe(catchError(this.errorHandler));
   }
-  public acceptLock(lockLoanItemId: string, lockState:string): Observable<LockLoan> {
+
+  public getInitialLockLoan(loanNumber: string): Observable<LockLoan> {
     return this.http
-      .post(
-        API_URL + "/api/v1/lockdesk/accept_lock_loan?lockLoanItemId="+lockLoanItemId+'&lockState='+lockState
+      .get(
+        API_URL + "/api/v1/lockdesk/get_initial_lock_loan?loanNumber="+loanNumber
         , this.requestOptions
       )
       .pipe(
@@ -261,10 +262,10 @@ export class LockDeskService {
       )
       .pipe(catchError(this.errorHandler));
   }
-  public getActiveLockLoan(loanNumber: string): Observable<LockLoan> {
+  public getFinalLockLoan(loanNumber: string): Observable<LockLoan> {
     return this.http
       .get(
-        API_URL + "/api/v1/lockdesk/get_active_lock_loan?loanNumber="+loanNumber
+        API_URL + "/api/v1/lockdesk/get_final_lock_loan?loanNumber="+loanNumber
         , this.requestOptions
       )
       .pipe(

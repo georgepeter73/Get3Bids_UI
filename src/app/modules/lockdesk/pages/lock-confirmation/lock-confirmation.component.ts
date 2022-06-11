@@ -27,14 +27,15 @@ export class LockConfirmationComponent implements OnInit {
               private _location: Location,private  globalService: GlobalService,private taxonomyService: TaxonomyService,private authService: AuthService,) { }
   private itemId = "";
   loanInfo : LoanInfo = new LoanInfo();
-  beforeLock : LoanInfo = new LoanInfo();
-  afterLock : LoanInfo = new LoanInfo();
+  initialLock : LoanInfo = new LoanInfo();
+  finallock : LoanInfo = new LoanInfo();
   rateLockButtonLoading : false;
   lockLoans =[];
   rowData: any ;
   lockStatusType : Taxonomy;
   lockRequestStatusType : Taxonomy;
-  activeLockLoan : LockLoan = new LockLoan();
+  initialLockLoan : LockLoan = new LockLoan();
+  finalLockLoan : LockLoan = new LockLoan();
   lock = faLock;
   unlock = faUnlock;
   public gridOptions: GridOptions;
@@ -47,6 +48,8 @@ export class LockConfirmationComponent implements OnInit {
     RequestRateLock: 101,
     AcceptLock: 102,
     RejectLock: 103,
+    Unlock : 104,
+    ExtendLock : 105
   };
   lockLoanSuccessful = false;
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
@@ -136,6 +139,8 @@ export class LockConfirmationComponent implements OnInit {
   lockLoanFailure = false;
   lockState: number =-1
   basePrice = 0;
+  lockLoanActionSuccessMessage: string;
+  finalDataLoading: boolean= false;
 
   ngOnInit(): void {
     this.mainDataLoading = true;
@@ -143,16 +148,19 @@ export class LockConfirmationComponent implements OnInit {
     this.selectedUserMloUUID = this.route.snapshot.paramMap.get('selectedUserMloUUID');
     this.lockDeskService.getLoanById(this.itemId).subscribe(i =>{
       this.loanInfo = i;
-      this.getActiveLockLoan(i.loanNumber,i);
+      this.getInitialLockLoan(i.loanNumber,i);
       this.globalService.setRQSelectedLoanInfo(this.loanInfo);
-      this.lockDeskService.getLockLoanItemsByLoanNumber(i.loanNumber).subscribe(items =>{
-           items.sort((a, b) => (a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1));
-           this.rowData = of(items);
-           this.mainDataLoading = false;
-           this.emitEvent();
-       });
+      this.getLockLoanHistory(i.loanNumber);
     });
     this.getTaxonomy();
+  }
+  getLockLoanHistory(loanNumber: string){
+    this.lockDeskService.getLockLoanItemsByLoanNumber(loanNumber).subscribe(items =>{
+      items.sort((a, b) => (a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1));
+      this.rowData = of(items);
+      this.mainDataLoading = false;
+      this.emitEvent();
+    });
   }
   emitEvent(){
     //hack for data not displaying with out a mouse click
@@ -164,9 +172,9 @@ export class LockConfirmationComponent implements OnInit {
   }
 
   getBasePrice(){
-    if(this.activeLockLoan && this.activeLockLoan.productDetail && this.activeLockLoan.productDetail.adjustments){
-      this.basePrice =  this.activeLockLoan.selectedQuote.price;
-      this.activeLockLoan.productDetail.adjustments.forEach(ad => {
+    if(this.initialLockLoan && this.initialLockLoan.productDetail && this.initialLockLoan.productDetail.adjustments){
+      this.basePrice =  this.initialLockLoan.selectedQuote.price;
+      this.initialLockLoan.productDetail.adjustments.forEach(ad => {
          if(ad.adjustor) {
             this.basePrice = parseFloat(ad.adjustor) + this.basePrice;
         }
@@ -175,26 +183,32 @@ export class LockConfirmationComponent implements OnInit {
       }
   }
 
-  getActiveLockLoan(loanNumber:string,curretnLoanInfo:LoanInfo){
-      this.lockDeskService.getActiveLockLoan(loanNumber).subscribe(activeLoan =>{
-      this.activeLockLoan = activeLoan;
+  getInitialLockLoan(loanNumber:string,curretnLoanInfo:LoanInfo){
+      this.lockDeskService.getInitialLockLoan(loanNumber).subscribe(activeLoan =>{
+      this.initialLockLoan = activeLoan;
        this.mainDataLoading = false;
         //if the loan is locked then before lock will have the loan info that is stored while the loan is locked
        //after lock will the current loan info.
-       if(this.activeLockLoan.lockStatus === this.LockStatusType.locked){
-         this.beforeLock = this.activeLockLoan.loanInfo;
-         this.afterLock = this.loanInfo;
+
+       if(this.initialLockLoan.lockStatus === this.LockStatusType.locked){
+         this.initialLock = this.initialLockLoan.loanInfo;
+         this.finalDataLoading = true;
+         this.lockDeskService.getFinalLockLoan(loanNumber).subscribe(finalLL =>{
+           this.finalLockLoan = finalLL;
+           this.finallock = finalLL.loanInfo;
+           this.finalDataLoading = false;
+         })
        }
        //if the status is null or does not exist or if there is already a lock reqeuest
        //then before lock and after lock will have current loan info
-       if(!this.activeLockLoan.lockStatus || this.activeLockLoan.lockStatus === this.LockStatusType.float ){
-         this.beforeLock = curretnLoanInfo;
-         this.afterLock = curretnLoanInfo;
+       if(!this.initialLockLoan.lockStatus || this.initialLockLoan.lockStatus === this.LockStatusType.float ){
+         this.initialLock = curretnLoanInfo;
+         this.finallock = curretnLoanInfo;
        }
        this.getBasePrice();
        //hack for data not displaying with out a mouse click
        this.eventFire(document.getElementById('refreshButtonId'), 'click');
-        this.activeLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.activeLockLoan.lockStatus).pop().description
+        this.initialLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.initialLockLoan.lockStatus).pop().description
     })
   }
   lockRequestStatus(cType: string) {
@@ -240,20 +254,41 @@ export class LockConfirmationComponent implements OnInit {
     }else{
       if(lockState === this.LockStates.AcceptLock){
         this.lockLoanSuccessful = false;
-        this.lockDeskService.acceptLock(this.activeLockLoan.id, this.LockStates.AcceptLock.toString()).subscribe(ll =>{
-          this.lockLoanSuccessful = ll.lockLoanSuccessful;
-          if(ll.lockLoanSuccessful) {
-             this.getActiveLockLoan(ll.loanNumber, ll.loanInfo);
-          }else{
-              this.lockLoanFailure = true;
-          }
-          this.actionSpinnerLoading = false;
+        this.initialLockLoan.lockStatus = this.LockStatusType.locked;
+        this.initialLockLoan.lockState = this.LockStates.AcceptLock;
+        this.lockLoanActionSuccessMessage = "Loan Locked Successfully."
 
-        })
       }
       if(lockState === this.LockStates.RejectLock){
-        this.actionSpinnerLoading = false;
+        this.lockLoanSuccessful = false;
+        this.initialLockLoan.lockStatus = this.LockStatusType.float;
+        this.initialLockLoan.lockState = this.LockStates.RequestRateLock;
+        this.lockLoanActionSuccessMessage = "Lock Request Rejected."
+
       }
+      if(lockState === this.LockStates.Unlock){
+        this.lockLoanSuccessful = false;
+        this.initialLockLoan.lockStatus = this.LockStatusType.float;
+        this.initialLockLoan.lockState = this.LockStates.Unlock;
+        this.lockLoanActionSuccessMessage = "Unlock Successful."
+
+      }
+      if(lockState === this.LockStates.ExtendLock){
+        this.lockLoanSuccessful = false;
+        this.initialLockLoan.lockStatus = this.LockStatusType.float;
+        this.initialLockLoan.lockState = this.LockStates.ExtendLock;
+        this.lockLoanActionSuccessMessage = "Extension Successful."
+
+      }
+      this.initialLockLoan.itemId = this.itemId;
+      //common code
+      this.lockDeskService.saveLockLoan(this.initialLockLoan).subscribe(ll =>{
+        this.initialLockLoan == ll;
+        this.lockLoanSuccessful = true;
+        this.actionSpinnerLoading = false;
+        this.getLockLoanHistory(this.initialLockLoan.loanNumber);
+        this.emitEvent();
+      })
     }
 
 
