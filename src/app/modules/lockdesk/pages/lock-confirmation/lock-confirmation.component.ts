@@ -23,8 +23,14 @@ import {AuthService} from '@app/service/auth.service';
 export class LockConfirmationComponent implements OnInit {
   private selectedUserMloUUID: string;
 
-  constructor(@Inject(LOCALE_ID) public locale: string,private route : ActivatedRoute,private lockDeskService : LockDeskService, private router: Router,
-              private _location: Location,private  globalService: GlobalService,private taxonomyService: TaxonomyService,private authService: AuthService,) { }
+  constructor(@Inject(LOCALE_ID) public locale: string,
+              private route : ActivatedRoute,
+              private lockDeskService : LockDeskService,
+              private router: Router,
+              private _location: Location,
+              private  globalService: GlobalService,
+              private taxonomyService: TaxonomyService,
+              private authService: AuthService,) { }
   private itemId = "";
   loanInfo : LoanInfo = new LoanInfo();
   initialLock : LoanInfo = new LoanInfo();
@@ -34,7 +40,9 @@ export class LockConfirmationComponent implements OnInit {
   rowData: any ;
   lockStatusType : Taxonomy;
   lockRequestStatusType : Taxonomy;
+  //initial lock loan is the last active reocrd from lock loan collection
   initialLockLoan : LockLoan = new LockLoan();
+  //final lock loan is the current loan data from lendingpad with current reprice data from loanhouse. its always on the fly data that is not stored in collections
   finalLockLoan : LockLoan = new LockLoan();
   lock = faLock;
   unlock = faUnlock;
@@ -47,7 +55,7 @@ export class LockConfirmationComponent implements OnInit {
   LockStates = {
     RequestRateLock: 101,
     AcceptLock: 102,
-    RejectLock: 103,
+    RejectLockRequest: 103,
     Unlock : 104,
     ExtendLock : 105
   };
@@ -141,6 +149,7 @@ export class LockConfirmationComponent implements OnInit {
   basePrice = 0;
   lockLoanActionSuccessMessage: string;
   finalDataLoading: boolean= false;
+  rowClassRules: any;
 
   ngOnInit(): void {
     this.mainDataLoading = true;
@@ -153,21 +162,121 @@ export class LockConfirmationComponent implements OnInit {
       this.getLockLoanHistory(i.loanNumber);
     });
     this.getTaxonomy();
+    //highlighting the active record in the lock history
+    this.rowClassRules = {
+      'dohover': function(params) {
+          return params.data.isActive === true; },
+    };
   }
   getLockLoanHistory(loanNumber: string){
     this.lockDeskService.getLockLoanItemsByLoanNumber(loanNumber).subscribe(items =>{
       items.sort((a, b) => (a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1));
       this.rowData = of(items);
       this.mainDataLoading = false;
-      this.emitEvent();
+       this.emitEvent();
     });
   }
   emitEvent(){
     //hack for data not displaying with out a mouse click
     this.eventFire(document.getElementById('refreshButtonId'), 'click');
   }
+  requestRateLockRule(taxonomyItemKey :string){
+    if(this.initialLockLoan.lockState == this.LockStates.RequestRateLock){
+      if(parseInt(taxonomyItemKey) == this.LockStates.RequestRateLock){
+        return true;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.AcceptLock){
+        return false;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.Unlock){
+        return true;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.ExtendLock){
+        return true;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.RejectLockRequest){
+        return false;
+      }
+
+    }
+  }
 
   disableActionItem(taxonomyItemKey :string){
+    this.requestRateLockRule(taxonomyItemKey);
+
+    if(this.initialLockLoan.lockState == this.LockStates.AcceptLock){
+      if(parseInt(taxonomyItemKey) == this.LockStates.RequestRateLock){
+        return true;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.AcceptLock){
+        return true;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.Unlock){
+        return false;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.ExtendLock){
+        return false;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.RejectLockRequest){
+        return true;
+      }
+
+    }
+    if(this.initialLockLoan.lockState == this.LockStates.RejectLockRequest){
+      if(parseInt(taxonomyItemKey) == this.LockStates.RequestRateLock){
+        return false;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.AcceptLock){
+        return true;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.Unlock){
+        return true;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.ExtendLock){
+        return true;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.RejectLockRequest){
+        return true;
+      }
+
+    }
+    if(this.initialLockLoan.lockState == this.LockStates.ExtendLock){
+      if(parseInt(taxonomyItemKey) == this.LockStates.RequestRateLock){
+        return true;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.AcceptLock){
+        return true;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.Unlock){
+        return false;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.ExtendLock){
+        return false;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.RejectLockRequest){
+        return true;
+      }
+
+    }
+    if(this.initialLockLoan.lockState == this.LockStates.Unlock){
+      if(parseInt(taxonomyItemKey) == this.LockStates.RequestRateLock){
+        return false;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.AcceptLock){
+        return true;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.Unlock){
+        return true;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.ExtendLock){
+        return true;
+      }
+      if(parseInt(taxonomyItemKey) == this.LockStates.RejectLockRequest){
+        return true;
+      }
+
+    }
+
      return false;
   }
 
@@ -193,6 +302,7 @@ export class LockConfirmationComponent implements OnInit {
        if(this.initialLockLoan.lockStatus === this.LockStatusType.locked){
          this.initialLock = this.initialLockLoan.loanInfo;
          this.finalDataLoading = true;
+         //this is on the fly data which is current from lendingpad and loanhouse PPE engine
          this.lockDeskService.getFinalLockLoan(loanNumber).subscribe(finalLL =>{
            this.finalLockLoan = finalLL;
            this.finallock = finalLL.loanInfo;
@@ -235,9 +345,7 @@ export class LockConfirmationComponent implements OnInit {
       this.lockRequestStatusType = taxonomies
         .filter(tax => tax.type === 'LockRequestStatus')
         .pop();
-
-
-    });
+     });
   }
 
 
@@ -246,7 +354,7 @@ export class LockConfirmationComponent implements OnInit {
     this.router.navigate(["/lockdesk/loan-pipeline"]);
   }
 
-  requestRateLock(lockState : number) {
+  saveRateLock(lockState : number) {
     this.actionSpinnerLoading = true;
     this.lockLoanFailure = false;
     if(lockState === this.LockStates.RequestRateLock) {
@@ -259,10 +367,10 @@ export class LockConfirmationComponent implements OnInit {
         this.lockLoanActionSuccessMessage = "Loan Locked Successfully."
 
       }
-      if(lockState === this.LockStates.RejectLock){
+      if(lockState === this.LockStates.RejectLockRequest){
         this.lockLoanSuccessful = false;
         this.initialLockLoan.lockStatus = this.LockStatusType.float;
-        this.initialLockLoan.lockState = this.LockStates.RequestRateLock;
+        this.initialLockLoan.lockState = this.LockStates.RejectLockRequest;
         this.lockLoanActionSuccessMessage = "Lock Request Rejected."
 
       }
@@ -275,7 +383,7 @@ export class LockConfirmationComponent implements OnInit {
       }
       if(lockState === this.LockStates.ExtendLock){
         this.lockLoanSuccessful = false;
-        this.initialLockLoan.lockStatus = this.LockStatusType.float;
+        this.initialLockLoan.lockStatus = this.LockStatusType.locked;
         this.initialLockLoan.lockState = this.LockStates.ExtendLock;
         this.lockLoanActionSuccessMessage = "Extension Successful."
 
@@ -283,10 +391,12 @@ export class LockConfirmationComponent implements OnInit {
       this.initialLockLoan.itemId = this.itemId;
       //common code
       this.lockDeskService.saveLockLoan(this.initialLockLoan).subscribe(ll =>{
-        this.initialLockLoan == ll;
+        this.initialLockLoan = ll;
         this.lockLoanSuccessful = true;
         this.actionSpinnerLoading = false;
         this.getLockLoanHistory(this.initialLockLoan.loanNumber);
+        this.getInitialLockLoan(this.loanInfo.loanNumber,this.loanInfo);
+        this.lockState=0;
         this.emitEvent();
       })
     }

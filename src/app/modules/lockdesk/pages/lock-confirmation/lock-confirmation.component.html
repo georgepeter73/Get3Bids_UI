@@ -11,8 +11,10 @@
   </nb-card-header>
   <nb-card-body [nbSpinner]="mainDataLoading" nbSpinnerStatus="primary">
     <div class="row p-5 " [nbSpinner]="actionSpinnerLoading" nbSpinnerStatus="primary">
-     <nb-select shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="giant"  placeholder="Locking Actions..." id="lockRequestWFId"  (ngModelChange)="requestRateLock(lockState)" >
-       <nb-option  [disabled]="disableActionItem(lock_work_flow.key)"  *ngFor="let lock_work_flow of lockRequestStatusType.taxonomyItems" [value]="lock_work_flow.key">{{lock_work_flow.description}}</nb-option>
+     <nb-select shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="large"  placeholder="Locking Actions..."
+                id="lockRequestWFId"  (ngModelChange)="saveRateLock(lockState)" >
+       <nb-option  [disabled]="disableActionItem(lock_work_flow.key)"  *ngFor="let lock_work_flow of lockRequestStatusType.taxonomyItems"
+                   [value]="lock_work_flow.key">{{lock_work_flow.description}}</nb-option>
     </nb-select>
 
     </div>
@@ -28,14 +30,7 @@
         <div class="col-12 pl-3"><strong>Lock Data</strong></div>
 
       </div>
-      <div class="row p-2 row-striped dohover">
-        <div class="col-4 ">Lock Status</div>
-        <div class="col-4">{{initialLockLoan?.lockStatusStr}}
-          <fa-icon *ngIf="initialLockLoan?.lockStatus==102" size="1x" [icon]="lock" class="m-1"></fa-icon>
-          <fa-icon *ngIf="initialLockLoan?.lockStatus==101" size="1x" [icon]="unlock" class="m-1"></fa-icon>
-        </div>
-        <div class="col-4"></div>
-      </div>
+
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Lock  Days</div>
         <div class="col-4">{{initialLockLoan?.lockDays }}</div>
@@ -61,6 +56,14 @@
         </div>
 
        </div>
+      <div class="row p-2 row-striped dohover" >
+        <div class="col-4 ">Lock Status</div>
+        <div class="col-4">{{initialLockLoan?.lockStatusStr}}
+          <fa-icon *ngIf="initialLockLoan?.lockStatus==102" size="1x" [icon]="lock" class="m-1"></fa-icon>
+          <fa-icon *ngIf="!initialLockLoan.lockStatus || initialLockLoan?.lockStatus==101" size="1x" [icon]="unlock" class="m-1"></fa-icon>
+        </div>
+        <div class="col-4"></div>
+      </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Loan Number</div>
         <div class="col-4">{{loanInfo.loanNumber}}</div>
@@ -186,6 +189,7 @@
       debounceVerticalScrollbar=true
       enableCellTextSelection=true
       [gridOptions]="gridOptions"
+      [rowClassRules]="rowClassRules"
 
 
     >
