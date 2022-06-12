@@ -11,8 +11,6 @@ import {Taxonomy} from '@data/schema/taxonomy';
 import {LockLoan} from '@data/schema/lockdesk/lock-loan';
 import {GridOptions} from 'ag-grid-community';
 import {faLock, faUnlock} from '@fortawesome/free-solid-svg-icons';
-import {AuthService} from '@app/service/auth.service';
-
 
 @Component({
   selector: 'app-lock-confirmation',
@@ -326,13 +324,13 @@ export class LockConfirmationComponent implements OnInit {
        }
        //if the status is null or does not exist or if there is already a lock reqeuest
        //then before lock and after lock will have current loan info
-       if(!this.initialLockLoan.lockStatus || this.initialLockLoan.lockStatus === this.LockStatusType.float ){
+       else if(!this.initialLockLoan.lockStatus || this.initialLockLoan.lockStatus === this.LockStatusType.float ){
          this.initialLock = curretnLoanInfo;
          this.finallock = curretnLoanInfo;
        }
        this.getBasePrice();
        //hack for data not displaying with out a mouse click
-       this.eventFire(document.getElementById('refreshButtonId'), 'click');
+       this.emitEvent();
         this.initialLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.initialLockLoan.lockStatus).pop().description
     })
   }
