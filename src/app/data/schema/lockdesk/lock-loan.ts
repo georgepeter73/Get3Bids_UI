@@ -28,6 +28,7 @@ export class LockLoan{
   adjustments: Adjustment[];
   selectedUserMloUUID : String;
   lockLoanSuccessful : boolean;
+  repriceSuccess : boolean;
 
 
 

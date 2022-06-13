@@ -296,6 +296,7 @@ export class LockDeskService {
     lockLoan.lockExpired = ll['lockExpired'];
     lockLoan.adjustments = ll['adjustments'];
     lockLoan.lockLoanSuccessful = ll['lockLoanSuccessful'];
+    lockLoan.repriceSuccess = ll['repriceSuccess'];
   }
     return lockLoan;
   }

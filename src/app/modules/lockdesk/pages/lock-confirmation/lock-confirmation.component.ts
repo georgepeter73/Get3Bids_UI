@@ -335,7 +335,9 @@ export class LockConfirmationComponent implements OnInit {
        }
        //hack for data not displaying with out a mouse click
        this.emitEvent();
-        this.initialLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.initialLockLoan.lockStatus).pop().description
+       if(this.initialLockLoan &&  this.lockStatusType && this.initialLockLoan.lockStatus) {
+         this.initialLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.initialLockLoan.lockStatus).pop().description
+       }
     })
   }
   lockRequestStatus(cType: string) {

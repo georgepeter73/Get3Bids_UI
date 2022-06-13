@@ -10,7 +10,7 @@
     </div>
   </nb-card-header>
   <nb-card-body [nbSpinner]="mainDataLoading" nbSpinnerStatus="primary">
-    <div class="row p-5 " [nbSpinner]="actionSpinnerLoading" nbSpinnerStatus="primary">
+    <div class="row p-5 " [nbSpinner]="actionSpinnerLoading" nbSpinnerStatus="primary" *ngIf="lockRequestStatusType && lockRequestStatusType.taxonomyItems">
      <nb-select shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="large"  placeholder="Locking Actions..."
                 id="lockRequestWFId"  (ngModelChange)="saveRateLock(lockState)" >
        <nb-option  [disabled]="disableActionItem(lock_work_flow.key)"  *ngFor="let lock_work_flow of lockRequestStatusType.taxonomyItems"
@@ -18,7 +18,11 @@
     </nb-select>
 
     </div>
-    <nb-alert accent="success"  *ngIf="lockLoanSuccessful" size="small" >
+
+      <nb-alert accent="warning"  *ngIf="initialLockLoan && finalLockLoan && initialLockLoan.lockStatus && !finalLockLoan.repriceSuccess" size="medium" >
+      The selected product rate for the  lock period is no more available...
+      </nb-alert>
+      <nb-alert accent="success"  *ngIf="lockLoanSuccessful" size="small" >
       {{lockLoanActionSuccessMessage}}
     </nb-alert>
     <nb-alert accent="success"  *ngIf="lockLoanFailure" size="small" >
@@ -59,8 +63,8 @@
       <div class="row p-2 row-striped dohover" >
         <div class="col-4 ">Lock Status</div>
         <div class="col-4">{{initialLockLoan?.lockStatusStr}}
-          <fa-icon *ngIf="initialLockLoan?.lockStatus==102" size="1x" [icon]="lock" class="m-1"></fa-icon>
-          <fa-icon *ngIf="!initialLockLoan.lockStatus || initialLockLoan?.lockStatus==101" size="1x" [icon]="unlock" class="m-1"></fa-icon>
+          <fa-icon *ngIf="initialLockLoan && initialLockLoan?.lockStatus==102" size="1x" [icon]="lock" class="m-1"></fa-icon>
+          <fa-icon *ngIf="initialLockLoan && !initialLockLoan.lockStatus || initialLockLoan?.lockStatus==101" size="1x" [icon]="unlock" class="m-1"></fa-icon>
         </div>
         <div class="col-4"></div>
       </div>
@@ -74,7 +78,13 @@
         <div class="col-4"><strong>Initial</strong></div>
         <div class="col-4 pr-3"><strong>Final</strong></div>
       </div>
-      <div class="row p-2 row-striped dohover">
+
+      <div class="row p-2 row-striped dohover"  >
+        <div class="col-4 ">Loan Type</div>
+        <div class="col-4">{{initialLockLoanInfo?.loanType?.name}}</div>
+        <div class="col-4">{{finallockLoanInfo?.loanType?.name}}</div>
+      </div>
+      <div class="row p-2 row-striped dohover"  >
         <div class="col-4 ">Loan Type</div>
         <div class="col-4">{{initialLockLoanInfo?.loanType?.name}}</div>
         <div class="col-4">{{finallockLoanInfo?.loanType?.name}}</div>
@@ -145,7 +155,7 @@
       </div>
 
       <div >
-        <div *ngIf="lockLoanConfirmationData.initialLockLoan.lockStatus">
+        <div *ngIf="lockLoanConfirmationData && lockLoanConfirmationData.initialLockLoan && lockLoanConfirmationData.initialLockLoan.lockStatus">
         <div class="row p-2 dohover " [ngClass]="{'row-striped': i % 2==0}" *ngIf="lockLoanConfirmationData.initialAndFinalBasePrice">
           <div class="col-4 ">Base Price</div>
           <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalBasePrice.initialAdjustor | number : '1.3-3'}}</div>
@@ -174,12 +184,14 @@
             <div class="col-6 "></div>
 
           </div>
+          <div *ngIf="globalService.getIsLockDesk()">
           <div *ngFor="let adjustment of lockLoanConfirmationData.initialAndFinalMargins ;let i = index" >
             <div class="row p-2 dohover " [ngClass]="{'row-striped': i % 2==0}">
               <div class="col-4 ">{{adjustment.reason}}</div>
               <div class="col-4 ">{{adjustment.initialAdjustor | number : '1.3-3'}}</div>
               <div class="col-4 ">{{adjustment.finalAdjustor | number : '1.3-3'}}</div>
             </div>
+          </div>
           </div>
 
         </div>
