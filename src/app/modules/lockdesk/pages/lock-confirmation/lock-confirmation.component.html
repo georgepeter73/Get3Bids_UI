@@ -144,47 +144,45 @@
         <div class="col-4">{{finallockLoanInfo?.units}}</div>
       </div>
 
-      <div *ngIf="initialLockLoan?.lockStatus == LockStatusType.locked">
+      <div >
+        <div *ngIf="lockLoanConfirmationData.initialLockLoan.lockStatus">
         <div class="row p-2 dohover " [ngClass]="{'row-striped': i % 2==0}" *ngIf="lockLoanConfirmationData.initialAndFinalBasePrice">
           <div class="col-4 ">Base Price</div>
           <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalBasePrice.initialAdjustor | number : '1.3-3'}}</div>
           <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor | number : '1.3-3'}}</div>
-        </div>
-        <div class="row p-2 tableheader">
-          <div class="col-6 pl-3"><strong>Adjustments</strong></div>
-          <div class="col-6 "></div>
-
-        </div>
-
-        <div *ngFor="let adjustment of lockLoanConfirmationData.initialAndFinalAdjustments ;let i = index">
-        <div class="row p-2 dohover " [ngClass]="{'row-striped': i % 2==0}">
-          <div class="col-4 ">{{adjustment.reason}}</div>
-          <div class="col-4 ">{{adjustment.initialAdjustor | number : '1.3-3'}}</div>
-          <div class="col-4 ">{{adjustment.finalAdjustor | number : '1.3-3'}}</div>
-        </div>
-        </div>
-        <div class="row p-2 tableheader">
-          <div class="col-6 pl-3"><strong>Margins</strong></div>
-          <div class="col-6 "></div>
-
-        </div>
-        <div *ngFor="let adjustment of lockLoanConfirmationData.initialAndFinalMargins ;let i = index" >
-          <div class="row p-2 dohover " [ngClass]="{'row-striped': i % 2==0}">
-            <div class="col-4 ">{{adjustment.reason}}</div>
-            <div class="col-4 ">{{adjustment.adjustor | number : '1.3-3'}}</div>
-          </div>
         </div>
         <div class="row p-2 dohover " [ngClass]="{'row-striped': i % 2==0}" *ngIf="lockLoanConfirmationData.initialAndFinalPrice">
           <div class="col-4 ">Price</div>
           <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalPrice.initialAdjustor | number : '1.3-3'}}</div>
           <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor | number : '1.3-3'}}</div>
         </div>
+          <div class="row p-2 tableheader">
+            <div class="col-6 pl-3"><strong>Adjustments</strong></div>
+            <div class="col-6 "></div>
 
+          </div>
 
+          <div *ngFor="let adjustment of lockLoanConfirmationData.initialAndFinalAdjustments ;let i = index">
+            <div class="row p-2 dohover " [ngClass]="{'row-striped': i % 2==0}">
+              <div class="col-4 ">{{adjustment.reason}}</div>
+              <div class="col-4 ">{{adjustment.initialAdjustor | number : '1.3-3'}}</div>
+              <div class="col-4 ">{{adjustment.finalAdjustor | number : '1.3-3'}}</div>
+            </div>
+          </div>
+          <div class="row p-2 tableheader">
+            <div class="col-6 pl-3"><strong>Margins</strong></div>
+            <div class="col-6 "></div>
 
+          </div>
+          <div *ngFor="let adjustment of lockLoanConfirmationData.initialAndFinalMargins ;let i = index" >
+            <div class="row p-2 dohover " [ngClass]="{'row-striped': i % 2==0}">
+              <div class="col-4 ">{{adjustment.reason}}</div>
+              <div class="col-4 ">{{adjustment.initialAdjustor | number : '1.3-3'}}</div>
+              <div class="col-4 ">{{adjustment.finalAdjustor | number : '1.3-3'}}</div>
+            </div>
+          </div>
 
-
-
+        </div>
 
 
       </div>

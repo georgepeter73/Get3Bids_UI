@@ -318,6 +318,7 @@ export class LockConfirmationComponent implements OnInit {
   }
 
   getLockLoanConfirmationData(loanNumber:string,curretnLoanInfo:LoanInfo){
+    this.mainDataLoading = true;
       this.lockDeskService.getLockLoanConfirmationData(loanNumber).subscribe(lockConfirmation =>{
       this.initialLockLoan = lockConfirmation.initialLockLoan;
       this.finalLockLoan = lockConfirmation.finalLockLoan;
@@ -325,7 +326,7 @@ export class LockConfirmationComponent implements OnInit {
       this.initialLockLoanInfo = this.initialLockLoan.loanInfo;
       this.lockLoanConfirmationData = lockConfirmation;
       this.mainDataLoading = false;
-       //if the status is null or does not exist or if there is already a lock reqeuest
+        //if the status is null or does not exist or if there is already a lock reqeuest
        //then before lock and after lock will have current loan info
        if(!this.initialLockLoan.lockStatus || this.initialLockLoan.lockStatus === this.LockStatusType.float ){
          this.initialLockLoanInfo = curretnLoanInfo;
