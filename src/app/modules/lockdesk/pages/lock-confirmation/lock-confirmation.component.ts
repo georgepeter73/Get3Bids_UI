@@ -317,18 +317,6 @@ export class LockConfirmationComponent implements OnInit {
     return false;
   }
 
-  getBasePrice(){
-    if(this.initialLockLoan && this.initialLockLoan.productDetail && this.initialLockLoan.productDetail.adjustments){
-      this.basePrice =  this.initialLockLoan.selectedQuote.price;
-      this.initialLockLoan.productDetail.adjustments.forEach(ad => {
-         if(ad.adjustor) {
-            this.basePrice = parseFloat(ad.adjustor) + this.basePrice;
-        }
-
-      })
-      }
-  }
-
   getLockLoanConfirmationData(loanNumber:string,curretnLoanInfo:LoanInfo){
       this.lockDeskService.getLockLoanConfirmationData(loanNumber).subscribe(lockConfirmation =>{
       this.initialLockLoan = lockConfirmation.initialLockLoan;
@@ -344,7 +332,6 @@ export class LockConfirmationComponent implements OnInit {
          this.finallockLoanInfo = curretnLoanInfo;
 
        }
-       this.getBasePrice();
        //hack for data not displaying with out a mouse click
        this.emitEvent();
         this.initialLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.initialLockLoan.lockStatus).pop().description
