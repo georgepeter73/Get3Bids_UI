@@ -18,6 +18,7 @@ import {ProductDetailRoot} from '@data/schema/lockdesk/product-detail-root';
 import {LockLoan} from '@data/schema/lockdesk/lock-loan';
 import {UserContact} from '@data/schema/user/user-contact';
 import {UserMlo} from '@data/schema/user/user-mlo';
+import {LockLoanConfirmation} from '@data/schema/lockdesk/lock-loanconfirmation';
 const API_URL = environment.LOCKDESK_API_URL;
 
 @Injectable()
@@ -277,6 +278,7 @@ export class LockDeskService {
   }
   public getLockLoan(ll : LockLoan): LockLoan {
     const lockLoan = new LockLoan();
+    if (ll){
     lockLoan.loanInfo = ll['loanInfo'];
     lockLoan.lockStatus = ll['lockStatus'];
     lockLoan.lockState = ll['lockState'];
@@ -294,6 +296,7 @@ export class LockDeskService {
     lockLoan.lockExpired = ll['lockExpired'];
     lockLoan.adjustments = ll['adjustments'];
     lockLoan.lockLoanSuccessful = ll['lockLoanSuccessful'];
+  }
     return lockLoan;
   }
   public errorHandler(error: HttpErrorResponse) {
@@ -327,4 +330,36 @@ export class LockDeskService {
         this.getLockLoan(ll)
     );
   }
+  public getLockLoanConfirmationData(loanNumber: string): Observable<LockLoanConfirmation> {
+    return this.http
+      .get(
+        API_URL + "/api/v1/lockdesk/get_lock_loan_confirmation_data?loanNumber="+loanNumber
+        , this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return this.getLockLoanConfirmation(<LockLoanConfirmation>response);
+        })
+      )
+      .pipe(catchError(this.errorHandler));
+  }
+  private getLockLoanConfirmation(ll : LockLoanConfirmation): LockLoanConfirmation {
+    const lockLoanConfirmation = new LockLoanConfirmation();
+    lockLoanConfirmation.initialLockLoan = this.getLockLoan(ll['initialLockLoan'])
+    lockLoanConfirmation.finalLockLoan = this.getLockLoan(ll['finalLockLoan'])
+    if(ll['initialAndFinalAdjustments']) {
+      lockLoanConfirmation.initialAndFinalAdjustments = ll['initialAndFinalAdjustments'];
+    }
+    if(ll['initialAndFinalMargins']) {
+      lockLoanConfirmation.initialAndFinalMargins = ll['initialAndFinalMargins'];
+    }
+    if(ll['initialAndFinalBasePrice']) {
+      lockLoanConfirmation.initialAndFinalBasePrice = ll['initialAndFinalBasePrice'];
+    }
+    if(ll['initialAndFinalPrice']) {
+      lockLoanConfirmation.initialAndFinalPrice = ll['initialAndFinalPrice'];
+    }
+    return lockLoanConfirmation;
+  }
+
 }
