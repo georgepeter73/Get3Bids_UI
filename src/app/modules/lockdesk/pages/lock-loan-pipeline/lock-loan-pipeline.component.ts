@@ -6,7 +6,9 @@ import {LockDeskService} from '@data/service/lockdesk.service';
 import {TaxonomyService} from '@data/service/taxonomy.service';
 import {of} from 'rxjs';
 import {Taxonomy} from '@data/schema/taxonomy';
-
+import {GlobalService} from '@app/service/global.service';
+import {faLock, faUnlock} from '@fortawesome/free-solid-svg-icons';
+import { faUserEdit } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-lock-loan-pipeline',
   templateUrl: './lock-loan-pipeline.component.html',
@@ -17,13 +19,16 @@ export class LockLoanPipelineComponent implements OnInit {
   rowData: any ;
   lockStatusType : Taxonomy;
   lockRequestStatusType : Taxonomy;
-
+  lock = faLock;
+  unlock = faUnlock;
+  faUserEdit=faUserEdit
   constructor(@Inject(LOCALE_ID) public locale: string,
               private route : ActivatedRoute,
               private lockDeskService : LockDeskService,
               private router: Router,
               private _location: Location,
               private taxonomyService: TaxonomyService,
+              public globalService: GlobalService,
   ) { }
   @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
@@ -206,6 +211,7 @@ export class LockLoanPipelineComponent implements OnInit {
 
   }
   onRowClick($event: any) {
+    this.globalService.setLockLoanNavStarter("lock-loan-pipeline");
      this.router.navigate(['/lockdesk/lock-confirmation/' + this.lockLoanGrid.rowData[$event.rowIndex].itemId+'/' +this.lockLoanGrid.rowData[$event.rowIndex].selectedUserMloUUID]);
   }
 

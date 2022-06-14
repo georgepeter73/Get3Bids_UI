@@ -186,6 +186,7 @@ export class LoanPipelineComponent implements OnInit {
     return this.userMLOList.filter(user => user.userName === this.mloUserName).pop();
   }
   onRowClick($event: any) {
+    this.globalService.setLockLoanNavStarter("loan-pipeline");
     this.router.navigate(['/lockdesk/lock-confirmation/' + this.loanPipelineGrid.rowData[$event.rowIndex].id+'/'+this.getSelectedUserMLO().userUUID]);
   }
 

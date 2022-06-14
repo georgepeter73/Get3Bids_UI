@@ -211,6 +211,12 @@ export class GlobalService {
   getRQSelectedLoanInfo() {
     return JSON.parse(sessionStorage.getItem('loanInfo'));
   }
+  setLockLoanNavStarter(lockLoanNavStarter: string) {
+    sessionStorage.setItem('LockLoanNavStarter', JSON.stringify(lockLoanNavStarter));
+  }
+  getLockLoanNavStarter() {
+    return JSON.parse(sessionStorage.getItem('LockLoanNavStarter'));
+  }
 
   getQuickQuote(): Observable<QuickQuote> {
     if (JSON.parse(sessionStorage.getItem('quickQuote')) == null) {

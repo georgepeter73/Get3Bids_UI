@@ -383,7 +383,12 @@ export class LockConfirmationComponent implements OnInit {
 
   backClicked($event: MouseEvent) {
     $event.preventDefault();
-    this.router.navigate(["/lockdesk/loan-pipeline"]);
+    if(this.globalService.getLockLoanNavStarter() === 'loan-pipeline') {
+      this.router.navigate(["/lockdesk/loan-pipeline"]);
+    }
+    if(this.globalService.getLockLoanNavStarter() === 'lock-loan-pipeline') {
+      this.router.navigate(["/lockdesk/lock-loan-pipeline"]);
+    }
   }
 
   saveRateLock(lockState : number) {
