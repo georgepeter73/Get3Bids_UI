@@ -37,6 +37,18 @@ export class LockDeskService {
     private http: HttpClient
   ) {
   }
+
+  public geAllActiveLockLoans(): Observable<LockLoan[]> {
+    return this.http
+      .get(API_URL + '/api/v1/lockdesk/get_all_active_lock_loans', this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return this.getLockLoans(response);
+        })
+      )
+  }
+
   public getLoanPipeline(mloEmail : string): Observable<LoanInfo[]> {
     return this.http
       .get(API_URL + '/api/v1/lockdesk/get_loan_pipeline?mloEmail=' + mloEmail, this.requestOptions

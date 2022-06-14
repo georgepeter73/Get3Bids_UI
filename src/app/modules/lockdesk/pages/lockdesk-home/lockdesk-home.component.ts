@@ -17,4 +17,8 @@ export class LockdeskHomeComponent implements OnInit {
   loanPipeline() {
     this.router.navigate(["/lockdesk/loan-pipeline"]);
   }
+
+  lockLoanPipeline() {
+    this.router.navigate(["/lockdesk/lock-loan-pipeline"]);
+  }
 }

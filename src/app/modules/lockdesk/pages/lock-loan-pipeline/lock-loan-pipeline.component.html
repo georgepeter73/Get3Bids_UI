@@ -1,0 +1,26 @@
+<nb-card size="large" >
+  <nb-card-header>
+    <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)"><nb-icon icon="arrow-back-outline"></nb-icon> Previous</a></div>
+    <div class="container col-md-8 text-center">
+      Lock Desk Pipeline
+    </div>
+    <div class="text-left col-md-4 "><a hidden id="refreshButtonId" href="#" (click)="refreshGrid($event)"><nb-icon icon="refresh-outline"></nb-icon></a></div>
+  </nb-card-header>
+  <nb-card-body class="host">
+<ag-grid-angular
+  style="width: 1025px; height: 350px;"
+  #grid
+  class="ag-theme-alpine"
+  [rowData]="rowData | async"
+  [columnDefs]="columnDefs"
+  [pagination]="true"
+  paginationPageSize="100"
+  debounceVerticalScrollbar=true
+  enableCellTextSelection=true
+
+
+
+>
+</ag-grid-angular>
+  </nb-card-body>
+</nb-card>

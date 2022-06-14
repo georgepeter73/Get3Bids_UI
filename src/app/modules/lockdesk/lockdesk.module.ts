@@ -22,9 +22,10 @@ import { RateQuoteProductComponent } from './pages/rate-quote-product/rate-quote
 import {RatingModule} from 'ng-starrating';
 import { RateQuoteProductDetailsComponent } from './pages/rate-quote-product-details/rate-quote-product-details.component';
 import {QuickQuoteService} from '@data/service/quickquote.service';
+import { LockLoanPipelineComponent } from './pages/lock-loan-pipeline/lock-loan-pipeline.component';
 
 @NgModule({
-  declarations: [LockdeskHomeComponent, LoanPipelineComponent, LockConfirmationComponent, RateQuoteProductComponent, RateQuoteProductDetailsComponent],
+  declarations: [LockdeskHomeComponent, LoanPipelineComponent, LockConfirmationComponent, RateQuoteProductComponent, RateQuoteProductDetailsComponent, LockLoanPipelineComponent],
     imports: [
         CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule.forRoot(), NbInputModule, NbIconModule, NbSpinnerModule, NbSelectModule, RatingModule, NbRadioModule, NbAlertModule, NgbModule
     ],

@@ -6,6 +6,7 @@ import {LoanPipelineComponent} from '@modules/lockdesk/pages/loan-pipeline/loan-
 import {LockConfirmationComponent} from '@modules/lockdesk/pages/lock-confirmation/lock-confirmation.component';
 import {RateQuoteProductComponent} from '@modules/lockdesk/pages/rate-quote-product/rate-quote-product.component';
 import {RateQuoteProductDetailsComponent} from '@modules/lockdesk/pages/rate-quote-product-details/rate-quote-product-details.component';
+import {LockLoanPipelineComponent} from '@modules/lockdesk/pages/lock-loan-pipeline/lock-loan-pipeline.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,11 @@ const routes: Routes = [
     path: "loan-pipeline",
     canActivate: [AuthGuard],
     component: LoanPipelineComponent
+  },
+  {
+    path: "lock-loan-pipeline",
+    canActivate: [AuthGuard],
+    component: LockLoanPipelineComponent
   },
   {
     path: "lock-confirmation/:itemId/:selectedUserMloUUID",
