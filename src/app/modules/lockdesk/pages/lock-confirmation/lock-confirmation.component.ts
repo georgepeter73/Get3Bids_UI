@@ -321,7 +321,6 @@ export class LockConfirmationComponent implements OnInit {
     }
     return false;
   }
-
   getLockLoanConfirmationData(loanNumber:string,curretnLoanInfo:LoanInfo){
     this.mainDataLoading = true;
     this.lockLoanDataLoading = false;
@@ -340,7 +339,7 @@ export class LockConfirmationComponent implements OnInit {
          this.finallockLoanInfo = curretnLoanInfo;
 
        }
-       //hack for data not displaying with out a mouse click
+        //hack for data not displaying with out a mouse click
        this.emitEvent();
        if(this.initialLockLoan &&  this.lockStatusType && this.initialLockLoan.lockStatus) {
          this.initialLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.initialLockLoan.lockStatus).pop().description

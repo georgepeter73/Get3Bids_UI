@@ -53,15 +53,11 @@
           <div class="col-4">{{initialLockLoan?.lockExpired?'Yes':'No'}}</div>
           <div class="col-4"></div>
         </div>
-
-
         <div class="row p-2 row-striped dohover" >
           <div class="col-4 ">Note Rate</div>
           <div class="col-4">{{initialLockLoan?.selectedQuote.rate |number : '1.2-2'}}</div>
           <div class="col-4"></div>
-
         </div>
-
        </div>
       <div class="row p-2 row-striped dohover" >
         <div class="col-4 ">Lock Status</div>
@@ -82,52 +78,48 @@
         <div class="col-4 pr-3"><strong>Final</strong></div>
       </div>
 
-      <div class="row p-2 row-striped dohover"  >
+      <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.loanType?.name != finallockLoanInfo?.loanType?.name ? 'rowhighlight' : 'row-striped'" >
         <div class="col-4 ">Loan Type</div>
         <div class="col-4">{{initialLockLoanInfo?.loanType?.name}}</div>
         <div class="col-4">{{finallockLoanInfo?.loanType?.name}}</div>
       </div>
-      <div class="row p-2 row-striped dohover"  >
-        <div class="col-4 ">Loan Type</div>
-        <div class="col-4">{{initialLockLoanInfo?.loanType?.name}}</div>
-        <div class="col-4">{{finallockLoanInfo?.loanType?.name}}</div>
-      </div>
-      <div class="row p-2 row-striped dohover">
+
+      <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.purpose?.name != finallockLoanInfo?.purpose?.name ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Purpose</div>
         <div class="col-4">{{initialLockLoanInfo?.purpose?.name}}</div>
         <div class="col-4">{{finallockLoanInfo?.purpose?.name}}</div>
       </div>
-      <div class="row p-2 row-striped dohover">
+      <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.loanAmount != finallockLoanInfo?.loanAmount ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Loan Amount</div>
         <div class="col-4">{{initialLockLoanInfo?.loanAmount | number : '1.2-2'}}</div>
         <div class="col-4">{{finallockLoanInfo?.loanAmount | number : '1.2-2'}}</div>
       </div>
-      <div class="row p-2 row-striped dohover" >
+      <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.purchasePrice != finallockLoanInfo?.purchasePrice ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Purchase Price</div>
         <div class="col-4">{{initialLockLoanInfo?.purchasePrice | number : '1.2-2'}}</div>
         <div class="col-4">{{finallockLoanInfo?.purchasePrice | number : '1.2-2'}}</div>
       </div>
-      <div class="row p-2 row-striped dohover">
+      <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.appraisalValue != finallockLoanInfo?.appraisalValue ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Appraisal Amount</div>
         <div class="col-4">{{initialLockLoanInfo?.appraisalValue |number : '1.2-2'}}</div>
         <div class="col-4">{{finallockLoanInfo?.appraisalValue |number : '1.2-2'}}</div>
       </div>
-      <div class="row p-2 row-striped dohover">
+      <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.occupancy?.name != finallockLoanInfo?.occupancy?.name ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Occupancy</div>
         <div class="col-4">{{initialLockLoanInfo?.occupancy?.name}}</div>
         <div class="col-4">{{finallockLoanInfo?.occupancy?.name}}</div>
       </div>
-      <div class="row p-2 row-striped dohover">
+      <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.escrowWaiver != finallockLoanInfo?.escrowWaiver ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Escrow Waiver</div>
         <div class="col-4">{{initialLockLoanInfo?.escrowWaiver?'Yes':'No'}}</div>
         <div class="col-4">{{finallockLoanInfo?.escrowWaiver?'Yes':'No'}}</div>
       </div>
-      <div class="row p-2 row-striped dohover">
+      <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.propertyType?.name != finallockLoanInfo?.propertyType?.name ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Property Type</div>
         <div class="col-4">{{initialLockLoanInfo?.propertyType?.name}}</div>
         <div class="col-4">{{finallockLoanInfo?.propertyType?.name}}</div>
       </div>
-      <div class="row p-2 row-striped dohover">
+      <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.ltvRatioPercent != finallockLoanInfo?.ltvRatioPercent ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">LTV/CLTV</div>
         <div class="col-4">{{initialLockLoanInfo?.ltvRatioPercent |number : '1.3-3' }}
           /{{initialLockLoanInfo?.combinedLtvRatioPercent |number : '1.3-3'}}</div>
@@ -135,36 +127,36 @@
           /{{finallockLoanInfo?.combinedLtvRatioPercent |number : '1.3-3'}}</div>
       </div>
 
-      <div class="row p-2 row-striped dohover" >
+      <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.creditScore != finallockLoanInfo?.creditScore ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Credit Score</div>
         <div class="col-4">{{initialLockLoanInfo?.creditScore}}</div>
         <div class="col-4">{{finallockLoanInfo?.creditScore}}</div>
       </div>
-      <div class="row p-2 row-striped dohover">
+      <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.subjectPropertyAddress?.zipCode != finallockLoanInfo?.subjectPropertyAddress?.zipCode ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Subject Property Zip</div>
         <div class="col-4">{{initialLockLoanInfo?.subjectPropertyAddress?.zipCode}}</div>
         <div class="col-4">{{finallockLoanInfo?.subjectPropertyAddress?.zipCode}}</div>
       </div>
 
-      <div class="row p-2 row-striped dohover">
+      <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.term != finallockLoanInfo?.term ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Term</div>
         <div class="col-4">{{initialLockLoanInfo?.term}}</div>
         <div class="col-4">{{finallockLoanInfo?.term}}</div>
       </div>
-      <div class="row p-2 row-striped dohover">
+      <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.units != finallockLoanInfo?.units ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Units</div>
         <div class="col-4">{{initialLockLoanInfo?.units}}</div>
         <div class="col-4">{{finallockLoanInfo?.units}}</div>
       </div>
-
       <div >
         <div *ngIf="lockLoanConfirmationData && lockLoanConfirmationData.initialLockLoan && lockLoanConfirmationData.initialLockLoan.lockStatus">
-        <div class="row p-2 dohover " [ngClass]="{'row-striped': i % 2==0}" *ngIf="lockLoanConfirmationData.initialAndFinalBasePrice">
+        <div class="row p-2 dohover " [ngClass]="lockLoanConfirmationData.initialAndFinalBasePrice.initialAdjustor != lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor ? 'rowhighlight' : 'row-striped'"
+             *ngIf="lockLoanConfirmationData.initialAndFinalBasePrice">
           <div class="col-4 ">Base Price</div>
           <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalBasePrice.initialAdjustor | number : '1.3-3'}}</div>
           <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor | number : '1.3-3'}}</div>
         </div>
-        <div class="row p-2 dohover " [ngClass]="{'row-striped': i % 2==0}" *ngIf="lockLoanConfirmationData.initialAndFinalPrice">
+        <div class="row p-2 dohover " [ngClass]="lockLoanConfirmationData.initialAndFinalPrice.initialAdjustor != lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor ? 'rowhighlight' : 'row-striped'" *ngIf="lockLoanConfirmationData.initialAndFinalPrice">
           <div class="col-4 ">Price</div>
           <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalPrice.initialAdjustor | number : '1.3-3'}}</div>
           <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor | number : '1.3-3'}}</div>
@@ -172,11 +164,9 @@
           <div class="row p-2 tableheader">
             <div class="col-6 pl-3"><strong>Adjustments</strong></div>
             <div class="col-6 "></div>
-
           </div>
-
           <div *ngFor="let adjustment of lockLoanConfirmationData.initialAndFinalAdjustments ;let i = index">
-            <div class="row p-2 dohover " [ngClass]="{'row-striped': i % 2==0}">
+            <div class="row p-2 dohover " [ngClass]="adjustment.initialAdjustor != adjustment.finalAdjustor ? 'rowhighlight' : {'row-striped': i % 2==0}">
               <div class="col-4 ">{{adjustment.reason}}</div>
               <div class="col-4 ">{{adjustment.initialAdjustor | number : '1.3-3'}}</div>
               <div class="col-4 ">{{adjustment.finalAdjustor | number : '1.3-3'}}</div>
@@ -185,21 +175,17 @@
           <div class="row p-2 tableheader">
             <div class="col-6 pl-3"><strong>Margins</strong></div>
             <div class="col-6 "></div>
-
           </div>
           <div *ngIf="globalService.getIsLockDesk()">
           <div *ngFor="let adjustment of lockLoanConfirmationData.initialAndFinalMargins ;let i = index" >
-            <div class="row p-2 dohover " [ngClass]="{'row-striped': i % 2==0}">
+            <div class="row p-2 dohover "  [ngClass]="adjustment.initialAdjustor != adjustment.finalAdjustor ? 'rowhighlight' : {'row-striped': i % 2==0}" >
               <div class="col-4 ">{{adjustment.reason}}</div>
               <div class="col-4 ">{{adjustment.initialAdjustor | number : '1.3-3'}}</div>
               <div class="col-4 ">{{adjustment.finalAdjustor | number : '1.3-3'}}</div>
             </div>
           </div>
           </div>
-
         </div>
-
-
       </div>
     </ng-container>
     <hr>
