@@ -450,6 +450,8 @@ export class LockConfirmationComponent implements OnInit {
   }
   refreshGrid($event: MouseEvent) {
     $event.preventDefault();
-    this.lockLoanGrid.api.sizeColumnsToFit();
+    if(this.lockLoanGrid) {
+      this.lockLoanGrid.api.sizeColumnsToFit();
+    }
   }
 }

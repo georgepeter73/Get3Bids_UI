@@ -65,7 +65,6 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     this.productId = this.route.snapshot.paramMap.get('productId');
     this.quoteId = this.route.snapshot.paramMap.get('quoteId');
     this.searchId = this.route.snapshot.paramMap.get('searchId');
-    this.globalQQ = this.globalService.getQuickQuote();
     this.qqRes = this.globalService.getQQRes();
     this.itemId = this.route.snapshot.paramMap.get('itemId');
     this.loanInfo = this.globalService.getRQSelectedLoanInfo();

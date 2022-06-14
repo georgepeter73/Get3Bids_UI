@@ -35,7 +35,6 @@ export class RateQuoteProductComponent implements OnInit {
   itemId = '';
   qqRes: QuickQuoteResults;
   qqResRoot: QuickQuoteResultsRoot;
-  globalQQ: QuickQuote;
   product: Product;
   products: Product[];
   productDetailRoot: ProductDetailRoot;
@@ -85,8 +84,7 @@ export class RateQuoteProductComponent implements OnInit {
     this.requestType = this.route.snapshot.paramMap.get('requestType');
     this.selectedUserMloUUID = this.route.snapshot.paramMap.get('selectedUserMloUUID');
     this.QuoteResults();
-
-  }
+   }
 
   eventFire(el, etype) {
     if (el.fireEvent) {
@@ -123,10 +121,8 @@ export class RateQuoteProductComponent implements OnInit {
             } else if (!quickQuoteResultsRoot.obBestExResponseDTO.products) {
               this.noLoanProducts = true;
             }
-            this.globalQQ.searchId = this.qqRes.searchId;
-            this.globalQQ.quoteId = this.qqResRoot.quoteId;
-            this.globalService.setQuickQuote(this.globalQQ);
-            this.globalService.setQQRes(this.qqRes);
+             this.globalService.setQQRes(this.qqRes);
+
              } else {
                this.noLoanProducts = true;
              }

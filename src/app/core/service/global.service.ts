@@ -191,25 +191,25 @@ export class GlobalService {
       return JSON.parse(sessionStorage.getItem('campaignType'));
     }
   }
-
-  setQuickQuote(quickQuote: QuickQuote) {
-    this.quickQuote.next(quickQuote);
-    sessionStorage.setItem('quickQuote', JSON.stringify(this.quickQuote.value));
-  }
   setQQRes(quickQuoteResults: QuickQuoteResults) {
-     sessionStorage.setItem('quickQuoteResults', JSON.stringify(quickQuoteResults));
-  }
-  setRQSelectedLoanInfo(loanInfo: LoanInfo) {
-    sessionStorage.setItem('loanInfo', JSON.stringify(loanInfo));
-  }
-  getRQSelectedLoanInfo() {
-    return JSON.parse(sessionStorage.getItem('loanInfo'));
+    sessionStorage.setItem('quickQuoteResults', JSON.stringify(quickQuoteResults));
   }
   getQQRes(): QuickQuoteResults {
     if (JSON.parse(sessionStorage.getItem('quickQuoteResults')) == null) {
       return new QuickQuoteResults();
     }
     return JSON.parse(sessionStorage.getItem('quickQuoteResults'));
+  }
+
+  setQuickQuote(quickQuote: QuickQuote) {
+    this.quickQuote.next(quickQuote);
+    sessionStorage.setItem('quickQuote', JSON.stringify(this.quickQuote.value));
+  }
+  setRQSelectedLoanInfo(loanInfo: LoanInfo) {
+    sessionStorage.setItem('loanInfo', JSON.stringify(loanInfo));
+  }
+  getRQSelectedLoanInfo() {
+    return JSON.parse(sessionStorage.getItem('loanInfo'));
   }
 
   getQuickQuote(): Observable<QuickQuote> {
