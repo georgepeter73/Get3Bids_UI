@@ -309,6 +309,8 @@ export class LockDeskService {
     lockLoan.adjustments = ll['adjustments'];
     lockLoan.lockLoanSuccessful = ll['lockLoanSuccessful'];
     lockLoan.repriceSuccess = ll['repriceSuccess'];
+    lockLoan.itemId = ll['itemId'];
+    lockLoan.selectedUserMloUUID = ll['selectedUserMloUUID'];
   }
     return lockLoan;
   }

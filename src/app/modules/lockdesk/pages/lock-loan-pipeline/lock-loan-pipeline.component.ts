@@ -205,6 +205,9 @@ export class LockLoanPipelineComponent implements OnInit {
     });
 
   }
+  onRowClick($event: any) {
+     this.router.navigate(['/lockdesk/lock-confirmation/' + this.lockLoanGrid.rowData[$event.rowIndex].itemId+'/' +this.lockLoanGrid.rowData[$event.rowIndex].selectedUserMloUUID]);
+  }
 
 
   backClicked($event: MouseEvent) {
