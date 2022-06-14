@@ -45,6 +45,7 @@ export class LockConfirmationComponent implements OnInit {
   finalLockLoan : LockLoan = new LockLoan();
   lock = faLock;
   unlock = faUnlock;
+  lockLoanDataLoading = false
   public gridOptions: GridOptions;
   mainDataLoading : boolean= false;
   LockStatusType = {
@@ -58,6 +59,7 @@ export class LockConfirmationComponent implements OnInit {
     Unlock : 104,
     ExtendLock : 105
   };
+  errorMessage : string;
   lockLoanSuccessful = false;
   lockLoanConfirmationData = new LockLoanConfirmation()
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
@@ -166,6 +168,9 @@ export class LockConfirmationComponent implements OnInit {
       this.globalService.setRQSelectedLoanInfo(this.loanInfo);
       this.getLockLoanHistory(i.loanNumber);
       //hack for data not displaying with out a mouse click
+      this.emitEvent();
+    },error => {
+      this.errorMessage = JSON.stringify(error);
       this.emitEvent();
     });
     this.getTaxonomy();
@@ -319,12 +324,14 @@ export class LockConfirmationComponent implements OnInit {
 
   getLockLoanConfirmationData(loanNumber:string,curretnLoanInfo:LoanInfo){
     this.mainDataLoading = true;
+    this.lockLoanDataLoading = false;
       this.lockDeskService.getLockLoanConfirmationData(loanNumber).subscribe(lockConfirmation =>{
       this.initialLockLoan = lockConfirmation.initialLockLoan;
       this.finalLockLoan = lockConfirmation.finalLockLoan;
       this.finallockLoanInfo = this.finalLockLoan.loanInfo;
       this.initialLockLoanInfo = this.initialLockLoan.loanInfo;
       this.lockLoanConfirmationData = lockConfirmation;
+      this.lockLoanDataLoading = true;
       this.mainDataLoading = false;
         //if the status is null or does not exist or if there is already a lock reqeuest
        //then before lock and after lock will have current loan info
@@ -338,7 +345,10 @@ export class LockConfirmationComponent implements OnInit {
        if(this.initialLockLoan &&  this.lockStatusType && this.initialLockLoan.lockStatus) {
          this.initialLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.initialLockLoan.lockStatus).pop().description
        }
-    })
+    },error => {
+         this.errorMessage = JSON.stringify(error);
+         this.emitEvent();
+      })
   }
   lockRequestStatus(cType: string) {
     let lockRequestStatusDesc = '';

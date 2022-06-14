@@ -9,7 +9,10 @@
       <div class="text-left col-md-4 "><a hidden id="refreshButtonId" href="#" (click)="refreshGrid($event)"><nb-icon icon="refresh-outline"></nb-icon></a></div>
     </div>
   </nb-card-header>
-  <nb-card-body [nbSpinner]="mainDataLoading" nbSpinnerStatus="primary">
+  <nb-card-body >
+
+    <ng-container *ngIf="lockLoanDataLoading else loadingOrError">
+
     <div class="row p-5 " [nbSpinner]="actionSpinnerLoading" nbSpinnerStatus="primary" *ngIf="lockRequestStatusType && lockRequestStatusType.taxonomyItems">
      <nb-select shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="large"  placeholder="Locking Actions..."
                 id="lockRequestWFId"  (ngModelChange)="saveRateLock(lockState)" >
@@ -221,6 +224,29 @@
 
     >
     </ag-grid-angular>
+    </ng-container>
+    <ng-template #loadingOrError>
+
+      <ng-container *ngIf="errorMessage; else loading">
+        <div class="col-12 text-center">
+          <div class="alert alert-danger">
+            Operation completed Unsuccessfully, Sorry for the inconvenience.
+          </div>
+
+        </div>
+      </ng-container>
+
+      <ng-template #loading>
+        <div
+          class="col-12 text-center"
+          *ngIf="!lockLoanDataLoading"
+          [hidden]="!mainDataLoading"
+        >
+          <strong> <span class="blinking">Loading...</span></strong>
+        </div>
+      </ng-template>
+
+    </ng-template>
 
 
 

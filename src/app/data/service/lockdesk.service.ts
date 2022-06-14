@@ -342,7 +342,7 @@ export class LockDeskService {
           return this.getLockLoanConfirmation(<LockLoanConfirmation>response);
         })
       )
-      .pipe(catchError(this.errorHandler));
+
   }
   private getLockLoanConfirmation(ll : LockLoanConfirmation): LockLoanConfirmation {
     const lockLoanConfirmation = new LockLoanConfirmation();
