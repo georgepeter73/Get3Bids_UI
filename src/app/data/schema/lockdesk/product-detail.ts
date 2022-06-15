@@ -7,6 +7,7 @@ export class ProductDetail {
   productName: string;
   quotes: Quote[];
   adjustments: Adjustment[];
+  customAdjustments: Adjustment[];
   parQuotes: ParQuote[];
   searchId: string;
   productId: number;
@@ -30,6 +31,7 @@ export class ProductDetail {
     productName: string,
     quotes: Quote[],
     adjustments: Adjustment[],
+    customAdjustments: Adjustment[],
     parQuotes: ParQuote[],
     searchId: string,
     productId: number,
@@ -72,5 +74,6 @@ export class ProductDetail {
     this.originationFees = originationFees;
     this.investorId = investorId;
     this.messages = messages;
+    this.customAdjustments = customAdjustments;
   }
 }

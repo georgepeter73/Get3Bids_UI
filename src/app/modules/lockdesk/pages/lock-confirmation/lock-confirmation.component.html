@@ -172,6 +172,29 @@
               <div class="col-4 ">{{adjustment.finalAdjustor | number : '1.3-3'}}</div>
             </div>
           </div>
+          <div class="row p-2 tableheader" >
+            <div class="col-6 pl-3"><strong>Custom Adjustments</strong></div>
+            <div class="col-6 "><button nbButton size="medium" (click)="addCustomAdjustments()"  >Add Custom Adjustments</button></div>
+          </div>
+          <div *ngIf="lockLoanConfirmationData.customInitialAndFinalAdjustments && lockLoanConfirmationData.customInitialAndFinalAdjustments.length>0" >
+          <div *ngFor="let adjustment of lockLoanConfirmationData.customInitialAndFinalAdjustments ;let i = index">
+            <div class="row p-2 dohover " [ngClass]="adjustment.initialAdjustor != adjustment.finalAdjustor ? 'rowhighlight' : {'row-striped': i % 2==0}">
+              <div class="col-3 "><input class="form-control" name="adjustorName{{i}}" id="OD" [(ngModel)]="adjustment.reason" #adjustorName{{i}}="ngModel"
+
+                                         type="text" nbInput fullWidth shape="rectangle" placeholder="Adjustment Name"
+              /></div>
+              <div class="col-3 "><input class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.initialAdjustor" #initialAdjustor{{i}}="ngModel"
+
+                                         type="number" nbInput fullWidth shape="rectangle" placeholder="Adjustor" (keyup)="adjustment.finalAdjustor=adjustment.initialAdjustor" /></div>
+              <div class="col-3 "><input readonly class="form-control"  name="finalAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #finalAdjustor{{i}}="ngModel"
+
+                                         type="number" nbInput fullWidth shape="rectangle" placeholder="Adjustor" /></div>
+              <div class="col-3">
+                <button size="tiny" nbButton (click)="deleteAdjustment(i)"><fa-icon class="m-1" size="1x" [icon]="fatrash"></fa-icon></button>
+              </div>
+            </div>
+          </div>
+          </div>
           <div class="row p-2 tableheader">
             <div class="col-6 pl-3"><strong>Margins</strong></div>
             <div class="col-6 "></div>

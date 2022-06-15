@@ -1,17 +1,24 @@
 <nb-card>
   <nb-card-header>
-    <strong>LockDesk Home</strong>
+
   </nb-card-header>
   <nb-card-body >
     <div class="row py-3">
-      <fieldset class="border  rounded-lg col-12 ">
-        <legend  class="w-auto"><strong>Loan</strong></legend>
-        <p>Your Pipeline</p>
+      <fieldset class="border  rounded-lg col-12 " *ngIf="!globalService.getIsLockDesk()">
+        <legend  class="w-auto"><strong>Lock Desk</strong></legend>
+        <p>Loan Pipeline has all your LendingPad Loans</p>
         <button ghost nbButton status="primary"  (click)="loanPipeline()">
           Loan Pipeline
         </button>
-        <legend  class="w-auto"><strong>Loan</strong></legend>
-        <p>Lock Loan Pipeline</p>
+
+      </fieldset>
+      <fieldset class="border  rounded-lg col-12 " *ngIf="globalService.getIsLockDesk()">
+        <legend  class="w-auto"><strong>Lock Desk</strong></legend>
+        <p>Loan Pipeline has loans from all MLO's</p>
+        <button ghost nbButton status="primary"  (click)="loanPipeline()">
+          Loan Pipeline
+        </button>
+        <p>Lock Desk Pipeline will have all the loans that has some lock status</p>
         <button ghost nbButton status="primary"  (click)="lockLoanPipeline()">
           Lock Desk Pipeline
         </button>

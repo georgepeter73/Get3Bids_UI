@@ -374,6 +374,9 @@ export class LockDeskService {
     if(ll['initialAndFinalPrice']) {
       lockLoanConfirmation.initialAndFinalPrice = ll['initialAndFinalPrice'];
     }
+    if(ll['customInitialAndFinalAdjustments']) {
+      lockLoanConfirmation.customInitialAndFinalAdjustments = ll['customInitialAndFinalAdjustments'];
+    }
     return lockLoanConfirmation;
   }
 

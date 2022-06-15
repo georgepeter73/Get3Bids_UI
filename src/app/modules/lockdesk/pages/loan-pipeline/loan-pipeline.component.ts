@@ -108,7 +108,6 @@ export class LoanPipelineComponent implements OnInit {
   userLoading: any;
 
   ngOnInit(): void {
-    this.loadGroups();
     if(!this.globalService.getIsLockDesk()){
       this.mloUserName = this.authService.getUserEmail();
       this.loadLoansFromLendingpad();
@@ -159,15 +158,7 @@ export class LoanPipelineComponent implements OnInit {
     )
   }
 
-  loadGroups() {
 
-    //based on the logged in users groups set the group
-    if (this.authService.getGroups().filter(g => g == 'lockdesk').length>0) {
-       this.globalService.setIsLockDesk(true);
-       }else{
-      this.globalService.setIsLockDesk(false);
-      }
-   }
 
   loadBrokerCompany() {
     this.brokerCompanyLoading = true;

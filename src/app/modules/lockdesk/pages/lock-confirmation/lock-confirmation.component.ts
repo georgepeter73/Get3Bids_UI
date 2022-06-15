@@ -12,6 +12,8 @@ import {LockLoan} from '@data/schema/lockdesk/lock-loan';
 import {GridOptions} from 'ag-grid-community';
 import {faLock, faUnlock} from '@fortawesome/free-solid-svg-icons';
 import {LockLoanConfirmation} from '@data/schema/lockdesk/lock-loanconfirmation';
+import {Adjustment} from '@data/schema/lockdesk/adjustment';
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-lock-confirmation',
@@ -36,6 +38,7 @@ export class LockConfirmationComponent implements OnInit {
   finallockLoanInfo : LoanInfo = new LoanInfo();
   rateLockButtonLoading : false;
   lockLoans =[];
+  fatrash = faTrash
   rowData: any ;
   lockStatusType : Taxonomy;
   lockRequestStatusType : Taxonomy;
@@ -395,6 +398,9 @@ export class LockConfirmationComponent implements OnInit {
     this.actionSpinnerLoading = true;
     this.lockLoanFailure = false;
     this.initialLockLoan.selectedUserMloUUID = this.selectedUserMloUUID;
+    if(this.lockLoanConfirmationData.customInitialAndFinalAdjustments) {
+      this.initialLockLoan.productDetail.customAdjustments = this.lockLoanConfirmationData.customInitialAndFinalAdjustments;
+    }
     if(lockState === this.LockStatesType.RequestRateLock) {
       this.router.navigate(["/lockdesk/rate-quote-product/" + this.itemId + "/" + lockState.toString() + '/' + this.selectedUserMloUUID]);
     }else{
@@ -458,5 +464,17 @@ export class LockConfirmationComponent implements OnInit {
     if(this.lockLoanGrid) {
       this.lockLoanGrid.api.sizeColumnsToFit();
     }
+  }
+
+  addCustomAdjustments() {
+    let adjustment = new Adjustment();
+    adjustment.initialAdjustor = "";
+    adjustment.finalAdjustor = "";
+    adjustment.reason = ""
+    this.lockLoanConfirmationData.customInitialAndFinalAdjustments.push(adjustment);
+
+  }
+  deleteAdjustment(i: number) {
+    this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
   }
 }

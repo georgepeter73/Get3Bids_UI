@@ -5,7 +5,7 @@ export class Adjustment {
   finalAdjustor : string;
   initialAdjustor : string;
 
-  constructor(reason: string, adjustor: string, type: string,initialAdjustor : string,finalAdjustor : string) {
+  constructor(reason?: string, adjustor?: string, type?: string,initialAdjustor? : string,finalAdjustor ?: string) {
     this.reason = reason;
     this.adjustor = adjustor;
     this.type = type;
