@@ -311,6 +311,9 @@ export class LockDeskService {
     lockLoan.repriceSuccess = ll['repriceSuccess'];
     lockLoan.itemId = ll['itemId'];
     lockLoan.selectedUserMloUUID = ll['selectedUserMloUUID'];
+    if(ll['lockExtensionDays']) {
+      lockLoan.lockExtensionDays = ll['lockExtensionDays'];
+    }
   }
     return lockLoan;
   }
@@ -376,6 +379,9 @@ export class LockDeskService {
     }
     if(ll['customInitialAndFinalAdjustments']) {
       lockLoanConfirmation.customInitialAndFinalAdjustments = ll['customInitialAndFinalAdjustments'];
+    }
+    if(ll['extensionsInitialAndFinalAdjustments']) {
+      lockLoanConfirmation.extensionsInitialAndFinalAdjustments = ll['extensionsInitialAndFinalAdjustments'];
     }
     return lockLoanConfirmation;
   }

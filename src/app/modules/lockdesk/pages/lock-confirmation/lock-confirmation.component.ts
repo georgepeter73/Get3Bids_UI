@@ -60,7 +60,10 @@ export class LockConfirmationComponent implements OnInit {
     AcceptLock: 102,
     RejectLockRequest: 103,
     Unlock : 104,
-    ExtendLock : 105
+    ExtendLock5 : 105,
+    ExtendLock10 : 106,
+    ExtendLock15 : 107,
+    ExtendLock20 : 108,
   };
   errorMessage : string;
   lockLoanSuccessful = false;
@@ -205,10 +208,20 @@ export class LockConfirmationComponent implements OnInit {
     if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
       return true;
     }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
+
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
       return true;
     }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
+      return true;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock10) {
+      return true;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock15) {
+      return true;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock20) {
       return true;
     }
   }
@@ -222,11 +235,21 @@ export class LockConfirmationComponent implements OnInit {
     if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
       return true;
     }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
-      return true;
-    }
+
     if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
       return false;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
+      return true;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock10) {
+      return true;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock15) {
+      return true;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock20) {
+      return true;
     }
   }
   acceptRateLockRule(taxonomyItemKey :string){
@@ -239,11 +262,21 @@ export class LockConfirmationComponent implements OnInit {
     if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
       return false;
     }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
-      return false;
-    }
+
     if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
       return true;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
+      return false;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock10) {
+      return false;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock15) {
+      return false;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock20) {
+      return false;
     }
   }
   rejectLockRequestRule(taxonomyItemKey :string){
@@ -256,30 +289,24 @@ export class LockConfirmationComponent implements OnInit {
     if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
       return true;
     }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
-      return true;
-    }
+
     if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
       return true;
     }
-  }
-  extendLockRule(taxonomyItemKey :string){
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
       return true;
     }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock10) {
       return true;
     }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
-      return false;
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock15) {
+      return true;
     }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
-      return false;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock20) {
       return true;
     }
   }
+
   unlockRule(taxonomyItemKey: string){
     if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
       return false;
@@ -290,14 +317,52 @@ export class LockConfirmationComponent implements OnInit {
     if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
       return true;
     }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock){
+
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
       return true;
     }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
+      return true;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock10) {
+      return true;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock15) {
+      return true;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock20) {
       return true;
     }
 
   }
+  extensionRule(taxonomyItemKey: string){
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
+      return false;
+    }
+
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
+      return true;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
+      return false;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock10) {
+      return false;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock15) {
+      return false;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock20) {
+      return false;
+    }
+  }
+
 
   disableActionItem(taxonomyItemKey :string){
     if(this.initialLockLoan == null || !this.initialLockLoan.lockState){
@@ -315,13 +380,14 @@ export class LockConfirmationComponent implements OnInit {
 
       return this.rejectLockRequestRule(taxonomyItemKey);
     }
-    if(this.initialLockLoan.lockState == this.LockStatesType.ExtendLock){
 
-     return this.extendLockRule(taxonomyItemKey);
-    }
     if(this.initialLockLoan.lockState == this.LockStatesType.Unlock){
      return this.unlockRule(taxonomyItemKey);
     }
+    if(this.initialLockLoan.lockState >= this.LockStatesType.ExtendLock5 && this.initialLockLoan.lockState <= this.LockStatesType.ExtendLock20){
+      return this.extensionRule(taxonomyItemKey);
+    }
+
     return false;
   }
   getLockLoanConfirmationData(loanNumber:string,curretnLoanInfo:LoanInfo){
@@ -425,10 +491,11 @@ export class LockConfirmationComponent implements OnInit {
         this.lockLoanActionSuccessMessage = "Un-lock Successful."
 
       }
-      if(lockState === this.LockStatesType.ExtendLock){
+      if(lockState === this.LockStatesType.ExtendLock5 || lockState === this.LockStatesType.ExtendLock10 ||
+        lockState === this.LockStatesType.ExtendLock15 || lockState === this.LockStatesType.ExtendLock20){
         this.lockLoanSuccessful = false;
         this.initialLockLoan.lockStatus = this.LockStatusType.locked;
-        this.initialLockLoan.lockState = this.LockStatesType.ExtendLock;
+        this.initialLockLoan.lockState = lockState;
         this.lockLoanActionSuccessMessage = "Extension Successful."
 
       }

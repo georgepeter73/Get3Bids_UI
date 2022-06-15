@@ -6,6 +6,7 @@ export class LockLoanConfirmation{
    finalLockLoan : LockLoan;
    initialAndFinalAdjustments : Adjustment[];
    customInitialAndFinalAdjustments : Adjustment[];
+   extensionsInitialAndFinalAdjustments : Adjustment[];
    initialAndFinalPrice : Adjustment;
    initialAndFinalBasePrice : Adjustment;
    initialAndFinalMargins : Adjustment[]

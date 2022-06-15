@@ -4,6 +4,7 @@ import {Quote} from '@data/schema/lockdesk/quote';
 import {ProductDetail} from '@data/schema/lockdesk/product-detail';
 import {Adjustment} from '@data/schema/lockdesk/adjustment';
 import {UserMlo} from '@data/schema/user/user-mlo';
+import {LockLoanextension} from '@data/schema/lockdesk/lock-loanextension';
 
 export class LockLoan{
   id : string;
@@ -29,6 +30,7 @@ export class LockLoan{
   selectedUserMloUUID : String;
   lockLoanSuccessful : boolean;
   repriceSuccess : boolean;
+  lockExtensionDays : LockLoanextension[];
 
 
 
