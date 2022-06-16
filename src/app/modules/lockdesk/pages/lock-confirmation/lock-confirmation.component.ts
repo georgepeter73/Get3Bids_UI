@@ -16,6 +16,11 @@ import {Adjustment} from '@data/schema/lockdesk/adjustment';
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import {LockExtensionmaster} from '@data/schema/lockdesk/lock-extensionmaster';
 import {LockLoanextension} from '@data/schema/lockdesk/lock-loanextension';
+import {MatDialog} from '@angular/material/dialog';
+import {ConfirmationDialogModel} from '@data/schema/ConfirmationDialogModal';
+import {ConfirmationDialogCompComponent} from '@shared/component/confirmation-dialog-comp/confirmation-dialog-comp.component';
+
+
 
 @Component({
   selector: 'app-lock-confirmation',
@@ -33,6 +38,7 @@ export class LockConfirmationComponent implements OnInit {
               private _location: Location,
               private  globalService: GlobalService,
               private taxonomyService: TaxonomyService,
+              private dialog: MatDialog
              ) { }
   private itemId = "";
   loanInfo : LoanInfo = new LoanInfo();
@@ -68,6 +74,8 @@ export class LockConfirmationComponent implements OnInit {
   lockLoanSuccessful = false;
   lockLoanConfirmationData = new LockLoanConfirmation()
   lockExtensionMaster : LockExtensionmaster[] =[];
+  dialogData = new ConfirmationDialogModel('Confirm', 'Are you sure you want to continue?');
+  totalLockExtensionDays = 0;
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
     {
@@ -164,6 +172,7 @@ export class LockConfirmationComponent implements OnInit {
   lockExtensionDays=-1
 
   ngOnInit(): void {
+
     this.mainDataLoading = true;
     //primary key in lendingpad collection
     this.itemId = this.route.snapshot.paramMap.get('itemId');
@@ -362,9 +371,10 @@ export class LockConfirmationComponent implements OnInit {
       this.lockLoanConfirmationData = lockConfirmation;
       this.lockLoanDataLoading = true;
       this.mainDataLoading = false;
-        //if the status is null or does not exist or if there is already a lock reqeuest
-       //then before lock and after lock will have current loan info
-       if(!this.initialLockLoan.lockStatus || this.initialLockLoan.lockStatus === this.LockStatusType.float ){
+      this.setLockExtensionDays();
+      //if the status is null or does not exist or if there is already a lock reqeuest
+      //then before lock and after lock will have current loan info
+      if(!this.initialLockLoan.lockStatus || this.initialLockLoan.lockStatus === this.LockStatusType.float ){
          this.initialLockLoanInfo = curretnLoanInfo;
          this.finallockLoanInfo = curretnLoanInfo;
 
@@ -378,6 +388,13 @@ export class LockConfirmationComponent implements OnInit {
          this.errorMessage = JSON.stringify(error);
          this.emitEvent();
       })
+  }
+  setLockExtensionDays(){
+    if(this.initialLockLoan.lockExtensionDays) {
+      this.initialLockLoan.lockExtensionDays.forEach(le => {
+        this.totalLockExtensionDays = this.totalLockExtensionDays + le.numberOfDays;
+      })
+    }
   }
   lockRequestStatus(cType: string) {
     let lockRequestStatusDesc = '';
@@ -428,7 +445,21 @@ export class LockConfirmationComponent implements OnInit {
       this.initialLockLoan.productDetail.customAdjustments = this.lockLoanConfirmationData.customInitialAndFinalAdjustments;
     }
   }
-  saveLockExtension(lockState : number, extensionDays : number){
+  saveLockExtensionConfirmation(lockState : number, extensionDays : number){
+      this.openConfirmationDialog().afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.saveLockExtensionFinal(lockState,extensionDays)
+      }else{
+        //do nothing.
+        //do nothing .
+        this.lockLoanSuccessful = false;
+        this.actionSpinnerLoading = false;
+      }
+    });
+
+  }
+
+  saveLockExtensionFinal(lockState : number, extensionDays : number){
     this.saveRateLockInitialSetUps();
     if(lockState === this.LockStatesType.ExtendLock5 ){
       this.lockLoanSuccessful = false;
@@ -443,12 +474,42 @@ export class LockConfirmationComponent implements OnInit {
       this.lockLoanActionSuccessMessage = "Extension Successful."
 
     }
-   this.savelLockLoanFinal();
+    this.savelLockLoanFinal();
+  }
+  saveRateLockConfirmation(lockState : number){
+
+    if(lockState === this.LockStatesType.RequestRateLock) {
+      this.router.navigate(["/lockdesk/rate-quote-product/" + this.itemId + "/" + lockState.toString() + '/' + this.selectedUserMloUUID]);
+    }else if(lockState === this.LockStatesType.ExtendLock5){
+      //do nothing .
+      this.lockLoanSuccessful = false;
+      this.actionSpinnerLoading = false;
+
+    }else {
+        this.openConfirmationDialog().afterClosed().subscribe(dialogResult => {
+        if (dialogResult) {
+          this.saveRateLock(lockState)
+        } else {
+          //do nothing.
+          //do nothing .
+          this.lockLoanSuccessful = false;
+          this.actionSpinnerLoading = false;
+        }
+      });
+    }
+  }
+  openConfirmationDialog(){
+    const dialogRef = this.dialog.open(ConfirmationDialogCompComponent, {
+      maxWidth: '400px',
+      closeOnNavigation: true,
+      data: this.dialogData
+    })
+    return dialogRef;
   }
 
   saveRateLock(lockState : number) {
     this.saveRateLockInitialSetUps();
-    if(lockState === this.LockStatesType.RequestRateLock) {
+   if(lockState === this.LockStatesType.RequestRateLock) {
       this.router.navigate(["/lockdesk/rate-quote-product/" + this.itemId + "/" + lockState.toString() + '/' + this.selectedUserMloUUID]);
     }else if(lockState === this.LockStatesType.ExtendLock5){
       //do nothing .

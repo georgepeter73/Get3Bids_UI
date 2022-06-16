@@ -23,11 +23,14 @@ import {RatingModule} from 'ng-starrating';
 import { RateQuoteProductDetailsComponent } from './pages/rate-quote-product-details/rate-quote-product-details.component';
 import {QuickQuoteService} from '@data/service/quickquote.service';
 import { LockLoanPipelineComponent } from './pages/lock-loan-pipeline/lock-loan-pipeline.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+
 
 @NgModule({
-  declarations: [LockdeskHomeComponent, LoanPipelineComponent, LockConfirmationComponent, RateQuoteProductComponent, RateQuoteProductDetailsComponent, LockLoanPipelineComponent],
+  declarations: [LockdeskHomeComponent, LoanPipelineComponent, LockConfirmationComponent, RateQuoteProductComponent, RateQuoteProductDetailsComponent, LockLoanPipelineComponent,],
     imports: [
-        CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule.forRoot(), NbInputModule, NbIconModule, NbSpinnerModule, NbSelectModule, RatingModule, NbRadioModule, NbAlertModule, NgbModule
+      MatDialogModule, MatButtonModule,CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule.forRoot(), NbInputModule, NbIconModule, NbSpinnerModule, NbSelectModule, RatingModule, NbRadioModule, NbAlertModule, NgbModule
     ],
   providers: [LockDeskService,QuickQuoteService],
 })

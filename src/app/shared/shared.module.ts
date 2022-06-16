@@ -19,7 +19,11 @@ import { NgxMaskModule } from "ngx-mask";
 import { ControlMessagesComponent } from "./component/control-messages/control-messages.component";
 import { SpinnerComponent } from "./component/spinner/spinner.component";
 import { AgmCoreModule } from "@agm/core";
-import {NbCardModule} from '@nebular/theme';
+import {NbButtonModule, NbCardModule} from '@nebular/theme';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import {ConfirmationDialogCompComponent} from '@shared/component/confirmation-dialog-comp/confirmation-dialog-comp.component';
+
 
 @NgModule({
   imports: [
@@ -32,11 +36,17 @@ import {NbCardModule} from '@nebular/theme';
     NgbModule,
     FontAwesomeModule,
     AgmCoreModule.forRoot({
-      apiKey: "AIzaSyDonQOow4jOPJE-Ch129zQ0qpLEUceCXQ4"
+      apiKey: 'AIzaSyDonQOow4jOPJE-Ch129zQ0qpLEUceCXQ4'
     }),
-    NbCardModule
+    NbCardModule,
+    MatDialogModule,
+    MatButtonModule,
+    NbButtonModule
+
+
   ],
-  declarations: [ControlMessagesComponent, SpinnerComponent],
+  declarations: [ControlMessagesComponent, SpinnerComponent, ConfirmationDialogCompComponent],
+  entryComponents: [ConfirmationDialogCompComponent],
   exports: [
     CommonModule,
     FormsModule,

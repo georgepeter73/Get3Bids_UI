@@ -16,14 +16,14 @@
     <div class="row p-2" [nbSpinner]="actionSpinnerLoading" nbSpinnerStatus="primary">
      <div class="col-4"  *ngIf="lockRequestStatusType && lockRequestStatusType.taxonomyItems">
      <nb-select shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="large"  placeholder="Locking Actions..."
-                id="lockRequestWFId"  (ngModelChange)="saveRateLock(lockState)" >
+                id="lockRequestWFId"  (ngModelChange)="saveRateLockConfirmation(lockState)" >
        <nb-option  [disabled]="disableActionItem(lock_work_flow.key)"  *ngFor="let lock_work_flow of lockRequestStatusType.taxonomyItems"
                    [value]="lock_work_flow.key">{{lock_work_flow.description}}</nb-option>
     </nb-select>
     </div>
      <div class="col-4"  *ngIf="lockState == LockStatesType.ExtendLock5">
         <nb-select shape="semi-round" [(ngModel)]="lockExtensionDays"    #lockExntendDay="ngModel" name="lockExntendDay" required size="large"  placeholder="Lock Extension Days..."
-                   id="lockRequestWFId"  (ngModelChange)="saveLockExtension(lockState,lockExtensionDays)" >
+                   id="lockRequestWFId"  (ngModelChange)="saveLockExtensionConfirmation(lockState,lockExtensionDays)" >
           <nb-option    *ngFor="let lockExtensionmaster of lockExtensionMaster"
                       [value]="lockExtensionmaster.numberOfDays">{{lockExtensionmaster.description}}</nb-option>
         </nb-select>
@@ -56,6 +56,11 @@
         <div class="col-4">{{initialLockLoan?.lockExpirationDate | date: 'MM/dd/yyyy hh:mm aa'}}</div>
         <div class="col-4"></div>
       </div>
+        <div class="row p-2 row-striped dohover" *ngIf="initialLockLoan.lockExtensionDays">
+          <div class="col-4 ">Lock Extension Days</div>
+          <div class="col-4">{{totalLockExtensionDays }}</div>
+          <div class="col-4"></div>
+        </div>
         <div class="row p-2 row-striped dohover">
           <div class="col-4 ">Is Lock Expired</div>
           <div class="col-4">{{initialLockLoan?.lockExpired?'Yes':'No'}}</div>
@@ -159,7 +164,7 @@
       <div >
         <div *ngIf="lockLoanConfirmationData && lockLoanConfirmationData.initialLockLoan && lockLoanConfirmationData.initialLockLoan.lockStatus">
         <div class="row p-2 dohover " [ngClass]="lockLoanConfirmationData.initialAndFinalBasePrice.initialAdjustor != lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor ? 'rowhighlight' : 'row-striped'"
-             *ngIf="lockLoanConfirmationData.initialAndFinalBasePrice">
+             *ngIf="false">
           <div class="col-4 ">Base Price</div>
           <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalBasePrice.initialAdjustor | number : '1.3-3'}}</div>
           <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor | number : '1.3-3'}}</div>
