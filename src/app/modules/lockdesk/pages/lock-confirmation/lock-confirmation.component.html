@@ -1,6 +1,6 @@
 <nb-card>
   <nb-card-header>
-    <div class="row">
+    <div class="row dontprintthissection">
       <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)">
         <nb-icon icon="arrow-back-outline"></nb-icon>
         Previous</a></div>
@@ -12,8 +12,7 @@
   <nb-card-body >
 
     <ng-container *ngIf="lockLoanDataLoading else loadingOrError">
-
-    <div class="row p-2" [nbSpinner]="actionSpinnerLoading" nbSpinnerStatus="primary">
+    <div class="row p-2 dontprintthissection" [nbSpinner]="actionSpinnerLoading" nbSpinnerStatus="primary">
      <div class="col-4"  *ngIf="lockRequestStatusType && lockRequestStatusType.taxonomyItems">
      <nb-select shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="large"  placeholder="Locking Actions..."
                 id="lockRequestWFId"  (ngModelChange)="saveRateLockConfirmation(lockState)" >
@@ -28,7 +27,9 @@
                       [value]="lockExtensionmaster.numberOfDays">{{lockExtensionmaster.description}}</nb-option>
         </nb-select>
       </div>
-      <div class="col-4"></div>
+      <div class="col-4">
+       <button nbButton (click)="print()" ghost size="small"> <fa-icon  size="2x" [icon]="faprint" class="pt-1" ></fa-icon></button>
+      </div>
     </div>
       <nb-alert accent="warning"  *ngIf="initialLockLoan && finalLockLoan && initialLockLoan.lockStatus && !finalLockLoan.repriceSuccess" size="medium" >
       The selected product rate for the  lock period is no more available...
@@ -192,7 +193,7 @@
               <div class="col-4 ">{{adjustment.finalAdjustor | number : '1.3-3'}}</div>
             </div>
           </div>
-          <div class="row p-2 tableheader" >
+          <div class="row p-2 tableheader dontprintthissection" >
             <div class="col-6 pl-3"><strong>Custom Adjustments</strong></div>
             <div class="col-6 "><button nbButton size="medium" (click)="addCustomAdjustments()"  >Add Custom Adjustments</button></div>
           </div>
@@ -232,10 +233,11 @@
       </div>
     </ng-container>
     <hr>
-    <div class="row p-2 tableheader">
+    <div class="row p-2 tableheader dontprintthissection">
       Lock WorkFlow
     </div>
     <br>
+      <div class="dontprintthissection">
 
     <ag-grid-angular
       style="width: 1025px; height: 350px;"
@@ -253,6 +255,7 @@
 
     >
     </ag-grid-angular>
+      </div>
     </ng-container>
     <ng-template #loadingOrError>
 

@@ -15,3 +15,12 @@
 .rowhighlight{
   background-color: #FFBF00;
 }
+@media print {
+  .dontprintthissection,
+  #non-printable {
+    display: none !important;
+  }
+  #printable {
+    display: block;
+  }
+}

@@ -14,6 +14,7 @@ import {faLock, faUnlock} from '@fortawesome/free-solid-svg-icons';
 import {LockLoanConfirmation} from '@data/schema/lockdesk/lock-loanconfirmation';
 import {Adjustment} from '@data/schema/lockdesk/adjustment';
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPrint } from "@fortawesome/free-solid-svg-icons";
 import {LockExtensionmaster} from '@data/schema/lockdesk/lock-extensionmaster';
 import {LockLoanextension} from '@data/schema/lockdesk/lock-loanextension';
 import {MatDialog} from '@angular/material/dialog';
@@ -47,6 +48,7 @@ export class LockConfirmationComponent implements OnInit {
   rateLockButtonLoading : false;
   lockLoans =[];
   fatrash = faTrash
+  faprint=faPrint;
   rowData: any ;
   lockStatusType : Taxonomy;
   lockRequestStatusType : Taxonomy;
@@ -586,5 +588,9 @@ export class LockConfirmationComponent implements OnInit {
   }
   deleteAdjustment(i: number) {
     this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
+  }
+
+  print() {
+    window.print();
   }
 }
