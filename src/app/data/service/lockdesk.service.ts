@@ -19,6 +19,7 @@ import {LockLoan} from '@data/schema/lockdesk/lock-loan';
 import {UserContact} from '@data/schema/user/user-contact';
 import {UserMlo} from '@data/schema/user/user-mlo';
 import {LockLoanConfirmation} from '@data/schema/lockdesk/lock-loanconfirmation';
+import {LockExtensionmaster} from '@data/schema/lockdesk/lock-extensionmaster';
 const API_URL = environment.LOCKDESK_API_URL;
 
 @Injectable()
@@ -47,6 +48,38 @@ export class LockDeskService {
           return this.getLockLoans(response);
         })
       )
+  }
+  private getLockLoans(response: any): LockLoan[] {
+    return (<LockLoan[]>response).map(
+      ll =>
+        this.getLockLoan(ll)
+    );
+  }
+  public getAllLockExtensionMaster(): Observable<LockExtensionmaster[]> {
+    return this.http
+      .get(API_URL + '/api/v1/lockdesk/get_all_lock_extension_master', this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return this.getLockExtensionMasters(response);
+        })
+      )
+  }
+  private getLockExtensionMasters(response: any): LockExtensionmaster[] {
+    return (<LockExtensionmaster[]>response).map(
+      ll =>
+        this.getLockExtensionMaster(ll)
+    );
+  }
+  private getLockExtensionMaster(lockExtMaster : LockExtensionmaster): LockExtensionmaster {
+    const lockExtMaster1 = new LockExtensionmaster();
+    if (lockExtMaster) {
+      lockExtMaster1.id = lockExtMaster['id'];
+      lockExtMaster1.adjustor = lockExtMaster['adjustor'];
+      lockExtMaster1.description = lockExtMaster['description'];
+      lockExtMaster1.numberOfDays = lockExtMaster['numberOfDays'];
+      return lockExtMaster1;
+    }
   }
 
   public getLoanPipeline(mloEmail : string): Observable<LoanInfo[]> {
@@ -288,6 +321,8 @@ export class LockDeskService {
       )
       .pipe(catchError(this.errorHandler));
   }
+
+
   public getLockLoan(ll : LockLoan): LockLoan {
     const lockLoan = new LockLoan();
     if (ll){
@@ -342,12 +377,8 @@ export class LockDeskService {
         })
       )
   }
-  public getLockLoans(response: any): LockLoan[] {
-    return (<LockLoan[]>response).map(
-      ll =>
-        this.getLockLoan(ll)
-    );
-  }
+
+
   public getLockLoanConfirmationData(loanNumber: string): Observable<LockLoanConfirmation> {
     return this.http
       .get(

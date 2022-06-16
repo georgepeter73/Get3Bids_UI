@@ -13,15 +13,23 @@
 
     <ng-container *ngIf="lockLoanDataLoading else loadingOrError">
 
-    <div class="row p-5 " [nbSpinner]="actionSpinnerLoading" nbSpinnerStatus="primary" *ngIf="lockRequestStatusType && lockRequestStatusType.taxonomyItems">
+    <div class="row p-2" [nbSpinner]="actionSpinnerLoading" nbSpinnerStatus="primary">
+     <div class="col-4"  *ngIf="lockRequestStatusType && lockRequestStatusType.taxonomyItems">
      <nb-select shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="large"  placeholder="Locking Actions..."
                 id="lockRequestWFId"  (ngModelChange)="saveRateLock(lockState)" >
        <nb-option  [disabled]="disableActionItem(lock_work_flow.key)"  *ngFor="let lock_work_flow of lockRequestStatusType.taxonomyItems"
                    [value]="lock_work_flow.key">{{lock_work_flow.description}}</nb-option>
     </nb-select>
-
     </div>
-
+     <div class="col-4"  *ngIf="lockState == LockStatesType.ExtendLock5">
+        <nb-select shape="semi-round" [(ngModel)]="lockExtensionDays"    #lockExntendDay="ngModel" name="lockExntendDay" required size="large"  placeholder="Lock Extension Days..."
+                   id="lockRequestWFId"  (ngModelChange)="saveLockExtension(lockState,lockExtensionDays)" >
+          <nb-option    *ngFor="let lockExtensionmaster of lockExtensionMaster"
+                      [value]="lockExtensionmaster.numberOfDays">{{lockExtensionmaster.description}}</nb-option>
+        </nb-select>
+      </div>
+      <div class="col-4"></div>
+    </div>
       <nb-alert accent="warning"  *ngIf="initialLockLoan && finalLockLoan && initialLockLoan.lockStatus && !finalLockLoan.repriceSuccess" size="medium" >
       The selected product rate for the  lock period is no more available...
       </nb-alert>

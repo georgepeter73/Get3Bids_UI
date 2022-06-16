@@ -14,6 +14,8 @@ import {faLock, faUnlock} from '@fortawesome/free-solid-svg-icons';
 import {LockLoanConfirmation} from '@data/schema/lockdesk/lock-loanconfirmation';
 import {Adjustment} from '@data/schema/lockdesk/adjustment';
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import {LockExtensionmaster} from '@data/schema/lockdesk/lock-extensionmaster';
+import {LockLoanextension} from '@data/schema/lockdesk/lock-loanextension';
 
 @Component({
   selector: 'app-lock-confirmation',
@@ -61,13 +63,11 @@ export class LockConfirmationComponent implements OnInit {
     RejectLockRequest: 103,
     Unlock : 104,
     ExtendLock5 : 105,
-    ExtendLock10 : 106,
-    ExtendLock15 : 107,
-    ExtendLock20 : 108,
-  };
+   };
   errorMessage : string;
   lockLoanSuccessful = false;
   lockLoanConfirmationData = new LockLoanConfirmation()
+  lockExtensionMaster : LockExtensionmaster[] =[];
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
     {
@@ -160,6 +160,8 @@ export class LockConfirmationComponent implements OnInit {
   lockLoanActionSuccessMessage: string;
   finalDataLoading: boolean= false;
   rowClassRules: any;
+  lockExtensionActionSpinner: any;
+  lockExtensionDays=-1
 
   ngOnInit(): void {
     this.mainDataLoading = true;
@@ -180,11 +182,18 @@ export class LockConfirmationComponent implements OnInit {
       this.emitEvent();
     });
     this.getTaxonomy();
+    this.loadLockExtensionMaster();
     //highlighting the active record in the lock history
     this.rowClassRules = {
       'dohover': function(params) {
           return params.data.isActive === true; },
     };
+  }
+  loadLockExtensionMaster(){
+    this.lockDeskService.getAllLockExtensionMaster().subscribe(m => {
+      this.lockExtensionMaster = m;
+
+    })
   }
   getLockLoanHistory(loanNumber: string){
     this.lockDeskService.getLockLoanItemsByLoanNumber(loanNumber).subscribe(items =>{
@@ -215,15 +224,7 @@ export class LockConfirmationComponent implements OnInit {
     if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
       return true;
     }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock10) {
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock15) {
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock20) {
-      return true;
-    }
+
   }
   requestRateLockRule(taxonomyItemKey :string){
     if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
@@ -242,15 +243,7 @@ export class LockConfirmationComponent implements OnInit {
     if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
       return true;
     }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock10) {
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock15) {
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock20) {
-      return true;
-    }
+
   }
   acceptRateLockRule(taxonomyItemKey :string){
     if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
@@ -269,15 +262,7 @@ export class LockConfirmationComponent implements OnInit {
     if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
       return false;
     }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock10) {
-      return false;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock15) {
-      return false;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock20) {
-      return false;
-    }
+
   }
   rejectLockRequestRule(taxonomyItemKey :string){
     if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
@@ -296,15 +281,7 @@ export class LockConfirmationComponent implements OnInit {
     if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
       return true;
     }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock10) {
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock15) {
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock20) {
-      return true;
-    }
+
   }
 
   unlockRule(taxonomyItemKey: string){
@@ -324,15 +301,7 @@ export class LockConfirmationComponent implements OnInit {
     if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
       return true;
     }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock10) {
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock15) {
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock20) {
-      return true;
-    }
+
 
   }
   extensionRule(taxonomyItemKey: string){
@@ -352,15 +321,7 @@ export class LockConfirmationComponent implements OnInit {
     if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
       return false;
     }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock10) {
-      return false;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock15) {
-      return false;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock20) {
-      return false;
-    }
+
   }
 
 
@@ -384,7 +345,7 @@ export class LockConfirmationComponent implements OnInit {
     if(this.initialLockLoan.lockState == this.LockStatesType.Unlock){
      return this.unlockRule(taxonomyItemKey);
     }
-    if(this.initialLockLoan.lockState >= this.LockStatesType.ExtendLock5 && this.initialLockLoan.lockState <= this.LockStatesType.ExtendLock20){
+    if(this.initialLockLoan.lockState == this.LockStatesType.ExtendLock5 ){
       return this.extensionRule(taxonomyItemKey);
     }
 
@@ -459,16 +420,41 @@ export class LockConfirmationComponent implements OnInit {
       this.router.navigate(["/lockdesk/lock-loan-pipeline"]);
     }
   }
-
-  saveRateLock(lockState : number) {
+  saveRateLockInitialSetUps(){
     this.actionSpinnerLoading = true;
     this.lockLoanFailure = false;
     this.initialLockLoan.selectedUserMloUUID = this.selectedUserMloUUID;
     if(this.lockLoanConfirmationData.customInitialAndFinalAdjustments) {
       this.initialLockLoan.productDetail.customAdjustments = this.lockLoanConfirmationData.customInitialAndFinalAdjustments;
     }
+  }
+  saveLockExtension(lockState : number, extensionDays : number){
+    this.saveRateLockInitialSetUps();
+    if(lockState === this.LockStatesType.ExtendLock5 ){
+      this.lockLoanSuccessful = false;
+      this.initialLockLoan.lockStatus = this.LockStatusType.locked;
+      this.initialLockLoan.lockState = lockState;
+      let lockExtensionDays1 = new LockLoanextension();
+      lockExtensionDays1.numberOfDays = this.lockExtensionDays;
+      if(!this.initialLockLoan.lockExtensionDays){
+        this.initialLockLoan.lockExtensionDays = [];
+      }
+      this.initialLockLoan.lockExtensionDays.push(lockExtensionDays1);
+      this.lockLoanActionSuccessMessage = "Extension Successful."
+
+    }
+   this.savelLockLoanFinal();
+  }
+
+  saveRateLock(lockState : number) {
+    this.saveRateLockInitialSetUps();
     if(lockState === this.LockStatesType.RequestRateLock) {
       this.router.navigate(["/lockdesk/rate-quote-product/" + this.itemId + "/" + lockState.toString() + '/' + this.selectedUserMloUUID]);
+    }else if(lockState === this.LockStatesType.ExtendLock5){
+      //do nothing .
+      this.lockLoanSuccessful = false;
+      this.actionSpinnerLoading = false;
+
     }else{
       if(lockState === this.LockStatesType.AcceptLock){
         this.lockLoanSuccessful = false;
@@ -491,28 +477,24 @@ export class LockConfirmationComponent implements OnInit {
         this.lockLoanActionSuccessMessage = "Un-lock Successful."
 
       }
-      if(lockState === this.LockStatesType.ExtendLock5 || lockState === this.LockStatesType.ExtendLock10 ||
-        lockState === this.LockStatesType.ExtendLock15 || lockState === this.LockStatesType.ExtendLock20){
-        this.lockLoanSuccessful = false;
-        this.initialLockLoan.lockStatus = this.LockStatusType.locked;
-        this.initialLockLoan.lockState = lockState;
-        this.lockLoanActionSuccessMessage = "Extension Successful."
-
-      }
-      this.initialLockLoan.itemId = this.itemId;
-      //common code
-      this.lockDeskService.saveLockLoan(this.initialLockLoan).subscribe(ll =>{
-        this.initialLockLoan = ll;
-        this.lockLoanSuccessful = true;
-        this.actionSpinnerLoading = false;
-        this.getLockLoanHistory(this.initialLockLoan.loanNumber);
-        this.getLockLoanConfirmationData(this.loanInfo.loanNumber,this.loanInfo);
-        this.lockState=0;
-        this.emitEvent();
-      })
+      this.savelLockLoanFinal()
     }
 
 
+  }
+
+  savelLockLoanFinal(){
+    this.initialLockLoan.itemId = this.itemId;
+    //common code
+    this.lockDeskService.saveLockLoan(this.initialLockLoan).subscribe(ll =>{
+      this.initialLockLoan = ll;
+      this.lockLoanSuccessful = true;
+      this.actionSpinnerLoading = false;
+      this.getLockLoanHistory(this.initialLockLoan.loanNumber);
+      this.getLockLoanConfirmationData(this.loanInfo.loanNumber,this.loanInfo);
+      this.lockState=0;
+      this.emitEvent();
+    })
   }
 
 
