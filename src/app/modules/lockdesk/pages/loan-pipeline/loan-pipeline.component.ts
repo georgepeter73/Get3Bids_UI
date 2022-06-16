@@ -108,12 +108,15 @@ export class LoanPipelineComponent implements OnInit {
   userLoading: any;
 
   ngOnInit(): void {
+
     if(!this.globalService.getIsLockDesk()){
+      //scenario were mlo's are logged into the system
       this.mloUserName = this.authService.getUserEmail();
       this.loadLoansFromLendingpad();
       this.loadUserMLO();
     }else{
       this.loadBrokerCompany();
+      //scenario were lock desk user loggs in the mloUserName is selected by the lock desk user .
     }
     this.brokercompanyId='-1';
     this.mloUserName='-1';
@@ -149,7 +152,6 @@ export class LoanPipelineComponent implements OnInit {
   loadUsers() {
     this.userLoading = true;
     this.quickQuoteService.getAllUserMLOByBrokerCompanyid(this.brokercompanyId).subscribe(users => {
-
        this.userMLOList = users;
        this.userLoading = false;
        this.emitAClickEvent();
@@ -173,12 +175,13 @@ export class LoanPipelineComponent implements OnInit {
     $event.preventDefault();
     this.router.navigate(['/lockdesk/lockdeskhome'])
   }
-  getSelectedUserMLO() :UserMlo{
-    return this.userMLOList.filter(user => user.userName === this.mloUserName).pop();
+  getSelectedUserMLO($event: any) :UserMlo{
+    //always get the loan officer email from the loan info. should not get from the login information
+     return this.userMLOList.filter(user => user.userName === this.loanPipelineGrid.rowData[$event.rowIndex].loanOfficer.email).pop();
   }
   onRowClick($event: any) {
     this.globalService.setLockLoanNavStarter("loan-pipeline");
-    this.router.navigate(['/lockdesk/lock-confirmation/' + this.loanPipelineGrid.rowData[$event.rowIndex].id+'/'+this.getSelectedUserMLO().userUUID]);
+    this.router.navigate(['/lockdesk/lock-confirmation/' + this.loanPipelineGrid.rowData[$event.rowIndex].id+'/'+this.getSelectedUserMLO($event).userUUID]);
   }
 
   refreshGrid($event: MouseEvent) {
