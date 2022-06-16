@@ -591,6 +591,9 @@ export class LockConfirmationComponent implements OnInit {
   }
 
   print() {
+    document.title = this.initialLockLoan.loanInfo.loanNumber
+      +"_"+this.initialLockLoan.loanInfo.borrower.firstName+" "
+      +this.initialLockLoan.loanInfo.borrower.lastName;
     window.print();
   }
 }
