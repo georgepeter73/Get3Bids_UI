@@ -53,6 +53,7 @@ export class LockConfirmationComponent implements OnInit {
   rowData: any ;
   lockStatusType : Taxonomy;
   lockRequestStatusType : Taxonomy;
+  lockRequestStatusTypeForHistory : Taxonomy;
   //initial lock loan is the last active reocrd from lock loan collection
   initialLockLoan : LockLoan = new LockLoan();
   //final lock loan is the current loan data from lendingpad with current reprice data from loanhouse. its always on the fly data that is not stored in collections
@@ -445,7 +446,7 @@ export class LockConfirmationComponent implements OnInit {
   }
   lockRequestStatus(cType: string) {
     let lockRequestStatusDesc = '';
-     lockRequestStatusDesc = this.lockRequestStatusType.taxonomyItems.filter(t => t.key === cType).pop().description
+     lockRequestStatusDesc = this.lockRequestStatusTypeForHistory.taxonomyItems.filter(t => t.key === cType).pop().description
     return lockRequestStatusDesc;
 
   }
@@ -464,17 +465,21 @@ export class LockConfirmationComponent implements OnInit {
 
     });
     this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
+      this.lockRequestStatusTypeForHistory = taxonomies
+        .filter(tax => tax.type === 'LockRequestStatus')
+        .pop();
+
+    });
+    this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
       this.lockRequestStatusType = taxonomies
         .filter(tax => tax.type === 'LockRequestStatus')
         .pop();
+      //if not lock desk then filter it.
+      if(!this.globalService.getIsLockDesk()){
+        this.lockRequestStatusType.taxonomyItems = this.lockRequestStatusType.taxonomyItems.filter(ti => ti.key == this.LockStatesType.RequestRateLock.toString());
+      }
      });
-    //if not lock desk then filter it.
-    if(!this.globalService.getIsLockDesk()){
-      this.lockRequestStatusType.taxonomyItems = this.lockRequestStatusType.taxonomyItems.filter(ti => ti.key === this.LockStatesType.RequestRateLock.toString())
-    }
   }
-
-
   backClicked($event: MouseEvent) {
     $event.preventDefault();
     if(this.globalService.getLockLoanNavStarter() === 'loan-pipeline') {
