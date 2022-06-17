@@ -14,7 +14,7 @@ import {faLock, faUnlock} from '@fortawesome/free-solid-svg-icons';
 import {LockLoanConfirmation} from '@data/schema/lockdesk/lock-loanconfirmation';
 import {Adjustment} from '@data/schema/lockdesk/adjustment';
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { faPrint } from "@fortawesome/free-solid-svg-icons";
+import { faPrint,faSave } from "@fortawesome/free-solid-svg-icons";
 import {LockExtensionmaster} from '@data/schema/lockdesk/lock-extensionmaster';
 import {LockLoanextension} from '@data/schema/lockdesk/lock-loanextension';
 import {MatDialog} from '@angular/material/dialog';
@@ -49,6 +49,7 @@ export class LockConfirmationComponent implements OnInit {
   lockLoans =[];
   fatrash = faTrash
   faprint=faPrint;
+  fasave = faSave;
   rowData: any ;
   lockStatusType : Taxonomy;
   lockRequestStatusType : Taxonomy;
@@ -71,6 +72,7 @@ export class LockConfirmationComponent implements OnInit {
     RejectLockRequest: 103,
     Unlock : 104,
     ExtendLock5 : 105,
+    saveAdjustments : 106,
    };
   errorMessage : string;
   lockLoanSuccessful = false;
@@ -235,6 +237,9 @@ export class LockConfirmationComponent implements OnInit {
     if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
       return true;
     }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.saveAdjustments) {
+      return true;
+    }
 
   }
   requestRateLockRule(taxonomyItemKey :string){
@@ -252,6 +257,9 @@ export class LockConfirmationComponent implements OnInit {
       return false;
     }
     if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
+      return true;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.saveAdjustments) {
       return true;
     }
 
@@ -273,6 +281,9 @@ export class LockConfirmationComponent implements OnInit {
     if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
       return false;
     }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.saveAdjustments) {
+      return true;
+    }
 
   }
   rejectLockRequestRule(taxonomyItemKey :string){
@@ -290,6 +301,9 @@ export class LockConfirmationComponent implements OnInit {
       return true;
     }
     if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
+      return true;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.saveAdjustments) {
       return true;
     }
 
@@ -312,6 +326,9 @@ export class LockConfirmationComponent implements OnInit {
     if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
       return true;
     }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.saveAdjustments) {
+      return true;
+    }
 
 
   }
@@ -331,6 +348,31 @@ export class LockConfirmationComponent implements OnInit {
     }
     if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
       return false;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.saveAdjustments) {
+      return true;
+    }
+
+  }
+  saveAdjustmentRule(taxonomyItemKey: string){
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
+      return true;
+    }
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
+      return false;
+    }
+
+    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
+      return true;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
+      return false;
+    }
+    if (parseInt(taxonomyItemKey) == this.LockStatesType.saveAdjustments) {
+      return true;
     }
 
   }
@@ -358,6 +400,9 @@ export class LockConfirmationComponent implements OnInit {
     }
     if(this.initialLockLoan.lockState == this.LockStatesType.ExtendLock5 ){
       return this.extensionRule(taxonomyItemKey);
+    }
+    if(this.initialLockLoan.lockState == this.LockStatesType.saveAdjustments ){
+      return this.saveAdjustmentRule(taxonomyItemKey);
     }
 
     return false;
@@ -540,6 +585,12 @@ export class LockConfirmationComponent implements OnInit {
         this.lockLoanActionSuccessMessage = "Un-lock Successful."
 
       }
+     if(lockState === this.LockStatesType.saveAdjustments){
+       this.lockLoanSuccessful = false;
+       this.initialLockLoan.lockState = this.LockStatesType.saveAdjustments;
+       this.lockLoanActionSuccessMessage = "Custom Adjustment save Successful."
+
+     }
       this.savelLockLoanFinal()
     }
 
@@ -595,5 +646,9 @@ export class LockConfirmationComponent implements OnInit {
       +"_"+this.initialLockLoan.loanInfo.borrower.firstName+" "
       +this.initialLockLoan.loanInfo.borrower.lastName;
     window.print();
+  }
+
+  saveCustomAdjustments(i: number) {
+    this.saveRateLock(this.LockStatesType.saveAdjustments);
   }
 }

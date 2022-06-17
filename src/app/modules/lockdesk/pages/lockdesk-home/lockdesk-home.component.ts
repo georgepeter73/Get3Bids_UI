@@ -33,4 +33,8 @@ export class LockdeskHomeComponent implements OnInit {
       this.globalService.setIsLockDesk(false);
     }
   }
+
+  adminDash() {
+    this.router.navigate(["/admin/admin-dash"]);
+  }
 }
