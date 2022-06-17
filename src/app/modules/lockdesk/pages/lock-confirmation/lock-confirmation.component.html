@@ -165,18 +165,14 @@
       <div >
         <div *ngIf="lockLoanConfirmationData && lockLoanConfirmationData.initialLockLoan && lockLoanConfirmationData.initialLockLoan.lockStatus">
         <div class="row p-2 dohover " [ngClass]="lockLoanConfirmationData.initialAndFinalBasePrice.initialAdjustor != lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor ? 'rowhighlight' : 'row-striped'"
-             *ngIf="false">
-          <div class="col-4 ">Base Price</div>
+             *ngIf="lockLoanConfirmationData.initialAndFinalPrice">
+          <div class="col-4 ">Base Price(Includes Base Adjustments)</div>
           <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalBasePrice.initialAdjustor | number : '1.3-3'}}</div>
           <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor | number : '1.3-3'}}</div>
         </div>
-        <div class="row p-2 dohover " [ngClass]="lockLoanConfirmationData.initialAndFinalPrice.initialAdjustor != lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor ? 'rowhighlight' : 'row-striped'" *ngIf="lockLoanConfirmationData.initialAndFinalPrice">
-          <div class="col-4 ">Price</div>
-          <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalPrice.initialAdjustor | number : '1.3-3'}}</div>
-          <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor | number : '1.3-3'}}</div>
-        </div>
+
           <div class="row p-2 tableheader">
-            <div class="col-6 pl-3"><strong>Adjustments</strong></div>
+            <div class="col-6 pl-3"><strong>Base Adjustments</strong></div>
             <div class="col-6 "></div>
           </div>
           <div *ngFor="let adjustment of lockLoanConfirmationData.initialAndFinalAdjustments ;let i = index">
@@ -228,6 +224,11 @@
               <div class="col-4 ">{{adjustment.finalAdjustor | number : '1.3-3'}}</div>
             </div>
           </div>
+          </div>
+          <div class="row p-2 dohover " [ngClass]="lockLoanConfirmationData.initialAndFinalPrice.initialAdjustor != lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor ? 'rowhighlight' : 'row-striped'" *ngIf="lockLoanConfirmationData.initialAndFinalPrice">
+            <div class="col-4 ">Price</div>
+            <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalPrice.initialAdjustor | number : '1.3-3'}}</div>
+            <div class="col-4 ">{{lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor | number : '1.3-3'}}</div>
           </div>
         </div>
       </div>
