@@ -10,18 +10,14 @@ import {TaxonomyService} from '@data/service/taxonomy.service';
 import {Taxonomy} from '@data/schema/taxonomy';
 import {LockLoan} from '@data/schema/lockdesk/lock-loan';
 import {GridOptions} from 'ag-grid-community';
-import {faLock, faUnlock} from '@fortawesome/free-solid-svg-icons';
+import {faLock,faUnlock,faPrint,faSave} from '@fortawesome/free-solid-svg-icons';
 import {LockLoanConfirmation} from '@data/schema/lockdesk/lock-loanconfirmation';
 import {Adjustment} from '@data/schema/lockdesk/adjustment';
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { faPrint,faSave } from "@fortawesome/free-solid-svg-icons";
 import {LockExtensionmaster} from '@data/schema/lockdesk/lock-extensionmaster';
 import {LockLoanextension} from '@data/schema/lockdesk/lock-loanextension';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmationDialogModel} from '@data/schema/ConfirmationDialogModal';
 import {ConfirmationDialogCompComponent} from '@shared/component/confirmation-dialog-comp/confirmation-dialog-comp.component';
-
-
 
 @Component({
   selector: 'app-lock-confirmation',
@@ -47,7 +43,6 @@ export class LockConfirmationComponent implements OnInit {
   finallockLoanInfo : LoanInfo = new LoanInfo();
   rateLockButtonLoading : false;
   lockLoans =[];
-  fatrash = faTrash
   faprint=faPrint;
   fasave = faSave;
   rowData: any ;
@@ -177,7 +172,6 @@ export class LockConfirmationComponent implements OnInit {
   lockExtensionDays=-1
 
   ngOnInit(): void {
-
     this.mainDataLoading = true;
     //primary key in lendingpad collection
     this.itemId = this.route.snapshot.paramMap.get('itemId');
@@ -185,7 +179,7 @@ export class LockConfirmationComponent implements OnInit {
     //loading from lendingpad using the primary key
     this.lockDeskService.getLoanById(this.itemId).subscribe(i =>{
       this.loanInfo = i;
-      //loading the latest active record for lock loan collection
+      //loading the initial and final records for display
       this.getLockLoanConfirmationData(i.loanNumber,i);
       this.globalService.setRQSelectedLoanInfo(this.loanInfo);
       this.getLockLoanHistory(i.loanNumber);
@@ -222,163 +216,96 @@ export class LockConfirmationComponent implements OnInit {
   }
 
   initialStateRule(taxonomyItemKey :string){
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
-      return false;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
-      return true;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
-      return true;
-    }
-
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.saveAdjustments) {
-      return true;
-    }
-
-  }
+    const initialStates = new Map([
+      [this.LockStatesType.RequestRateLock.toString(), false],
+      [this.LockStatesType.AcceptLock.toString(), true],
+      [this.LockStatesType.Unlock.toString(), true],
+      [this.LockStatesType.RejectLockRequest.toString(), true],
+      [this.LockStatesType.ExtendLock5.toString(), true],
+      [this.LockStatesType.saveAdjustments.toString(), true],
+    ]);
+    return initialStates.get(taxonomyItemKey.toString());
+   }
   requestRateLockRule(taxonomyItemKey :string){
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
-      return true;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
-      return false;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
-      return true;
-    }
+    const requestLocks = new Map([
+      [this.LockStatesType.RequestRateLock.toString(), true],
+      [this.LockStatesType.AcceptLock.toString(), false],
+      [this.LockStatesType.Unlock.toString(), true],
+      [this.LockStatesType.RejectLockRequest.toString(), false],
+      [this.LockStatesType.ExtendLock5.toString(), true],
+      [this.LockStatesType.saveAdjustments.toString(), true],
+    ]);
+    return requestLocks.get(taxonomyItemKey.toString());
 
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
-      return false;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.saveAdjustments) {
-      return true;
-    }
 
   }
   acceptRateLockRule(taxonomyItemKey :string){
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
-      return true;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
-      return true;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
-      return false;
-    }
-
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
-      return false;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.saveAdjustments) {
-      return true;
-    }
+    const acceptLocks = new Map([
+      [this.LockStatesType.RequestRateLock.toString(), true],
+      [this.LockStatesType.AcceptLock.toString(), true],
+      [this.LockStatesType.Unlock.toString(), false],
+      [this.LockStatesType.RejectLockRequest.toString(), true],
+      [this.LockStatesType.ExtendLock5.toString(), false],
+      [this.LockStatesType.saveAdjustments.toString(), true],
+    ]);
+    return acceptLocks.get(taxonomyItemKey.toString());
 
   }
   rejectLockRequestRule(taxonomyItemKey :string){
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
-      return false;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
-      return true;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
-      return true;
-    }
 
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.saveAdjustments) {
-      return true;
-    }
+    const rejectLocks = new Map([
+      [this.LockStatesType.RequestRateLock.toString(), false],
+      [this.LockStatesType.AcceptLock.toString(), true],
+      [this.LockStatesType.Unlock.toString(), true],
+      [this.LockStatesType.RejectLockRequest.toString(), true],
+      [this.LockStatesType.ExtendLock5.toString(), true],
+      [this.LockStatesType.saveAdjustments.toString(), true],
+    ]);
+    return rejectLocks.get(taxonomyItemKey.toString());
 
   }
 
   unlockRule(taxonomyItemKey: string){
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
-      return false;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
-      return true;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
-      return true;
-    }
-
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.saveAdjustments) {
-      return true;
-    }
+    const unlocks = new Map([
+      [this.LockStatesType.RequestRateLock.toString(), false],
+      [this.LockStatesType.AcceptLock.toString(), true],
+      [this.LockStatesType.Unlock.toString(), true],
+      [this.LockStatesType.RejectLockRequest.toString(), true],
+      [this.LockStatesType.ExtendLock5.toString(), true],
+      [this.LockStatesType.saveAdjustments.toString(), true],
+    ]);
+    return unlocks.get(taxonomyItemKey.toString());
 
 
   }
   extensionRule(taxonomyItemKey: string){
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
-      return true;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
-      return true;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
-      return false;
-    }
-
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
-      return false;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.saveAdjustments) {
-      return true;
-    }
+    const extensions = new Map([
+      [this.LockStatesType.RequestRateLock.toString(), true],
+      [this.LockStatesType.AcceptLock.toString(), true],
+      [this.LockStatesType.Unlock.toString(), false],
+      [this.LockStatesType.RejectLockRequest.toString(), true],
+      [this.LockStatesType.ExtendLock5.toString(), false],
+      [this.LockStatesType.saveAdjustments.toString(), true],
+    ]);
+    return extensions.get(taxonomyItemKey.toString());
 
   }
   saveAdjustmentRule(taxonomyItemKey: string){
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RequestRateLock){
-      return true;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.AcceptLock){
-      return true;
-    }
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.Unlock){
-      return false;
-    }
+    const saveAdjustments = new Map([
+      [this.LockStatesType.RequestRateLock.toString(), true],
+      [this.LockStatesType.AcceptLock.toString(), true],
+      [this.LockStatesType.Unlock.toString(), false],
+      [this.LockStatesType.RejectLockRequest.toString(), true],
+      [this.LockStatesType.ExtendLock5.toString(), false],
+      [this.LockStatesType.saveAdjustments.toString(), true],
+     ]);
+    return saveAdjustments.get(taxonomyItemKey.toString());
+   }
 
-    if(parseInt(taxonomyItemKey) == this.LockStatesType.RejectLockRequest){
-      return true;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.ExtendLock5) {
-      return false;
-    }
-    if (parseInt(taxonomyItemKey) == this.LockStatesType.saveAdjustments) {
-      return true;
-    }
-
-  }
-
-
+  /***
+   * Used to enable or disable the Locking actions
+   * @param taxonomyItemKey
+   */
   disableActionItem(taxonomyItemKey :string){
     if(this.initialLockLoan == null || !this.initialLockLoan.lockState){
       return this.initialStateRule(taxonomyItemKey);
@@ -420,15 +347,15 @@ export class LockConfirmationComponent implements OnInit {
       this.lockLoanDataLoading = true;
       this.mainDataLoading = false;
       this.setLockExtensionDays();
-      //if the status is null or does not exist or if there is already a lock reqeuest
+      //if the status is null or does not exist or if there is already a lock request
       //then before lock and after lock will have current loan info
       if(!this.initialLockLoan.lockStatus || this.initialLockLoan.lockStatus === this.LockStatusType.float ){
          this.initialLockLoanInfo = curretnLoanInfo;
          this.finallockLoanInfo = curretnLoanInfo;
-
        }
         //hack for data not displaying with out a mouse click
        this.emitEvent();
+       //to display the Lock Status
        if(this.initialLockLoan &&  this.lockStatusType && this.initialLockLoan.lockStatus) {
          this.initialLockLoan.lockStatusStr = this.lockStatusType.taxonomyItems.filter(t => parseInt(t.key) === this.initialLockLoan.lockStatus).pop().description
        }
@@ -548,13 +475,12 @@ export class LockConfirmationComponent implements OnInit {
     }
   }
   openConfirmationDialog(){
-    const dialogRef = this.dialog.open(ConfirmationDialogCompComponent, {
+    return this.dialog.open(ConfirmationDialogCompComponent, {
       maxWidth: '400px',
       closeOnNavigation: true,
       data: this.dialogData
     })
-    return dialogRef;
-  }
+ }
 
   saveRateLock(lockState : number) {
     this.saveRateLockInitialSetUps();
