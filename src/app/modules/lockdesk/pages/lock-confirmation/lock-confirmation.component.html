@@ -41,7 +41,7 @@
       Unable to Lock the loan.
     </nb-alert>
     <ng-container >
-      <div *ngIf="initialLockLoan?.lockStatus == LockStatusType.locked">
+      <div *ngIf="initialLockLoan?.lockStatus">
       <div class="row p-2 tableheader">
         <div class="col-12 pl-3"><strong>Lock Data</strong></div>
 
@@ -54,7 +54,7 @@
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-4 ">Lock Expiration Date</div>
-        <div class="col-4">{{initialLockLoan?.lockExpirationDate | date: 'MM/dd/yyyy hh:mm aa'}}</div>
+        <div class="col-4">{{initialLockLoan?.lockExpirationDateStr | date: 'MM/dd/yyyy hh:mm aa'}}</div>
         <div class="col-4"></div>
       </div>
         <div class="row p-2 row-striped dohover" *ngIf="initialLockLoan.lockExtensionDays">
@@ -70,6 +70,11 @@
         <div class="row p-2 row-striped dohover" >
           <div class="col-4 ">Note Rate</div>
           <div class="col-4">{{initialLockLoan?.selectedQuote.rate |number : '1.2-2'}}</div>
+          <div class="col-4"></div>
+        </div>
+        <div class="row p-2 row-striped dohover" >
+          <div class="col-4 ">Product Name</div>
+          <div class="col-4">{{initialLockLoan?.selectedProduct?.productName}}</div>
           <div class="col-4"></div>
         </div>
        </div>

@@ -80,7 +80,7 @@ export class LockConfirmationComponent implements OnInit {
   columnDefs = [
     {
       headerName: "When",
-      field: "lastUpdatedDate",
+      field: "lastUpdatedDateStr",
       sortable: true,
       filter: true,
       checkboxSelection: false,
@@ -110,7 +110,7 @@ export class LockConfirmationComponent implements OnInit {
     },
     {
       headerName: "Lock Date",
-      field: "lockDate",
+      field: "lockDateStr",
       sortable: true,
       filter: true,
       checkboxSelection: false,
@@ -424,6 +424,7 @@ export class LockConfirmationComponent implements OnInit {
   saveLockExtensionConfirmation(lockState : number, extensionDays : number){
       this.openConfirmationDialog().afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
+        this.emitEvent();
         this.saveLockExtensionFinal(lockState,extensionDays)
       }else{
         //do nothing.
@@ -432,6 +433,7 @@ export class LockConfirmationComponent implements OnInit {
         this.actionSpinnerLoading = false;
       }
     });
+
 
   }
 
@@ -464,6 +466,7 @@ export class LockConfirmationComponent implements OnInit {
     }else {
         this.openConfirmationDialog().afterClosed().subscribe(dialogResult => {
         if (dialogResult) {
+          this.emitEvent();
           this.saveRateLock(lockState)
         } else {
           //do nothing.

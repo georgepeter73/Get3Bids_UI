@@ -334,12 +334,15 @@ export class LockDeskService {
     lockLoan.selectedProduct = ll['selectedProduct'];
     lockLoan.productDetail = ll['productDetail'];
     lockLoan.lockDate = ll['lockDate'];
+    lockLoan.lockDateStr = ll['lockDateStr'];
     lockLoan.loanNumber = ll['loanNumber'];
     lockLoan.lastUpdatedDate = ll['lastUpdatedDate'];
+    lockLoan.lastUpdatedDateStr = ll['lastUpdatedDateStr'];
     lockLoan.lastUpdatedBy = ll['lastUpdatedBy'];
     lockLoan.id = ll['id'];
     lockLoan.isActive = ll['isActive'];
     lockLoan.lockExpirationDate = ll['lockExpirationDate'];
+    lockLoan.lockExpirationDateStr = ll['lockExpirationDateStr'];
     lockLoan.lockExpired = ll['lockExpired'];
     lockLoan.adjustments = ll['adjustments'];
     lockLoan.lockLoanSuccessful = ll['lockLoanSuccessful'];

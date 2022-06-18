@@ -17,14 +17,17 @@ export class LockLoan{
   lockStatus : number;
   lockState : number;
   lockDate : Date;
+  lockDateStr : string;
   lockDays : number;
   lastUpdatedDate : Date;
+  lastUpdatedDateStr : string;
   lastUpdatedBy :string;
   lockStatusStr : string;
   lockRequestStatusStr : string;
   productDetail : ProductDetail;
   isActive : boolean;
   lockExpirationDate : Date;
+  lockExpirationDateStr : string;
   lockExpired : boolean;
   adjustments: Adjustment[];
   selectedUserMloUUID : String;
