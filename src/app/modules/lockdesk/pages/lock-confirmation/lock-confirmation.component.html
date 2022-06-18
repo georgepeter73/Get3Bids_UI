@@ -17,7 +17,7 @@
      <nb-select shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="large"  placeholder="Locking Actions..."
                 id="lockRequestWFId"  (ngModelChange)="saveRateLockConfirmation(lockState)" >
        <nb-option  [disabled]="disableActionItem(lock_work_flow.key)"  *ngFor="let lock_work_flow of lockRequestStatusType.taxonomyItems"
-                   [value]="lock_work_flow.key">{{lock_work_flow.description}}</nb-option>
+                   [value]="lock_work_flow.key">{{lock_work_flow.value}}</nb-option>
     </nb-select>
     </div>
      <div class="col-4"  *ngIf="lockState == LockStatesType.ExtendLock5">
