@@ -465,16 +465,13 @@ export class LockConfirmationComponent implements OnInit {
 
     });
     this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
-      this.lockRequestStatusTypeForHistory = taxonomies
-        .filter(tax => tax.type === 'LockRequestStatus')
-        .pop();
-
-    });
-    this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
       this.lockRequestStatusType = taxonomies
         .filter(tax => tax.type === 'LockRequestStatus')
         .pop();
-      //if not lock desk then filter it.
+      this.lockRequestStatusTypeForHistory = taxonomies
+        .filter(tax => tax.type === 'LockRequestStatus')
+        .pop();
+       //if not lock desk then filter it.
       if(!this.globalService.getIsLockDesk()){
         this.lockRequestStatusType.taxonomyItems = this.lockRequestStatusType.taxonomyItems.filter(ti => ti.key == this.LockStatesType.RequestRateLock.toString());
       }

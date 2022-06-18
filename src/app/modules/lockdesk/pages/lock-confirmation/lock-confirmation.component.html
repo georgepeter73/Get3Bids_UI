@@ -191,7 +191,7 @@
           </div>
           <div class="row p-2 tableheader dontprintthissection" >
             <div class="col-6 pl-3"><strong>Custom Adjustments</strong></div>
-            <div class="col-6 "><button nbButton size="medium" (click)="addCustomAdjustments()" [disabled]="initialLockLoan.lockStatus!=LockStatusType.locked" >Add Custom Adjustments</button></div>
+            <div class="col-6 "><button nbButton size="medium" (click)="addCustomAdjustments()" [disabled]="initialLockLoan.lockStatus!=LockStatusType.locked || !globalService.getIsLockDesk()" >Add Custom Adjustments</button></div>
           </div>
           <div *ngIf="lockLoanConfirmationData.customInitialAndFinalAdjustments && lockLoanConfirmationData.customInitialAndFinalAdjustments.length>0" >
           <div *ngFor="let adjustment of lockLoanConfirmationData.customInitialAndFinalAdjustments ;let i = index">
