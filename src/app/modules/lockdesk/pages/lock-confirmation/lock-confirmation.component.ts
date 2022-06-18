@@ -446,7 +446,7 @@ export class LockConfirmationComponent implements OnInit {
   }
   lockRequestStatus(cType: string) {
     let lockRequestStatusDesc = '';
-     lockRequestStatusDesc = this.lockRequestStatusTypeForHistory.taxonomyItems.filter(t => t.key === cType).pop().description
+     lockRequestStatusDesc = this.lockRequestStatusTypeForHistory.taxonomyItems.filter(t => t.key === cType).pop().description1
     return lockRequestStatusDesc;
 
   }
