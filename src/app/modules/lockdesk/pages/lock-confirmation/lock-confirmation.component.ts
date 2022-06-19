@@ -166,6 +166,7 @@ export class LockConfirmationComponent implements OnInit {
   lockState =-1;
   basePrice = 0;
   lockLoanActionSuccessMessage: string;
+  lockLoanActionFailureMessage: string;
   finalDataLoading: boolean= false;
   rowClassRules: any;
   lockExtensionActionSpinner: any;
@@ -538,6 +539,14 @@ export class LockConfirmationComponent implements OnInit {
       this.getLockLoanHistory(this.initialLockLoan.loanNumber);
       this.getLockLoanConfirmationData(this.loanInfo.loanNumber,this.loanInfo);
       this.lockState=0;
+      this.emitEvent();
+    },error => {
+      this.actionSpinnerLoading = false;
+      this.lockLoanSuccessful = false;
+      this.mainDataLoading=false;
+      this.lockLoanFailure=true;
+       this.errorMessage = JSON.stringify(error);
+      this.lockLoanActionFailureMessage = "Locking action Failed. A email has been sent to admin."
       this.emitEvent();
     })
   }

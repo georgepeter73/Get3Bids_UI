@@ -38,7 +38,7 @@
       {{lockLoanActionSuccessMessage}}
     </nb-alert>
     <nb-alert accent="success"  *ngIf="lockLoanFailure" size="small" >
-      Unable to Lock the loan.
+      {{lockLoanActionFailureMessage}}
     </nb-alert>
     <ng-container >
       <div *ngIf="initialLockLoan?.lockStatus">

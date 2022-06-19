@@ -292,7 +292,7 @@ export class LockDeskService {
           return this.getLockLoan(<LockLoan>response);
         })
       )
-      .pipe(catchError(this.errorHandler));
+
   }
 
   public getInitialLockLoan(loanNumber: string): Observable<LockLoan> {
