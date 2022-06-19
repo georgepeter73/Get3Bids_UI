@@ -205,7 +205,7 @@ export class LockConfirmationComponent implements OnInit {
   }
   getLockLoanHistory(loanNumber: string){
     this.lockDeskService.getLockLoanItemsByLoanNumber(loanNumber).subscribe(items =>{
-      items.sort((a, b) => (a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1));
+      items.sort((a, b) => (a.lastUpdatedDateStr > b.lastUpdatedDateStr ? -1 : 1));
       this.rowData = of(items);
       this.emitEvent();
     });
