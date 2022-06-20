@@ -33,8 +33,7 @@ export class LoginComponent implements OnInit {
   async ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/admin";
     if (await this.authService.checkAuthenticated()) {
-
-      await this.router.navigate([this.returnUrl]);
+        await this.router.navigate([this.returnUrl]);
     }
     localStorage.clear();
     onAuthUIStateChange((authState, authData) => {
@@ -48,7 +47,7 @@ export class LoginComponent implements OnInit {
           this.user["signInUserSession"]["idToken"]["jwtToken"]
         );
         localStorage.setItem("cognitoSession", this.user["signInUserSession"]);
-        this.router.navigate([this.returnUrl]).then(() => {
+         this.router.navigate([this.returnUrl]).then(() => {
           window.location.reload();
         });
       }

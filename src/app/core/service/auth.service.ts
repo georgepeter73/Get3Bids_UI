@@ -57,4 +57,12 @@ export class AuthService {
     const t = jwt_decode(this.getUser())
     return t['cognito:groups'];
   }
+  isMLO(){
+    if (this.getGroups().filter(g => g == 'mlo').length>0) {
+      return true;
+    }else{
+      return false;
+    }
+  }
+
 }
