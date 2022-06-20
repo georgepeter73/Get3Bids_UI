@@ -58,7 +58,14 @@ export class AuthService {
     return t['cognito:groups'];
   }
   isMLO(){
-    if (this.getGroups().filter(g => g == 'mlo').length>0) {
+    if (this.getGroups() && this.getGroups().filter(g => g == 'mlo').length>0) {
+      return true;
+    }else{
+      return false;
+    }
+  }
+  isAdmin(){
+    if (this.getGroups() && this.getGroups().filter(g => g == 'admin').length>0) {
       return true;
     }else{
       return false;

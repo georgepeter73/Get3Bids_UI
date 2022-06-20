@@ -33,7 +33,12 @@ export class LoginComponent implements OnInit {
   async ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/admin";
     if (await this.authService.checkAuthenticated()) {
-        await this.router.navigate([this.returnUrl]);
+      if(this.authService.isMLO()){
+        this.returnUrl = "/lockdesk";
+      }else if(this.authService.isAdmin()){
+        this.returnUrl = "/admin";
+      }
+      await this.router.navigate([this.returnUrl]);
     }
     localStorage.clear();
     onAuthUIStateChange((authState, authData) => {
@@ -47,7 +52,12 @@ export class LoginComponent implements OnInit {
           this.user["signInUserSession"]["idToken"]["jwtToken"]
         );
         localStorage.setItem("cognitoSession", this.user["signInUserSession"]);
-         this.router.navigate([this.returnUrl]).then(() => {
+        if(this.authService.isMLO()){
+          this.returnUrl = "/lockdesk";
+        }else if(this.authService.isAdmin()){
+          this.returnUrl = "/admin";
+        }
+        this.router.navigate([this.returnUrl]).then(() => {
           window.location.reload();
         });
       }

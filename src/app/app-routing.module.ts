@@ -10,7 +10,7 @@ import {LockdeskLayoutComponent} from './layout/lockdesk-layout/lockdesk-layout.
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "/admin",
+    redirectTo: "/auth",
     pathMatch: "full"
   },
   {
