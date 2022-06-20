@@ -151,6 +151,7 @@ export class LockLoanPipelineComponent implements OnInit {
       },
     },
   ];
+  lockLoanFailure: boolean;
 
   ngOnInit(): void {
 
@@ -162,6 +163,8 @@ export class LockLoanPipelineComponent implements OnInit {
       items.sort((a, b) => (a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1));
       this.rowData = of(items);
       this.emitEvent();
+    },error => {
+      this.lockLoanFailure = true;
     });
   }
   emitEvent(){

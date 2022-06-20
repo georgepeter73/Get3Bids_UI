@@ -4,7 +4,7 @@
     <div class="container col-md-8 text-center">
       Lock Desk Pipeline
     </div>
-    <div class="text-left col-md-4 "><a hidden id="refreshButtonId" href="#" (click)="refreshGrid($event)"><nb-icon icon="refresh-outline"></nb-icon></a></div>
+    <div class="text-left col-md-4 "><a  id="refreshButtonId" href="#" (click)="refreshGrid($event)"><nb-icon icon="refresh-outline"></nb-icon></a></div>
   </nb-card-header>
   <nb-card-body class="host">
 <ag-grid-angular
@@ -19,9 +19,10 @@
   enableCellTextSelection=true
   (rowClicked)="onRowClick($event)"
 
-
-
 >
 </ag-grid-angular>
+    <nb-alert accent="success"  *ngIf="lockLoanFailure" size="small" >
+     Sorry for the inconvenience. Please click refresh to load again.
+    </nb-alert>
   </nb-card-body>
 </nb-card>
