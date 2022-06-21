@@ -8,6 +8,7 @@ import { TokenInterceptor } from "@app/interceptor/token.interceptor";
 
 import { NgxSpinnerModule } from "ngx-spinner";
 import {AdminGuard} from '@app/guard/admin.guard';
+import {LockDeskGuard} from '@app/guard/lockdesk.guard';
 
 @NgModule({
   imports: [HttpClientModule, NgxSpinnerModule],
@@ -19,6 +20,12 @@ import {AdminGuard} from '@app/guard/admin.guard';
       multi: true
     },
     AdminGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+    LockDeskGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

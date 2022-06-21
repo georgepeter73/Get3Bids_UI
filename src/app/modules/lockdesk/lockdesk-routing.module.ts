@@ -7,36 +7,38 @@ import {LockConfirmationComponent} from '@modules/lockdesk/pages/lock-confirmati
 import {RateQuoteProductComponent} from '@modules/lockdesk/pages/rate-quote-product/rate-quote-product.component';
 import {RateQuoteProductDetailsComponent} from '@modules/lockdesk/pages/rate-quote-product-details/rate-quote-product-details.component';
 import {LockLoanPipelineComponent} from '@modules/lockdesk/pages/lock-loan-pipeline/lock-loan-pipeline.component';
+import {LockDeskGuard} from '@app/guard/lockdesk.guard';
 
 
 const routes: Routes = [
   {
     path: "",
+    canActivate: [AuthGuard,LockDeskGuard],
     component: LockdeskHomeComponent
   },
   {
     path: "lockdeskhome",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,LockDeskGuard],
     component: LockdeskHomeComponent
   },
   {
     path: "loan-pipeline",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,LockDeskGuard],
     component: LoanPipelineComponent
   },
   {
     path: "lock-loan-pipeline",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,LockDeskGuard],
     component: LockLoanPipelineComponent
   },
   {
     path: "lock-confirmation/:itemId/:selectedUserMloUUID",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,LockDeskGuard],
     component: LockConfirmationComponent
   },
   {
     path: "rate-quote-product/:itemId/:requestType/:selectedUserMloUUID",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,LockDeskGuard],
     component: RateQuoteProductComponent
   },
   {

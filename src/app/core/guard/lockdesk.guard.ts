@@ -8,10 +8,10 @@ import {
 } from "@angular/router";
 
 @Injectable()
-export class AdminGuard implements CanActivate {
+export class LockDeskGuard implements CanActivate {
   constructor(public authService: AuthService, public router: Router) {}
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (!(await this.authService.isAdmin()) ) {
+    if (!(await this.authService.isLockDeskOrMLO()) ) {
       await this.router.navigate(["/auth/login"], {
         queryParams: { returnUrl: state.url }
       });

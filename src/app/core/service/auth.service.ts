@@ -36,7 +36,7 @@ export class AuthService {
   }
 
   getUser() {
-    return localStorage.getItem("idToken");
+      return localStorage.getItem("idToken");
   }
   tokenExpired(token: string) {
     const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
@@ -70,6 +70,19 @@ export class AuthService {
     }else{
       return false;
     }
+  }
+  isLockDesk(){
+    if (this.getGroups() && this.getGroups().filter(g => g == 'lockdesk') && this.getGroups().filter(g => g == 'lockdesk').length>0) {
+      return true;
+    }else{
+      return false;
+    }
+  }
+  isLockDeskOrMLO(){
+    if(this.isLockDesk() || this.isMLO()){
+      return true;
+    }
+    return false;
   }
 
 }
