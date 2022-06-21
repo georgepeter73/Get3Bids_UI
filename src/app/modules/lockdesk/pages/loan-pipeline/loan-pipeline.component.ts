@@ -177,7 +177,7 @@ export class LoanPipelineComponent implements OnInit {
   }
   getSelectedUserMLO($event: any) :UserMlo{
     //always get the loan officer email from the loan info. should not get from the login information
-     return this.userMLOList.filter(user => user.userName === this.loanPipelineGrid.rowData[$event.rowIndex].loanOfficer.email).pop();
+    return this.userMLOList.filter(user => user.userName === this.loanPipelineGrid.rowData[$event.rowIndex].loanOfficer.email).pop();
   }
   onRowClick($event: any) {
     this.globalService.setLockLoanNavStarter("loan-pipeline");

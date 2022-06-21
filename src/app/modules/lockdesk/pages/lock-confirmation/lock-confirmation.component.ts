@@ -418,8 +418,8 @@ export class LockConfirmationComponent implements OnInit {
     this.actionSpinnerLoading = true;
     this.lockLoanFailure = false;
     this.initialLockLoan.selectedUserMloUUID = this.selectedUserMloUUID;
-    if(this.lockLoanConfirmationData.customInitialAndFinalAdjustments) {
-      this.initialLockLoan.productDetail.customAdjustments = this.lockLoanConfirmationData.customInitialAndFinalAdjustments;
+    if(this.lockLoanConfirmationData.customInitialAndFinalAdjustments &&  this.initialLockLoan.productDetail) {
+       this.initialLockLoan.productDetail.customAdjustments = this.lockLoanConfirmationData.customInitialAndFinalAdjustments;
     }
   }
   saveLockExtensionConfirmation(lockState : number, extensionDays : number){
