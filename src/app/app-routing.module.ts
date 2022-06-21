@@ -6,6 +6,7 @@ import { AdminLayoutComponent } from "./layout/admin-layout/admin-layout.compone
 import { HttpClientModule } from "@angular/common/http";
 import { AuthGuard } from "@app/guard/auth.guard";
 import {LockdeskLayoutComponent} from './layout/lockdesk-layout/lockdesk-layout.component';
+import {AdminGuard} from '@app/guard/admin.guard';
 
 const routes: Routes = [
   {
@@ -16,7 +17,7 @@ const routes: Routes = [
   {
     path: 'home',
     component: AdminLayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, AdminGuard],
     children: [
       {
         path: "",
@@ -28,7 +29,7 @@ const routes: Routes = [
   {
     path: "admin",
     component: AdminLayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     children: [
       {
         path: "",

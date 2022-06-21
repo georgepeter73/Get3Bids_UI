@@ -19,6 +19,7 @@ import {CompanyUsersListComponent} from '@modules/admin/page/company-users-list/
 import {CompanyPricingBreakupComponent} from '@modules/admin/page/company-pricing-breakup/company-pricing-breakup.component';
 import {CompanyMediaComponent} from '@modules/admin/page/company-media/company-media.component';
 import {LogSearchSelectedProductComponent} from '@modules/admin/page/log-search-selected-product/log-search-selected-product.component';
+import {AdminGuard} from '@app/guard/admin.guard';
 
 
 const routes: Routes = [
@@ -28,88 +29,88 @@ const routes: Routes = [
   },
   {
     path: "mlo-create/:crudType/:brokerCompanyId",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: MloComponent
   },
   {
     path: "mlo-list/:brokerCompanyId",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: MloListComponent
   },
   {
     path: "admin-dash",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: AdminDashComponent
   },
   {
     path: "upload-media/:crudType",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: UploadMediaComponent
   },
 
   {
     path: "media-list",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: MediaListComponent
   },
   {
     path: "mlo-media",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: MloMediaComponent
   },
   {
     path: "investor-pricing",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: InvestorPricingComponent
   },
   {
     path: "investor-new",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: InvestorNewComponent
   },
   {
     path: "mlo-pricing-breakup/:userUUID",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: MloPricingBreakupComponent
   },
   {
     path: "log-search",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: LogSearchComponent
   },
   {
     path: "log-search-detail",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: LogSearchDetailComponent
   },
   {
     path: "company-list",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: CompanyListComponent
   },
   {
     path: "company-new/:mode",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: CompanyNewComponent
   },
   {
     path: "company-users-list/:brokercompanyid",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: CompanyUsersListComponent
   },
   {
     path: "company-pricing-breakup/:companyUUID",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: CompanyPricingBreakupComponent
   },
   {
     path: "company-media",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: CompanyMediaComponent
   },
   {
     path: "log-search-selected-product",
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,AdminGuard],
     component: LogSearchSelectedProductComponent
   }
 
