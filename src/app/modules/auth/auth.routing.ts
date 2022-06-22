@@ -7,7 +7,8 @@ import { ForgotComponent } from "./page/forgot/forgot.component";
 const routes: Routes = [
   {
     path: "",
-    component: LoginComponent
+    redirectTo: "home",
+    pathMatch:"full"
   },
   {
     path: "login",

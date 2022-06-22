@@ -43,15 +43,25 @@ export class AuthService {
     return (Math.floor((new Date).getTime() / 1000)) >= expiry;
   }
   isTokenExpired(){
-    return this.tokenExpired(this.getUser())
+    const user = this.getUser();
+    if(user)
+      return this.tokenExpired(user)
+    return true;
   }
   getUserFullName(){
-    return (JSON.parse(atob(this.getUser().split('.')[1]))).given_name +" "+
-      (JSON.parse(atob(this.getUser().split('.')[1]))).family_name;
+    const user = this.getUser()
+    if(user){
+      return (JSON.parse(atob(user.split('.')[1]))).given_name +" "+
+      (JSON.parse(atob(user.split('.')[1]))).family_name;
+    }
+    return '';
   }
   getUserEmail(){
-    return (JSON.parse(atob(this.getUser().split('.')[1])).email);
-
+    const user = this.getUser()
+    if(user){
+      return (JSON.parse(atob(user.split('.')[1])).email);
+    }
+   return ''
   }
   getGroups(): string[]{
     const t = jwt_decode(this.getUser())
