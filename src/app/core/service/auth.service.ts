@@ -16,7 +16,7 @@ export class AuthService {
   async checkAuthenticated() {
     const token = localStorage.getItem("idToken");
     if (token) {
-      return true;
+        return true;
     } else {
       localStorage.clear();
       return false;

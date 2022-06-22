@@ -25,6 +25,7 @@ import {AdminGuard} from '@app/guard/admin.guard';
 const routes: Routes = [
   {
     path: "",
+    canActivate: [AuthGuard,AdminGuard],
     component: AdminDashComponent
   },
   {
