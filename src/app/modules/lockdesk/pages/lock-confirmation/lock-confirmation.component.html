@@ -54,7 +54,7 @@
       </div>
       <div class="row p-2 row-striped dohover" *ngIf="initialLockLoan?.lockExpirationDateStr">
         <div class="col-4 ">Lock Expiration Date</div>
-        <div class="col-4">{{initialLockLoan?.lockExpirationDateStr | date: 'MM/dd/yyyy'}}</div>
+        <div class="col-4"  [ngClass]="initialLockLoan?.lockExpired ? 'blink' : '' " ><strong>{{initialLockLoan?.lockExpirationDateStr | date: 'MM/dd/yyyy'}}</strong></div>
         <div class="col-4"></div>
       </div>
         <div class="row p-2 row-striped dohover" *ngIf="totalLockExtensionDays > 0">
