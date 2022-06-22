@@ -122,6 +122,14 @@ export class GlobalService {
       133604,
       new Investor('famc', 133604, 433960, 1234, 5)
     );
+    this.investorNameMap.set(
+      134807,
+      new Investor('cypress', 134807, 2884, 1234, 5)
+    );
+    this.investorNameMap.set(
+      135022,
+      new Investor('northpointe', 135022, 447490, 1234, 5)
+    );
   }
 
   productGroupMapping() {
