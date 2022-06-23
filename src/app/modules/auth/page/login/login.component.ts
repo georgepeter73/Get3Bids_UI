@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
       }
       await this.router.navigate([this.returnUrl]);
     }
-    localStorage.clear();
     onAuthUIStateChange((authState, authData) => {
       console.log(authState, authData, JSON.stringify(authData));
       this.authState = authState;
