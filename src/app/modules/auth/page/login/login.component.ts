@@ -42,6 +42,8 @@ export class LoginComponent implements OnInit {
         this.returnUrl = "/lockdesk";
       }
       await this.router.navigate([this.returnUrl]);
+    } else {
+      localStorage.clear();
     }
     onAuthUIStateChange((authState, authData) => {
       console.log(authState, authData, JSON.stringify(authData));
