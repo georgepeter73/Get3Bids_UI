@@ -181,7 +181,7 @@ export class LoanPipelineComponent implements OnInit {
   }
   onRowClick($event: any) {
     this.globalService.setLockLoanNavStarter("loan-pipeline");
-    this.router.navigate(['/lockdesk/lock-confirmation/' + this.loanPipelineGrid.rowData[$event.rowIndex].id+'/'+this.getSelectedUserMLO($event).userUUID]);
+    this.router.navigate(['/lockdesk/lock-confirmation/' + this.loanPipelineGrid.rowData[$event.rowIndex].loanNumber+'/'+this.getSelectedUserMLO($event).userUUID]);
   }
 
   refreshGrid($event: MouseEvent) {

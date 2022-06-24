@@ -23,7 +23,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
   qqResRoot: any;
   qqRes: QuickQuoteResults;
   globalQQ: any;
-  itemId: string;
+  loanNumber: string;
   mobileButtonShow: boolean;
   moreInfoClicked: boolean;
   product_detail: ProductDetail;
@@ -66,7 +66,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     this.quoteId = this.route.snapshot.paramMap.get('quoteId');
     this.searchId = this.route.snapshot.paramMap.get('searchId');
     this.qqRes = this.globalService.getQQRes();
-    this.itemId = this.route.snapshot.paramMap.get('itemId');
+    this.loanNumber = this.route.snapshot.paramMap.get('loanNumber');
     this.loanInfo = this.globalService.getRQSelectedLoanInfo();
     this.requestType = this.route.snapshot.paramMap.get('requestType');
     this.selectedUserMloUUID = this.route.snapshot.paramMap.get('selectedUserMloUUID');
@@ -153,13 +153,13 @@ export class RateQuoteProductDetailsComponent implements OnInit {
 
   backClicked($event: MouseEvent) {
     $event.preventDefault();
-    this.router.navigate(['/lockdesk/rate-quote-product/' + this.itemId + '/' + this.requestType+'/'+this.selectedUserMloUUID]);
+    this.router.navigate(['/lockdesk/rate-quote-product/' + this.loanNumber + '/' + this.requestType+'/'+this.selectedUserMloUUID]);
   }
 
   requestRateLock() {
     this.isRateLockRequestloading = true;
     this.rateSelected = this.product_detail['quotes'][this.rateIndexSelected];
-    this.lockLoan.itemId = this.itemId;
+    this.lockLoan.loanNumber = this.loanNumber;
     this.lockLoan.selectedProduct = this.product;
     this.lockLoan.selectedQuote = this.rateSelected;
     this.lockLoan.productDetail = this.product_detail;
@@ -191,7 +191,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
         // hack for data not displaying with out a mouse click
         this.eventFire(document.getElementById('refreshButtonId'), 'click');
         setTimeout(()=>{
-          this.router.navigate(['/lockdesk/lock-confirmation/' + this.itemId+'/'+this.selectedUserMloUUID]);
+          this.router.navigate(['/lockdesk/lock-confirmation/' + this.loanNumber+'/'+this.selectedUserMloUUID]);
         }, 3000);
 
       }, error => {

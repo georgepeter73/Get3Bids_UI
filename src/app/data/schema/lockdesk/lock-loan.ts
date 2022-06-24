@@ -9,8 +9,6 @@ import {LockLoanextension} from '@data/schema/lockdesk/lock-loanextension';
 export class LockLoan{
   id : string;
   loanNumber : string;
-  //this id is nothing but lendingpad loan item id in dynamodb
-  itemId : string;
   loanInfo: LoanInfo;
   selectedProduct : Product;
   selectedQuote : Quote;

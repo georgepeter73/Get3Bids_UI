@@ -37,7 +37,7 @@ export class LockConfirmationComponent implements OnInit {
               private taxonomyService: TaxonomyService,
               private dialog: MatDialog
              ) { }
-  private itemId = "";
+  private loanNumber = "";
   loanInfo : LoanInfo = new LoanInfo();
   initialLockLoanInfo : LoanInfo = new LoanInfo();
   finallockLoanInfo : LoanInfo = new LoanInfo();
@@ -175,10 +175,10 @@ export class LockConfirmationComponent implements OnInit {
   ngOnInit(): void {
     this.mainDataLoading = true;
     //primary key in lendingpad collection
-    this.itemId = this.route.snapshot.paramMap.get('itemId');
+    this.loanNumber = this.route.snapshot.paramMap.get('loanNumber');
     this.selectedUserMloUUID = this.route.snapshot.paramMap.get('selectedUserMloUUID');
     //loading from lendingpad using the primary key
-    this.lockDeskService.getLoanById(this.itemId).subscribe(i =>{
+    this.lockDeskService.getLoanByLoanNumber(this.loanNumber).subscribe(i =>{
       this.loanInfo = i;
       //loading the initial and final records for display
       this.getLockLoanConfirmationData(i.loanNumber,i);
@@ -458,7 +458,7 @@ export class LockConfirmationComponent implements OnInit {
   saveRateLockConfirmation(lockState : number){
 
     if(lockState === this.LockStatesType.RequestRateLock) {
-      this.router.navigate(["/lockdesk/rate-quote-product/" + this.itemId + "/" + lockState.toString() + '/' + this.selectedUserMloUUID]);
+      this.router.navigate(["/lockdesk/rate-quote-product/" + this.loanNumber + "/" + lockState.toString() + '/' + this.selectedUserMloUUID]);
     }else if(lockState === this.LockStatesType.ExtendLock5){
       //do nothing .
       this.lockLoanSuccessful = false;
@@ -489,7 +489,7 @@ export class LockConfirmationComponent implements OnInit {
   saveRateLock(lockState : number) {
     this.saveRateLockInitialSetUps();
    if(lockState === this.LockStatesType.RequestRateLock) {
-      this.router.navigate(["/lockdesk/rate-quote-product/" + this.itemId + "/" + lockState.toString() + '/' + this.selectedUserMloUUID]);
+      this.router.navigate(["/lockdesk/rate-quote-product/" + this.loanNumber + "/" + lockState.toString() + '/' + this.selectedUserMloUUID]);
     }else if(lockState === this.LockStatesType.ExtendLock5){
       //do nothing .
       this.lockLoanSuccessful = false;
@@ -530,7 +530,7 @@ export class LockConfirmationComponent implements OnInit {
   }
 
   savelLockLoanFinal(){
-    this.initialLockLoan.itemId = this.itemId;
+    this.initialLockLoan.loanNumber = this.loanNumber;
     //common code
     this.lockDeskService.saveLockLoan(this.initialLockLoan).subscribe(ll =>{
       this.initialLockLoan = ll;

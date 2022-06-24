@@ -200,9 +200,9 @@ export class LockDeskService {
     }
     return lType;
   }
-  public getLoanById(itemId : string): Observable<LoanInfo> {
+  public getLoanByLoanNumber(loanNumber : string): Observable<LoanInfo> {
     return this.http
-      .get(API_URL + '/api/v1/lockdesk/get_loan_by_itemId?itemId=' + itemId, this.requestOptions
+      .get(API_URL + '/api/v1/lockdesk/get_loan_by_loan_number?loanNumber=' + loanNumber, this.requestOptions
       )
       .pipe(
         map(response => {
@@ -211,10 +211,10 @@ export class LockDeskService {
       )
   }
   public getQuoteResults(
-   itemId : string,selectedUserMloUUID : string
+   loanNumber : string,selectedUserMloUUID : string
   ): Observable<QuickQuoteResultsRoot> {
       return this.http
-        .get(API_URL + '/api/v1/lockdesk/get_quote_results?itemId=' + itemId + '&selectedUserMloUUID=' + encodeURIComponent(selectedUserMloUUID))
+        .get(API_URL + '/api/v1/lockdesk/get_quote_results?loanNumber=' + loanNumber + '&selectedUserMloUUID=' + encodeURIComponent(selectedUserMloUUID))
         .pipe(
           map(qqResRoot => {
             return new QuickQuoteResultsRoot(
@@ -295,33 +295,6 @@ export class LockDeskService {
 
   }
 
-  public getInitialLockLoan(loanNumber: string): Observable<LockLoan> {
-    return this.http
-      .get(
-        API_URL + "/api/v1/lockdesk/get_initial_lock_loan?loanNumber="+loanNumber
-        , this.requestOptions
-      )
-      .pipe(
-        map(response => {
-          return this.getLockLoan(<LockLoan>response);
-        })
-      )
-      .pipe(catchError(this.errorHandler));
-  }
-  public getFinalLockLoan(loanNumber: string): Observable<LockLoan> {
-    return this.http
-      .get(
-        API_URL + "/api/v1/lockdesk/get_final_lock_loan?loanNumber="+loanNumber
-        , this.requestOptions
-      )
-      .pipe(
-        map(response => {
-          return this.getLockLoan(<LockLoan>response);
-        })
-      )
-      .pipe(catchError(this.errorHandler));
-  }
-
 
   public getLockLoan(ll : LockLoan): LockLoan {
     const lockLoan = new LockLoan();
@@ -347,7 +320,6 @@ export class LockDeskService {
     lockLoan.adjustments = ll['adjustments'];
     lockLoan.lockLoanSuccessful = ll['lockLoanSuccessful'];
     lockLoan.repriceSuccess = ll['repriceSuccess'];
-    lockLoan.itemId = ll['itemId'];
     lockLoan.selectedUserMloUUID = ll['selectedUserMloUUID'];
     if(ll['lockExtensionDays']) {
       lockLoan.lockExtensionDays = ll['lockExtensionDays'];

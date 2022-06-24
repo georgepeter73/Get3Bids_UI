@@ -32,17 +32,17 @@ const routes: Routes = [
     component: LockLoanPipelineComponent
   },
   {
-    path: "lock-confirmation/:itemId/:selectedUserMloUUID",
+    path: "lock-confirmation/:loanNumber/:selectedUserMloUUID",
     canActivate: [AuthGuard,LockDeskGuard],
     component: LockConfirmationComponent
   },
   {
-    path: "rate-quote-product/:itemId/:requestType/:selectedUserMloUUID",
+    path: "rate-quote-product/:loanNumber/:requestType/:selectedUserMloUUID",
     canActivate: [AuthGuard,LockDeskGuard],
     component: RateQuoteProductComponent
   },
   {
-    path: "rate-quote-product-details/:productId/:quoteId/:itemId/:requestType/:selectedUserMloUUID",
+    path: "rate-quote-product-details/:productId/:quoteId/:loanNumber/:requestType/:selectedUserMloUUID",
     canActivate: [AuthGuard],
     component: RateQuoteProductDetailsComponent
   },

@@ -32,7 +32,7 @@ export class RateQuoteProductComponent implements OnInit {
               private _location: Location, private globalService: GlobalService,) {
   }
 
-  itemId = '';
+  loanNumber = '';
   qqRes: QuickQuoteResults;
   qqResRoot: QuickQuoteResultsRoot;
   product: Product;
@@ -80,7 +80,7 @@ export class RateQuoteProductComponent implements OnInit {
   ngOnInit(): void {
     this.selectedMoreInfoButtonIndex = -1;
     this.loanTypeList = this.globalService.loanTypeList;
-    this.itemId = this.route.snapshot.paramMap.get('itemId');
+    this.loanNumber = this.route.snapshot.paramMap.get('loanNumber');
     this.requestType = this.route.snapshot.paramMap.get('requestType');
     this.selectedUserMloUUID = this.route.snapshot.paramMap.get('selectedUserMloUUID');
     this.QuoteResults();
@@ -103,7 +103,7 @@ export class RateQuoteProductComponent implements OnInit {
 
   QuoteResults() {
     this.lockDeskService
-      .getQuoteResults(this.itemId,this.selectedUserMloUUID)
+      .getQuoteResults(this.loanNumber,this.selectedUserMloUUID)
       .subscribe(
         quickQuoteResultsRoot => {
           this.qqRes = quickQuoteResultsRoot.obBestExResponseDTO;
@@ -130,6 +130,7 @@ export class RateQuoteProductComponent implements OnInit {
 
         },
         err => {
+
           this.errorMessage = JSON.stringify(err);
           this.emitClickEvent();
           console.log(this.errorMessage);
@@ -221,7 +222,7 @@ export class RateQuoteProductComponent implements OnInit {
 
   backClicked($event: MouseEvent) {
     $event.preventDefault();
-    this.router.navigate(['/lockdesk/lock-confirmation/' + this.itemId+'/'+this.selectedUserMloUUID ]);
+    this.router.navigate(['/lockdesk/lock-confirmation/' + this.loanNumber+'/'+this.selectedUserMloUUID ]);
   }
 
   onSortChange(event) {
@@ -262,6 +263,6 @@ export class RateQuoteProductComponent implements OnInit {
   moreInfo(productId: number,moreInfoIndex : number) {
     this.selectedMoreInfoButtonIndex = moreInfoIndex;
     this.globalService.setQQRes(this.qqRes);
-    this.router.navigate(['/lockdesk/rate-quote-product-details/' + productId + '/' + this.qqResRoot.quoteId + '/' + this.itemId + '/' + this.requestType+'/'+this.selectedUserMloUUID]);
+    this.router.navigate(['/lockdesk/rate-quote-product-details/' + productId + '/' + this.qqResRoot.quoteId + '/' + this.loanNumber + '/' + this.requestType+'/'+this.selectedUserMloUUID]);
   }
 }
