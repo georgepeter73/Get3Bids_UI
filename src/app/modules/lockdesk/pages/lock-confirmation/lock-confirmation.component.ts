@@ -10,7 +10,7 @@ import {TaxonomyService} from '@data/service/taxonomy.service';
 import {Taxonomy} from '@data/schema/taxonomy';
 import {LockLoan} from '@data/schema/lockdesk/lock-loan';
 import {GridOptions} from 'ag-grid-community';
-import {faLock,faUnlock,faPrint,faSave} from '@fortawesome/free-solid-svg-icons';
+import {faLock,faUnlock,faPrint,faSave,faTrash} from '@fortawesome/free-solid-svg-icons';
 import {LockLoanConfirmation} from '@data/schema/lockdesk/lock-loanconfirmation';
 import {Adjustment} from '@data/schema/lockdesk/adjustment';
 import {LockExtensionmaster} from '@data/schema/lockdesk/lock-extensionmaster';
@@ -45,6 +45,7 @@ export class LockConfirmationComponent implements OnInit {
   lockLoans =[];
   faprint=faPrint;
   fasave = faSave;
+  fatrash = faTrash;
   rowData: any ;
   lockStatusType : Taxonomy;
   lockRequestStatusType : Taxonomy;
@@ -605,6 +606,7 @@ export class LockConfirmationComponent implements OnInit {
   }
   deleteAdjustment(i: number) {
     this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
+    this.saveRateLock(this.LockStatesType.saveAdjustments);
   }
 
   print() {
