@@ -182,8 +182,9 @@ export class LockConfirmationComponent implements OnInit {
     this.loanNumber = this.route.snapshot.paramMap.get('loanNumber');
     this.selectedUserMloUUID = this.route.snapshot.paramMap.get('selectedUserMloUUID');
     //loading all the master data
-    this.getLockLoanHistory(this.loanNumber);
     this.getTaxonomy();
+    this.getLockLoanHistory(this.loanNumber);
+
     this.loadLockExtensionMaster();
     //loading the minimum data that is needed before you load the maximum data
     this.lockDeskService.getMinLockLoanConfirmationData(this.loanNumber).subscribe(i =>{
@@ -233,6 +234,7 @@ export class LockConfirmationComponent implements OnInit {
   getLockLoanHistory(loanNumber: string){
     this.lockDeskService.getLockLoanItemsByLoanNumber(loanNumber).subscribe(items =>{
       items.sort((a, b) => (a.lastUpdatedDateStr > b.lastUpdatedDateStr ? -1 : 1));
+      this.getTaxonomy();
       this.rowData = of(items);
       this.emitEvent();
     });
