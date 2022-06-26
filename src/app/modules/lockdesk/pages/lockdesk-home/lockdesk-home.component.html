@@ -22,10 +22,12 @@
         <button ghost nbButton status="primary"  (click)="lockLoanPipeline()">
           Lock Desk
         </button>
+        <div *ngIf="authService.isAdmin()">
         <p>Loan House Administrator Dashboard</p>
         <button ghost nbButton status="primary"  (click)="adminDash()">
           Admin Dashboard
         </button>
+        </div>
       </fieldset>
 
     </div>
