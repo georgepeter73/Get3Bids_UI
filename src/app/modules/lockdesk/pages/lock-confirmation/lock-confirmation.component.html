@@ -10,8 +10,6 @@
     </div>
   </nb-card-header>
   <nb-card-body >
-
-    <ng-container *ngIf="lockLoanDataLoading else loadingOrError">
     <div class="row p-2 dontprintthissection" [nbSpinner]="actionSpinnerLoading" nbSpinnerStatus="primary">
      <div class="col-4"  *ngIf="lockRequestStatusType && lockRequestStatusType.taxonomyItems">
      <nb-select shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="large"  placeholder="Locking Actions..."
@@ -31,7 +29,7 @@
        <button nbButton (click)="print()" ghost size="small"> <fa-icon  size="2x" [icon]="faprint" class="pt-1" ></fa-icon></button>
       </div>
     </div>
-      <nb-alert accent="warning"  *ngIf="initialLockLoan && finalLockLoan && initialLockLoan.lockStatus && !finalLockLoan.repriceSuccess" size="medium" >
+      <nb-alert accent="warning"  *ngIf="mainlockLoanDataLoading && initialLockLoan && finalLockLoan && initialLockLoan.lockStatus && !finalLockLoan.repriceSuccess" size="medium" >
       The selected product rate for the  lock period is no more available...
       </nb-alert>
       <nb-alert accent="success"  *ngIf="lockLoanSuccessful" size="small" >
@@ -40,7 +38,7 @@
     <nb-alert accent="success"  *ngIf="lockLoanFailure" size="small" >
       {{lockLoanActionFailureMessage}}
     </nb-alert>
-    <ng-container >
+    <ng-container *ngIf="minDataLoading else minloadingOrError">
       <div *ngIf="initialLockLoan?.lockStatus">
       <div class="row p-2 tableheader">
         <div class="col-12 pl-3"><strong>Lock Data</strong></div>
@@ -167,6 +165,8 @@
         <div class="col-4">{{initialLockLoanInfo?.units}}</div>
         <div class="col-4">{{finallockLoanInfo?.units}}</div>
       </div>
+    </ng-container>
+      <ng-container *ngIf="mainlockLoanDataLoading else mainloadingOrError">
       <div >
         <div *ngIf="lockLoanConfirmationData && lockLoanConfirmationData.initialLockLoan && lockLoanConfirmationData.initialLockLoan.lockStatus">
         <div class="row p-2 dohover " [ngClass]="lockLoanConfirmationData.initialAndFinalBasePrice.initialAdjustor != lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor ? 'rowhighlight' : 'row-striped'"
@@ -265,8 +265,7 @@
     >
     </ag-grid-angular>
       </div>
-    </ng-container>
-    <ng-template #loadingOrError>
+     <ng-template #minloadingOrError>
 
       <ng-container *ngIf="errorMessage; else loading">
         <div class="col-12 text-center">
@@ -283,8 +282,33 @@
       <ng-template #loading>
         <div
           class="col-12 text-center"
-          *ngIf="!lockLoanDataLoading"
-          [hidden]="!mainDataLoading"
+          *ngIf="!minDataLoading"
+          [hidden]="!minDataLoadingSpinner"
+        >
+          <strong> <span class="blinking">Loading...</span></strong>
+        </div>
+      </ng-template>
+
+    </ng-template>
+    <ng-template #mainloadingOrError>
+
+      <ng-container *ngIf="errorMessage; else loading">
+        <div class="col-12 text-center">
+          <h4>Well That's Strange....</h4>
+          <img width="200" src="assets/images/strange-face.png">
+          <div class="alert alert-danger">
+            Operation completed Unsuccessfully, Sorry for the inconvenience. Please contact the administrator.
+
+          </div>
+
+        </div>
+      </ng-container>
+
+      <ng-template #loading>
+        <div
+          class="col-12 text-center"
+          *ngIf="!mainlockLoanDataLoading"
+          [hidden]="!mainDataLoadingSpinner"
         >
           <strong> <span class="blinking">Loading...</span></strong>
         </div>

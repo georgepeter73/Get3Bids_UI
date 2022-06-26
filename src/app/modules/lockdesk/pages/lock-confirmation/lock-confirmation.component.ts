@@ -55,9 +55,9 @@ export class LockConfirmationComponent implements OnInit {
   finalLockLoan : LockLoan = new LockLoan();
   lock = faLock;
   unlock = faUnlock;
-  lockLoanDataLoading = false
+  mainlockLoanDataLoading = false
   public gridOptions: GridOptions;
-  mainDataLoading : boolean= false;
+  mainDataLoadingSpinner : boolean= false;
   LockStatusType = {
     float: 101,
     locked: 102,
@@ -76,6 +76,7 @@ export class LockConfirmationComponent implements OnInit {
   lockExtensionMaster : LockExtensionmaster[] =[];
   dialogData = new ConfirmationDialogModel('Confirm', 'Are you sure you want to continue?');
   totalLockExtensionDays = 0;
+  minDataLoading = false;
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
     {
@@ -171,27 +172,51 @@ export class LockConfirmationComponent implements OnInit {
   rowClassRules: any;
   lockExtensionActionSpinner: any;
   lockExtensionDays=-1
+  minDataLoadingSpinner = false;
 
   ngOnInit(): void {
-    this.mainDataLoading = true;
+    this.minDataLoading = false;
+    this.minDataLoadingSpinner = true;
     //primary key in lendingpad collection
     this.loanNumber = this.route.snapshot.paramMap.get('loanNumber');
     this.selectedUserMloUUID = this.route.snapshot.paramMap.get('selectedUserMloUUID');
-    //loading from lendingpad using the primary key
-    this.lockDeskService.getLoanByLoanNumber(this.loanNumber).subscribe(i =>{
-      this.loanInfo = i;
-      //loading the initial and final records for display
-      this.getLockLoanConfirmationData(i.loanNumber,i);
+    //loading all the master data
+    this.getLockLoanHistory(this.loanNumber);
+    this.getTaxonomy();
+    this.loadLockExtensionMaster();
+    //loading the minimum data that is needed before you load the maximum data
+    this.lockDeskService.getMinLockLoanConfirmationData(this.loanNumber).subscribe(i =>{
+      this.loanInfo = i.initialLockLoan.loanInfo;
+      this.initialLockLoan = i.initialLockLoan;
+      this.finalLockLoan = i.finalLockLoan;
+      this.finallockLoanInfo = this.finalLockLoan.loanInfo;
+      this.initialLockLoanInfo = this.initialLockLoan.loanInfo;
+      this.lockLoanConfirmationData = i;
+      //if the status is null or does not exist or if there is already a lock request
+      //then before lock and after lock will have final loan info
+      if(!this.initialLockLoan.lockStatus || this.initialLockLoan.lockStatus === this.LockStatusType.float ){
+         this.initialLockLoanInfo = this.finallockLoanInfo;
+        this.finallockLoanInfo =  this.finallockLoanInfo;
+        this.loanInfo = this.finallockLoanInfo
+      }
+      this.minDataLoading = true;
+      this.minDataLoadingSpinner = false;
+       //loading the maximun initial and final records for display only if the lock loan record is available else dont call
+      if( this.initialLockLoan &&  this.initialLockLoan.lockStatus) {
+        this.getLockLoanConfirmationData(this.loanNumber, i.initialLockLoan.loanInfo);
+      }else{
+        this.mainlockLoanDataLoading = true;
+        this.mainDataLoadingSpinner = false;
+      }
       this.globalService.setRQSelectedLoanInfo(this.loanInfo);
-      this.getLockLoanHistory(i.loanNumber);
       //hack for data not displaying with out a mouse click
       this.emitEvent();
     },error => {
       this.errorMessage = JSON.stringify(error);
+      console.log(this.errorMessage);
       this.emitEvent();
     });
-    this.getTaxonomy();
-    this.loadLockExtensionMaster();
+
     //highlighting the active record in the lock history
     this.rowClassRules = {
       'dohover': function(params) {
@@ -337,16 +362,16 @@ export class LockConfirmationComponent implements OnInit {
     return false;
   }
   getLockLoanConfirmationData(loanNumber:string,curretnLoanInfo:LoanInfo){
-    this.mainDataLoading = true;
-    this.lockLoanDataLoading = false;
+    this.mainDataLoadingSpinner = true;
+    this.mainlockLoanDataLoading = false;
       this.lockDeskService.getLockLoanConfirmationData(loanNumber).subscribe(lockConfirmation =>{
       this.initialLockLoan = lockConfirmation.initialLockLoan;
       this.finalLockLoan = lockConfirmation.finalLockLoan;
       this.finallockLoanInfo = this.finalLockLoan.loanInfo;
       this.initialLockLoanInfo = this.initialLockLoan.loanInfo;
       this.lockLoanConfirmationData = lockConfirmation;
-      this.lockLoanDataLoading = true;
-      this.mainDataLoading = false;
+      this.mainlockLoanDataLoading = true;
+      this.mainDataLoadingSpinner = false;
       this.setLockExtensionDays();
       //if the status is null or does not exist or if there is already a lock request
       //then before lock and after lock will have current loan info
@@ -362,6 +387,7 @@ export class LockConfirmationComponent implements OnInit {
        }
     },error => {
          this.errorMessage = JSON.stringify(error);
+         console.log(this.errorMessage);
          this.emitEvent();
       })
   }
@@ -543,7 +569,7 @@ export class LockConfirmationComponent implements OnInit {
     },error => {
       this.actionSpinnerLoading = false;
       this.lockLoanSuccessful = false;
-      this.mainDataLoading=false;
+      this.mainDataLoadingSpinner=false;
       this.lockLoanFailure=true;
        this.errorMessage = JSON.stringify(error);
       this.lockLoanActionFailureMessage = "Locking action Failed. A email has been sent to admin."

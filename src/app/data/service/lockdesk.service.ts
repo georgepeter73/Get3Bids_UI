@@ -352,6 +352,19 @@ export class LockDeskService {
         })
       )
   }
+  public getMinLockLoanConfirmationData(loanNumber: string): Observable<LockLoanConfirmation> {
+    return this.http
+      .get(
+        API_URL + "/api/v1/lockdesk/get_min_lock_loan_confirmation_data?loanNumber="+loanNumber
+        , this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return this.getLockLoanConfirmation(<LockLoanConfirmation>response);
+        })
+      )
+
+  }
 
 
   public getLockLoanConfirmationData(loanNumber: string): Observable<LockLoanConfirmation> {
