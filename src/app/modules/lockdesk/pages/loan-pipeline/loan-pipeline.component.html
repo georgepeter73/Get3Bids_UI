@@ -7,11 +7,9 @@
     <div class="text-left col-md-4 "><a hidden id="refreshButtonId" href="#" (click)="refreshGrid($event)"><nb-icon icon="refresh-outline"></nb-icon></a></div>
   </nb-card-header>
   <nb-card-body class="host">
-
-
-    <div *ngIf="globalService.getIsLockDesk()">
+     <div *ngIf="globalService.getIsLockDesk()">
     <div class="form-group row mb-2" >
-      <label class="label col-3 col-form-label">Company Name</label>
+      <label class="label col-3 col-form-label">Branch</label>
       <div class="col-3">
         &nbsp;<nb-select  [(ngModel)]="brokercompanyId"   #brokerCompany="ngModel" name="brokerCompany" required size="small"  placeholder="Select a company" id="brokerCompanyid" [nbSpinner]="brokerCompanyLoading" nbSpinnerStatus="primary" (ngModelChange)="loadUsers()" >
           <nb-option *ngFor="let brokercompany of brokerCompanyList" [value]="brokercompany.brokercompanyId">{{brokercompany.name}}</nb-option>
@@ -33,7 +31,7 @@
     <br>
 
 
-    <ag-grid-angular
+    <ag-grid-angular *ngIf="showTheGrid"
       style="width: 1025px; height: 350px;"
       #grid
       class="ag-theme-alpine"
@@ -47,6 +45,7 @@
 
     >
     </ag-grid-angular>
+
   </nb-card-body>
 </nb-card>
 

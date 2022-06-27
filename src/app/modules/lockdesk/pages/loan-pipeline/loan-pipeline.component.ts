@@ -11,6 +11,7 @@ import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
 import {GlobalService} from '@app/service/global.service';
 import {AuthService} from '@app/service/auth.service';
 import {UserMlo} from '@data/schema/user/user-mlo';
+import {LoanInfo} from '@data/schema/lockdesk/loan-info';
 
 
 @Component({
@@ -106,9 +107,10 @@ export class LoanPipelineComponent implements OnInit {
   userUUID: any;
   mloUserName: any;
   userLoading: any;
+  showTheGrid = false;
 
   ngOnInit(): void {
-
+    this.showTheGrid = false;
     if(!this.globalService.getIsLockDesk()){
       //scenario were mlo's are logged into the system
       this.mloUserName = this.authService.getUserEmail();
@@ -120,8 +122,6 @@ export class LoanPipelineComponent implements OnInit {
     }
     this.brokercompanyId='-1';
     this.mloUserName='-1';
-
-
   }
 
   loadUserMLO(){
@@ -130,6 +130,7 @@ export class LoanPipelineComponent implements OnInit {
     })
   }
   loadLoansFromLendingpad(){
+    this.showTheGrid = true;
      this.lockDeskService.getLoanPipeline(this.mloUserName).subscribe(
       plist => {
         this.rowData = of(plist);
@@ -186,7 +187,9 @@ export class LoanPipelineComponent implements OnInit {
 
   refreshGrid($event: MouseEvent) {
     $event.preventDefault();
-    this.loanPipelineGrid.api.sizeColumnsToFit();
+    if(this.loanPipelineGrid) {
+      this.loanPipelineGrid.api.sizeColumnsToFit();
+    }
   }
 
   eventFire(el, etype) {
