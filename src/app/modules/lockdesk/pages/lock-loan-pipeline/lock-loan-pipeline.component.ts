@@ -88,14 +88,14 @@ export class LockLoanPipelineComponent implements OnInit {
     },
     {
       headerName: "Lock Date",
-      field: "lockDate",
+      field: "lockDateStr",
       sortable: true,
       filter: true,
       checkboxSelection: false,
       resizable : true,
       minWidth: 190,
       cellRenderer: (data) => {
-        return data.value ? formatDate(data.value, 'd MMM yyyy', this.locale) : '';
+         return data.value ? formatDate(data.value, 'dd MMM yyyy', this.locale) : '';
       },
     },
 
@@ -140,7 +140,7 @@ export class LockLoanPipelineComponent implements OnInit {
     },
     {
       headerName: "When",
-      field: "lastUpdatedDate",
+      field: "lastUpdatedDateStr",
       sortable: true,
       filter: true,
       checkboxSelection: false,
@@ -152,15 +152,16 @@ export class LockLoanPipelineComponent implements OnInit {
     },
   ];
   lockLoanFailure: boolean;
+  searchValue: any;
 
   ngOnInit(): void {
-
-    this.getLockLoanHistory();
     this.getTaxonomy();
+    this.getLockLoanHistory();
   }
   getLockLoanHistory(){
     this.lockDeskService.geAllActiveLockLoans().subscribe(items =>{
       items.sort((a, b) => (a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1));
+      this.getTaxonomy();
       this.rowData = of(items);
       this.emitEvent();
     },error => {

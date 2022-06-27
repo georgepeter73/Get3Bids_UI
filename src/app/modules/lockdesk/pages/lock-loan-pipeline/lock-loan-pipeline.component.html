@@ -1,12 +1,18 @@
-<nb-card size="large" >
+<nb-card size="giant" >
   <nb-card-header>
     <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)"><nb-icon icon="arrow-back-outline"></nb-icon> Previous</a></div>
     <div class="container col-md-8 text-center">
-      Lock Desk Pipeline
+      Lock Desk
     </div>
     <div class="text-left col-md-4 "><a hidden id="refreshButtonId" href="#" (click)="refreshGrid($event)"><nb-icon icon="refresh-outline"></nb-icon></a></div>
   </nb-card-header>
   <nb-card-body class="host">
+    <div class="text-left">
+      <input class="form-control"
+             [(ngModel)]="searchValue"
+             type="text" nbInput  shape="rectangle" placeholder="Filter"
+      />
+    </div>
 <ag-grid-angular
   style="width: 1025px; height: 350px;"
   #grid
@@ -18,6 +24,7 @@
   debounceVerticalScrollbar=true
   enableCellTextSelection=true
   (rowClicked)="onRowClick($event)"
+  [quickFilterText]="searchValue"
 
 >
 </ag-grid-angular>

@@ -298,6 +298,7 @@ export class LockDeskService {
 
   public getLockLoan(ll : LockLoan): LockLoan {
     const lockLoan = new LockLoan();
+
     if (ll){
     lockLoan.loanInfo = ll['loanInfo'];
     lockLoan.lockStatus = ll['lockStatus'];
@@ -306,7 +307,9 @@ export class LockDeskService {
     lockLoan.selectedQuote = ll['selectedQuote'];
     lockLoan.selectedProduct = ll['selectedProduct'];
     lockLoan.productDetail = ll['productDetail'];
-    lockLoan.lockDate = ll['lockDate'];
+    if(ll['lockDate']) {
+      lockLoan.lockDate = ll['lockDate'];
+    }
     lockLoan.lockDateStr = ll['lockDateStr'];
     lockLoan.loanNumber = ll['loanNumber'];
     lockLoan.lastUpdatedDate = ll['lastUpdatedDate'];
