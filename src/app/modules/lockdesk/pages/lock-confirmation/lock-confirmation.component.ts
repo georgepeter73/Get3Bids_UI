@@ -234,7 +234,6 @@ export class LockConfirmationComponent implements OnInit {
   getLockLoanHistory(loanNumber: string){
     this.lockDeskService.getLockLoanItemsByLoanNumber(loanNumber).subscribe(items =>{
       items.sort((a, b) => (a.lastUpdatedDateStr > b.lastUpdatedDateStr ? -1 : 1));
-      this.getTaxonomy();
       this.rowData = of(items);
       this.emitEvent();
     });
@@ -419,19 +418,20 @@ export class LockConfirmationComponent implements OnInit {
       this.lockStatusType = taxonomies
         .filter(tax => tax.type === 'LockStatus')
         .pop();
+      this.lockRequestStatusTypeForHistory = taxonomies
+        .filter(tax => tax.type === 'LockRequestStatus')
+        .pop();
 
     });
     this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
       this.lockRequestStatusType = taxonomies
         .filter(tax => tax.type === 'LockRequestStatus')
         .pop();
-      this.lockRequestStatusTypeForHistory = taxonomies
-        .filter(tax => tax.type === 'LockRequestStatus')
-        .pop();
        //if not lock desk then filter it.
       if(!this.globalService.getIsLockDesk()){
         this.lockRequestStatusType.taxonomyItems = this.lockRequestStatusType.taxonomyItems.filter(ti => ti.key == this.LockStatesType.RequestRateLock.toString());
       }
+
      });
   }
   backClicked($event: MouseEvent) {
@@ -479,7 +479,7 @@ export class LockConfirmationComponent implements OnInit {
         this.initialLockLoan.lockExtensionDays = [];
       }
       this.initialLockLoan.lockExtensionDays.push(lockExtensionDays1);
-      this.lockLoanActionSuccessMessage = "Extension Successful."
+      this.lockLoanActionSuccessMessage = "Extension successful."
 
     }
     this.savelLockLoanFinal();
@@ -529,27 +529,29 @@ export class LockConfirmationComponent implements OnInit {
         this.lockLoanSuccessful = false;
         this.initialLockLoan.lockStatus = this.LockStatusType.locked;
         this.initialLockLoan.lockState = this.LockStatesType.AcceptLock;
-        this.lockLoanActionSuccessMessage = "Loan Locked Successfully."
+        this.lockLoanActionSuccessMessage = "Loan locked successfully."
 
       }
       if(lockState === this.LockStatesType.RejectLockRequest){
         this.lockLoanSuccessful = false;
         this.initialLockLoan.lockStatus = this.LockStatusType.float;
         this.initialLockLoan.lockState = this.LockStatesType.RejectLockRequest;
-        this.lockLoanActionSuccessMessage = "Lock Request Rejected."
+        this.lockLoanActionSuccessMessage = "Lock request rejected."
 
       }
       if(lockState === this.LockStatesType.Unlock){
         this.lockLoanSuccessful = false;
         this.initialLockLoan.lockStatus = this.LockStatusType.float;
         this.initialLockLoan.lockState = this.LockStatesType.Unlock;
-        this.lockLoanActionSuccessMessage = "Un-lock Successful."
+        this.initialLockLoan.lockExtensionDays=[];
+        this.initialLockLoan.productDetail.customAdjustments=[];
+        this.lockLoanActionSuccessMessage = "Un-lock successful."
 
       }
      if(lockState === this.LockStatesType.saveAdjustments){
        this.lockLoanSuccessful = false;
        this.initialLockLoan.lockState = this.LockStatesType.saveAdjustments;
-       this.lockLoanActionSuccessMessage = "Custom Adjustment saved Successfully."
+       this.lockLoanActionSuccessMessage = "Custom adjustment saved successfully."
 
      }
       this.savelLockLoanFinal()
@@ -607,9 +609,13 @@ export class LockConfirmationComponent implements OnInit {
 
   }
   deleteAdjustment(i: number) {
-    this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
+
     if(this.lockLoanConfirmationData.customInitialAndFinalAdjustments[i].initialAdjustor.trim().length>0) {
+      alert("isnide")
+      this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
       this.saveRateLock(this.LockStatesType.saveAdjustments);
+    }else{
+      this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
     }
   }
 

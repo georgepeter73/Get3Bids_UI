@@ -12,7 +12,7 @@ import {
     NbInputModule,
     NbRadioModule,
     NbSelectModule,
-    NbSpinnerModule
+    NbSpinnerModule, NbTooltipModule
 } from '@nebular/theme';
 import { LoanPipelineComponent } from './pages/loan-pipeline/loan-pipeline.component';
 import {AgGridModule} from '@ag-grid-community/angular';
@@ -31,7 +31,7 @@ import { MatButtonModule } from '@angular/material/button';
 @NgModule({
   declarations: [LockdeskHomeComponent, LoanPipelineComponent, LockConfirmationComponent, RateQuoteProductComponent, RateQuoteProductDetailsComponent, LockLoanPipelineComponent,],
     imports: [
-     MatDialogModule, MatButtonModule,CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule.forRoot(), NbInputModule, NbIconModule, NbSpinnerModule, NbSelectModule, RatingModule, NbRadioModule, NbAlertModule, NgbModule
+        MatDialogModule, MatButtonModule, CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule.forRoot(), NbInputModule, NbIconModule, NbSpinnerModule, NbSelectModule, RatingModule, NbRadioModule, NbAlertModule, NgbModule, NbTooltipModule
     ],
   providers: [LockDeskService,QuickQuoteService],
 })

@@ -4,7 +4,6 @@ import {LockDeskService} from '@data/service/lockdesk.service';
 import {Location} from '@angular/common';
 import {QuickQuoteResults} from '@data/schema/lockdesk/quick-quote-results';
 import {QuickQuoteResultsRoot} from '@data/schema/lockdesk/quick-quote-results-root';
-import {QuickQuote} from '@data/schema/lockdesk/quick-quote';
 import {Product} from '@data/schema/lockdesk/product';
 import {ProductDetailRoot} from '@data/schema/lockdesk/product-detail-root';
 import {ProductDetail} from '@data/schema/lockdesk/product-detail';
