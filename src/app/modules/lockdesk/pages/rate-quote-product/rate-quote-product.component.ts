@@ -181,6 +181,20 @@ export class RateQuoteProductComponent implements OnInit {
     }
     return false;
   }
+  isKeyAvailableInProduct(key, product) {
+        if (
+          product.amortizationType ===
+          this.productGrouping(key).amortizationType &&
+          product.amortizationTerm ===
+          String(this.productGrouping(key).amortizationTerm) &&
+          product.productName.includes(
+            this.productGrouping(key).productName
+          )
+        ) {
+          return true;
+        }
+    return false;
+  }
 
   isKeyAvailable(key, products) {
     if (products) {
@@ -206,6 +220,15 @@ export class RateQuoteProductComponent implements OnInit {
       this.products =
         this.qqResRoot.obBestExResponseDTO.products.filter(
           p => p.loanType === this.loanTypeSelected
+        );
+      this.onSortChange(this.sortBy);
+    }
+  }
+  filterProductsByProductType($event) {
+    if (this.qqResRoot.obBestExResponseDTO.products && this.productFilterSelected) {
+      this.products =
+        this.qqResRoot.obBestExResponseDTO.products.filter(p =>
+          this.isKeyAvailableInProduct(this.productFilterSelected,p)
         );
       this.onSortChange(this.sortBy);
     }

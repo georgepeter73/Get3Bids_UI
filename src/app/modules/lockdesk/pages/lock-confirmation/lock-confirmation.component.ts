@@ -549,7 +549,7 @@ export class LockConfirmationComponent implements OnInit {
      if(lockState === this.LockStatesType.saveAdjustments){
        this.lockLoanSuccessful = false;
        this.initialLockLoan.lockState = this.LockStatesType.saveAdjustments;
-       this.lockLoanActionSuccessMessage = "Custom Adjustment save Successful."
+       this.lockLoanActionSuccessMessage = "Custom Adjustment saved Successfully."
 
      }
       this.savelLockLoanFinal()
@@ -575,7 +575,7 @@ export class LockConfirmationComponent implements OnInit {
       this.mainDataLoadingSpinner=false;
       this.lockLoanFailure=true;
        this.errorMessage = JSON.stringify(error);
-      this.lockLoanActionFailureMessage = "Locking action Failed. A email has been sent to admin."
+      this.lockLoanActionFailureMessage = "Locking action Failed. An email has been sent to admin."
       this.emitEvent();
     })
   }
@@ -608,7 +608,9 @@ export class LockConfirmationComponent implements OnInit {
   }
   deleteAdjustment(i: number) {
     this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
-    this.saveRateLock(this.LockStatesType.saveAdjustments);
+    if(this.lockLoanConfirmationData.customInitialAndFinalAdjustments[i].initialAdjustor.trim().length>0) {
+      this.saveRateLock(this.LockStatesType.saveAdjustments);
+    }
   }
 
   print() {

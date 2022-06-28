@@ -26,7 +26,7 @@
           </div>
           <div class="col-lg-4 text-center">
             <label class="label d-none d-md-inline">Product Selection</label>
-            <nb-select [(ngModel)]="productFilterSelected" size="small" placeholder="Select a Product">
+            <nb-select [(ngModel)]="productFilterSelected" size="small"  (ngModelChange)="filterProductsByProductType($event)"  placeholder="Select a Product">
               <nb-option *ngFor="let prod of productFilterList" [value]="prod.key">{{prod.value}}</nb-option>
             </nb-select>
           </div>
