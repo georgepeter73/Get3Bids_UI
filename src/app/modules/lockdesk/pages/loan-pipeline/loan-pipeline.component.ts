@@ -11,8 +11,6 @@ import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
 import {GlobalService} from '@app/service/global.service';
 import {AuthService} from '@app/service/auth.service';
 import {UserMlo} from '@data/schema/user/user-mlo';
-import {LoanInfo} from '@data/schema/lockdesk/loan-info';
-
 
 @Component({
   selector: 'app-loan-pipeline',
@@ -125,9 +123,14 @@ export class LoanPipelineComponent implements OnInit {
   }
 
   loadUserMLO(){
-    this.quickQuoteService.getAllUserMLO().subscribe(allMLO =>{
-      this.userMLOList = allMLO;
-    })
+    if(!this.globalService.getUserMLOs()) {
+      this.quickQuoteService.getAllUserMLO().subscribe(allMLO => {
+        this.userMLOList = allMLO;
+        this.globalService.setUserMLOs(allMLO);
+      })
+    }else{
+      this.userMLOList = this.globalService.getUserMLOs();
+    }
   }
   loadLoansFromLendingpad(){
     this.showTheGrid = true;
@@ -165,11 +168,17 @@ export class LoanPipelineComponent implements OnInit {
 
   loadBrokerCompany() {
     this.brokerCompanyLoading = true;
-    this.quickQuoteService.getAllBrokerCompany().subscribe(c => {
-      this.brokerCompanyList = c;
+    if(!this.globalService.getBrokerCompanyInfos()) {
+      this.quickQuoteService.getAllBrokerCompany().subscribe(c => {
+        this.brokerCompanyList = c;
+        this.brokerCompanyLoading = false;
+        this.globalService.setBrokerCompanyInfos(c);
+        this.emitAClickEvent();
+      })
+    }else{
       this.brokerCompanyLoading = false;
-      this.emitAClickEvent();
-    })
+      this.brokerCompanyList = this.globalService.getBrokerCompanyInfos();
+    }
   }
 
   backClicked($event: MouseEvent) {

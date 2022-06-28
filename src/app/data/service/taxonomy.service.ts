@@ -24,7 +24,7 @@ export class TaxonomyService  {
 
   public getAllTaxonomies(): Observable<Taxonomy[]> {
        if (!this.taxonomyCache) {
-        this.taxonomyCache = this.http
+          this.taxonomyCache = this.http
           .post(API_URL, this.payload, {
             params: new HttpParams().set('taxonomyGroup', '103')
           })
@@ -42,7 +42,6 @@ export class TaxonomyService  {
             })
           );
       }
-
     return this.taxonomyCache;
   }
 }

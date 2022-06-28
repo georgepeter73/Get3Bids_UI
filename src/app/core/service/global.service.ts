@@ -14,7 +14,7 @@ import { ProductGroup } from '@data/schema/lockdesk/productgroup';
 import { Router } from '@angular/router';
 import { QuoteBorrowerInfo } from '@data/schema/lockdesk/quote-borrower-info';
 import { BrokerCompanyMedia } from '@data/schema/lockdesk/broker-company-media';
-import { BrokerCompanyInfo } from '@data/schema/lockdesk/broker-company-info';
+import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
 import {LoanInfo} from '@data/schema/lockdesk/loan-info';
 import {UserMedia} from '@data/schema/user/user-media';
 import {UserMlo} from '@data/schema/user/user-mlo';
@@ -268,6 +268,18 @@ export class GlobalService {
       return [];
     }
     return JSON.parse(sessionStorage.getItem('userMedias'));
+  }
+  setUserMLOs(userMLOs: UserMlo[]) {
+    sessionStorage.setItem('userMLOs', JSON.stringify(userMLOs));
+  }
+  setBrokerCompanyInfos(brokerCompanyInfos: BrokerCompanyInfo[]) {
+    sessionStorage.setItem('brokerCompanyInfos', JSON.stringify(brokerCompanyInfos));
+  }
+  getBrokerCompanyInfos(): BrokerCompanyInfo[] {
+    return JSON.parse(sessionStorage.getItem('brokerCompanyInfos'));
+  }
+  getUserMLOs(): UserMlo[] {
+     return JSON.parse(sessionStorage.getItem('userMLOs'));
   }
   setUserMLO(userMLO: UserMlo) {
     sessionStorage.setItem('userMLO', JSON.stringify(userMLO));
