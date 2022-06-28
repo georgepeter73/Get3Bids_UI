@@ -29,9 +29,15 @@
     </div>
 
     <br>
+    <div *ngIf="showTheGrid">
+    <div class="text-left">
+      <input class="form-control"
+             [(ngModel)]="searchValue"
+             type="text" nbInput  shape="rectangle" placeholder="Filter"
+      />
+    </div>
 
-
-    <ag-grid-angular *ngIf="showTheGrid"
+    <ag-grid-angular
       style="width: 1025px; height: 350px;"
       #grid
       class="ag-theme-alpine"
@@ -42,9 +48,11 @@
       debounceVerticalScrollbar=true
       enableCellTextSelection=true
       (rowClicked)="onRowClick($event)"
+      [quickFilterText]="searchValue"
 
     >
     </ag-grid-angular>
+    </div>
 
   </nb-card-body>
 </nb-card>
