@@ -611,8 +611,7 @@ export class LockConfirmationComponent implements OnInit {
   deleteAdjustment(i: number) {
 
     if(this.lockLoanConfirmationData.customInitialAndFinalAdjustments[i].initialAdjustor.trim().length>0) {
-      alert("isnide")
-      this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
+       this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
       this.saveRateLock(this.LockStatesType.saveAdjustments);
     }else{
       this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);

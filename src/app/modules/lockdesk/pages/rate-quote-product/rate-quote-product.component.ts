@@ -160,20 +160,18 @@ export class RateQuoteProductComponent implements OnInit {
 
   filterLoanTypeFilter() {
     if (this.products) {
-      this.products.forEach(result => {
-        this.loanTypeList = this.loanTypeList.filter(keyPair =>
+       this.loanTypeList = this.loanTypeList.filter(keyPair =>
           this.isLoanTypeKeyAvailable(keyPair.key, this.products)
         );
         this.loanTypeSelected = '';
         this.onSortChange(this.sortBy);
-      });
     }
   }
 
   isLoanTypeKeyAvailable(key, products) {
     if (products) {
       for (let product of products) {
-        if (product.loanType === key) {
+         if (product.loanType === key) {
           return true;
         }
       }
