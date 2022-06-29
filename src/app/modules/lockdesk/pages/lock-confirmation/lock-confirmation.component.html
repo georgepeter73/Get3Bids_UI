@@ -212,11 +212,11 @@
 
                                          type="number" nbInput fullWidth shape="rectangle" placeholder="Adjustor" /></div>
               <div class="col-1 dontprintthissection">
-                <button  size="tiny" nbButton (click)="saveCustomAdjustments(i)" nbTooltip="Save" class="m-1"><fa-icon class="m-1"  size="1x" [icon]="fasave"></fa-icon>Save</button>
+                <button  size="tiny" nbButton (click)="saveCustomAdjustments(i)" nbTooltip="Save" class="m-1" [disabled]="!globalService.getIsLockDesk()"><fa-icon class="m-1"  size="1x" [icon]="fasave"></fa-icon>Save</button>
 
               </div>
               <div class="col-2 dontprintthissection">
-                <button size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete" class="m-1"><fa-icon class="m-1" size="1x" [icon]="fatrash"></fa-icon>Delete</button>
+                <button size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete" class="m-1" [disabled]="!globalService.getIsLockDesk()"><fa-icon class="m-1" size="1x" [icon]="fatrash"></fa-icon>Delete</button>
               </div>
             </div>
           </div>
