@@ -98,7 +98,7 @@
       <label for="mloMarginId" class="label col-3 col-form-label">POS Type</label>
       <div class="col-3">
         &nbsp;<nb-select  [(ngModel)]="userMLO.loSiteDTO.posType"   #posTypeName="ngModel" required name="posTypeName" id="posTypeId" size="medium"  placeholder="Pont of Sale System"  >
-          <nb-option *ngFor="let posTypeTaxItem of posTypeTaxonomy.taxonomyItems" [value]="posTypeTaxItem.key">{{posTypeTaxItem.description}}</nb-option>
+          <nb-option *ngFor="let posTypeTaxItem of posTypeTaxonomy?.taxonomyItems" [value]="posTypeTaxItem.key">{{posTypeTaxItem.description}}</nb-option>
         </nb-select>
       </div>
        <div class="col-6"></div>

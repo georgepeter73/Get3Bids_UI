@@ -7,6 +7,8 @@ import {TaxonomyService} from '@data/service/taxonomy.service';
 import {Taxonomy} from '@data/schema/taxonomy';
 import {InvestorPricing} from '@data/schema/investorpricing';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
+import {NewInvestor} from '@data/schema/new-investor';
+import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
 
 @Component({
   selector: 'app-mlo-pricing-breakup',
@@ -20,31 +22,36 @@ export class MloPricingBreakupComponent implements OnInit {
               private formBuilder: FormBuilder, private route : ActivatedRoute,
               private taxonomyService: TaxonomyService) { }
   userUUID : string
-  investors : Taxonomy;
+
+  investors : NewInvestor[];
   optimalBlueLoanTypes : Taxonomy;
   investorPricing : InvestorPricing[];
   errorMessage ="";
   plus = faPlus;
   loading = false;
+  brokerCompanyInfo :BrokerCompanyInfo = null;
 
   ngOnInit(): void {
+    this.brokerCompanyInfo = JSON.parse(sessionStorage.getItem('brokerCompanyInfo'));
+    this.quickQuoteService.getAllNewInvestorsByChannelType(this.brokerCompanyInfo.brokerCompanyDetailDTO.channelType).subscribe(i =>{
+      this.investors = i;
+    })
+
     this.userUUID = this.route.snapshot.paramMap.get('userUUID');
-    this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
-      this.investors = taxonomies
-        .filter(tax => tax.type === 'OBInvestor')
-        .sort(((a, b) => (b.description > a.description) ? 1 : -1))
-        .pop();
-    });
     this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
       this.optimalBlueLoanTypes = taxonomies
         .filter(tax => tax.type === 'OBLoanType')
         .pop();
+
     });
     this.quickQuoteService.getUserMLOPricing(this.userUUID).subscribe(pricing => {
         this.investorPricing = pricing;
-        this.investorPricing.forEach(i =>{
+           this.investorPricing.forEach(i =>{
           i.totalMargin = i.loMargin + i.investorMargin + i.companyMargin;
         })
+
+      console.log(this.investorPricing)
+
       }
     );
   }
@@ -52,9 +59,10 @@ export class MloPricingBreakupComponent implements OnInit {
     $event.preventDefault();
     this._location.back();
   }
-  getPricingByInvestor(invId: string) {
+  getPricingByInvestor(invId: number) {
     if(this.investorPricing) {
-      return  this.investorPricing.filter(i => i.investorId === Number(invId))
+      console.log(invId)
+       return  this.investorPricing.filter(i => i.investorId === invId)
     }
   }
   getLoanTypeDesc(loanType: number) {

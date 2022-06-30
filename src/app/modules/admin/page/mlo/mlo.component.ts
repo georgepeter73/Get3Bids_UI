@@ -51,6 +51,7 @@ export class MloComponent implements OnInit {
         .filter(tax => tax.type === 'POSType')
         .sort(((a, b) => (b.description > a.description) ? 1 : -1))
         .pop();
+
     });
 
     if(this.crudType == 'edit') {

@@ -21,11 +21,11 @@
         <h5 class="col-2">MLO Margin</h5>
         <h5 class="col-3">Total Margin</h5>
         </div>
-        <div *ngFor="let taxonomyItem of investors.taxonomyItems">
-          <fieldset class="border p-2">
-            <h5>{{taxonomyItem.description}}</h5>
-              <div *ngIf="getPricingByInvestor(taxonomyItem.key)">
-              <div *ngFor="let pricing of getPricingByInvestor(taxonomyItem.key)" class="row m-2" >
+        <div *ngFor="let investor of investors">
+           <fieldset class="border p-2">
+              <h5>{{investor.investorName}}</h5>
+              <div *ngIf="getPricingByInvestor(investor.investorId)">
+              <div *ngFor="let pricing of getPricingByInvestor(investor.investorId)" class="row m-2" >
                 <div class="col-3">
                   {{getLoanTypeDesc(pricing.loanType)}}
                 </div>
