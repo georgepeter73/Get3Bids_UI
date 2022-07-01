@@ -32,8 +32,8 @@ export class MloPricingBreakupComponent implements OnInit {
   brokerCompanyInfo :BrokerCompanyInfo = null;
 
   ngOnInit(): void {
-    this.brokerCompanyInfo = JSON.parse(sessionStorage.getItem('brokerCompanyInfo'));
-    this.quickQuoteService.getAllNewInvestorsByChannelType(this.brokerCompanyInfo.brokerCompanyDetailDTO.channelType).subscribe(i =>{
+    this.brokerCompanyInfo = JSON.parse(sessionStorage.getItem('brokerCompanyInfo1'));
+     this.quickQuoteService.getAllNewInvestorsByChannelType(this.brokerCompanyInfo.brokerCompanyDetailDTO.channelType).subscribe(i =>{
       this.investors = i;
     })
 
@@ -50,9 +50,7 @@ export class MloPricingBreakupComponent implements OnInit {
           i.totalMargin = i.loMargin + i.investorMargin + i.companyMargin;
         })
 
-      console.log(this.investorPricing)
-
-      }
+       }
     );
   }
   backClicked($event: MouseEvent) {
@@ -61,8 +59,7 @@ export class MloPricingBreakupComponent implements OnInit {
   }
   getPricingByInvestor(invId: number) {
     if(this.investorPricing) {
-      console.log(invId)
-       return  this.investorPricing.filter(i => i.investorId === invId)
+        return  this.investorPricing.filter(i => i.investorId === invId)
     }
   }
   getLoanTypeDesc(loanType: number) {

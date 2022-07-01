@@ -37,6 +37,7 @@ export class MloComponent implements OnInit {
   floidfyChecked="checked";
   lendingpadChecked="";
   posTypeTaxonomy : Taxonomy;
+  brokerCompanyInfo = new BrokerCompanyInfo();
 
 
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
@@ -82,6 +83,8 @@ export class MloComponent implements OnInit {
     );
     this.quickQuoteService.getAllBrokerCompany().subscribe(c =>{
       this.brokerCompanyList = c;
+      this.brokerCompanyInfo = c.filter(bc => bc.brokercompanyId === this.userMLO.brokercompanyId).pop();
+      sessionStorage.setItem("brokerCompanyInfo1",JSON.stringify(this.brokerCompanyInfo));
     })
   }
   submitOrder(form: NgForm) {
