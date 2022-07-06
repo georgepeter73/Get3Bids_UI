@@ -20,6 +20,7 @@ import {UserContact} from '@data/schema/user/user-contact';
 import {UserMlo} from '@data/schema/user/user-mlo';
 import {LockLoanConfirmation} from '@data/schema/lockdesk/lock-loanconfirmation';
 import {LockExtensionmaster} from '@data/schema/lockdesk/lock-extensionmaster';
+import {LockingActions} from '@data/schema/lockdesk/locking-actions';
 const API_URL = environment.LOCKDESK_API_URL;
 
 @Injectable()
@@ -406,6 +407,33 @@ export class LockDeskService {
       lockLoanConfirmation.extensionsInitialAndFinalAdjustments = ll['extensionsInitialAndFinalAdjustments'];
     }
     return lockLoanConfirmation;
+  }
+
+  public getLockActionsByStateAndRole(state : number,role : string): Observable<LockingActions[]> {
+    return this.http
+      .get(API_URL + '/api/v1/lockdesk/get_locking_actions?state=' + state.toString()+"&role="+role, this.requestOptions
+      ).pipe(
+        map(response => {
+          return this.getLockActions(response);
+        })
+      )
+  }
+  private getLockActions(response: any): LockingActions[] {
+    return (<LockingActions[]>response).map(
+      ll =>
+        this.getLockAction(ll)
+    );
+  }
+  public getLockAction(la : LockingActions): LockingActions {
+    const lockAction = new LockingActions();
+    if (la){
+      lockAction.key = la['key'];
+      lockAction.value = la['value'];
+      lockAction.enabled = la['enabled'];
+      lockAction.description1 = la['description1'];
+      lockAction.description2 = la['description2'];
+    }
+    return lockAction;
   }
 
 }

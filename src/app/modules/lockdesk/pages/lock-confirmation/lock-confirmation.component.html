@@ -14,11 +14,11 @@
      <div class="col-4"  *ngIf="lockRequestStatusType && lockRequestStatusType.taxonomyItems">
      <nb-select shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="large"  placeholder="Locking Actions..."
                 id="lockRequestWFId"  (ngModelChange)="saveRateLockConfirmation(lockState)" >
-       <nb-option  [disabled]="disableActionItem(lock_work_flow.key)"  *ngFor="let lock_work_flow of lockRequestStatusType.taxonomyItems"
-                   [value]="lock_work_flow.key">{{lock_work_flow.value}}</nb-option>
+       <nb-option  [disabled]="!lock_action.enabled"  *ngFor="let lock_action of lockingActions"
+                   [value]="lock_action.key">{{lock_action.value}}</nb-option>
     </nb-select>
     </div>
-     <div class="col-4"  *ngIf="lockState == LockStatesType.ExtendLock5">
+     <div class="col-4"  *ngIf="lockState == LockStatesType.RequestLockExtension">
         <nb-select shape="semi-round" [(ngModel)]="lockExtensionDays"    #lockExntendDay="ngModel" name="lockExntendDay" required size="large"  placeholder="Lock Extension Days..."
                    id="lockRequestWFId"  (ngModelChange)="saveLockExtensionConfirmation(lockState,lockExtensionDays)" >
           <nb-option    *ngFor="let lockExtensionmaster of lockExtensionMaster"
@@ -60,11 +60,6 @@
           <div class="col-4">{{totalLockExtensionDays }}</div>
           <div class="col-4"></div>
         </div>
-        <div class="row p-2 row-striped dohover" *ngIf="initialLockLoan.lockStatus == LockStatusType.locked">
-          <div class="col-4 ">Is Lock Expired</div>
-          <div class="col-4">{{initialLockLoan?.lockExpired?'Yes':'No'}}</div>
-          <div class="col-4"></div>
-        </div>
         <div class="row p-2 row-striped dohover" >
           <div class="col-4 ">Note Rate</div>
           <div class="col-4">{{initialLockLoan?.selectedQuote.rate |number : '1.2-2'}}</div>
@@ -78,7 +73,7 @@
        </div>
       <div class="row p-2 row-striped dohover" >
         <div class="col-4 ">Lock Status</div>
-        <div class="col-4">{{initialLockLoan?.lockStatusStr}}
+        <div class="col-4">({{loanLockWorkFlowStatus}}) - {{initialLockLoan?.lockStatusStr}}
           <fa-icon *ngIf="initialLockLoan && initialLockLoan?.lockStatus==102" size="1x" [icon]="lock" class="m-1"></fa-icon>
           <fa-icon *ngIf="initialLockLoan && !initialLockLoan.lockStatus || initialLockLoan?.lockStatus==101" size="1x" [icon]="unlock" class="m-1"></fa-icon>
         </div>
@@ -108,18 +103,18 @@
       </div>
       <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.loanAmount != finallockLoanInfo?.loanAmount ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Loan Amount</div>
-        <div class="col-4">{{initialLockLoanInfo?.loanAmount | number : '1.2-2'}}</div>
-        <div class="col-4">{{finallockLoanInfo?.loanAmount | number : '1.2-2'}}</div>
+        <div class="col-4">${{initialLockLoanInfo?.loanAmount | number : '1.0-0'}}</div>
+        <div class="col-4">${{finallockLoanInfo?.loanAmount | number : '1.0-0'}}</div>
       </div>
       <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.purchasePrice != finallockLoanInfo?.purchasePrice ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Purchase Price</div>
-        <div class="col-4">{{initialLockLoanInfo?.purchasePrice | number : '1.2-2'}}</div>
-        <div class="col-4">{{finallockLoanInfo?.purchasePrice | number : '1.2-2'}}</div>
+        <div class="col-4">${{initialLockLoanInfo?.purchasePrice | number : '1.0-0'}}</div>
+        <div class="col-4">${{finallockLoanInfo?.purchasePrice | number : '1.0-0'}}</div>
       </div>
       <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.appraisalValue != finallockLoanInfo?.appraisalValue ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Appraisal Amount</div>
-        <div class="col-4">{{initialLockLoanInfo?.appraisalValue |number : '1.2-2'}}</div>
-        <div class="col-4">{{finallockLoanInfo?.appraisalValue |number : '1.2-2'}}</div>
+        <div class="col-4">${{initialLockLoanInfo?.appraisalValue |number : '1.0-0'}}</div>
+        <div class="col-4">${{finallockLoanInfo?.appraisalValue |number : '1.0-0'}}</div>
       </div>
       <div class="row p-2  dohover" [ngClass]="initialLockLoanInfo?.occupancy?.name != finallockLoanInfo?.occupancy?.name ? 'rowhighlight' : 'row-striped'">
         <div class="col-4 ">Occupancy</div>
