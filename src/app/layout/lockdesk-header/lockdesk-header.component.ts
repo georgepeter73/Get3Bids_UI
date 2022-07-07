@@ -21,7 +21,7 @@ export class LockdeskHeaderComponent implements OnInit {
   public authUser: any;
   user: any;
   username : string;
-  items = [{ title: 'LockDesk Home', icon: 'home-outline' }, { title: 'Log out',icon:'arrow-circle-left-outline' }];
+  items = [];
   constructor(
     private themeService: ThemeService,
     public authService: AuthService,
@@ -35,6 +35,12 @@ export class LockdeskHeaderComponent implements OnInit {
   async ngOnInit() {
     this.username = localStorage.getItem("user");
     this.items.push({title:this.authService.getUserFullName(),icon: 'person-outline'});
+    if(this.authService.isLockDesk()){
+      this.items.push({ title: 'Loan House Admin', icon: 'settings-outline' })
+    }
+
+    this.items.push({ title: 'Lock Desk Home', icon: 'home-outline' })
+    this.items.push({ title: 'Log out',icon:'arrow-circle-left-outline' })
     this.isDarkTheme$ = this.themeService.getDarkTheme();
     this.themeService.setDarkTheme(true);
     this.nbMenuService
@@ -46,6 +52,9 @@ export class LockdeskHeaderComponent implements OnInit {
         if (data.item.title === 'LockDesk Home') {
           this.router.navigate(["/lockdesk/"]);
         }
+        if (data.item.title === 'Loan House Admin') {
+          this.router.navigate(["/admin/admin-dash"]);
+        }
 
       });
     if(this.authService.isTokenExpired()){
@@ -54,9 +63,6 @@ export class LockdeskHeaderComponent implements OnInit {
 
 
   }
-
-
-
   toggleTheme(checked: boolean) {
     this.themeService.setDarkTheme(checked);
   }

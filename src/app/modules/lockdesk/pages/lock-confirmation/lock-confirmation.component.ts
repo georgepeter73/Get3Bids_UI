@@ -549,8 +549,8 @@ export class LockConfirmationComponent implements OnInit {
   }
   getLockStateDesc(state : number){
     let ret = "";
-    if(this.lockStatusType &&  this.lockStatusType.taxonomyItems) {
-      ret = this.lockRequestStatusType.taxonomyItems.filter(l => l.key == state.toString()).pop().description;
+    if(state && this.lockRequestStatusTypeForHistory &&  this.lockRequestStatusTypeForHistory.taxonomyItems) {
+        ret = this.lockRequestStatusTypeForHistory.taxonomyItems.filter(l => l.key == state.toString()).pop().description;
      }
     return ret;
   }

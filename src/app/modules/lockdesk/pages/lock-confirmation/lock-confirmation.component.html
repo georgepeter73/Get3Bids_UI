@@ -4,7 +4,8 @@
       <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)">
         <nb-icon icon="arrow-back-outline"></nb-icon>
         Previous</a></div>
-      <div class="text-left col-md-8 ">
+      <div class="text-left col-md-8 text-right">
+        <button nbButton (click)="print()" ghost size="small"> <fa-icon  size="2x" [icon]="faprint" class="pt-1" ></fa-icon></button>
       </div>
       <div class="text-left col-md-4 "><a hidden id="refreshButtonId" href="#" (click)="refreshGrid($event)"><nb-icon icon="refresh-outline"></nb-icon></a></div>
     </div>
@@ -26,7 +27,7 @@
         </nb-select>
       </div>
       <div class="col-4">
-       <button nbButton (click)="print()" ghost size="small"> <fa-icon  size="2x" [icon]="faprint" class="pt-1" ></fa-icon></button>
+
       </div>
     </div>
       <nb-alert accent="warning"  *ngIf="mainlockLoanDataLoading && initialLockLoan && finalLockLoan && initialLockLoan.lockStatus && !finalLockLoan.repriceSuccess" size="medium" >
@@ -189,33 +190,7 @@
               <div class="col-4 ">{{adjustment.finalAdjustor | number : '1.3-3'}}</div>
             </div>
           </div>
-          <div class="row p-2 tableheader dontprintthissection" >
-            <div class="col-6 pl-3"><strong>Custom Adjustments</strong></div>
-            <div class="col-6 "><button nbButton size="medium" (click)="addCustomAdjustments()" [disabled]="initialLockLoan.lockStatus!=LockStatusType.locked || !globalService.getIsLockDesk()" >Add Custom Adjustments</button></div>
-          </div>
-          <div *ngIf="lockLoanConfirmationData.customInitialAndFinalAdjustments && lockLoanConfirmationData.customInitialAndFinalAdjustments.length>0" >
-          <div *ngFor="let adjustment of lockLoanConfirmationData.customInitialAndFinalAdjustments ;let i = index">
-            <div class="row p-2 dohover " [ngClass]="adjustment.initialAdjustor != adjustment.finalAdjustor ? 'rowhighlight' : {'row-striped': i % 2==0}">
-              <div class="col-3 "><input class="form-control" name="adjustorName{{i}}" id="OD" [(ngModel)]="adjustment.reason" #adjustorName{{i}}="ngModel"
 
-                                         type="text" nbInput fullWidth shape="rectangle" placeholder="Adjustment Name"
-              /></div>
-              <div class="col-3 "><input class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.initialAdjustor" #initialAdjustor{{i}}="ngModel"
-
-                                         type="number" nbInput fullWidth shape="rectangle" placeholder="Adjustor" (keyup)="adjustment.finalAdjustor=adjustment.initialAdjustor" /></div>
-              <div class="col-3 "><input readonly class="form-control"  name="finalAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #finalAdjustor{{i}}="ngModel"
-
-                                         type="number" nbInput fullWidth shape="rectangle" placeholder="Adjustor" /></div>
-              <div class="col-1 dontprintthissection">
-                <button  size="tiny" nbButton (click)="saveCustomAdjustments(i)" nbTooltip="Save" class="m-1" [disabled]="!globalService.getIsLockDesk()"><fa-icon class="m-1"  size="1x" [icon]="fasave"></fa-icon>Save</button>
-
-              </div>
-              <div class="col-2 dontprintthissection">
-                <button size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete" class="m-1" [disabled]="!globalService.getIsLockDesk()"><fa-icon class="m-1" size="1x" [icon]="fatrash"></fa-icon>Delete</button>
-              </div>
-            </div>
-          </div>
-          </div>
           <div class="row p-2 tableheader">
             <div class="col-6 pl-3"><strong>Margins</strong></div>
             <div class="col-6 "></div>
@@ -228,6 +203,33 @@
               <div class="col-4 ">{{adjustment.finalAdjustor | number : '1.3-3'}}</div>
             </div>
           </div>
+          </div>
+          <div class="row p-2 tableheader dontprintthissection" >
+            <div class="col-6 pl-3"><strong>Add Adjustments</strong></div>
+            <div class="col-6 "><button nbButton size="medium" (click)="addCustomAdjustments()" [disabled]="initialLockLoan.lockStatus==LockStatusType.float " >Add Adjustments</button></div>
+          </div>
+          <div *ngIf="lockLoanConfirmationData.customInitialAndFinalAdjustments && lockLoanConfirmationData.customInitialAndFinalAdjustments.length>0" >
+            <div *ngFor="let adjustment of lockLoanConfirmationData.customInitialAndFinalAdjustments ;let i = index">
+              <div class="row p-2 dohover " [ngClass]="adjustment.initialAdjustor != adjustment.finalAdjustor ? 'rowhighlight' : {'row-striped': i % 2==0}">
+                <div class="col-3 "><input class="form-control" name="adjustorName{{i}}" id="OD" [(ngModel)]="adjustment.reason" #adjustorName{{i}}="ngModel"
+
+                                           type="text" nbInput fullWidth shape="rectangle" placeholder="Adjustment Name"
+                /></div>
+                <div class="col-3 "><input class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.initialAdjustor" #initialAdjustor{{i}}="ngModel"
+
+                                           type="number" nbInput fullWidth shape="rectangle" placeholder="Adjustor" (keyup)="adjustment.finalAdjustor=adjustment.initialAdjustor" /></div>
+                <div class="col-3 "><input readonly class="form-control"  name="finalAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #finalAdjustor{{i}}="ngModel"
+
+                                           type="number" nbInput fullWidth shape="rectangle" placeholder="Adjustor" /></div>
+                <div class="col-1 dontprintthissection">
+                  <button  size="tiny" nbButton (click)="saveCustomAdjustments(i)" nbTooltip="Save" class="m-1" ><fa-icon class="m-1"  size="1x" [icon]="fasave"></fa-icon>Save</button>
+
+                </div>
+                <div class="col-2 dontprintthissection">
+                  <button size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete" class="m-1" ><fa-icon class="m-1" size="1x" [icon]="fatrash"></fa-icon>Delete</button>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="row p-2 dohover " [ngClass]="lockLoanConfirmationData.initialAndFinalPrice.initialAdjustor != lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor ? 'rowhighlight' : 'row-striped'" *ngIf="lockLoanConfirmationData.initialAndFinalPrice">
             <div class="col-4 ">Price</div>
