@@ -195,18 +195,27 @@
             <div class="col-6 pl-3"><strong>Margins</strong></div>
             <div class="col-6 "></div>
           </div>
-          <div *ngIf="globalService.getIsLockDesk()">
-          <div *ngFor="let adjustment of lockLoanConfirmationData.initialAndFinalMargins ;let i = index" >
-            <div class="row p-2 dohover "  [ngClass]="adjustment.initialAdjustor != adjustment.finalAdjustor ? 'rowhighlight' : {'row-striped': i % 2==0}" >
+          <div >
+          <div *ngIf="lockLoanConfirmationData.initialLockLoan && lockLoanConfirmationData.initialLockLoan.productDetail && lockLoanConfirmationData.initialLockLoan.productDetail.customMargins">
+            <div *ngFor="let adjustment of lockLoanConfirmationData.initialLockLoan.productDetail.customMargins ;let i = index" >
+            <div class="row p-2 dohover "  >
               <div class="col-4 ">{{adjustment.reason}}</div>
-              <div class="col-4 ">{{adjustment.initialAdjustor | number : '1.3-3'}}</div>
-              <div class="col-4 ">{{adjustment.finalAdjustor | number : '1.3-3'}}</div>
+              <div class="col-4 "><input  [readOnly]="adjustment.reason == 'Corporate Margin' || adjustment.reason == 'Company Margin'" class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.adjustor" #initialAdjustor{{i}}="ngModel"
+
+                                         type="number" nbInput fullWidth shape="rectangle" placeholder="Margin"  /></div>
+              <div class="col-3 ">{{adjustment.adjustor}}</div>
+              <div class="col-1 dontprintthissection">
+                <button [disabled]="adjustment.reason == 'Corporate Margin' || adjustment.reason == 'Company Margin' || initialLockLoan.lockStatus==LockStatusType.float || initialLockLoan.lockExpired"  size="tiny" nbButton (click)="saveCustomAdjustments(i)" nbTooltip="Save" class="m-1" ><fa-icon class="m-1"  size="1x" [icon]="fasave"></fa-icon>Save</button>
+
+              </div>
+
             </div>
+          </div>
           </div>
           </div>
           <div class="row p-2 tableheader dontprintthissection" >
             <div class="col-6 pl-3"><strong>Add Adjustments</strong></div>
-            <div class="col-6 "><button nbButton size="medium" (click)="addCustomAdjustments()" [disabled]="initialLockLoan.lockStatus==LockStatusType.float " >Add Adjustments</button></div>
+            <div class="col-6 "><button nbButton size="medium" (click)="addCustomAdjustments()" [disabled]="initialLockLoan.lockStatus==LockStatusType.float || initialLockLoan.lockExpired" >Add Adjustments</button></div>
           </div>
           <div *ngIf="lockLoanConfirmationData.customInitialAndFinalAdjustments && lockLoanConfirmationData.customInitialAndFinalAdjustments.length>0" >
             <div *ngFor="let adjustment of lockLoanConfirmationData.customInitialAndFinalAdjustments ;let i = index">
@@ -222,11 +231,11 @@
 
                                            type="number" nbInput fullWidth shape="rectangle" placeholder="Adjustor" /></div>
                 <div class="col-1 dontprintthissection">
-                  <button  size="tiny" nbButton (click)="saveCustomAdjustments(i)" nbTooltip="Save" class="m-1" ><fa-icon class="m-1"  size="1x" [icon]="fasave"></fa-icon>Save</button>
+                  <button  size="tiny" nbButton (click)="saveCustomAdjustments(i)" [disabled]="initialLockLoan.lockExpired" nbTooltip="Save" class="m-1" ><fa-icon class="m-1"  size="1x" [icon]="fasave"></fa-icon>Save</button>
 
                 </div>
                 <div class="col-2 dontprintthissection">
-                  <button size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete" class="m-1" ><fa-icon class="m-1" size="1x" [icon]="fatrash"></fa-icon>Delete</button>
+                  <button  [disabled]="initialLockLoan.lockExpired" size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete" class="m-1" ><fa-icon class="m-1" size="1x" [icon]="fatrash"></fa-icon>Delete</button>
                 </div>
               </div>
             </div>

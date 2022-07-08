@@ -65,6 +65,7 @@ export class LockConfirmationComponent implements OnInit {
   LockStatusType = {
     float: 101,
     locked: 102,
+    expired: 103,
   };
 
   LockStatesType = {
@@ -247,8 +248,7 @@ export class LockConfirmationComponent implements OnInit {
      }else{
       state = this.initialLockLoan.lockState;
     }
-
-    this.lockDeskService.getLockActionsByStateAndRole(state, role).subscribe(actions =>{
+    this.lockDeskService.getLockActionsByStateAndRole(state, role,this.initialLockLoan.lockExpired).subscribe(actions =>{
       this.lockingActions = actions;
       })
   }

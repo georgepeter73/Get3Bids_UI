@@ -409,9 +409,9 @@ export class LockDeskService {
     return lockLoanConfirmation;
   }
 
-  public getLockActionsByStateAndRole(state : number,role : string): Observable<LockingActions[]> {
+  public getLockActionsByStateAndRole(state : number,role : string,isLockExpired : boolean): Observable<LockingActions[]> {
     return this.http
-      .get(API_URL + '/api/v1/lockdesk/get_locking_actions?state=' + state.toString()+"&role="+role, this.requestOptions
+      .get(API_URL + '/api/v1/lockdesk/get_locking_actions?state=' + state.toString()+"&role="+role+"&lock_expired=" + isLockExpired, this.requestOptions
       ).pipe(
         map(response => {
           return this.getLockActions(response);
