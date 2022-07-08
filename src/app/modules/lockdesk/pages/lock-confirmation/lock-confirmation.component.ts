@@ -248,7 +248,8 @@ export class LockConfirmationComponent implements OnInit {
      }else{
       state = this.initialLockLoan.lockState;
     }
-    this.lockDeskService.getLockActionsByStateAndRole(state, role,this.initialLockLoan.lockExpired).subscribe(actions =>{
+    const isLockExpired = this.initialLockLoan.lockExpired!=null ? this.initialLockLoan.lockExpired : false ;
+    this.lockDeskService.getLockActionsByStateAndRole(state, role,isLockExpired).subscribe(actions =>{
       this.lockingActions = actions;
       })
   }
