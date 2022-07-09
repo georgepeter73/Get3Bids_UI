@@ -1,5 +1,5 @@
 import {Component, OnInit, ChangeDetectionStrategy, ViewChild, Inject, LOCALE_ID} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import {LockDeskService} from '@data/service/lockdesk.service';
 import {LoanInfo} from '@data/schema/lockdesk/loan-info';
 import {formatDate, Location} from '@angular/common';
@@ -39,7 +39,16 @@ export class LockConfirmationComponent implements OnInit {
               private taxonomyService: TaxonomyService,
               private dialog: MatDialog,
               private authService: AuthService,
-             ) { }
+             ) {
+    router.events.forEach((event) => {
+      if(event instanceof NavigationStart) {
+        if (event.navigationTrigger === 'popstate') {
+           this.backClicked(null);
+        }
+      }
+    });
+
+  }
   private loanNumber = "";
   loanInfo : LoanInfo = new LoanInfo();
   initialLockLoanInfo : LoanInfo = new LoanInfo();
@@ -65,7 +74,8 @@ export class LockConfirmationComponent implements OnInit {
   LockStatusType = {
     float: 101,
     locked: 102,
-    expired: 103,
+    pending: 103,
+    expired : 104
   };
 
   LockStatesType = {
@@ -97,7 +107,7 @@ export class LockConfirmationComponent implements OnInit {
       resizable : true,
       minWidth: 190,
       cellRenderer: (data) => {
-        return data.value ? formatDate(data.value, 'd MMM yyyy hh mm aa', this.locale) : '';
+        return data.value ? formatDate(data.value, 'MM/dd/yyyy hh mm aa', this.locale) : '';
       },
     },
     {
@@ -127,7 +137,7 @@ export class LockConfirmationComponent implements OnInit {
       resizable : true,
       minWidth: 190,
       cellRenderer: (data) => {
-        return data.value ? formatDate(data.value, 'd MMM yyyy', this.locale) : '';
+        return data.value ? formatDate(data.value, 'MM/dd/yyyy', this.locale) : '';
       },
     },
 
@@ -148,7 +158,7 @@ export class LockConfirmationComponent implements OnInit {
       checkboxSelection: false,
       resizable : true,
       minWidth: 100,
-      valueFormatter: params => params.data.selectedQuote.rate.toFixed(2),
+      valueFormatter: params => params.data.selectedQuote.rate.toFixed(3),
     },
     {
       headerName: "Price",
@@ -162,7 +172,7 @@ export class LockConfirmationComponent implements OnInit {
     },
 
     {
-      headerName: "Who",
+      headerName: "User",
       field: "lastUpdatedBy",
       sortable: true,
       filter: true,
@@ -346,8 +356,10 @@ export class LockConfirmationComponent implements OnInit {
      });
   }
   backClicked($event: MouseEvent) {
-    $event.preventDefault();
-    if(this.globalService.getLockLoanNavStarter() === 'loan-pipeline') {
+    if($event) {
+      $event.preventDefault();
+    }
+   if(this.globalService.getLockLoanNavStarter() === 'loan-pipeline') {
       this.router.navigate(["/lockdesk/loan-pipeline"]);
     }
     if(this.globalService.getLockLoanNavStarter() === 'lock-loan-pipeline') {
@@ -382,7 +394,7 @@ export class LockConfirmationComponent implements OnInit {
     this.saveRateLockInitialSetUps();
     if(lockState === this.LockStatesType.RequestLockExtension){
       this.lockLoanSuccessful = false;
-      this.initialLockLoan.lockStatus = this.LockStatusType.locked;
+      this.initialLockLoan.lockStatus = this.LockStatusType.pending;
       this.initialLockLoan.lockState = lockState;
       let lockExtensionDays1 = new LockLoanextension();
       lockExtensionDays1.numberOfDays = this.lockExtensionDays;
@@ -456,18 +468,21 @@ export class LockConfirmationComponent implements OnInit {
       }
      if(lockState === this.LockStatesType.AcceptNewAdjustment){
        this.lockLoanSuccessful = false;
+       this.initialLockLoan.lockStatus = this.LockStatusType.locked;
        this.initialLockLoan.lockState = this.LockStatesType.AcceptNewAdjustment;
        this.lockLoanActionSuccessMessage = "Adjustment accepted successfully."
 
      }
      if(lockState === this.LockStatesType.RequestNewAdjustment){
        this.lockLoanSuccessful = false;
+       this.initialLockLoan.lockStatus = this.LockStatusType.pending;
        this.initialLockLoan.lockState = this.LockStatesType.RequestNewAdjustment;
        this.lockLoanActionSuccessMessage = "Adjustment requested successfully."
 
      }
      if(lockState === this.LockStatesType.AcceptLockExtension){
        this.lockLoanSuccessful = false;
+       this.initialLockLoan.lockStatus = this.LockStatusType.locked;
        this.initialLockLoan.lockState = this.LockStatesType.AcceptLockExtension;
        this.lockLoanActionSuccessMessage = "Lock Extension accepted successfully."
 
