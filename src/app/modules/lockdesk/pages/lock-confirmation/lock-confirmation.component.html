@@ -74,11 +74,11 @@
        </div>
       <div class="row p-2 row-striped dohover" >
         <div class="col-6 ">Lock Status</div>
-        <div class="col-3">({{loanLockWorkFlowStatus}}) - {{initialLockLoan?.lockStatusStr}}
+        <div class="col-6">({{loanLockWorkFlowStatus}}) - {{initialLockLoan?.lockStatusStr}}
           <fa-icon *ngIf="initialLockLoan && initialLockLoan?.lockStatus==102" size="1x" [icon]="lock" class="m-1"></fa-icon>
           <fa-icon *ngIf="initialLockLoan && !initialLockLoan.lockStatus || initialLockLoan?.lockStatus==101" size="1x" [icon]="unlock" class="m-1"></fa-icon>
         </div>
-        <div class="col-3"></div>
+
       </div>
       <div class="row p-2 row-striped dohover">
         <div class="col-6 ">Loan Number</div>
@@ -206,12 +206,13 @@
                                          type="number" nbInput fullWidth shape="rectangle" placeholder="Margin"  /></div>
               <div class="col-2 ">{{adjustment.adjustor}}</div>
               <div class="col-1 dontprintthissection">
-                <button [disabled]="adjustment.reason == 'Corporate Margin' || adjustment.reason == 'Company Margin' || initialLockLoan.lockStatus!=LockStatusType.locked || initialLockLoan.lockExpired"  size="tiny" nbButton (click)="saveCustomAdjustments(i)" nbTooltip="Save" class="m-1" ><fa-icon class="m-1"  size="1x" [icon]="fasave"></fa-icon>Save</button>
+                <button [disabled]="adjustment.reason == 'Corporate Margin' || adjustment.reason == 'Company Margin' || initialLockLoan.lockStatus!=LockStatusType.locked || initialLockLoan.lockExpired"  size="tiny" nbButton (click)="saveCompensationAdjustments(i)" nbTooltip="Save" class="m-1" ><fa-icon class="m-1"  size="1x" [icon]="fasave"></fa-icon>Save</button>
 
               </div>
 
             </div>
           </div>
+          <nb-alert  accent="warning" size="medium" *ngIf="compensationAdjustmentFailed" >{{compensationAdjustmentMessage}} </nb-alert>
           </div>
           </div>
           <div class="row p-2 tableheader dontprintthissection" >

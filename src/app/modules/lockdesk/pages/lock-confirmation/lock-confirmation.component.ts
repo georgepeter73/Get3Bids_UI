@@ -20,6 +20,7 @@ import {ConfirmationDialogModel} from '@data/schema/ConfirmationDialogModal';
 import {ConfirmationDialogCompComponent} from '@shared/component/confirmation-dialog-comp/confirmation-dialog-comp.component';
 import {AuthService} from '@app/service/auth.service';
 import {LockingActions} from '@data/schema/lockdesk/locking-actions';
+import {NbDialogService} from '@nebular/theme';
 
 @Component({
   selector: 'app-lock-confirmation',
@@ -39,6 +40,7 @@ export class LockConfirmationComponent implements OnInit {
               private taxonomyService: TaxonomyService,
               private dialog: MatDialog,
               private authService: AuthService,
+
              ) {
     router.events.forEach((event) => {
       if(event instanceof NavigationStart) {
@@ -96,6 +98,8 @@ export class LockConfirmationComponent implements OnInit {
   minDataLoading = false;
   lockingActions : LockingActions[]=[];
   loanLockWorkFlowStatus = "";
+  compensationAdjustmentFailed = false;
+  compensationAdjustmentMessage = "";
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
     {
@@ -560,6 +564,17 @@ export class LockConfirmationComponent implements OnInit {
         + this.initialLockLoan.loanInfo.borrower.lastName;
     }
     window.print();
+  }
+  saveCompensationAdjustments(i: number) {
+    this.compensationAdjustmentFailed = false;
+    const customMLOMargin = this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop();
+    const originalMLOMargin = this.initialLockLoan.selectedQuote.mloLevelMargin;
+    if(parseFloat(customMLOMargin.adjustor) > originalMLOMargin){
+        this.compensationAdjustmentFailed = true;
+        this.compensationAdjustmentMessage="Compensation adjustment can not be more than original MLO compensation."
+    }else {
+      this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
+    }
   }
 
   saveCustomAdjustments(i: number) {
