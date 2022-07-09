@@ -130,7 +130,7 @@ export class LockConfirmationComponent implements OnInit {
       filter: true,
       checkboxSelection: false,
       resizable : true,
-      minWidth: 150
+      minWidth: 200
     },
     {
       headerName: "Lock Date",
@@ -139,7 +139,7 @@ export class LockConfirmationComponent implements OnInit {
       filter: true,
       checkboxSelection: false,
       resizable : true,
-      minWidth: 190,
+      minWidth: 120,
       cellRenderer: (data) => {
         return data.value ? formatDate(data.value, 'MM/dd/yyyy', this.locale) : '';
       },
@@ -205,7 +205,11 @@ export class LockConfirmationComponent implements OnInit {
     this.selectedUserMloUUID = this.route.snapshot.paramMap.get('selectedUserMloUUID');
     //loading all the master data
     this.getTaxonomy();
-    this.getLockLoanHistory(this.loanNumber);
+    setTimeout(() =>
+      {
+        this.getLockLoanHistory(this.loanNumber);
+      },
+      2000);
     this.loadLockExtensionMaster();
     //loading the minimum data that is needed before you load the maximum data
     this.lockDeskService.getMinLockLoanConfirmationData(this.loanNumber).subscribe(i =>{
@@ -327,13 +331,17 @@ export class LockConfirmationComponent implements OnInit {
   }
   lockRequestStatus(cType: string) {
     let lockRequestStatusDesc = '';
-     lockRequestStatusDesc = this.lockRequestStatusTypeForHistory.taxonomyItems.filter(t => t.key === cType).pop().description
+    if(this.lockRequestStatusTypeForHistory &&  this.lockRequestStatusTypeForHistory.taxonomyItems) {
+      lockRequestStatusDesc = this.lockRequestStatusTypeForHistory.taxonomyItems.filter(t => t.key === cType).pop().description
+    }
     return lockRequestStatusDesc;
 
   }
   lockStatus(cType: string) {
     let lockStatusDesc = '';
-    lockStatusDesc = this.lockStatusType.taxonomyItems.filter(t => t.key === cType).pop().description
+    if( this.lockStatusType && this.lockStatusType.taxonomyItems) {
+      lockStatusDesc = this.lockStatusType.taxonomyItems.filter(t => t.key === cType).pop().description
+    }
     return lockStatusDesc;
 
   }

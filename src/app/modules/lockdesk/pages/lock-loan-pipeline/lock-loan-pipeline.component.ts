@@ -116,7 +116,7 @@ export class LockLoanPipelineComponent implements OnInit {
       checkboxSelection: false,
       resizable : true,
       minWidth: 100,
-      valueFormatter: params => params.data.selectedQuote.rate.toFixed(2),
+      valueFormatter: params => params.data.selectedQuote.rate.toFixed(3),
     },
     {
       headerName: "Price",
@@ -159,14 +159,20 @@ export class LockLoanPipelineComponent implements OnInit {
     this.getLockLoanHistory();
   }
   getLockLoanHistory(){
-    this.lockDeskService.geAllActiveLockLoans().subscribe(items =>{
-      items.sort((a, b) => (a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1));
-      this.getTaxonomy();
-      this.rowData = of(items);
-      this.emitEvent();
-    },error => {
-      this.lockLoanFailure = true;
-    });
+    this.getTaxonomy();
+    setTimeout(() =>
+      {
+        this.lockDeskService.geAllActiveLockLoans().subscribe(items =>{
+          items.sort((a, b) => (a.lastUpdatedDate > b.lastUpdatedDate ? -1 : 1));
+
+          this.rowData = of(items);
+          this.emitEvent();
+        },error => {
+          this.lockLoanFailure = true;
+        });
+      },
+      1000);
+
   }
   emitEvent(){
     //hack for data not displaying with out a mouse click
@@ -189,13 +195,17 @@ export class LockLoanPipelineComponent implements OnInit {
   }
   lockRequestStatus(cType: string) {
     let lockRequestStatusDesc = '';
-    lockRequestStatusDesc = this.lockRequestStatusType.taxonomyItems.filter(t => t.key === cType).pop().description
+    if( this.lockRequestStatusType && this.lockRequestStatusType.taxonomyItems) {
+       lockRequestStatusDesc = this.lockRequestStatusType.taxonomyItems.filter(t => t.key === cType).pop().description
+    }
     return lockRequestStatusDesc;
 
   }
   lockStatus(cType: string) {
     let lockStatusDesc = '';
-    lockStatusDesc = this.lockStatusType.taxonomyItems.filter(t => t.key === cType).pop().description
+    if(this.lockStatusType && this.lockStatusType.taxonomyItems) {
+        lockStatusDesc = this.lockStatusType.taxonomyItems.filter(t => t.key === cType).pop().description
+     }
     return lockStatusDesc;
 
   }
@@ -205,6 +215,7 @@ export class LockLoanPipelineComponent implements OnInit {
       this.lockStatusType = taxonomies
         .filter(tax => tax.type === 'LockStatus')
         .pop();
+
 
     });
     this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
