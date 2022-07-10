@@ -165,14 +165,24 @@ export class LockConfirmationComponent implements OnInit {
       valueFormatter: params => params.data.selectedQuote.rate.toFixed(3),
     },
     {
-      headerName: "Price",
-      field: "selectedQuote.price",
+      headerName: "Base Price",
+      field: "selectedQuote.basePrice",
       sortable: true,
       filter: true,
       checkboxSelection: false,
       resizable : true,
       minWidth: 100,
-      valueFormatter: params => params.data.selectedQuote.price.toFixed(3),
+      valueFormatter: params => params.data.selectedQuote.basePrice.toFixed(3),
+    },
+    {
+      headerName: "Final Price",
+      field: "selectedQuote.finalPrice",
+      sortable: true,
+      filter: true,
+      checkboxSelection: false,
+      resizable : true,
+      minWidth: 100,
+      valueFormatter: params => params.data.selectedQuote.finalPrice.toFixed(3),
     },
 
     {
@@ -303,7 +313,6 @@ export class LockConfirmationComponent implements OnInit {
       this.setLockExtensionDays();
       this.getLockingActions();
       this.loanLockWorkFlowStatus = this.getLockStateDesc(this.initialLockLoan.lockState);
-
       //if the status is null or does not exist or if there is already a lock request
       //then before lock and after lock will have current loan info
       if(!this.initialLockLoan.lockStatus || this.initialLockLoan.lockStatus === this.LockStatusType.float ){

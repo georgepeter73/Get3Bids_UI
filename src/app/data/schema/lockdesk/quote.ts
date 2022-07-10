@@ -23,7 +23,7 @@ export class Quote {
   companyLevelMargin: number;
   companyPricingMarginApplied: boolean;
   mlopricingMarginApplied: boolean;
-
+  finalPrice : number;
   constructor(
     rate: number,
     lockPeriod: number,
@@ -46,7 +46,8 @@ export class Quote {
     mloLevelMargin: number,
     companyLevelMargin: number,
     companyPricingMarginApplied: boolean,
-    mlopricingMarginApplied: boolean
+    mlopricingMarginApplied: boolean,
+    finalPrice : number
   ) {
     this.rate = rate;
     this.lockPeriod = lockPeriod;
@@ -70,5 +71,6 @@ export class Quote {
     this.companyLevelMargin = companyLevelMargin;
     this.companyPricingMarginApplied = companyPricingMarginApplied;
     this.mlopricingMarginApplied = mlopricingMarginApplied;
+    this.finalPrice = finalPrice;
   }
 }
