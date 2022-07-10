@@ -97,4 +97,8 @@ export class InvestorPricingComponent implements OnInit {
       }
     );
   }
+
+  investorMedia() {
+    this.router.navigate(["/admin/investor-media"]);
+  }
 }

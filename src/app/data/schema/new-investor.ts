@@ -4,4 +4,5 @@ export class NewInvestor{
   investorName : string;
   channelType =0;
   deleteFlag = 0;
+  mediaId : number;
 }
