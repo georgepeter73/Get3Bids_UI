@@ -62,7 +62,10 @@
   </div>
   <div class="col-12 text-right m-2">
     <button nbButton size="medium" type="button" (click)="saveNewInvestor()"
-            [nbSpinner]="loading" nbSpinnerStatus="primary" [disabled]="!newInvestor.investorId || !newInvestor.channelType || !newInvestor.investorName"
+            [nbSpinner]="loading" nbSpinnerStatus="primary" [disabled]="!newInvestor.investorId
+            || channelTypes.length == 0
+            || !newInvestor.investorName
+            || !newInvestor.nmls || !newInvestor.starRating"
             status="primary" >Save
     </button>
   </div>

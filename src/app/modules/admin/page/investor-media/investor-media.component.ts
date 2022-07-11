@@ -42,7 +42,6 @@ export class InvestorMediaComponent implements OnInit {
     this.newInvestor.obInvestorId = parseInt(this.route.snapshot.paramMap.get('ob-investor-id'));
     this.getInvestorByChannelType(this.newInvestor.channelType);
     this.getMediaLocationByFormatType(this.investorLogoType);
-
   }
   backClicked($event: MouseEvent) {
     $event.preventDefault();
@@ -60,6 +59,8 @@ export class InvestorMediaComponent implements OnInit {
     this.newInvestorMediaSaveSuccess = false;
     this.quickQuoteService.getAllNewInvestorsByChannelType(channelType).subscribe(ni =>{
       this.newInvestors = ni;
+      this.newInvestor = this.newInvestors.filter(i => i.obInvestorId == this.newInvestor.obInvestorId).pop();
+
     })
   }
   getMediaLocationByFormatType(formatType: string){

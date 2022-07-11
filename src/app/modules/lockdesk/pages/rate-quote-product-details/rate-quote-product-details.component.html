@@ -19,6 +19,7 @@
                  style="width: 80%; max-width: 115px"><br>
             <span
               style="line-height: 35px;font-size: 0.8rem;display: inline-flex;">NMLS #{{product?.nmls}}
+              {{product.starRating}}
               <star-rating [value]="product?.starRating" totalstars="5"
                            checkedcolor="#ffbf00" uncheckedcolor="white" size="18px" readonly="true"
                            style="line-height: 32px; padding-left: 9px;"></star-rating>

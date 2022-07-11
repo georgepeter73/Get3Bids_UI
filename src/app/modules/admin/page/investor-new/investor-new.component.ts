@@ -29,6 +29,7 @@ export class InvestorNewComponent implements OnInit {
   mediaLocations : MediaLocation[]=[];
   investorLogoType = "104";
   facamera = faCameraRetro;
+  channelTypes =[];
   ngOnInit(): void {
     this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
       this.channelTypeTaxonomy = taxonomies
@@ -58,17 +59,18 @@ export class InvestorNewComponent implements OnInit {
   saveNewInvestor(){
     this.errorMessage = "";
     this.loading = true;
-    this.quickQuoteService.saveNewInvestor(this.newInvestor).subscribe(result =>{
-      this.errorMessage = "Operation Completed Successfully..."
-      setTimeout(()=> {
-        this.errorMessage = "";
-        this.loading = false
-        this.router.navigate(["/admin/investor-pricing"]);
-      },1000)
-    },error => {
-      this.errorMessage = "Operation Failed..."
-      this.loading = false;
-    })
+     this.quickQuoteService.saveNewInvestor(this.newInvestor).subscribe(result =>{
+        this.errorMessage = "Operation Completed Successfully..."
+        this.loading = false;
+       setTimeout(()=> {
+         this.errorMessage = "";
+         this.loading = false
+         this.router.navigate(["/admin/investor-pricing"]);
+       },1000)
+      },error => {
+        this.errorMessage = "Operation Failed..."
+        this.loading = false;
+      })
   }
 
 }
