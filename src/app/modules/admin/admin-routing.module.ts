@@ -116,7 +116,7 @@ const routes: Routes = [
     component: LogSearchSelectedProductComponent
   },
   {
-    path :"investor-media",
+    path :"investor-media/:channel-type/:ob-investor-id",
     canActivate: [AuthGuard,AdminGuard],
     component : InvestorMediaComponent
   }

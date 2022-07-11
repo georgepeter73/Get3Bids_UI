@@ -22,10 +22,6 @@
                 nbSpinnerStatus="primary"
                 status="primary" > <fa-icon size="1x" [icon]="plus" class="m-0"></fa-icon>
         </button>
-        <button nbButton class="mr-1"  size="medium" type="button" (click)="investorMedia()"
-                nbSpinnerStatus="primary"
-                status="primary" > Investor Media
-        </button>
         <button nbButton class="ml-1" size="medium" type="button" (click)="saveInvestorPricing()"
                 [nbSpinner]="loading" nbSpinnerStatus="primary"
                 status="primary" >Save
@@ -41,7 +37,7 @@
       *ngIf="investors">
          <div *ngFor="let investor of investors">
           <fieldset class="border p-2">
-            <h5>{{investor.investorName}}</h5>
+            <h5>{{investor.investorName}} <img (click)="editInvestorLogo(investor.channelType,investor.obInvestorId)" *ngIf="investor.mediaId" [src]="getMediaURL(investor.mediaId)" alt="investor logo"> </h5>
             <div *ngIf="getPricingByInvestor(investor.investorId.toString())">
             <div *ngFor="let pricing of getPricingByInvestor(investor.investorId.toString())" class="row m-2" >
               <div class="col-6">

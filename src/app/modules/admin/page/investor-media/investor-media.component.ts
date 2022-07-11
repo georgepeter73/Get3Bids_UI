@@ -16,7 +16,7 @@ import {faCameraRetro, faVideo} from '@fortawesome/free-solid-svg-icons';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class InvestorMediaComponent implements OnInit {
-  private newInvestorMediaSaveSuccess: boolean = false;
+   newInvestorMediaSaveSuccess: boolean = false;
 
   constructor(public quickQuoteService: QuickQuoteService, private _location: Location,
               private route: ActivatedRoute, private router: Router,
@@ -38,6 +38,11 @@ export class InvestorMediaComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTaxonomy();
+    this.newInvestor.channelType = parseInt(this.route.snapshot.paramMap.get('channel-type'));
+    this.newInvestor.obInvestorId = parseInt(this.route.snapshot.paramMap.get('ob-investor-id'));
+    this.getInvestorByChannelType(this.newInvestor.channelType);
+    this.getMediaLocationByFormatType(this.investorLogoType);
+
   }
   backClicked($event: MouseEvent) {
     $event.preventDefault();

@@ -6,8 +6,9 @@ import {NbDialogService} from '@nebular/theme';
 import {TaxonomyService} from '@data/service/taxonomy.service';
 import {Taxonomy} from '@data/schema/taxonomy';
 import {InvestorPricing} from '@data/schema/investorpricing';
-import { faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faCameraRetro, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {NewInvestor} from '@data/schema/new-investor';
+import {MediaLocation} from '@data/schema/user/media-location';
 @Component({
   selector: 'app-investor-pricing',
   templateUrl: './investor-pricing.component.html',
@@ -29,9 +30,14 @@ export class InvestorPricingComponent implements OnInit {
   loading =false;
   channelTypeTaxonomy : Taxonomy;
   selectedChannelType =0;
+  mediaLocations : MediaLocation[]=[];
+  investorLogoType = "104";
+  facamera = faCameraRetro;
+
 
 
   ngOnInit(): void {
+    this.getMediaLocationByFormatType(this.investorLogoType);
     this.quickQuoteService.getAllNewInvestors().subscribe(i =>{
       this.investors = i;
 
@@ -48,6 +54,7 @@ export class InvestorPricingComponent implements OnInit {
         .filter(tax => tax.type === 'ChannelType')
         .pop();
     });
+
   }
   backClicked($event: MouseEvent) {
     $event.preventDefault();
@@ -91,6 +98,7 @@ export class InvestorPricingComponent implements OnInit {
     this.quickQuoteService.getAllNewInvestorsByChannelType(this.selectedChannelType).subscribe(i =>{
       this.investors = i;
 
+
     })
     this.quickQuoteService.getAllInvestorPricingByChannelType(this.selectedChannelType).subscribe(pricing => {
         this.investorPricing = pricing;
@@ -100,5 +108,22 @@ export class InvestorPricingComponent implements OnInit {
 
   investorMedia() {
     this.router.navigate(["/admin/investor-media"]);
+  }
+  getMediaURL(mediaId:number) {
+    let mediaURL ;
+    if (this.mediaLocations){
+       mediaURL = this.mediaLocations.filter(m => m.mediaId === mediaId).pop().mediaURL;
+    }
+    return mediaURL;
+  }
+
+  getMediaLocationByFormatType(formatType: string){
+     this.quickQuoteService.getMediaLocationByFormatType(formatType).subscribe(ml =>{
+      this.mediaLocations = ml;
+    })
+  }
+
+  editInvestorLogo(channelType:number,obinvestorId:number) {
+    this.router.navigate(["/admin/investor-media/"+channelType+"/"+obinvestorId]);
   }
 }

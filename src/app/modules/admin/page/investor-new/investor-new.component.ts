@@ -6,7 +6,9 @@ import {NbDialogService} from '@nebular/theme';
 import {TaxonomyService} from '@data/service/taxonomy.service';
 import {NewInvestor} from '@data/schema/new-investor';
 import {Taxonomy} from '@data/schema/taxonomy';
-
+import {MediaLocation} from '@data/schema/user/media-location';
+import {MediaDialogComponent} from '@modules/admin/component/media-dialog/media-dialog.component';
+import {faCameraRetro, faVideo} from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-investor-new',
   templateUrl: './investor-new.component.html',
@@ -24,17 +26,34 @@ export class InvestorNewComponent implements OnInit {
   errorMessage ="";
   loading = false;
   channelTypeTaxonomy : Taxonomy;
+  mediaLocations : MediaLocation[]=[];
+  investorLogoType = "104";
+  facamera = faCameraRetro;
   ngOnInit(): void {
     this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
       this.channelTypeTaxonomy = taxonomies
         .filter(tax => tax.type === 'ChannelType')
         .pop();
     });
-
+    this.getMediaLocationByFormatType(this.investorLogoType)
   }
   backClicked($event: MouseEvent) {
     $event.preventDefault();
     this._location.back();
+  }
+  getMediaLocationByFormatType(formatType: string){
+    this.quickQuoteService.getMediaLocationByFormatType(formatType).subscribe(ml =>{
+      this.mediaLocations = ml;
+    })
+  }
+  openInvestorLogo() {
+    const selectedInvestorLogo = this.mediaLocations.filter(m => m.mediaId === this.newInvestor.mediaId).pop();
+    this.dialogService.open(MediaDialogComponent, {
+      context: {
+        title: 'Preview Window',
+        videoURL: selectedInvestorLogo.mediaURL,
+      },
+    });
   }
   saveNewInvestor(){
     this.errorMessage = "";
