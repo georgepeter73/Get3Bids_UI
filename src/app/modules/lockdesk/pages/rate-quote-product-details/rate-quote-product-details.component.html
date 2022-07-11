@@ -15,11 +15,11 @@
 
         <div class="row text-right">
           <div class="col-md-6 nmls text-left d-none d-md-inline-block" style="padding-top: 10px;padding-left: 55px;">
-            <img src="assets/images/investor/{{investorName(product?.investorId)?.name}}.png"
+            <img [src]="product?.mediaURL"
                  style="width: 80%; max-width: 115px"><br>
             <span
-              style="line-height: 35px;font-size: 0.8rem;display: inline-flex;">NMLS #{{investorName(product?.investorId)?.nmls}}
-              <star-rating [value]="investorName(product?.investorId)?.numberOfStars" totalstars="5"
+              style="line-height: 35px;font-size: 0.8rem;display: inline-flex;">NMLS #{{product?.nmls}}
+              <star-rating [value]="product?.starRating" totalstars="5"
                            checkedcolor="#ffbf00" uncheckedcolor="white" size="18px" readonly="true"
                            style="line-height: 32px; padding-left: 9px;"></star-rating>
                 </span>

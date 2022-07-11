@@ -62,16 +62,16 @@
                   <div class="row">
                   <div class="col-md-3 nmls">
                    <div *ngIf="investorName(product?.investorId)?.name">
-                    <img src="assets/images/investor/{{investorName(product?.investorId)?.name}}.png" class="img-fluid"
+                    <img [src]="product?.mediaURL" class="img-fluid"
                          style="width: 6rem;  max-width:6rem">
                    </div>
-                     <div *ngIf="!investorName(product?.investorId)?.name">
+                     <div *ngIf="!product?.mediaURL">
                        <img src="https://via.placeholder.com/105x45/DD0033/FFFF00?text={{product?.investorId}}">
                      </div>
                    <br>
-                    NMLS #{{investorName(product?.investorId)?.nmls}}<br>
+                    NMLS #{{product?.nmls}}<br>
 
-                    <star-rating [value]="investorName(product?.investorId)?.numberOfStars" totalstars="5"
+                    <star-rating [value]="product?.starRating" totalstars="5"
                                  checkedcolor="#ffbf00" uncheckedcolor="white" size="18px"
                                  readonly="true"></star-rating>
 

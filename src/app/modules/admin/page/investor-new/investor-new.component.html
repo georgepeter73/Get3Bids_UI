@@ -25,6 +25,20 @@
              id="invNameName" nbInput type="text" shape="rectangle"  placeholder="ABC" />
     </div>
   </div>
+  <div class="form-group  row mb-2" >
+    <label  class="label col-3 col-form-label">NMLS*</label>
+    <div class="col-9">
+      <input class="form-control" #nmls="ngModel" [(ngModel)]="newInvestor.nmls" name="nmls"
+             id="nmlsid" nbInput type="text" shape="rectangle"  placeholder="NMLS" />
+    </div>
+  </div>
+  <div class="form-group  row mb-2" >
+    <label  class="label col-3 col-form-label">Star Rating*</label>
+    <div class="col-9">
+      <input class="form-control" #starRating="ngModel" [(ngModel)]="newInvestor.starRating" name="starRating"
+             id="starRatingId" nbInput type="text" shape="rectangle"  placeholder="Star Rating" />
+    </div>
+  </div>
   <div class="form-group  row mb-2">
     <label  class="label col-3 col-form-label">Channel Type*</label>
     <div class="col-9">

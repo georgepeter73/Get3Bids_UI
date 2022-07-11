@@ -1,6 +1,4 @@
 import { Guideline } from '@data/schema/lockdesk/guideline';
-import { Guidelinelink } from '@data/schema/lockdesk/guidelinelink';
-
 export class Product {
   apr: number;
   armIndex: string;
@@ -29,6 +27,9 @@ export class Product {
   quoteId: number;
   searchId: string;
   guidelines: Guideline[];
+  mediaURL : string;
+  nmls : number;
+  starRating : number;
 
   constructor(
     apr: number,
@@ -57,7 +58,10 @@ export class Product {
     productName: string,
     quoteId: number,
     searchId: string,
-    guidelines?: Guideline[]
+    guidelines?: Guideline[],
+    mediaURL? : string,
+    nmls? : number,
+    starRating? : number,
   ) {
     this.apr = apr;
     this.armIndex = armIndex;
@@ -92,5 +96,8 @@ export class Product {
           guideline ? guideline.guidelineLink : null
         )
     );
+    this.mediaURL = mediaURL;
+    this.nmls = nmls;
+    this.starRating = starRating;
   }
 }

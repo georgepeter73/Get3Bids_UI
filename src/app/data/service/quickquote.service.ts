@@ -566,6 +566,8 @@ export class QuickQuoteService {
       newInvestor.channelType = res['channelType'];
       newInvestor.mediaId = res['mediaId'];
       newInvestor.deleteFlag = res['deleteFlag'];
+      newInvestor.nmls = res['nmls'];
+      newInvestor.starRating = res['starRating'];
     }
 
     return newInvestor;
