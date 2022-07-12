@@ -30,9 +30,9 @@
 
       </div>
     </div>
-      <nb-alert accent="warning"  *ngIf="mainlockLoanDataLoading && initialLockLoan && finalLockLoan && initialLockLoan.lockStatus && !finalLockLoan.repriceSuccess" size="medium" >
+      <!--<nb-alert accent="warning"  *ngIf="mainlockLoanDataLoading && initialLockLoan && finalLockLoan && initialLockLoan.lockStatus && !finalLockLoan.repriceSuccess" size="medium" >
       Selected product rate for the  lock period is no more available...
-      </nb-alert>
+      </nb-alert>-->
       <nb-alert accent="success"  *ngIf="lockLoanSuccessful" size="small" >
       {{lockLoanActionSuccessMessage}}
     </nb-alert>
