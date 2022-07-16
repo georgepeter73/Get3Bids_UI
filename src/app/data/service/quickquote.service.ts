@@ -359,6 +359,20 @@ export class QuickQuoteService {
       )
       .pipe();
   }
+  public saveNewInvestorMedia(newInvestor : NewInvestor): Observable<NewInvestor> {
+    return this.http
+      .post(
+        API_URL + '/api/v1/auth/save-investor',
+        JSON.stringify(newInvestor),
+        this.requestOptions
+      )
+      .pipe(
+        map(response => {
+          return this.getInvestor(<NewInvestor>response)
+        })
+      )
+
+  }
   public getUserMLOPricing(userUUID:string): Observable<InvestorPricing[]>{
     return this.http
       .get(API_URL + '/api/v1/auth/get-lo-pricing?userUUID=' + userUUID
@@ -550,6 +564,10 @@ export class QuickQuoteService {
       newInvestor.investorName = res['investorName'];
       newInvestor.investorId = res['investorId'];
       newInvestor.channelType = res['channelType'];
+      newInvestor.mediaId = res['mediaId'];
+      newInvestor.deleteFlag = res['deleteFlag'];
+      newInvestor.nmls = res['nmls'];
+      newInvestor.starRating = res['starRating'];
     }
 
     return newInvestor;

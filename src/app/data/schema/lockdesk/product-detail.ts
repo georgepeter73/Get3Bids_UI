@@ -28,6 +28,7 @@ export class ProductDetail {
   originationFees: number;
   investorId: number;
   messages: Message[];
+  mediaURL : string;
   constructor(
     productName: string,
     quotes: Quote[],
@@ -52,7 +53,8 @@ export class ProductDetail {
     armRelativeCap: number,
     originationFees: number,
     investorId: number,
-    messages: Message[]
+    messages: Message[],
+    mediaURL : string,
   ) {
     this.productName = productName;
     this.quotes = quotes;
@@ -78,5 +80,6 @@ export class ProductDetail {
     this.messages = messages;
     this.customAdjustments = customAdjustments;
     this.customMargins = customMargins;
+    this.mediaURL = mediaURL;
   }
 }

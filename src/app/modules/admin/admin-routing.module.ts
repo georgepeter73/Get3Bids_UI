@@ -20,6 +20,7 @@ import {CompanyPricingBreakupComponent} from '@modules/admin/page/company-pricin
 import {CompanyMediaComponent} from '@modules/admin/page/company-media/company-media.component';
 import {LogSearchSelectedProductComponent} from '@modules/admin/page/log-search-selected-product/log-search-selected-product.component';
 import {AdminGuard} from '@app/guard/admin.guard';
+import {InvestorMediaComponent} from '@modules/admin/page/investor-media/investor-media.component';
 
 
 const routes: Routes = [
@@ -113,6 +114,11 @@ const routes: Routes = [
     path: "log-search-selected-product",
     canActivate: [AuthGuard,AdminGuard],
     component: LogSearchSelectedProductComponent
+  },
+  {
+    path :"investor-media/:channel-type/:ob-investor-id",
+    canActivate: [AuthGuard,AdminGuard],
+    component : InvestorMediaComponent
   }
 
 ];

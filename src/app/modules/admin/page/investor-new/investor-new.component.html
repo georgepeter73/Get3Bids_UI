@@ -25,6 +25,20 @@
              id="invNameName" nbInput type="text" shape="rectangle"  placeholder="ABC" />
     </div>
   </div>
+  <div class="form-group  row mb-2" >
+    <label  class="label col-3 col-form-label">NMLS*</label>
+    <div class="col-9">
+      <input class="form-control" #nmls="ngModel" [(ngModel)]="newInvestor.nmls" name="nmls"
+             id="nmlsid" nbInput type="text" shape="rectangle"  placeholder="NMLS" />
+    </div>
+  </div>
+  <div class="form-group  row mb-2" >
+    <label  class="label col-3 col-form-label">Star Rating*</label>
+    <div class="col-9">
+      <input class="form-control" #starRating="ngModel" [(ngModel)]="newInvestor.starRating" name="starRating"
+             id="starRatingId" nbInput type="text" shape="rectangle"  placeholder="Star Rating" />
+    </div>
+  </div>
   <div class="form-group  row mb-2">
     <label  class="label col-3 col-form-label">Channel Type*</label>
     <div class="col-9">
@@ -34,9 +48,24 @@
     </div>
 
   </div>
+  <div class="form-group  row mb-2">
+    <label  class="label col-3 col-form-label">Investor Logo</label>
+    <div class="col-9">
+      <nb-select  [(ngModel)]="newInvestor.mediaId"   #mediaId="ngModel" name="mediaId" required size="small"  placeholder="Investor Logo"    >
+        <nb-option *ngFor="let location of mediaLocations" [value]="location.mediaId">{{location.mediaDescription}}</nb-option>
+      </nb-select>
+      <button class="col-1" *ngIf="newInvestor.mediaId" type="button" nbButton  ghost (click)="openInvestorLogo()"><fa-icon size="1x" [icon]="facamera" class="m-1" ></fa-icon></button>
+
+    </div>
+
+
+  </div>
   <div class="col-12 text-right m-2">
     <button nbButton size="medium" type="button" (click)="saveNewInvestor()"
-            [nbSpinner]="loading" nbSpinnerStatus="primary" [disabled]="!newInvestor.investorId || !newInvestor.channelType || !newInvestor.investorName"
+            [nbSpinner]="loading" nbSpinnerStatus="primary" [disabled]="!newInvestor.investorId
+            || channelTypes.length == 0
+            || !newInvestor.investorName
+            || !newInvestor.nmls || !newInvestor.starRating"
             status="primary" >Save
     </button>
   </div>

@@ -37,7 +37,7 @@
       *ngIf="investors">
          <div *ngFor="let investor of investors">
           <fieldset class="border p-2">
-            <h5>{{investor.investorName}}</h5>
+            <h5> <img (click)="editInvestorLogo(investor.channelType,investor.obInvestorId)" *ngIf="investor.mediaId" [src]="getMediaURL(investor.mediaId)" alt="investor logo" style="width: 6rem;  max-width:6rem"> </h5>
             <div *ngIf="getPricingByInvestor(investor.investorId.toString())">
             <div *ngFor="let pricing of getPricingByInvestor(investor.investorId.toString())" class="row m-2" >
               <div class="col-6">
