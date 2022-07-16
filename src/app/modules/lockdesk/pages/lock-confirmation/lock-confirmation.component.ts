@@ -483,7 +483,9 @@ export class LockConfirmationComponent implements OnInit {
         this.initialLockLoan.lockStatus = this.LockStatusType.float;
         this.initialLockLoan.lockState = this.LockStatesType.Unlock;
         this.initialLockLoan.lockExtensionDays=[];
-        this.initialLockLoan.productDetail.customAdjustments=[];
+        if(this.initialLockLoan.productDetail) {
+          this.initialLockLoan.productDetail.customAdjustments = [];
+        }
         this.lockLoanActionSuccessMessage = "Un-lock successful."
 
       }
