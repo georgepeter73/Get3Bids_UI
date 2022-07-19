@@ -20,7 +20,6 @@ import {ConfirmationDialogModel} from '@data/schema/ConfirmationDialogModal';
 import {ConfirmationDialogCompComponent} from '@shared/component/confirmation-dialog-comp/confirmation-dialog-comp.component';
 import {AuthService} from '@app/service/auth.service';
 import {LockingActions} from '@data/schema/lockdesk/locking-actions';
-import {NbDialogService} from '@nebular/theme';
 
 @Component({
   selector: 'app-lock-confirmation',
