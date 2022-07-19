@@ -80,6 +80,7 @@
         </div>
         <div class="col-6" *ngIf="initialLockLoan?.lockStatus == LockStatusType.expired">
           <strong>{{initialLockLoan?.lockStatusStr}}</strong>
+          <fa-icon  size="1x" [icon]="faclock" class="m-1"></fa-icon>
 
         </div>
 

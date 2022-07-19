@@ -10,7 +10,7 @@ import {TaxonomyService} from '@data/service/taxonomy.service';
 import {Taxonomy} from '@data/schema/taxonomy';
 import {LockLoan} from '@data/schema/lockdesk/lock-loan';
 import {GridOptions} from 'ag-grid-community';
-import {faLock,faUnlock,faPrint,faSave,faTrash} from '@fortawesome/free-solid-svg-icons';
+import {faLock,faUnlock,faPrint,faSave,faTrash,faCalendarMinus} from '@fortawesome/free-solid-svg-icons';
 import {LockLoanConfirmation} from '@data/schema/lockdesk/lock-loanconfirmation';
 import {Adjustment} from '@data/schema/lockdesk/adjustment';
 import {LockExtensionmaster} from '@data/schema/lockdesk/lock-extensionmaster';
@@ -60,6 +60,7 @@ export class LockConfirmationComponent implements OnInit {
   faprint=faPrint;
   fasave = faSave;
   fatrash = faTrash;
+  faclock = faCalendarMinus
   rowData: any ;
   lockStatusType : Taxonomy;
   lockRequestStatusType : Taxonomy;
