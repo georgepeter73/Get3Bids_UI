@@ -11,7 +11,7 @@
     </div>
   </nb-card-header>
   <nb-card-body >
-    <div class="row p-2 dontprintthissection" [nbSpinner]="actionSpinnerLoading" nbSpinnerStatus="primary">
+    <div class="row p-2 dontprintthissection" [nbSpinner]="mainDataLoadingSpinner" nbSpinnerStatus="primary">
      <div class="col-4"  *ngIf="lockRequestStatusType && lockRequestStatusType.taxonomyItems">
      <nb-select shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="giant"  placeholder="Locking Actions..."
                 id="lockRequestWFId"  (ngModelChange)="saveRateLockConfirmation(lockState)" >
@@ -33,10 +33,10 @@
       <!--<nb-alert accent="warning"  *ngIf="mainlockLoanDataLoading && initialLockLoan && finalLockLoan && initialLockLoan.lockStatus && !finalLockLoan.repriceSuccess" size="medium" >
       Selected product rate for the  lock period is no more available...
       </nb-alert>-->
-      <nb-alert accent="success"  *ngIf="lockLoanSuccessful" size="small" >
+      <nb-alert accent="success" class="dontprintthissection"  *ngIf="lockLoanSuccessful" size="small" >
       {{lockLoanActionSuccessMessage}}
     </nb-alert>
-    <nb-alert accent="success"  *ngIf="lockLoanFailure" size="small" >
+    <nb-alert accent="success" class="dontprintthissection" *ngIf="lockLoanFailure" size="small" >
       {{lockLoanActionFailureMessage}}
     </nb-alert>
     <ng-container *ngIf="minDataLoading else minloadingOrError">
