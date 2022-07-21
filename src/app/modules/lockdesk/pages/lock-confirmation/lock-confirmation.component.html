@@ -13,14 +13,14 @@
   <nb-card-body >
     <div class="row p-2 dontprintthissection" [nbSpinner]="mainDataLoadingSpinner" nbSpinnerStatus="primary">
      <div class="col-4"  *ngIf="lockRequestStatusType && lockRequestStatusType.taxonomyItems">
-     <nb-select shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="giant"  placeholder="Locking Actions..."
+     <nb-select fullWidth shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="giant"  placeholder="Locking Actions..."
                 id="lockRequestWFId"  (ngModelChange)="saveRateLockConfirmation(lockState)" >
        <nb-option  [disabled]="!lock_action.enabled"  *ngFor="let lock_action of lockingActions"
                    [value]="lock_action.key">{{lock_action.value}}</nb-option>
     </nb-select>
     </div>
      <div class="col-4"  *ngIf="lockState == LockStatesType.RequestLockExtension">
-        <nb-select shape="semi-round" [(ngModel)]="lockExtensionDays"    #lockExntendDay="ngModel" name="lockExntendDay" required size="large"  placeholder="Lock Extension Days..."
+        <nb-select fullWidth shape="semi-round" [(ngModel)]="lockExtensionDays"    #lockExntendDay="ngModel" name="lockExntendDay" required size="giant"  placeholder="Lock Extension Days..."
                    id="lockRequestWFId"  (ngModelChange)="saveLockExtensionConfirmation(lockState,lockExtensionDays)" >
           <nb-option    *ngFor="let lockExtensionmaster of lockExtensionMaster"
                       [value]="lockExtensionmaster.numberOfDays">{{lockExtensionmaster.description}}</nb-option>
