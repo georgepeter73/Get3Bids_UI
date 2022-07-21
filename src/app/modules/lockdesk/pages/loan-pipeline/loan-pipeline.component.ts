@@ -57,6 +57,7 @@ export class LoanPipelineComponent implements OnInit {
     {
       headerName: 'Loan Amount',
       field: 'loanAmount',
+      valueFormatter: params => this.currencyFormatter(params.data.loanAmount, '$'),
       sortable: true,
       filter: true,
       checkboxSelection: false,
@@ -66,6 +67,7 @@ export class LoanPipelineComponent implements OnInit {
     {
       headerName: 'Appraisal Value',
       field: 'appraisalValue',
+      valueFormatter: params => this.currencyFormatter(params.data.appraisalValue, '$'),
       sortable: true,
       filter: true,
       checkboxSelection: false,
@@ -106,6 +108,11 @@ export class LoanPipelineComponent implements OnInit {
   mloUserName: any;
   userLoading: any;
   showTheGrid = false;
+  currencyFormatter(currency, sign) {
+    var sansDec = Number(currency).toFixed(0);
+    var formatted = sansDec.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return sign + `${formatted}`;
+   }
 
   ngOnInit(): void {
     this.showTheGrid = false;
