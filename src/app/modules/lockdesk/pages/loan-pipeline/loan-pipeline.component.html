@@ -10,21 +10,21 @@
      <div *ngIf="globalService.getIsLockDesk()">
     <div class="form-group row mb-2" >
       <label class="label col-3 col-form-label">Branch</label>
-      <div class="col-4">
-        &nbsp;<nb-select   [(ngModel)]="brokercompanyId"   #brokerCompany="ngModel" name="brokerCompany" required size="giant"  placeholder="Select a company" id="brokerCompanyid" [nbSpinner]="brokerCompanyLoading" nbSpinnerStatus="primary" (ngModelChange)="loadUsers()" >
+      <div class="col-5">
+        &nbsp;<nb-select fullWidth  [(ngModel)]="brokercompanyId"   #brokerCompany="ngModel" name="brokerCompany" required size="giant"  placeholder="Select a company" id="brokerCompanyid" [nbSpinner]="brokerCompanyLoading" nbSpinnerStatus="primary" (ngModelChange)="loadUsers()" >
           <nb-option *ngFor="let brokercompany of brokerCompanyList" [value]="brokercompany.brokercompanyId">{{brokercompany.name}}</nb-option>
       </nb-select>
       </div>
-      <div class="col-5"></div>
+      <div class="col-4"></div>
     </div>
       <div class="form-group row mb-2" *ngIf="brokercompanyId!='-1'">
         <label class="label col-3 col-form-label" >MLO</label>
-        <div class="col-4" >
-          &nbsp;<nb-select  [(ngModel)]="mloUserName"   #userMLO="ngModel" name="userMLO" required size="giant"  placeholder="Select a MLO" id="usrMLOId"  [nbSpinner]="userLoading" nbSpinnerStatus="primary" (ngModelChange)="loadLoansFromLendingpad()">
+        <div class="col-5" >
+          &nbsp;<nb-select fullWidth [(ngModel)]="mloUserName"   #userMLO="ngModel" name="userMLO" required size="giant"  placeholder="Select a MLO" id="usrMLOId"  [nbSpinner]="userLoading" nbSpinnerStatus="primary" (ngModelChange)="loadLoansFromLendingpad()">
            <nb-option *ngFor="let user of userMLOList" [value]="user.userName">{{user.firstName+" "+user.lastName}}</nb-option>
         </nb-select>
         </div>
-        <div class="col-5"></div>
+        <div class="col-4"></div>
       </div>
     </div>
 
