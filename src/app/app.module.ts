@@ -45,7 +45,10 @@ import {NgxMaskModule} from 'ngx-mask';
 import { LockdeskLayoutComponent } from './layout/lockdesk-layout/lockdesk-layout.component';
 import { LockdeskHeaderComponent } from './layout/lockdesk-header/lockdesk-header.component';
 import { LockdeskFooterComponent } from './layout/lockdesk-footer/lockdesk-footer.component';
-
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './app-state';
+import { UserEffects } from './app-state/effects';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
     declarations: [
@@ -106,6 +109,11 @@ import { LockdeskFooterComponent } from './layout/lockdesk-footer/lockdesk-foote
         NbTabsetModule,
         NbTooltipModule,
         NgxMaskModule.forRoot(),
+      // ngrx related imports
+        StoreModule.forRoot(reducers, {
+        metaReducers
+       }),
+       EffectsModule.forRoot([UserEffects])
 
 
 

@@ -85,7 +85,13 @@
     "tslib": "^1.11.0",
     "uuid": "^3.4.0",
     "web-animations-js": "^2.3.2",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.10.2",
+    "@ngrx/effects": "^9.2.0",
+    "@ngrx/entity": "^9.2.0",
+    "@ngrx/router-store": "^9.2.0",
+    "@ngrx/store": "^9.2.0",
+    "@ngrx/store-devtools": "^9.2.0",
+    "ngrx-store-localstorage": "^9.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.900.5",

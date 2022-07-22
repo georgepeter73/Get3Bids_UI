@@ -1,6 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {Router} from '@angular/router';
-
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../../../app-state';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {User} from '../../../../app-state/entity';
 @Component({
   selector: 'app-admin-dash',
   templateUrl: './admin-dash.component.html',
@@ -8,12 +12,22 @@ import {Router} from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminDashComponent implements OnInit {
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  user: User;
+  constructor(private router: Router, private readonly store: Store) {
 
-  constructor(private router: Router) { }
+    this.store.select(fromRoot.userLogin).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(data => {
+      this.user = data.user;
+     });
+
+  }
 
   ngOnInit(): void {
-    //nothing
+
   }
+
 
   mlo() {
     this.router.navigate(["/admin/mlo-list/0"]);

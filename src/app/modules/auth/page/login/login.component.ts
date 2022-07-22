@@ -7,6 +7,9 @@ import {
   AuthState,
   CognitoUserInterface
 } from "@aws-amplify/ui-components";
+import * as userActions from '../../../../app-state/actions';
+import {User} from '../../../../app-state/entity';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: "app-login",
@@ -25,7 +28,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private readonly store: Store
   ) {
     this.buildForm();
   }
@@ -55,6 +59,7 @@ export class LoginComponent implements OnInit {
           "idToken",
           this.user["signInUserSession"]["idToken"]["jwtToken"]
         );
+        this.store.dispatch(userActions.login({user: new User()}));
         localStorage.setItem("cognitoSession", this.user["signInUserSession"]);
         if(this.authService.isAdmin()){
           this.returnUrl = "/admin";
