@@ -34,7 +34,6 @@ export class UserEffects {
       isLockDesk : this.authService.isLockDesk(),
       isAdmin: this.authService.isAdmin()
     }
-    alert("Calling effect")
    return of(user);
   }
 
