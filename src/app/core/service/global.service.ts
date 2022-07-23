@@ -136,9 +136,9 @@ export class GlobalService {
     this.productFilterList[0] = { key: '101', value: '30-Year Fixed' };
     this.productFilterList[1] = { key: '102', value: '25-Year Fixed' };
     this.productFilterList[2] = { key: '103', value: '15-Year Fixed' };
-    this.productFilterList[3] = { key: '104', value: '5/1 ARM' };
-    this.productFilterList[4] = { key: '105', value: '7/1 ARM' };
-    this.productFilterList[5] = { key: '106', value: '10/1 ARM' };
+    this.productFilterList[3] = { key: '104', value: 'ARM' };
+    this.productFilterList[4] = { key: '105', value: '25-Year ARM' };
+    this.productFilterList[5] = { key: '106', value: '15-Year ARM' };
   }
 
   loanTypeListMapping() {
@@ -158,9 +158,9 @@ export class GlobalService {
     this.productGroup.set('101', new ProductGroup(30, 'Fixed', '30'));
     this.productGroup.set('102', new ProductGroup(25, 'Fixed', '25'));
     this.productGroup.set('103', new ProductGroup(15, 'Fixed', '15'));
-    this.productGroup.set('104', new ProductGroup(30, 'ARM', '5/1'));
-    this.productGroup.set('105', new ProductGroup(30, 'ARM', '7/1'));
-    this.productGroup.set('106', new ProductGroup(30, 'ARM', '10/1'));
+    this.productGroup.set('104', new ProductGroup(30, 'ARM', 'ARM'));
+    this.productGroup.set('105', new ProductGroup(25, 'ARM', 'ARM'));
+    this.productGroup.set('106', new ProductGroup(15, 'ARM', 'ARM'));
   }
   setWelcomeFlag(welcomeFlag: string) {
     sessionStorage.setItem('welcome_flag', JSON.stringify(welcomeFlag));
