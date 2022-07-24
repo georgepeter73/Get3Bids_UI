@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
       }else if(this.authService.isLockDeskOrMLO()){
         this.returnUrl = "/lockdesk";
       }
+      this.store.dispatch(userActions.login({user: new User()}));
       await this.router.navigate([this.returnUrl]);
     } else {
       localStorage.clear();

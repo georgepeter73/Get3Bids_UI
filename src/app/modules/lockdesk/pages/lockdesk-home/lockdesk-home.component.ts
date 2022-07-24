@@ -37,4 +37,8 @@ export class LockdeskHomeComponent implements OnInit {
   adminDash() {
     this.router.navigate(["/admin/admin-dash"]);
   }
+
+  quickPricer() {
+    this.router.navigate(["/quickpricer/params"]);
+  }
 }

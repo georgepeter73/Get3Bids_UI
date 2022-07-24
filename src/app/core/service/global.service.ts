@@ -50,86 +50,9 @@ export class GlobalService {
       JSON.parse(sessionStorage.getItem('newLoanResponse'))
     );
     this.welcomeFlag = JSON.parse(sessionStorage.getItem('welcome_flag'));
-    this.investorNameMapping();
     this.productGroupMapping();
     this.productGrouping();
     this.loanTypeListMapping();
-  }
-
-  investorNameMapping() {
-    this.investorNameMap.set(
-      106827,
-      new Investor('e2lending', 106827, 411341, 1234, 4)
-    );
-    this.investorNameMap.set(
-      106844,
-      new Investor('uwm', 106844, 3038, 1234, 5)
-    );
-    this.investorNameMap.set(
-      107600,
-      new Investor('firstguaranty', 107600, 2917, 1234, 4.5)
-    );
-    this.investorNameMap.set(
-      106846,
-      new Investor('quicken', 106846, 3030, 1234, 4.5)
-    );
-
-    this.investorNameMap.set(
-      107018,
-      new Investor('carrington', 107018, 2600, 1234, 4)
-    );
-    this.investorNameMap.set(
-      107596,
-      new Investor('homebridge', 107596, 6521, 1234, 4.5)
-    );
-    this.investorNameMap.set(
-      107671,
-      new Investor('franklin-america', 107671, 433960, 1234, 4)
-    );
-    this.investorNameMap.set(
-      111296,
-      new Investor('luxury-mortgage', 111296, 2745, 1234, 4)
-    );
-    this.investorNameMap.set(
-      113915,
-      new Investor('rocket-mortgage', 113915, 3030, 1234, 4.5)
-    );
-    this.investorNameMap.set(
-      117697,
-      new Investor('arc-home', 117697, 81386, 1234, 4)
-    );
-    this.investorNameMap.set(
-      1234,
-      new Investor('reliant-bank', 126071, 527661, 1234, 4)
-    );
-    this.investorNameMap.set(
-      132820,
-      new Investor('pennymac', 132820, 35953, 1234, 5)
-    );
-    this.investorNameMap.set(
-      132847,
-      new Investor('amerihome', 132847, 135776, 1234, 5)
-    );
-    this.investorNameMap.set(
-      133131,
-      new Investor('fgmc', 133131, 2917, 1234, 5)
-    );
-    this.investorNameMap.set(
-      133197,
-      new Investor('homepoint', 133197, 7706, 1234, 5)
-    );
-    this.investorNameMap.set(
-      133604,
-      new Investor('famc', 133604, 433960, 1234, 5)
-    );
-    this.investorNameMap.set(
-      134807,
-      new Investor('cypress', 134807, 2884, 1234, 5)
-    );
-    this.investorNameMap.set(
-      135022,
-      new Investor('northpointe', 135022, 447490, 1234, 5)
-    );
   }
 
   productGroupMapping() {

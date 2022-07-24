@@ -5,16 +5,23 @@
   <nb-card-body >
     <div class="row py-3">
       <fieldset class="border  rounded-lg col-12 " *ngIf="!globalService.getIsLockDesk()">
-        <legend  class="w-auto"><strong>Lock Desk</strong></legend>
+        <p>Price a Loan</p>
+        <button ghost nbButton status="primary"  (click)="quickPricer()">
+          Quick Pricer
+        </button>
         <p>Loan Pipeline has all your LendingPad Loans</p>
         <button ghost nbButton status="primary"  (click)="loanPipeline()">
           Loan Pipeline
         </button>
 
+
       </fieldset>
       <fieldset class="border  rounded-lg col-12 " *ngIf="globalService.getIsLockDesk()">
-        <legend  class="w-auto"><strong>Lock Desk</strong></legend>
-        <p>Loan Pipeline has loans from all MLO's</p>
+        <p>Price a Loan</p>
+        <button ghost nbButton status="primary"  (click)="quickPricer()">
+          Quick Pricer
+        </button>
+         <p>Loan Pipeline has loans from all MLO's</p>
         <button ghost nbButton status="primary"  (click)="loanPipeline()">
           Loan Pipeline
         </button>
@@ -22,6 +29,7 @@
         <button ghost nbButton status="primary"  (click)="lockLoanPipeline()">
           Lock Desk
         </button>
+
 
       </fieldset>
 

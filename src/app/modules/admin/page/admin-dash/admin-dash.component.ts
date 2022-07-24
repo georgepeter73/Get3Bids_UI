@@ -1,10 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {Router} from '@angular/router';
-import { Store } from '@ngrx/store';
-import * as fromRoot from '../../../../app-state';
-import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs';
-import {User} from '../../../../app-state/entity';
 @Component({
   selector: 'app-admin-dash',
   templateUrl: './admin-dash.component.html',
@@ -12,23 +7,13 @@ import {User} from '../../../../app-state/entity';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminDashComponent implements OnInit {
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  user: User;
-  constructor(private router: Router, private readonly store: Store) {
-
-    this.store.select(fromRoot.userLogin).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(data => {
-      this.user = data.user;
-     });
+  constructor(private router: Router) {
 
   }
 
   ngOnInit(): void {
 
   }
-
-
   mlo() {
     this.router.navigate(["/admin/mlo-list/0"]);
   }
@@ -49,5 +34,9 @@ export class AdminDashComponent implements OnInit {
 
   lockDesk() {
     this.router.navigate(["/lockdesk"]);
+  }
+
+  quickPricer() {
+    this.router.navigate(["/quickpricer"]);
   }
 }

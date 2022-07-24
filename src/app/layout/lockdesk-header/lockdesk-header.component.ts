@@ -1,10 +1,14 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {environment} from '@env';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {ThemeService} from '@app/service/theme.service';
 import {AuthService} from '@app/service/auth.service';
 import {NbMenuService, NbSidebarService} from '@nebular/theme';
 import {Router} from '@angular/router';
+import * as fromRoot from '../../app-state';
+import {takeUntil} from 'rxjs/operators';
+import {Store} from '@ngrx/store';
+import {User} from '../../app-state/entity';
 
 @Component({
   selector: 'app-lockdesk-header',
@@ -22,23 +26,32 @@ export class LockdeskHeaderComponent implements OnInit {
   user: any;
   username : string;
   items = [];
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  user1: User;
   constructor(
     private themeService: ThemeService,
     public authService: AuthService,
     private nbMenuService: NbMenuService,
     private sidebarService: NbSidebarService,
     private router: Router,
+    private readonly store: Store
 
 
-  ) {}
+  ) {
+    //state management implementation, need to replicate in all the places
+    this.store.select(fromRoot.userLogin).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(data => {
+      this.user1 = data.user;
+    });
+  }
 
   async ngOnInit() {
-    this.username = localStorage.getItem("user");
-    this.items.push({title:this.authService.getUserFullName(),icon: 'person-outline'});
+     this.username = localStorage.getItem("user");
+    this.items.push({title:this.user1.fullName,icon: 'person-outline'});
     if(this.authService.isLockDesk()){
       this.items.push({ title: 'Loan House Admin', icon: 'settings-outline' })
     }
-
     this.items.push({ title: 'Lock Desk Home', icon: 'home-outline' })
     this.items.push({ title: 'Log out',icon:'arrow-circle-left-outline' })
     this.isDarkTheme$ = this.themeService.getDarkTheme();
@@ -49,7 +62,8 @@ export class LockdeskHeaderComponent implements OnInit {
         if (data.item.title === 'Log out') {
           this.logout();
         }
-        if (data.item.title === 'LockDesk Home') {
+        if (data.item.title === 'Lock Desk Home') {
+
           this.router.navigate(["/lockdesk/"]);
         }
         if (data.item.title === 'Loan House Admin') {

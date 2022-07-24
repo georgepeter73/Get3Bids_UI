@@ -49,6 +49,8 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './app-state';
 import { UserEffects } from './app-state/effects';
 import { EffectsModule } from '@ngrx/effects';
+import { QuickpricerLayoutComponent } from './layout/quickpricer-layout/quickpricer-layout.component';
+
 
 @NgModule({
     declarations: [
@@ -60,6 +62,8 @@ import { EffectsModule } from '@ngrx/effects';
         LockdeskLayoutComponent,
         LockdeskHeaderComponent,
         LockdeskFooterComponent,
+        QuickpricerLayoutComponent,
+
 
 
 

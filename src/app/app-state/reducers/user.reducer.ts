@@ -9,6 +9,8 @@ export interface State {
   isLoading: boolean;
   isLoadingSuccess: boolean;
   isLoadingFailure: boolean;
+  test : boolean;
+  msg : string;
 }
 
 export const initialState: State = {
@@ -16,13 +18,20 @@ export const initialState: State = {
   result: '',
   isLoading: false,
   isLoadingSuccess: false,
-  isLoadingFailure: false
+  isLoadingFailure: false,
+  test : false,
+  msg : '',
+
 };
 
 const loginReducer = createReducer(
   initialState,
   on(userActions.login, (state, {user}) => ({user, isLoading: true})),
-  on(userActions.loginSuccess, (state, result) => ({user: result, result, isLoading: false, isLoadingSuccess: true})),
+  on(userActions.loginSuccess, (state, result) => ({user: result, result, isLoading: false, isLoadingSuccess: true, test: true})),
+  on(userActions.loginFailure, (state, {message}) => ( { user: null, result : null, isLoading: false, isLoadingSuccess: false, test: true, msg: 'failed'})),
+
+
+
 
 );
 
@@ -33,7 +42,8 @@ export function reducer(state: State | undefined, action: Action): any {
 export const getLoggedInUser = (state: State) => {
   return {
     user: state.user,
-    isLoadingSuccess: state.isLoadingSuccess
+    isLoadingSuccess: state.isLoadingSuccess,
+    test : state.test
   }
 };
 
@@ -42,7 +52,8 @@ export const userLogin = (state: State) => {
     user: state.user,
     result: state.result,
     isLoading: state.isLoading,
-    isLoadingSuccess: state.isLoadingSuccess
+    isLoadingSuccess: state.isLoadingSuccess,
+    test : state.test
   }
 };
 

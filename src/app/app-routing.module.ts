@@ -7,6 +7,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { AuthGuard } from "@app/guard/auth.guard";
 import {LockdeskLayoutComponent} from './layout/lockdesk-layout/lockdesk-layout.component';
 import {AdminGuard} from '@app/guard/admin.guard';
+import {QuickpricerLayoutComponent} from './layout/quickpricer-layout/quickpricer-layout.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,13 @@ const routes: Routes = [
     loadChildren: () =>
       import("@modules/auth/auth.module").then(m => m.AuthModule)
   },
+  {
+    path: "quickpricer",
+    component: QuickpricerLayoutComponent,
+    loadChildren: () =>
+      import("@modules/quickpricer/quickpricer.module").then(m => m.QuickpricerModule)
+  },
+
 
 ];
 

@@ -1,0 +1,74 @@
+<nb-card size="giant">
+  <nb-card-header>
+    <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)">
+      <nb-icon icon="arrow-back-outline"></nb-icon>
+      Previous</a></div>
+    <div class="container col-md-8 text-center">
+      Quick Pricer
+    </div>
+
+  </nb-card-header>
+  <nb-card-body class="host">
+    <div class="row">
+      <div class="col-4">
+        <nb-card size="large">
+          <nb-card-body>
+            <div class="row col-12">
+              <fa-icon size="1x" [icon]="faperson" class="pr-1"></fa-icon>
+              <label>Borrower</label>
+            </div>
+            <div class="row m-2">
+
+              <div class="col-6">
+                <input type="number" nbInput fullWidth fieldSize="medium" placeholder="FICO"/>
+              </div>
+              <div class="col-6">
+                <input type="number" nbInput fullWidth fieldSize="medium" placeholder="DTI"/>
+              </div>
+            </div>
+          </nb-card-body>
+
+        </nb-card>
+
+      </div>
+      <div class="col-4">
+        <nb-card size="large">
+          <nb-card-body>
+          <div class="row col-12 m-0">
+            <fa-icon size="1x" [icon]="fadollar" class="pr-1"></fa-icon>
+            <label>Loan Information</label>
+          </div>
+
+            <div class="col-12 p-1">
+              <input type="text" nbInput fullWidth fieldSize="medium" placeholder="Loan Type"/>
+            </div>
+            <div class="col-12 p-1">
+              <input type="text" nbInput fullWidth fieldSize="medium" placeholder="Term"/>
+            </div>
+          </nb-card-body>
+
+        </nb-card>
+      </div>
+      <div class="col-4">
+        <nb-card size="large">
+          <nb-card-body>
+          <div class="row col-12 m-0">
+            <fa-icon size="1x" [icon]="faHome" class="pr-1"></fa-icon>
+            <label>Property</label>
+          </div>
+
+            <div class="col-12 p-1">
+              <input type="text" nbInput fullWidth fieldSize="medium" placeholder="Occupancy"/>
+            </div>
+            <div class="col-12 p-1">
+              <input type="text" nbInput fullWidth fieldSize="medium" placeholder="Property Type"/>
+            </div>
+          </nb-card-body>
+        </nb-card>
+
+      </div>
+
+    </div>
+
+  </nb-card-body>
+</nb-card>
