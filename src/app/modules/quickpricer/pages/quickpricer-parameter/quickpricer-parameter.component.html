@@ -1,5 +1,4 @@
-
-<nb-card  size="giant">
+<nb-card size="giant">
   <nb-card-header>
     <div class="text-left col-md-4 "><a (click)="backClicked($event)" href="#">
       <nb-icon icon="arrow-back-outline"></nb-icon>
@@ -64,37 +63,32 @@
               <label>Loan Information</label>
             </div>
             <div class="row">
-            <div class="col-12 p-1 form-group">
-              <label for="loanTypeId" class="p-1 label">Loan Type</label>
-              <input id="loanTypeId" fieldSize="medium" fullWidth nbInput placeholder="Loan Type" type="text"/>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-12 p-1 form-group">
-              <label for="termId" class="p-1 label">Term</label>
-              <input fieldSize="medium" id="termId" fullWidth nbInput placeholder="Term" type="text"/>
-            </div>
+              <div class="col-12 p-1 form-group">
+                <label for="termId" class="p-1 label">Term</label>
+                <input fieldSize="medium" id="termId" fullWidth nbInput placeholder="Term" type="text"/>
+              </div>
             </div>
             <div class="row">
-            <div class="col-12 p-1 form-group">
-              <label for="amorttypeId" class="p-1 label">Amortization</label>
-              <input fieldSize="medium" id="amorttypeId" fullWidth nbInput placeholder="Amortization Type" type="text"/>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-12 p-1 form-group">
-              <label for="loanPurposeId" class="p-1 label">Loan Purpose</label>
-              <input fieldSize="medium" id="loanPurposeId" fullWidth nbInput placeholder="Loan Purpose" type="text"/>
-            </div>
+              <div class="col-12 p-1 form-group">
+                <label for="loanPurposeId" class="p-1 label">Loan Purpose</label>
+                <nb-select fullWidth shape="rectangle" [(ngModel)]="quickQuote.transactionType" id="loanPurposeId"
+                           #purposeType="ngModel" name="purposeType" size="medium" placeholder="Purpose"
+                >
+                  <nb-option *ngFor="let purposeItem of purposeTypeTaxonomy.taxonomyItems"
+                             [value]="purposeItem.key">{{purposeItem.value}}</nb-option>
+                </nb-select>
+              </div>
             </div>
             <div class="row">
               <div class="col-6 p-1 form-group">
                 <label for="purchasePriceId" class="p-1 label">Purchase Price</label>
-                <input fieldSize="medium" id="purchasePriceId" fullWidth nbInput placeholder="Purchase Price" type="text"/>
+                <input fieldSize="medium" id="purchasePriceId" fullWidth nbInput placeholder="Purchase Price"
+                       type="text"/>
               </div>
               <div class="col-6 p-1 form-group">
                 <label for="appraisedValue" class="p-1 label">Appraised Value</label>
-                <input fieldSize="medium" id="appraisedValue" fullWidth nbInput placeholder="Appraised Value" type="text"/>
+                <input fieldSize="medium" id="appraisedValue" fullWidth nbInput placeholder="Appraised Value"
+                       type="text"/>
               </div>
             </div>
             <div class="row">
@@ -120,28 +114,39 @@
               <label>Property</label>
             </div>
             <div class="row">
-            <div class="col-12 p-1 form-group">
-              <label for="occupancyId" class="p-1 label">Occupancy</label>
-              <input fieldSize="medium" id="occupancyId" fullWidth nbInput placeholder="Occupancy" type="text"/>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-12 p-1">
-              <label for="propertyTypeId" class="p-1 label">Property Type</label>
-              <input fieldSize="medium"  id="propertyTypeId" fullWidth nbInput placeholder="Property Type" type="text"/>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-12 p-1">
-              <label for="numberOfUnitsId" class="p-1 label">Number of Units</label>
-              <input fieldSize="medium"  id="numberOfUnitsId" fullWidth nbInput placeholder="Number of Units" type="text"/>
-            </div>
+              <div class="col-12 p-1 form-group">
+                <label for="occupancyTypeId" class="p-1 label">Occupancy</label>
+                <nb-select fullWidth shape="rectangle" [(ngModel)]="quickQuote.occupancyType" id="occupancyTypeId"
+                           #occupanyType="ngModel" name="occupanyType" size="medium" placeholder="Occupancy"
+                >
+                  <nb-option *ngFor="let occupancyItem of occupancyTaxonomy.taxonomyItems"
+                             [value]="occupancyItem.key">{{occupancyItem.value}}</nb-option>
+                </nb-select>
+              </div>
             </div>
             <div class="row">
-            <div class="col-12 p-1">
-              <label for="zipcodeId" class="p-1 label">Zip Code</label>
-              <input fieldSize="medium"  id="zipcodeId" fullWidth nbInput placeholder="Zip" type="text"/>
+              <div class="col-12 p-1">
+                <label for="propertyTypeId" class="p-1 label">Property Type</label>
+                <nb-select fullWidth shape="rectangle" [(ngModel)]="quickQuote.propertyValue" id="propertyTypeId"
+                           #propertyType="ngModel" name="propertyType" size="medium" placeholder="Property Type"
+                >
+                  <nb-option *ngFor="let propertyTypeItem of propertyInfoTaxonomy.taxonomyItems"
+                             [value]="propertyTypeItem.key">{{propertyTypeItem.value}}</nb-option>
+                </nb-select>
+              </div>
             </div>
+            <div class="row">
+              <div class="col-12 p-1">
+                <label for="numberOfUnitsId" class="p-1 label">Number of Units</label>
+                <input fieldSize="medium" id="numberOfUnitsId" fullWidth nbInput placeholder="Number of Units"
+                       type="text"/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 p-1">
+                <label for="autoCompleteId" class="p-1 label">Zip Code</label>
+                <AutocompleteComponent   (setAddress)="getAddress($event)" adressType="(regions)"  id="autoCompleteId" #autoCompleteId   ></AutocompleteComponent>
+              </div>
 
             </div>
           </nb-card-body>

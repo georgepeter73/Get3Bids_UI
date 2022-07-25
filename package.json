@@ -91,7 +91,8 @@
     "@ngrx/router-store": "^9.2.0",
     "@ngrx/store": "^9.2.0",
     "@ngrx/store-devtools": "^9.2.0",
-    "ngrx-store-localstorage": "^9.0.0"
+    "ngrx-store-localstorage": "^9.0.0",
+    "@types/googlemaps": "^3.39.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.900.5",
