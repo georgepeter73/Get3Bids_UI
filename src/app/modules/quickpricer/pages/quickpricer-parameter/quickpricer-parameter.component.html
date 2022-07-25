@@ -1,6 +1,7 @@
-<nb-card size="giant">
+
+<nb-card  size="giant">
   <nb-card-header>
-    <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)">
+    <div class="text-left col-md-4 "><a (click)="backClicked($event)" href="#">
       <nb-icon icon="arrow-back-outline"></nb-icon>
       Previous</a></div>
     <div class="container col-md-8 text-center">
@@ -13,19 +14,43 @@
       <div class="col-4">
         <nb-card size="large">
           <nb-card-body>
+
             <div class="row col-12">
-              <fa-icon size="1x" [icon]="faperson" class="pr-1"></fa-icon>
+              <fa-icon [icon]="faperson" class="pr-1" size="1x"></fa-icon>
               <label>Borrower</label>
+            </div>
+
+            <div class="row m-2">
+
+              <div class="col-6 form-group">
+                <label class="label" for="ficoId">FICO</label>
+                <input fieldSize="medium" id="ficoId" fullWidth nbInput placeholder="FICO" type="number"/>
+              </div>
+
             </div>
             <div class="row m-2">
 
-              <div class="col-6">
-                <input type="number" nbInput fullWidth fieldSize="medium" placeholder="FICO"/>
+              <div class="col-12">
+                <nb-checkbox>First Time Home Buyer</nb-checkbox>
               </div>
-              <div class="col-6">
-                <input type="number" nbInput fullWidth fieldSize="medium" placeholder="DTI"/>
-              </div>
+
             </div>
+            <div class="row m-2">
+
+              <div class="col-12">
+                <nb-checkbox>Veteran</nb-checkbox>
+              </div>
+
+
+            </div>
+            <div class="row m-2">
+
+              <div class="col-12">
+                <nb-checkbox>Self Employed</nb-checkbox>
+              </div>
+
+            </div>
+
           </nb-card-body>
 
         </nb-card>
@@ -34,17 +59,55 @@
       <div class="col-4">
         <nb-card size="large">
           <nb-card-body>
-          <div class="row col-12 m-0">
-            <fa-icon size="1x" [icon]="fadollar" class="pr-1"></fa-icon>
-            <label>Loan Information</label>
-          </div>
+            <div class="row col-12 m-0">
+              <fa-icon [icon]="fadollar" class="pr-1" size="1x"></fa-icon>
+              <label>Loan Information</label>
+            </div>
+            <div class="row">
+            <div class="col-12 p-1 form-group">
+              <label for="loanTypeId" class="p-1 label">Loan Type</label>
+              <input id="loanTypeId" fieldSize="medium" fullWidth nbInput placeholder="Loan Type" type="text"/>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-12 p-1 form-group">
+              <label for="termId" class="p-1 label">Term</label>
+              <input fieldSize="medium" id="termId" fullWidth nbInput placeholder="Term" type="text"/>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-12 p-1 form-group">
+              <label for="amorttypeId" class="p-1 label">Amortization</label>
+              <input fieldSize="medium" id="amorttypeId" fullWidth nbInput placeholder="Amortization Type" type="text"/>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-12 p-1 form-group">
+              <label for="loanPurposeId" class="p-1 label">Loan Purpose</label>
+              <input fieldSize="medium" id="loanPurposeId" fullWidth nbInput placeholder="Loan Purpose" type="text"/>
+            </div>
+            </div>
+            <div class="row">
+              <div class="col-6 p-1 form-group">
+                <label for="purchasePriceId" class="p-1 label">Purchase Price</label>
+                <input fieldSize="medium" id="purchasePriceId" fullWidth nbInput placeholder="Purchase Price" type="text"/>
+              </div>
+              <div class="col-6 p-1 form-group">
+                <label for="appraisedValue" class="p-1 label">Appraised Value</label>
+                <input fieldSize="medium" id="appraisedValue" fullWidth nbInput placeholder="Appraised Value" type="text"/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 p-1 form-group">
+                <label for="loanAmountId" class="p-1 label">Loan Amount</label>
+                <input fieldSize="medium" id="loanAmountId" fullWidth nbInput placeholder="Loan Amount" type="text"/>
+              </div>
+              <div class="col-6 p-1 form-group">
+                <label for="ltvid" class="p-1 label">LTV</label>
+                <input fieldSize="medium" id="ltvid" fullWidth nbInput placeholder="LTV" type="text"/>
+              </div>
+            </div>
 
-            <div class="col-12 p-1">
-              <input type="text" nbInput fullWidth fieldSize="medium" placeholder="Loan Type"/>
-            </div>
-            <div class="col-12 p-1">
-              <input type="text" nbInput fullWidth fieldSize="medium" placeholder="Term"/>
-            </div>
           </nb-card-body>
 
         </nb-card>
@@ -52,16 +115,34 @@
       <div class="col-4">
         <nb-card size="large">
           <nb-card-body>
-          <div class="row col-12 m-0">
-            <fa-icon size="1x" [icon]="faHome" class="pr-1"></fa-icon>
-            <label>Property</label>
-          </div>
-
-            <div class="col-12 p-1">
-              <input type="text" nbInput fullWidth fieldSize="medium" placeholder="Occupancy"/>
+            <div class="row col-12 m-0">
+              <fa-icon [icon]="faHome" class="pr-1" size="1x"></fa-icon>
+              <label>Property</label>
             </div>
+            <div class="row">
+            <div class="col-12 p-1 form-group">
+              <label for="occupancyId" class="p-1 label">Occupancy</label>
+              <input fieldSize="medium" id="occupancyId" fullWidth nbInput placeholder="Occupancy" type="text"/>
+            </div>
+            </div>
+            <div class="row">
             <div class="col-12 p-1">
-              <input type="text" nbInput fullWidth fieldSize="medium" placeholder="Property Type"/>
+              <label for="propertyTypeId" class="p-1 label">Property Type</label>
+              <input fieldSize="medium"  id="propertyTypeId" fullWidth nbInput placeholder="Property Type" type="text"/>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-12 p-1">
+              <label for="numberOfUnitsId" class="p-1 label">Number of Units</label>
+              <input fieldSize="medium"  id="numberOfUnitsId" fullWidth nbInput placeholder="Number of Units" type="text"/>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-12 p-1">
+              <label for="zipcodeId" class="p-1 label">Zip Code</label>
+              <input fieldSize="medium"  id="zipcodeId" fullWidth nbInput placeholder="Zip" type="text"/>
+            </div>
+
             </div>
           </nb-card-body>
         </nb-card>
@@ -72,3 +153,4 @@
 
   </nb-card-body>
 </nb-card>
+
