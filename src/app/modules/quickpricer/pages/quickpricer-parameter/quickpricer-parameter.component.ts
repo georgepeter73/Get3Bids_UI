@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
-import {faUser,faDollarSign,faHome} from '@fortawesome/free-solid-svg-icons';
+import {faUser,faDollarSign,faHome,faMoneyCheckAlt} from '@fortawesome/free-solid-svg-icons';
 import {TaxonomyService} from '@data/service/taxonomy.service';
 import {Taxonomy} from '@data/schema/taxonomy';
 import {GlobalService} from '@app/service/global.service';
@@ -11,11 +11,12 @@ import {QuickQuote, QuickQuoteAddress} from '@data/schema/lockdesk';
   selector: 'app-quickpricer-parameter',
   templateUrl: './quickpricer-parameter.component.html',
   styleUrls: ['./quickpricer-parameter.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class QuickpricerParameterComponent implements OnInit {
   faperson = faUser;
   fadollar = faDollarSign;
+  famoneycheck=faMoneyCheckAlt;
   faHome = faHome;
   occupancyTaxonomy : Taxonomy;
   propertyInfoTaxonomy : Taxonomy;
@@ -35,7 +36,6 @@ export class QuickpricerParameterComponent implements OnInit {
   };
   formattedAddress: string;
   invalidZipCode = true;
-
   constructor(private router: Router,
               private _location: Location,
               private taxonomyService: TaxonomyService,
@@ -49,14 +49,49 @@ export class QuickpricerParameterComponent implements OnInit {
      this.globalService.getQuickQuote().subscribe(qq =>
      {
        this.quickQuote = qq ;
+       this.calculateParams();
        if (qq.quoteAddressDTO) {
          this.form.zipcode = qq.quoteAddressDTO.zip;
          this.form.city = qq.quoteAddressDTO.city;
          this.form.state = qq.quoteAddressDTO.state;
+       }else{
+         this.quickQuote.quoteAddressDTO = new QuickQuoteAddress(
+           null,
+           null,
+          null,
+           null,
+           null,
+           null,
+           null,
+           null,
+           null
+         );
        }
 
-    })
+    });
 
+  }
+  calculateParams(){
+    if(this.quickQuote && this.quickQuote.purchasePrice && this.quickQuote.downpayment){
+      this.quickQuote.requestedLoanAmount = this.quickQuote.purchasePrice - this.quickQuote.downpayment;
+      if(this.quickQuote.propertyValue) {
+        this.quickQuote.loanToValue = (this.quickQuote.requestedLoanAmount / this.quickQuote.propertyValue) ;
+      }
+    }
+
+  }
+  emitClickEvent(){
+    // hack for data not displaying with out a mouse click
+    this.eventFire(document.getElementById('refreshButtonId'), 'click');
+  }
+  eventFire(el, etype) {
+    if (el.fireEvent) {
+      el.fireEvent('on' + etype);
+    } else {
+      const evObj = document.createEvent('Events');
+      evObj.initEvent(etype, true, false);
+      el.dispatchEvent(evObj);
+    }
   }
   getTaxonomy(){
 
@@ -98,7 +133,7 @@ export class QuickpricerParameterComponent implements OnInit {
     }
     if (this.form.zipcode && String(this.form.zipcode).length >= 3) {
       if (this.form.state) {
-        this.quickQuote.quoteAddressDTO = new QuickQuoteAddress(
+         this.quickQuote.quoteAddressDTO = new QuickQuoteAddress(
           null,
           null,
           this.form.zipcode,
@@ -109,9 +144,8 @@ export class QuickpricerParameterComponent implements OnInit {
           null,
           null
         );
-
-
-      }
+        this.emitClickEvent();
+       }
     }
     this.globalService.setQuickQuote(this.quickQuote);
    }
@@ -147,5 +181,10 @@ export class QuickpricerParameterComponent implements OnInit {
     this.globalService.setQuickQuote(this.quickQuote);
     $event.preventDefault();
     this.router.navigate(['/lockdesk/lockdeskhome'])
+  }
+
+  search() {
+    this.globalService.setQuickQuote(this.quickQuote);
+    this.router.navigate(['/quickpricer/rate-quote-product'])
   }
 }

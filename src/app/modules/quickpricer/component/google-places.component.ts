@@ -19,7 +19,8 @@ import {} from 'googlemaps';
       #addresstext
       style="padding: 12px 20px; border: 1px solid #ccc; width: 300px"
       autofocus
-      placeholder="Enter Zip"
+      nbInput
+      placeholder="Enter Zip to search"
     />
   `
 })

@@ -29,7 +29,10 @@ export class QuickQuote {
   searchId: string;
   creditScore: number;
   numberOfUnits: number;
-  companyLOUUID? : string;
+  companyLOUUID : string;
+  isVA: boolean;
+  isSelfEmployed: boolean;
+  isFirstTimeHomeBuyer : boolean;
 
   constructor(
     quoteId?: number,
