@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, Input} from '@angular/core';
 import {KeyValuePair, Product, QuickQuote, QuickQuoteResults} from '@data/schema/lockdesk';
 import {QuickQuoteResultsRoot} from '@data/schema/lockdesk/quick-quote-results-root';
 import {ProductDetailRoot} from '@data/schema/lockdesk/product-detail-root';
@@ -45,7 +45,7 @@ export class RateQuoteProductComponent implements OnInit {
   mobileButtonShow = false;
   errorMessage: string;
   noLoanProducts = false;
-  selectedMoreInfoButtonIndex = 0;
+  selectedMoreInfoButtonIndex = -1;
   loanTypeList: KeyValuePair[] = [];
   loanTypeSelected: string;
   filteredProductList: Product[];
@@ -66,52 +66,44 @@ export class RateQuoteProductComponent implements OnInit {
   isGuidelineDownloaded = false;
   companyLogoMedia = new BrokerCompanyMedia();
   requestType :string;
+  @Input() quickQuoteResultsRoot: QuickQuoteResultsRoot;
+  @Input() productDetailRoute : string;
   constructor(private route: ActivatedRoute,  private router: Router,
               private _location: Location, private globalService: GlobalService,private quickPricingService : QuickpricingService) {
   }
 
   ngOnInit(): void {
-    this.globalService.getQuickQuote().subscribe(qq => {
-      this.getQuoteResults(qq);
-    });
+    this.getQuoteResults();
   }
 
-  getQuoteResults(qq: QuickQuote){
-    this.quickPricingService.getQuoteResults(qq)
-      .subscribe(
-        quickQuoteResultsRoot => {
-           this.qqRes = quickQuoteResultsRoot.obBestExResponseDTO;
-          this.qqResRoot = quickQuoteResultsRoot;
-          if (quickQuoteResultsRoot.obBestExResponseDTO) {
-            this.products = quickQuoteResultsRoot.obBestExResponseDTO.products;
-            this.emitClickEvent();
-            this.filterProductFilter();
-            this.filterLoanTypeFilter();
-            if (
-              quickQuoteResultsRoot.obBestExResponseDTO.products &&
-              quickQuoteResultsRoot.obBestExResponseDTO.products.length === 0
-            ) {
-              this.noLoanProducts = true;
-            } else if (!quickQuoteResultsRoot.obBestExResponseDTO.products) {
-              this.noLoanProducts = true;
-            }
-            this.globalService.setQQRes(this.qqRes);
-
-          } else {
-            this.noLoanProducts = true;
-          }
-          this.emitClickEvent();
-
-        },
-        err => {
-
-          this.errorMessage = JSON.stringify(err);
-          this.emitClickEvent();
-          console.log(this.errorMessage);
+  getQuoteResults(){
+    if(this.quickQuoteResultsRoot) {
+      this.qqRes = this.quickQuoteResultsRoot.obBestExResponseDTO;
+      this.qqResRoot = this.quickQuoteResultsRoot;
+      if (this.quickQuoteResultsRoot.obBestExResponseDTO) {
+        this.products = this.quickQuoteResultsRoot.obBestExResponseDTO.products;
+        this.emitClickEvent();
+        this.filterProductFilter();
+        this.filterLoanTypeFilter();
+        if (
+         this.quickQuoteResultsRoot.obBestExResponseDTO.products &&
+          this.quickQuoteResultsRoot.obBestExResponseDTO.products.length === 0
+        ) {
+          this.noLoanProducts = true;
+        } else if (!this.quickQuoteResultsRoot.obBestExResponseDTO.products) {
+          this.noLoanProducts = true;
         }
-      );
-  }
-  eventFire(el, etype) {
+        this.globalService.setQQRes(this.qqRes);
+
+      } else {
+        this.noLoanProducts = true;
+      }
+      this.filterProductsByProductType();
+      this.emitClickEvent();
+    }
+
+        }
+   eventFire(el, etype) {
     if (el.fireEvent) {
       el.fireEvent('on' + etype);
     } else {
@@ -120,14 +112,18 @@ export class RateQuoteProductComponent implements OnInit {
       el.dispatchEvent(evObj);
     }
   }
+  refreshGrid($event: MouseEvent) {
+    $event.preventDefault();
+
+  }
 
   emitClickEvent(){
     // hack for data not displaying with out a mouse click
     this.eventFire(document.getElementById('refreshButtonId'), 'click');
+
   }
   filterProductFilter() {
     this.productFilterList = this.globalService.productFilterList;
-
     if (this.products) {
       this.products.forEach(result => {
         this.productFilterList = this.productFilterList.filter(keyPair =>
@@ -136,8 +132,10 @@ export class RateQuoteProductComponent implements OnInit {
         this.productFilterSelected = this.productFilterList.length
           ? this.productFilterList[0].key
           : '';
+
         this.onSortChange(this.sortBy);
       });
+
     }
 
   }
@@ -205,8 +203,9 @@ export class RateQuoteProductComponent implements OnInit {
       this.onSortChange(this.sortBy);
     }
   }
-  filterProductsByProductType($event) {
+  filterProductsByProductType() {
     if (this.qqResRoot.obBestExResponseDTO.products && this.productFilterSelected) {
+
       this.products =
         this.qqResRoot.obBestExResponseDTO.products.filter(p =>
           this.isKeyAvailableInProduct(this.productFilterSelected,p)
@@ -266,6 +265,6 @@ export class RateQuoteProductComponent implements OnInit {
   moreInfo(productId: number,moreInfoIndex : number) {
     this.selectedMoreInfoButtonIndex = moreInfoIndex;
     this.globalService.setQQRes(this.qqRes);
-    this.router.navigate(['/lockdesk/rate-quote-product-details/' ]);
+    this.router.navigate([ this.productDetailRoute]);
   }
 }

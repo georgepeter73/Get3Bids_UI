@@ -1,32 +1,17 @@
 <div>
-  <nb-card id="content">
-    <nb-card-header>
-      <div class="row">
-        <div class="col-lg-2 d-none d-md-inline"><a href="#" (click)="backClicked($event)">< Previous</a></div>
-        <div class="col-lg-8">
-          <div class="text-center">Products Available for this deal</div>
-
-        </div>
-        <div class="text-left col-md-4 "><a hidden id="refreshButtonId" href="#" >
-          <nb-icon icon="refresh-outline"></nb-icon>
-        </a></div>
-
-      </div>
-    </nb-card-header>
-    <nb-card-body>
       <div class="text-left" style="max-width: 860px;width: 100%;margin-left: 50%; transform: translateX(-50%);"
            *ngIf="products?.length > 0; else loadingOrError">
         <div class="row pt-1 pb-3">
           <div class="col-lg-4 text-center">
             <label class="label d-none d-md-inline">Loan Type</label>
-            <nb-select [(ngModel)]="loanTypeSelected" (ngModelChange)="filterProductsByLoanType($event)" size="small"
+            <nb-select [(ngModel)]="loanTypeSelected" (ngModelChange)="filterProductsByLoanType()" size="small"
                        placeholder="Loan Type">
               <nb-option *ngFor="let loanType of loanTypeList" [value]="loanType.key">{{loanType.value}}</nb-option>
             </nb-select>
           </div>
           <div class="col-lg-4 text-center">
             <label class="label d-none d-md-inline">Product Selection</label>
-            <nb-select [(ngModel)]="productFilterSelected" size="small"  (ngModelChange)="filterProductsByProductType($event)"  placeholder="Select a Product">
+            <nb-select [(ngModel)]="productFilterSelected" size="small"  (ngModelChange)="filterProductsByProductType()"  placeholder="Select a Product">
               <nb-option *ngFor="let prod of productFilterList" [value]="prod.key">{{prod.value}}</nb-option>
             </nb-select>
           </div>
@@ -116,7 +101,7 @@
       <ng-template #noProducts>
         <div class="text-center"><br>
           <h4>Well That's Strange....</h4>
-          <img width="200" src="assets/images/strange-face.png">
+          <img width="200" src="../../../../../assets/images/strange-face.png">
           <p>
             <b>Check to make sure the loan parameters you entered <br>in Lending-pad LOS are accurate.</b>
           </p>
@@ -171,7 +156,6 @@
 
       </ng-template>
       <br><br>
-    </nb-card-body>
-  </nb-card>
+
 </div>
 

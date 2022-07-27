@@ -7,11 +7,11 @@ import {GlobalService} from '@app/service/global.service';
   selector: 'app-lockdesk-home',
   templateUrl: './lockdesk-home.component.html',
   styleUrls: ['./lockdesk-home.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class LockdeskHomeComponent implements OnInit {
 
-  constructor(private router: Router, private _location: Location, private authService: AuthService,public globalService: GlobalService,) { }
+  constructor(private router: Router, private _location: Location, public authService: AuthService,public globalService: GlobalService,) { }
 
   ngOnInit(): void {
     this.loadGroups();

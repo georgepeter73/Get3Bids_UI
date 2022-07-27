@@ -50,6 +50,7 @@ import { reducers, metaReducers } from './app-state';
 import { UserEffects } from './app-state/effects';
 import { EffectsModule } from '@ngrx/effects';
 import { QuickpricerLayoutComponent } from './layout/quickpricer-layout/quickpricer-layout.component';
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({
@@ -117,7 +118,8 @@ import { QuickpricerLayoutComponent } from './layout/quickpricer-layout/quickpri
         StoreModule.forRoot(reducers, {
         metaReducers
        }),
-       EffectsModule.forRoot([UserEffects])
+       EffectsModule.forRoot([UserEffects]),
+
 
 
 

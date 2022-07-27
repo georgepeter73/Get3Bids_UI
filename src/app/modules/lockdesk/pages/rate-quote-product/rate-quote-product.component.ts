@@ -53,7 +53,7 @@ export class RateQuoteProductComponent implements OnInit {
   mobileButtonShow = false;
   errorMessage: string;
   noLoanProducts = false;
-  selectedMoreInfoButtonIndex = 0;
+  selectedMoreInfoButtonIndex = -1;
   loanTypeList: KeyValuePair[] = [];
   loanTypeSelected: string;
   filteredProductList: Product[];
@@ -125,6 +125,7 @@ export class RateQuoteProductComponent implements OnInit {
              } else {
                this.noLoanProducts = true;
              }
+            this.filterProductsByProductType();
             this.emitClickEvent();
 
         },
@@ -212,7 +213,7 @@ export class RateQuoteProductComponent implements OnInit {
     return false;
   }
 
-  filterProductsByLoanType(loanType) {
+  filterProductsByLoanType() {
     if (this.qqResRoot.obBestExResponseDTO.products && this.loanTypeSelected) {
       this.products =
         this.qqResRoot.obBestExResponseDTO.products.filter(
@@ -221,7 +222,7 @@ export class RateQuoteProductComponent implements OnInit {
       this.onSortChange(this.sortBy);
     }
   }
-  filterProductsByProductType($event) {
+  filterProductsByProductType() {
     if (this.qqResRoot.obBestExResponseDTO.products && this.productFilterSelected) {
       this.products =
         this.qqResRoot.obBestExResponseDTO.products.filter(p =>

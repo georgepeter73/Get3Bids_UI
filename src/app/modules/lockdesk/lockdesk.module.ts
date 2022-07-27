@@ -29,10 +29,13 @@ import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
-  declarations: [LockdeskHomeComponent, LoanPipelineComponent, LockConfirmationComponent, RateQuoteProductComponent, RateQuoteProductDetailsComponent, LockLoanPipelineComponent,],
+    declarations: [LockdeskHomeComponent, LoanPipelineComponent, LockConfirmationComponent, RateQuoteProductComponent, RateQuoteProductDetailsComponent, LockLoanPipelineComponent,],
     imports: [
         MatDialogModule, MatButtonModule, CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule.forRoot(), NbInputModule, NbIconModule, NbSpinnerModule, NbSelectModule, RatingModule, NbRadioModule, NbAlertModule, NgbModule, NbTooltipModule
     ],
-  providers: [LockDeskService,QuickQuoteService],
+    providers: [LockDeskService, QuickQuoteService],
+    exports: [
+        RateQuoteProductComponent
+    ]
 })
 export class LockdeskModule { }

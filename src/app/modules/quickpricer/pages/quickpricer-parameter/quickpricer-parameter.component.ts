@@ -1,11 +1,15 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import {Router} from '@angular/router';
-import {Location} from '@angular/common';
+import {NavigationEnd, Router} from '@angular/router';
+import {Location, ViewportScroller} from '@angular/common';
 import {faUser,faDollarSign,faHome,faMoneyCheckAlt} from '@fortawesome/free-solid-svg-icons';
 import {TaxonomyService} from '@data/service/taxonomy.service';
 import {Taxonomy} from '@data/schema/taxonomy';
 import {GlobalService} from '@app/service/global.service';
 import {QuickQuote, QuickQuoteAddress} from '@data/schema/lockdesk';
+import {QuickpricingService} from '@data/service/quickpricing.service';
+import {QuickQuoteResultsRoot} from '@data/schema/lockdesk/quick-quote-results-root';
+import {Subscription} from 'rxjs';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-quickpricer-parameter',
@@ -36,10 +40,14 @@ export class QuickpricerParameterComponent implements OnInit {
   };
   formattedAddress: string;
   invalidZipCode = true;
+
+
   constructor(private router: Router,
               private _location: Location,
               private taxonomyService: TaxonomyService,
               private  globalService: GlobalService,
+              private quickPricerService : QuickpricingService,
+              private viewPortScroller: ViewportScroller
 
   ) {
   }
@@ -75,7 +83,7 @@ export class QuickpricerParameterComponent implements OnInit {
     if(this.quickQuote && this.quickQuote.purchasePrice && this.quickQuote.downpayment){
       this.quickQuote.requestedLoanAmount = this.quickQuote.purchasePrice - this.quickQuote.downpayment;
       if(this.quickQuote.propertyValue) {
-        this.quickQuote.loanToValue = (this.quickQuote.requestedLoanAmount / this.quickQuote.propertyValue) ;
+        //this.quickQuote.loanToValue = Number((this.quickQuote.requestedLoanAmount / this.quickQuote.propertyValue).toFixed(2));
       }
     }
 
@@ -176,6 +184,10 @@ export class QuickpricerParameterComponent implements OnInit {
       postCode = this.getAddrComponent(place, COMPONENT_TEMPLATE);
     return postCode;
   }
+  refreshGrid($event: MouseEvent) {
+    $event.preventDefault();
+
+  }
 
   backClicked($event: MouseEvent) {
     this.globalService.setQuickQuote(this.quickQuote);
@@ -185,6 +197,7 @@ export class QuickpricerParameterComponent implements OnInit {
 
   search() {
     this.globalService.setQuickQuote(this.quickQuote);
-    this.router.navigate(['/quickpricer/rate-quote-product'])
+    this.router.navigate(['/quickpricer/quickpricer-product'])
   }
+
 }

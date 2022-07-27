@@ -60,8 +60,8 @@ export class GlobalService {
     this.productFilterList[1] = { key: '102', value: '25-Year Fixed' };
     this.productFilterList[2] = { key: '103', value: '15-Year Fixed' };
     this.productFilterList[3] = { key: '104', value: 'ARM' };
-    this.productFilterList[4] = { key: '105', value: '25-Year ARM' };
-    this.productFilterList[5] = { key: '106', value: '15-Year ARM' };
+    this.productFilterList[4] = { key: '105', value: 'ARM' };
+    this.productFilterList[5] = { key: '106', value: 'ARM' };
   }
 
   loanTypeListMapping() {

@@ -19,14 +19,14 @@
         <div class="row pt-1 pb-3">
           <div class="col-lg-4 text-center">
             <label class="label d-none d-md-inline">Loan Type</label>
-            <nb-select [(ngModel)]="loanTypeSelected" (ngModelChange)="filterProductsByLoanType($event)" size="small"
+            <nb-select [(ngModel)]="loanTypeSelected" (ngModelChange)="filterProductsByLoanType()" size="small"
                        placeholder="Loan Type">
               <nb-option *ngFor="let loanType of loanTypeList" [value]="loanType.key">{{loanType.value}}</nb-option>
             </nb-select>
           </div>
           <div class="col-lg-4 text-center">
             <label class="label d-none d-md-inline">Product Selection</label>
-            <nb-select [(ngModel)]="productFilterSelected" size="small"  (ngModelChange)="filterProductsByProductType($event)"  placeholder="Select a Product">
+            <nb-select [(ngModel)]="productFilterSelected" size="small"  (ngModelChange)="filterProductsByProductType()"  placeholder="Select a Product">
               <nb-option *ngFor="let prod of productFilterList" [value]="prod.key">{{prod.value}}</nb-option>
             </nb-select>
           </div>

@@ -4,7 +4,7 @@ import {QuickQuoteResultsRoot} from '@data/schema/lockdesk/quick-quote-results-r
 import {map} from 'rxjs/operators';
 import {QuickQuote} from '@data/schema/lockdesk';
 import {environment} from '@env';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 const API_URL = environment.QUICK_PRICER_API_URL;
 @Injectable()
 export class QuickpricingService {
@@ -16,6 +16,7 @@ export class QuickpricingService {
   requestOptions = {
     headers: new HttpHeaders(this.headerDict)
   };
+  private payload: any ;
 
   constructor(
     private http: HttpClient
@@ -26,7 +27,9 @@ export class QuickpricingService {
     qq : QuickQuote
   ): Observable<QuickQuoteResultsRoot> {
     return this.http
-      .get(API_URL + '/api/v1/quickpricer/get_quote_results?quoteDTO=' + JSON.stringify(qq))
+      .post(API_URL + '/api/v1/quickpricer/get_quote_results' , this.payload, {
+        params: new HttpParams().set('quoteDTO', JSON.stringify(qq))
+      })
       .pipe(
         map(qqResRoot => {
           return new QuickQuoteResultsRoot(

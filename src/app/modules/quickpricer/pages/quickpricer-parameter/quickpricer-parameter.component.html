@@ -1,176 +1,201 @@
 
-<nb-card size="giant">
-  <nb-card-header>
-    <a hidden id="refreshButtonId" href="#" ></a>
-    <div class="text-left col-md-4 "><a (click)="backClicked($event)" href="#">
-      <nb-icon icon="arrow-back-outline"></nb-icon>
-      Previous</a></div>
-    <div class="container col-md-8 text-center">
-      Quick Pricer
-    </div>
+    <nb-card size="giant">
+      <nb-card-header>
+        <div class="text-left col-md-4 "><a (click)="backClicked($event)" href="#">
+          <nb-icon icon="arrow-back-outline"></nb-icon>
+          Previous</a></div>
+        <div class="container col-md-8 text-center">
+          Quick Pricer
+        </div>
+        <a hidden id="refreshButtonId" href="#" (click)="refreshGrid($event)">
 
-  </nb-card-header>
-  <nb-card-body class="host">
-    <div class="row m-2">
-      <div class="col-12 text-right m-2">
-        <button nbButton type="button"   status="primary"
-                size="medium" (click)="search()"><fa-icon size="1x" [icon]="famoneycheck" class="m-0"></fa-icon>&nbsp;Search&nbsp;</button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-4">
-        <nb-card size="large">
-          <nb-card-body>
+        </a>
 
-            <div class="row col-12">
-              <fa-icon [icon]="faperson" class="pr-1" size="1x"></fa-icon>
-              <label>Borrower</label>
-            </div>
+      </nb-card-header>
+      <nb-card-body class="host">
+        <div class="row m-2">
+          <div class="col-12 text-right m-2">
+            <button nbButton type="button" status="primary"
+                    size="medium" (click)="search()" >
+              <fa-icon size="1x" [icon]="famoneycheck" class="m-0"></fa-icon>&nbsp;Search&nbsp;
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <nb-card size="large">
+              <nb-card-body>
 
-            <div class="row m-2">
+                <div class="row col-12">
+                  <fa-icon [icon]="faperson" class="pr-1" size="1x"></fa-icon>
+                  <label>Borrower</label>
+                </div>
 
-              <div class="col-6 form-group">
-                <label class="label" for="ficoId">FICO</label>
-                <input [(ngModel)]="quickQuote.creditScore" #ficoId="ngModel" fieldSize="medium" id="ficoId" fullWidth nbInput placeholder="FICO" type="number"/>
-              </div>
+                <div class="row m-2">
 
-            </div>
-            <div class="row m-2">
+                  <div class="col-6 form-group">
+                    <label class="label" for="ficoId">FICO</label>
+                    <input [(ngModel)]="quickQuote.creditScore" #ficoId="ngModel" fieldSize="medium" id="ficoId"
+                           fullWidth nbInput placeholder="FICO" type="number"/>
+                  </div>
 
-              <div class="col-12">
-                <nb-checkbox [(ngModel)]="quickQuote.isFirstTimeHomeBuyer">First Time Home Buyer</nb-checkbox>
-              </div>
+                </div>
+                <div class="row m-2">
 
-            </div>
-            <div class="row m-2">
+                  <div class="col-12">
+                    <nb-checkbox [(ngModel)]="quickQuote.isFirstTimeHomeBuyer">First Time Home Buyer</nb-checkbox>
+                  </div>
 
-              <div class="col-12">
-                <nb-checkbox [(ngModel)]="quickQuote.isVA" >Veteran</nb-checkbox>
-              </div>
+                </div>
+                <div class="row m-2">
+
+                  <div class="col-12">
+                    <nb-checkbox [(ngModel)]="quickQuote.isVA">Veteran</nb-checkbox>
+                  </div>
 
 
-            </div>
-            <div class="row m-2">
+                </div>
+                <div class="row m-2">
 
-              <div class="col-12">
-                <nb-checkbox [(ngModel)]="quickQuote.isSelfEmployed">Self Employed</nb-checkbox>
-              </div>
+                  <div class="col-12">
+                    <nb-checkbox [(ngModel)]="quickQuote.isSelfEmployed">Self Employed</nb-checkbox>
+                  </div>
 
-            </div>
+                </div>
 
-          </nb-card-body>
+              </nb-card-body>
 
-        </nb-card>
+            </nb-card>
 
-      </div>
-      <div class="col-4">
-        <nb-card size="large">
-          <nb-card-body>
-            <div class="row col-12 m-0">
-              <fa-icon [icon]="fadollar" class="pr-1" size="1x"></fa-icon>
-              <label>Loan Information</label>
-            </div>
+          </div>
+          <div class="col-4">
+            <nb-card size="large">
+              <nb-card-body>
+                <div class="row col-12 m-0">
+                  <fa-icon [icon]="fadollar" class="pr-1" size="1x"></fa-icon>
+                  <label>Loan Information</label>
+                </div>
 
-            <div class="row">
-              <div class="col-12 p-1 form-group">
-                <label for="loanPurposeId" class="p-1 label">Loan Purpose</label>
-                <nb-select fullWidth shape="rectangle" [(ngModel)]="quickQuote.transactionType" id="loanPurposeId"
-                           #purposeType="ngModel" name="purposeType" size="medium" placeholder="Purpose"
-                >
-                  <nb-option *ngFor="let purposeItem of purposeTypeTaxonomy.taxonomyItems"
-                             [value]="purposeItem.key">{{purposeItem.value}}</nb-option>
-                </nb-select>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-6 p-1 form-group">
-                <label for="purchasePriceId" class="p-1 label">Purchase Price</label>
-                <input (ngModelChange)="calculateParams()" type="number" fieldSize="medium" name="purchasePrice" id="purchasePriceId" [(ngModel)]="quickQuote.purchasePrice" #purchasePrice="ngModel" fullWidth nbInput placeholder="Purchase Price"
-                       />
-              </div>
-              <div class="col-6 p-1 form-group">
-                <label for="appraisedValueid" class="p-1 label">Appraised Value</label>
-                <input (ngModelChange)="calculateParams()" type="number" fieldSize="medium" name="appraisedValue" id="appraisedValueid" [(ngModel)]="quickQuote.propertyValue"  #appraisedValue="ngModel" fullWidth nbInput placeholder="Appraised Value"
-                       />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-6 p-1 form-group">
-                <label for="downpaymentId" class="p-1 label">Downpayment Amount</label>
-                <input (ngModelChange)="calculateParams()" type="number" fieldSize="medium" name="downpayment" id="downpaymentId" [(ngModel)]="quickQuote.downpayment" #downpayment="ngModel" fullWidth nbInput placeholder="Downpayment"
-                />
-              </div>
+                <div class="row">
+                  <div class="col-12 p-1 form-group">
+                    <label for="loanPurposeId" class="p-1 label">Loan Purpose</label>
+                    <nb-select fullWidth shape="rectangle" [(ngModel)]="quickQuote.transactionType" id="loanPurposeId"
+                               #purposeType="ngModel" name="purposeType" size="medium" placeholder="Purpose"
+                    >
+                      <nb-option *ngFor="let purposeItem of purposeTypeTaxonomy.taxonomyItems"
+                                 [value]="purposeItem.key">{{purposeItem.value}}</nb-option>
+                    </nb-select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 p-1 form-group">
+                    <label for="purchasePriceId" class="p-1 label">Purchase Price</label>
+                    <input (ngModelChange)="calculateParams()" type="number" fieldSize="medium" name="purchasePrice"
+                           id="purchasePriceId" [(ngModel)]="quickQuote.purchasePrice" #purchasePrice="ngModel"
+                           fullWidth nbInput placeholder="Purchase Price"
+                    />
+                  </div>
+                  <div class="col-6 p-1 form-group">
+                    <label for="appraisedValueid" class="p-1 label">Appraised Value</label>
+                    <input (ngModelChange)="calculateParams()" type="number" fieldSize="medium" name="appraisedValue"
+                           id="appraisedValueid" [(ngModel)]="quickQuote.propertyValue" #appraisedValue="ngModel"
+                           fullWidth nbInput placeholder="Appraised Value"
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 p-1 form-group">
+                    <label for="downpaymentId" class="p-1 label">Downpayment Amount</label>
+                    <input (ngModelChange)="calculateParams()" type="number" fieldSize="medium" name="downpayment"
+                           id="downpaymentId" [(ngModel)]="quickQuote.downpayment" #downpayment="ngModel" fullWidth
+                           nbInput placeholder="Downpayment"
+                    />
+                  </div>
 
-            </div>
-            <div class="row">
-              <div class="col-6 p-1 form-group">
-                <label  class="p-1 label">Loan Amount : {{quickQuote.requestedLoanAmount |currency : 'USD' : 'symbol' : '1.0-0'}}</label>
-              </div>
-              <div class="col-6 p-1 form-group">
-                <label  class="p-1 label">LTV : {{quickQuote.loanToValue |percent : '1.2-2'}}</label>
-              </div>
-            </div>
-          </nb-card-body>
+                </div>
+                <div class="row">
+                  <div class="col-6 p-1 form-group">
+                    <label class="p-1 label">Loan Amount
+                      : {{quickQuote.requestedLoanAmount |currency : 'USD' : 'symbol' : '1.0-0'}}</label>
+                  </div>
+                  <div class="col-6 p-1 form-group">
+                    <label class="p-1 label">LTV : {{quickQuote.loanToValue |percent : '1.2-2'}}</label>
+                  </div>
+                </div>
+              </nb-card-body>
 
-        </nb-card>
-      </div>
-      <div class="col-4">
-        <nb-card size="large">
-          <nb-card-body>
-            <div class="row col-12 m-0">
-              <fa-icon [icon]="faHome" class="pr-1" size="1x"></fa-icon>
-              <label>Property</label>
-            </div>
-            <div class="row">
-              <div class="col-12 p-1 form-group">
-                <label for="occupancyTypeId" class="p-1 label">Occupancy</label>
-                <nb-select (ngModelChange)="calculateParams()" fullWidth shape="rectangle" [(ngModel)]="quickQuote.occupancyType" id="occupancyTypeId"
-                           #occupanyType="ngModel" name="occupanyType" size="medium" placeholder="Occupancy"
-                >
-                  <nb-option *ngFor="let occupancyItem of occupancyTaxonomy.taxonomyItems"
-                             [value]="occupancyItem.key">{{occupancyItem.value}}</nb-option>
-                </nb-select>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12 p-1">
-                <label for="propertyTypeId" class="p-1 label">Property Type</label>
-                <nb-select fullWidth shape="rectangle" (ngModelChange)="calculateParams()" [(ngModel)]="quickQuote.propertyValue" id="propertyTypeId"
-                           #propertyType="ngModel" name="propertyType" size="medium" placeholder="Property Type"
-                >
-                  <nb-option *ngFor="let propertyTypeItem of propertyInfoTaxonomy.taxonomyItems"
-                             [value]="propertyTypeItem.key">{{propertyTypeItem.value}}</nb-option>
-                </nb-select>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12 p-1">
-                <label for="numberOfUnitsId"  class="p-1 label">Number of Units</label>
-                <input type="number" fieldSize="medium" name="numberOfUnits"  [(ngModel)]="quickQuote.numberOfUnits" #numberOfUnits="ngModel"  id="numberOfUnitsId" fullWidth nbInput placeholder="Number of Units"
-                       />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12 p-1">
-                <label for="autoCompleteId" class="p-1 label">Zip Code</label><label class="p-1">{{quickQuote.quoteAddressDTO.zip}}</label>
-                <AutocompleteComponent (keydown)="getAddress($event)"  (setAddress)="getAddress($event)" adressType="(regions)"  id="autoCompleteId" #autoCompleteId   ></AutocompleteComponent>
+            </nb-card>
+          </div>
+          <div class="col-4">
+            <nb-card size="large">
+              <nb-card-body>
+                <div class="row col-12 m-0">
+                  <fa-icon [icon]="faHome" class="pr-1" size="1x"></fa-icon>
+                  <label>Property</label>
+                </div>
+                <div class="row">
+                  <div class="col-12 p-1 form-group">
+                    <label for="occupancyTypeId" class="p-1 label">Occupancy</label>
+                    <nb-select (ngModelChange)="calculateParams()" fullWidth shape="rectangle"
+                               [(ngModel)]="quickQuote.occupancyType" id="occupancyTypeId"
+                               #occupanyType="ngModel" name="occupanyType" size="medium" placeholder="Occupancy"
+                    >
+                      <nb-option *ngFor="let occupancyItem of occupancyTaxonomy.taxonomyItems"
+                                 [value]="occupancyItem.key">{{occupancyItem.value}}</nb-option>
+                    </nb-select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 p-1">
+                    <label for="propertyTypeId" class="p-1 label">Property Type</label>
+                    <nb-select fullWidth shape="rectangle" (ngModelChange)="calculateParams()"
+                               [(ngModel)]="quickQuote.propertyValue" id="propertyTypeId"
+                               #propertyType="ngModel" name="propertyType" size="medium" placeholder="Property Type"
+                    >
+                      <nb-option *ngFor="let propertyTypeItem of propertyInfoTaxonomy.taxonomyItems"
+                                 [value]="propertyTypeItem.key">{{propertyTypeItem.value}}</nb-option>
+                    </nb-select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 p-1">
+                    <label for="numberOfUnitsId" class="p-1 label">Number of Units</label>
+                    <input type="number" fieldSize="medium" name="numberOfUnits" [(ngModel)]="quickQuote.numberOfUnits"
+                           #numberOfUnits="ngModel" id="numberOfUnitsId" fullWidth nbInput placeholder="Number of Units"
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 p-1">
+                    <label for="autoCompleteId" class="p-1 label">Zip Code</label><label
+                    class="p-1">{{quickQuote.quoteAddressDTO.zip}}</label>
+                    <AutocompleteComponent (keydown)="getAddress($event)" (setAddress)="getAddress($event)"
+                                           adressType="(regions)" id="autoCompleteId"
+                                           #autoCompleteId></AutocompleteComponent>
 
-              </div>
+                  </div>
 
-            </div>
-          </nb-card-body>
-        </nb-card>
+                </div>
+              </nb-card-body>
+            </nb-card>
 
-      </div>
+          </div>
 
-    </div>
-    <div class="row m-2">
-      <div class="col-12 text-right m-2">
-      <button nbButton type="button"   status="primary"
-               size="medium" (click)="search()"><fa-icon size="1x" [icon]="famoneycheck" class="m-0"></fa-icon>&nbsp;Search&nbsp;</button>
-      </div>
-    </div>
+        </div>
+        <div class="row m-2">
+          <div class="col-12 text-right m-2">
+            <button nbButton type="button" status="primary"
+                    size="medium" (click)="search()" >
+              <fa-icon size="1x" [icon]="famoneycheck" class="m-0"></fa-icon>&nbsp;Search&nbsp;
+            </button>
+          </div>
+        </div>
 
-  </nb-card-body>
-</nb-card>
+
+      </nb-card-body>
+    </nb-card>
+
+
+
+
 
