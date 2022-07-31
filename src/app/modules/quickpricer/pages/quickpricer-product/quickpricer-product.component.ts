@@ -25,7 +25,7 @@ export class QuickpricerProductComponent implements OnInit {
   }
   quoteResultsRoot : QuickQuoteResultsRoot;
   productLoading=false;
-  productDetailRoute = "/quickpricer/rate-quote-product-detail/";
+  productDetailRoute = "/quickpricer/quickpricer-product-detail";
    ngOnInit(): void {
    this.globalService.getQuickQuote().subscribe(qq=>{
       this.getProducts(qq);
@@ -58,7 +58,6 @@ export class QuickpricerProductComponent implements OnInit {
     $event.preventDefault();
 
   }
-
   backClicked($event: MouseEvent) {
     $event.preventDefault();
     this.router.navigate(['/quickpricer/params'])

@@ -265,6 +265,7 @@ export class RateQuoteProductComponent implements OnInit {
   moreInfo(productId: number,moreInfoIndex : number) {
     this.selectedMoreInfoButtonIndex = moreInfoIndex;
     this.globalService.setQQRes(this.qqRes);
-    this.router.navigate([ this.productDetailRoute]);
+    this.product = this.qqRes.products.filter(p => p.productId === productId).pop();
+    this.router.navigate([ this.productDetailRoute+'/' + productId.toString()+ '/' +this.product.searchId+ '/'+this.product.quoteId.toString()]);
   }
 }

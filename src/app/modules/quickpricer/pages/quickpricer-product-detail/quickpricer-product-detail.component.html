@@ -1,0 +1,21 @@
+<nb-card [nbSpinner]="productLoading" nbSpinnerStatus="primary" >
+  <nb-card-header>
+    <div class="row">
+      <div class="col-lg-2 d-none d-md-inline"><a href="#" (click)="backClicked($event)">< Previous</a></div>
+      <div class="col-lg-8">
+        <div class="text-center"></div>
+      </div>
+      <div class="text-left col-md-4 "><a hidden id="refreshButtonId" href="#" (click)="refreshGrid($event)">
+        <nb-icon icon="refresh-outline"></nb-icon>
+      </a></div>
+
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <app-rate-quote-product-detail [productId]="productId" [quoteId]="quoteId" [searchId]="searchId" ></app-rate-quote-product-detail>
+
+  </nb-card-body>
+
+
+</nb-card>
+

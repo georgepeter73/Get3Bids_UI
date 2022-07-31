@@ -1,23 +1,24 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, Input} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LockDeskService} from '@data/service/lockdesk.service';
 import {DatePipe, Location} from '@angular/common';
 import {GlobalService} from '@app/service/global.service';
-import {ProductDetail} from '@data/schema/lockdesk/product-detail';
-import {Investor} from '@data/schema/lockdesk/investor';
 import {Product, QuickQuoteResults} from '@data/schema/lockdesk';
+import {ProductDetail} from '@data/schema/lockdesk/product-detail';
+import {UserMlo} from '@data/schema/user/user-mlo';
 import {LoanInfo} from '@data/schema/lockdesk/loan-info';
 import {Quote} from '@data/schema/lockdesk/quote';
 import {LockLoan} from '@data/schema/lockdesk/lock-loan';
-import {UserMlo} from '@data/schema/user/user-mlo';
+import {Investor} from '@data/schema/lockdesk/investor';
 
 @Component({
-  selector: 'app-rate-quote-product-details',
-  templateUrl: './rate-quote-product-details.component.html',
-  styleUrls: ['./rate-quote-product-details.component.scss'],
+  selector: 'app-rate-quote-product-detail',
+  templateUrl: './rate-quote-product-detail.component.html',
+  styleUrls: ['./rate-quote-product-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class RateQuoteProductDetailsComponent implements OnInit {
+export class RateQuoteProductDetailComponent implements OnInit {
+
   selectedMoreInfoButtonIndex: any;
   product: Product;
   qqResRoot: any;
@@ -37,9 +38,6 @@ export class RateQuoteProductDetailsComponent implements OnInit {
   isRateLockRequestloading = false;
   isRateLockRequestComplete = false;
   isRateLockRequestFailed = false;
-  productId: string;
-  quoteId: string;
-  searchId: string;
   priceTesting: any;
   rateIndexSelected: any;
   radioButtonrateSelected: any;
@@ -54,7 +52,9 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     Locked: 102,
     RequestReLock :103
   };
-  private selectedUserMloUUID: string;
+  @Input() productId : string;
+  @Input() quoteId : string;
+  @Input() searchId : string;
 
   constructor(private route: ActivatedRoute, private lockDeskService: LockDeskService, private router: Router,
               private _location: Location, private globalService: GlobalService,) {
@@ -62,14 +62,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.productId = this.route.snapshot.paramMap.get('productId');
-    this.quoteId = this.route.snapshot.paramMap.get('quoteId');
-    this.searchId = this.route.snapshot.paramMap.get('searchId');
     this.qqRes = this.globalService.getQQRes();
-    this.loanNumber = this.route.snapshot.paramMap.get('loanNumber');
-    this.loanInfo = this.globalService.getRQSelectedLoanInfo();
-    this.requestType = this.route.snapshot.paramMap.get('requestType');
-    this.selectedUserMloUUID = this.route.snapshot.paramMap.get('selectedUserMloUUID');
     this.moreInfo();
   }
 
@@ -153,59 +146,12 @@ export class RateQuoteProductDetailsComponent implements OnInit {
 
   backClicked($event: MouseEvent) {
     $event.preventDefault();
-    this.router.navigate(['/lockdesk/rate-quote-product/' + this.loanNumber + '/' + this.requestType+'/'+this.selectedUserMloUUID]);
+    this.router.navigate(['/quickpricer/quickpricer-product']);
   }
 
-  requestRateLock() {
-    this.isRateLockRequestloading = true;
-    this.rateSelected = this.product_detail['quotes'][this.rateIndexSelected];
-    this.lockLoan.loanNumber = this.loanNumber;
-    this.lockLoan.selectedProduct = this.product;
-    this.lockLoan.selectedQuote = this.rateSelected;
-    this.lockLoan.productDetail = this.product_detail;
-    this.lockLoan.adjustments = this.product_detail.adjustments;
-    this.lockLoan.lockDays = this.rateSelected.lockPeriod;
-    this.lockLoan.selectedUserMloUUID = this.selectedUserMloUUID;
-    if(this.requestType === this.LockStates.RequestRateLock.toString()) {
-      this.lockLoan.lockStatus = this.LockStatusType.float;
-
-    }
-    if(this.requestType === this.LockStates.Locked.toString()) {
-      this.lockLoan.lockStatus = this.LockStatusType.locked;
-
-    }
-    if(this.requestType === this.LockStates.RequestReLock.toString()) {
-      this.lockLoan.lockStatus = this.LockStatusType.locked;
-
-    }
-    this.lockLoan.lockState = parseInt(this.requestType);
-    this.lockLoan.loanNumber = this.loanInfo.loanNumber;
-    this.lockLoan.loanInfo = this.globalService.getRQSelectedLoanInfo();
-    this.lockDeskService.saveLockLoan(this.lockLoan).subscribe(ll => {
-
-        this.lockLoan = ll;
-
-        this.isRateLockRequestloading = false;
-        this.isRateLockRequestComplete = true;
-        this.isRateLockRequestFailed = false;
-        // hack for data not displaying with out a mouse click
-        this.eventFire(document.getElementById('refreshButtonId'), 'click');
-        setTimeout(()=>{
-          this.router.navigate(['/lockdesk/lock-confirmation/' + this.loanNumber+'/'+this.selectedUserMloUUID]);
-        }, 3000);
-
-      }, error => {
-        this.isRateLockRequestloading = false;
-        this.isRateLockRequestComplete = false;
-        this.isRateLockRequestFailed = true;
-        console.log(error)
-      }
-    );
-
-
-  }
 
   onRateLockFilterSelect() {
 
   }
+
 }
