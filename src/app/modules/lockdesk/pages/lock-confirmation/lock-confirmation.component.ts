@@ -134,7 +134,7 @@ export class LockConfirmationComponent implements OnInit {
       filter: true,
       checkboxSelection: false,
       resizable : true,
-      minWidth: 200
+      minWidth: 230
     },
     {
       headerName: "Lock Date",
