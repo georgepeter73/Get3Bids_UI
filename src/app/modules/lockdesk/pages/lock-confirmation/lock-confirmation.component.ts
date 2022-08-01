@@ -87,7 +87,8 @@ export class LockConfirmationComponent implements OnInit {
     RequestLockExtension : 107,
     AcceptLockExtension :108,
     RequestNewAdjustment :110,
-    AcceptNewAdjustment :111
+    AcceptNewAdjustment :111,
+    CommentsChange :112
    };
   errorMessage : string;
   lockLoanSuccessful = false;
@@ -100,6 +101,9 @@ export class LockConfirmationComponent implements OnInit {
   loanLockWorkFlowStatus = "";
   compensationAdjustmentFailed = false;
   compensationAdjustmentMessage = "";
+  commentsChange = false;
+  mloMarginIsDirty = false;
+  commentsIsDirty = false;
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
     {
@@ -236,6 +240,8 @@ export class LockConfirmationComponent implements OnInit {
          this.initialLockLoanInfo = this.finallockLoanInfo;
         this.finallockLoanInfo =  this.finallockLoanInfo;
         this.loanInfo = this.finallockLoanInfo
+        //if no status then make it float
+        //this.initialLockLoan.lockStatus = this.LockStatusType.float;
       }
       this.loanLockWorkFlowStatus = this.getLockStateDesc(this.initialLockLoan.lockState);
       this.minDataLoading = true;
@@ -477,7 +483,6 @@ export class LockConfirmationComponent implements OnInit {
         this.lockLoanActionSuccessMessage = "Loan locked successfully."
 
       }
-
       if(lockState === this.LockStatesType.Unlock){
         this.lockLoanSuccessful = false;
         this.initialLockLoan.lockStatus = this.LockStatusType.float;
@@ -498,10 +503,16 @@ export class LockConfirmationComponent implements OnInit {
      }
      if(lockState === this.LockStatesType.RequestNewAdjustment){
        this.lockLoanSuccessful = false;
-       this.initialLockLoan.lockStatus = this.LockStatusType.pending;
-       this.initialLockLoan.lockState = this.LockStatesType.RequestNewAdjustment;
-       this.lockLoanActionSuccessMessage = "Adjustment requested successfully."
-
+       //dont change the status and state if its a comments change at any point in time
+       if(this.initialLockLoan.lockStatus === this.LockStatusType.locked ){
+         this.initialLockLoan.lockStatus = this.LockStatusType.pending;
+         this.initialLockLoan.lockState = this.LockStatesType.RequestNewAdjustment;
+         this.lockLoanActionSuccessMessage = "Adjustment requested successfully."
+       }
+       if(this.initialLockLoan.lockStatus === this.LockStatusType.pending ){
+         this.initialLockLoan.lockStatus = this.LockStatusType.pending;
+         this.lockLoanActionSuccessMessage = "Adjustment requested successfully."
+       }
      }
      if(lockState === this.LockStatesType.AcceptLockExtension){
        this.lockLoanSuccessful = false;
@@ -510,6 +521,13 @@ export class LockConfirmationComponent implements OnInit {
        this.lockLoanActionSuccessMessage = "Lock Extension accepted successfully."
 
      }
+     //comments change is  a dummy state dont change the state when comments change happens
+     if(lockState === this.LockStatesType.CommentsChange && this.initialLockLoan.commentsUpdate){
+       this.lockLoanSuccessful = false;
+       this.lockLoanActionSuccessMessage = "Comments saved successfully."
+
+     }
+
       this.savelLockLoanFinal()
     }
 
@@ -567,13 +585,14 @@ export class LockConfirmationComponent implements OnInit {
 
   }
   deleteAdjustment(i: number) {
-
-    if(this.lockLoanConfirmationData.customInitialAndFinalAdjustments[i].initialAdjustor.trim().length>0) {
+    if (this.lockLoanConfirmationData.customInitialAndFinalAdjustments[i].initialAdjustor) {
+       this.actionSpinnerLoading = true;
        this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
-      this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
+       this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
     }else{
-      this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
+       this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
     }
+    this.lockLoanActionSuccessMessage = "Adjustment deleted successfully."
   }
 
   print() {
@@ -585,19 +604,28 @@ export class LockConfirmationComponent implements OnInit {
     window.print();
   }
   saveCompensationAdjustments(i: number) {
+    this.actionSpinnerLoading = true;
     this.compensationAdjustmentFailed = false;
     const customMLOMargin = this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop();
     const originalMLOMargin = this.initialLockLoan.selectedQuote.mloLevelMargin;
-    if(parseFloat(customMLOMargin.adjustor) > originalMLOMargin){
-        this.compensationAdjustmentFailed = true;
+    if(parseFloat(customMLOMargin.finalAdjustor) > originalMLOMargin){
+         this.compensationAdjustmentFailed = true;
         this.compensationAdjustmentMessage="Compensation adjustment can not be more than original MLO compensation."
-    }else {
-      this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
+      this.actionSpinnerLoading = false;
+    }else if(this.mloMarginIsDirty) {
+        this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
+      this.lockLoanActionSuccessMessage = "Compensation adjustment saved successfully."
+    }else{
+      this.actionSpinnerLoading = false;
     }
+
+    this.mloMarginIsDirty = false;
   }
 
   saveCustomAdjustments(i: number) {
+    this.actionSpinnerLoading = true;
     this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
+    this.lockLoanActionSuccessMessage = "Adjustment saved successfully."
   }
   getLockStateDesc(state : number){
     let ret = "";
@@ -605,5 +633,22 @@ export class LockConfirmationComponent implements OnInit {
         ret = this.lockRequestStatusTypeForHistory.taxonomyItems.filter(l => l.key == state.toString()).pop().description;
      }
     return ret;
+  }
+  getLockStatusDesc(status : number){
+    let ret = "";
+    if(status) {
+      ret = "- "+ this.initialLockLoan.lockStatusStr
+    }else{
+      ret = "Float";
+    }
+    return ret;
+  }
+  saveComments(){
+    if(this.commentsIsDirty) {
+      this.actionSpinnerLoading = true;
+      this.initialLockLoan.commentsUpdate = true;
+      this.saveRateLock(this.LockStatesType.CommentsChange);
+    }
+    this.commentsIsDirty=false;
   }
 }

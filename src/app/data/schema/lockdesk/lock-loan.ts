@@ -32,6 +32,8 @@ export class LockLoan{
   lockLoanSuccessful : boolean;
   repriceSuccess : boolean;
   lockExtensionDays : LockLoanextension[];
+  comments : string;
+  commentsUpdate : boolean;
 
 
 

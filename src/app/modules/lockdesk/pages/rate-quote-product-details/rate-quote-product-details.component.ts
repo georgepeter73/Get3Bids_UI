@@ -48,6 +48,8 @@ export class RateQuoteProductDetailsComponent implements OnInit {
   LockStatusType = {
     float: 101,
     locked: 102,
+    pending: 103,
+    expired : 104
   };
   LockStates = {
     RequestRateLock: 101,

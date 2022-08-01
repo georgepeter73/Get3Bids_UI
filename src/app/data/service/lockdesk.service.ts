@@ -328,6 +328,7 @@ export class LockDeskService {
     if(ll['lockExtensionDays']) {
       lockLoan.lockExtensionDays = ll['lockExtensionDays'];
     }
+    lockLoan.comments = ll['comments'];
   }
     return lockLoan;
   }
