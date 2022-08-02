@@ -104,6 +104,9 @@ export class LockConfirmationComponent implements OnInit {
   compensationAdjustmentMessage = "";
   mloMarginIsDirty = false;
   commentsIsDirty = false;
+  loadingComments = false;
+  loadingAddAdjustment = false;
+  loadingMarginAdjustment = false;
   rateLockRequestMessage = "Your rate lock has been requested and is being reviewed by the lock desk, uppon acceptance you will receive a rate lock confirmation by email."
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
@@ -561,6 +564,9 @@ export class LockConfirmationComponent implements OnInit {
       this.initialLockLoan = ll;
       this.lockLoanSuccessful = true;
       this.actionSpinnerLoading = false;
+      this.loadingAddAdjustment = false;
+      this.loadingMarginAdjustment = false;
+      this.loadingComments = false;
       this.getLockLoanHistory(this.initialLockLoan.loanNumber);
       this.getLockLoanConfirmationData(this.loanInfo.loanNumber,this.loanInfo);
       this.lockState=0;
@@ -569,6 +575,9 @@ export class LockConfirmationComponent implements OnInit {
       this.actionSpinnerLoading = false;
       this.lockLoanSuccessful = false;
       this.mainDataLoadingSpinner=false;
+      this.loadingComments = false;
+      this.loadingMarginAdjustment = false;
+      this.loadingAddAdjustment = false;
       this.lockLoanFailure=true;
        this.errorMessage = JSON.stringify(error);
       this.lockLoanActionFailureMessage = "Locking action Failed. Email sent to admin."
@@ -606,7 +615,7 @@ export class LockConfirmationComponent implements OnInit {
   }
   deleteAdjustment(i: number) {
     if (this.lockLoanConfirmationData.customInitialAndFinalAdjustments[i].initialAdjustor) {
-       this.actionSpinnerLoading = true;
+       this.loadingAddAdjustment = true;
        this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
        this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
     }else{
@@ -624,26 +633,26 @@ export class LockConfirmationComponent implements OnInit {
     window.print();
   }
   saveCompensationAdjustments(i: number) {
-    this.actionSpinnerLoading = true;
+    this.loadingMarginAdjustment = true;
     this.compensationAdjustmentFailed = false;
     const customMLOMargin = this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop();
     const originalMLOMargin = this.initialLockLoan.selectedQuote.mloLevelMargin;
     if(parseFloat(customMLOMargin.finalAdjustor) > originalMLOMargin){
          this.compensationAdjustmentFailed = true;
         this.compensationAdjustmentMessage="Compensation adjustment can not be more than original MLO compensation."
-      this.actionSpinnerLoading = false;
+      this.loadingMarginAdjustment = false;
     }else if(this.mloMarginIsDirty) {
         this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
       this.lockLoanActionSuccessMessage = "Adjustment saved successfully."
     }else{
-      this.actionSpinnerLoading = false;
+      this.loadingMarginAdjustment = false;
     }
 
     this.mloMarginIsDirty = false;
   }
 
   saveCustomAdjustments(i: number) {
-    this.actionSpinnerLoading = true;
+    this.loadingAddAdjustment = true;
     this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
     this.lockLoanActionSuccessMessage = "Adjustment saved successfully."
   }
@@ -664,10 +673,11 @@ export class LockConfirmationComponent implements OnInit {
     return ret;
   }
   saveComments(){
+
     if(this.commentsIsDirty) {
-      this.actionSpinnerLoading = true;
-      this.saveRateLock(this.LockStatesType.CommentsChange);
+       this.loadingComments = true;
+       this.saveRateLock(this.LockStatesType.CommentsChange);
     }
-    this.commentsIsDirty=false;
+    this.commentsIsDirty = false;
   }
 }
