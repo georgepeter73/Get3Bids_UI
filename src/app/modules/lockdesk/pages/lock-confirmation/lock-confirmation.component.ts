@@ -88,7 +88,8 @@ export class LockConfirmationComponent implements OnInit {
     AcceptLockExtension :108,
     RequestNewAdjustment :110,
     AcceptNewAdjustment :111,
-    CommentsChange :112
+    RejectLockRequest :112,
+    CommentsChange :113,
    };
   errorMessage : string;
   lockLoanSuccessful = false;
@@ -502,6 +503,17 @@ export class LockConfirmationComponent implements OnInit {
         this.lockLoanActionSuccessMessage = "Un-lock successful."
 
       }
+     if(lockState === this.LockStatesType.RejectLockRequest){
+       this.lockLoanSuccessful = false;
+       this.initialLockLoan.lockStatus = this.LockStatusType.float;
+       this.initialLockLoan.lockState = this.LockStatesType.RejectLockRequest;
+       this.initialLockLoan.lockExtensionDays=[];
+       if(this.initialLockLoan.productDetail) {
+         this.initialLockLoan.productDetail.customAdjustments = [];
+       }
+       this.lockLoanActionSuccessMessage = "Lock Request Rejected successfully."
+
+     }
      if(lockState === this.LockStatesType.AcceptNewAdjustment){
        this.lockLoanSuccessful = false;
        this.initialLockLoan.lockStatus = this.LockStatusType.locked;
@@ -530,7 +542,7 @@ export class LockConfirmationComponent implements OnInit {
 
      }
      //comments change is  a dummy state dont change the state when comments change happens
-     if(lockState === this.LockStatesType.CommentsChange && this.initialLockLoan.commentsUpdate){
+     if(lockState === this.LockStatesType.CommentsChange ){
        this.lockLoanSuccessful = false;
        this.lockLoanActionSuccessMessage = "Comments saved successfully."
 
@@ -654,7 +666,6 @@ export class LockConfirmationComponent implements OnInit {
   saveComments(){
     if(this.commentsIsDirty) {
       this.actionSpinnerLoading = true;
-      this.initialLockLoan.commentsUpdate = true;
       this.saveRateLock(this.LockStatesType.CommentsChange);
     }
     this.commentsIsDirty=false;
