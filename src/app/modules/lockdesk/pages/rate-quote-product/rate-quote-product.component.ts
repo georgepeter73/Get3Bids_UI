@@ -171,8 +171,8 @@ export class RateQuoteProductComponent implements OnInit {
 
   isLoanTypeKeyAvailable(key, products) {
     if (products) {
-      for (let product of products) {
-         if (product.loanType === key) {
+      for (let i = 0; i < products.length; i++) {
+        if (products[i].loanType === key) {
           return true;
         }
       }
@@ -180,7 +180,8 @@ export class RateQuoteProductComponent implements OnInit {
     return false;
   }
   isKeyAvailableInProduct(key, product) {
-        if (
+    let retValue = false;
+    if (
           product.amortizationType ===
           this.productGrouping(key).amortizationType &&
           product.amortizationTerm ===
@@ -189,20 +190,21 @@ export class RateQuoteProductComponent implements OnInit {
             this.productGrouping(key).productName
           )
         ) {
-          return true;
+            retValue = true;
         }
-    return false;
+     return retValue;
   }
+
 
   isKeyAvailable(key, products) {
     if (products) {
-      for (let product of products) {
+      for (let i = 0; i < products.length; i++) {
         if (
-          product.amortizationType ===
+          products[i].amortizationType ===
           this.productGrouping(key).amortizationType &&
-          product.amortizationTerm ===
+          products[i].amortizationTerm ===
           String(this.productGrouping(key).amortizationTerm) &&
-          product.productName.includes(
+          products[i].productName.includes(
             this.productGrouping(key).productName
           )
         ) {
@@ -220,6 +222,21 @@ export class RateQuoteProductComponent implements OnInit {
         );
       this.onSortChange(this.sortBy);
     }
+    //if product flter is selected then filter that too
+   this.filterSelectedProductAlso();
+
+  }
+  filterSelectedProductAlso(){
+    if (this.productFilterSelected) {
+      let productTypeProducts =
+        this.products.filter(p =>
+          this.isKeyAvailableInProduct(this.productFilterSelected,p)
+        );
+      if(productTypeProducts.length > 0){
+        this.products = productTypeProducts;
+      }
+      this.onSortChange(this.sortBy);
+    }
   }
   filterProductsByProductType() {
     if (this.qqResRoot.obBestExResponseDTO.products && this.productFilterSelected) {
@@ -227,6 +244,21 @@ export class RateQuoteProductComponent implements OnInit {
         this.qqResRoot.obBestExResponseDTO.products.filter(p =>
           this.isKeyAvailableInProduct(this.productFilterSelected,p)
         );
+      this.onSortChange(this.sortBy);
+    }
+    //if loan type is seleted filter loan type too
+    this.filterSelectedLoanTypeAlso();
+
+  }
+  filterSelectedLoanTypeAlso(){
+    if (this.loanTypeSelected) {
+      let loanTypeProducts =
+        this.products.filter(
+          p => p.loanType === this.loanTypeSelected
+        );
+      if(loanTypeProducts.length>0){
+        this.products = loanTypeProducts;
+      }
       this.onSortChange(this.sortBy);
     }
   }
@@ -246,6 +278,7 @@ export class RateQuoteProductComponent implements OnInit {
   }
 
   onSortChange(event) {
+
     if (this.products) {
       if (event === 'interestRate') {
         this.products.sort(

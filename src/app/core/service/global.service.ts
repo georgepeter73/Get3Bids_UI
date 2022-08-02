@@ -67,7 +67,7 @@ export class GlobalService {
   loanTypeListMapping() {
     this.loanTypeList[0] = { key: 'FHA', value: 'FHA' };
     this.loanTypeList[1] = { key: 'Conforming', value: 'Conforming' };
-    this.loanTypeList[2] = { key: 'Nonconforming', value: 'Nonconforming' };
+    this.loanTypeList[2] = { key: 'NonConforming', value: 'NonConforming' };
     this.loanTypeList[3] = { key: 'VA', value: 'VA' };
     this.loanTypeList[4] = { key: 'SecondMortgage', value: 'SecondMortgage' };
     this.loanTypeList[5] = { key: 'Conventional', value: 'Conventional' };
