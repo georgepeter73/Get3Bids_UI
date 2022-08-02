@@ -275,7 +275,7 @@ export class LockConfirmationComponent implements OnInit {
   isRateLockRequestMessage(){
     let showMessage = false;
     if(this.initialLockLoan.lockStatus === this.LockStatusType.pending
-      && this.initialLockLoan.lockState === this.LockStatesType.RequestRateLock){
+      && this.initialLockLoan.lockState === this.LockStatesType.RequestRateLock && this.authService.isMLO()){
       showMessage = true;
     }
     return showMessage;
