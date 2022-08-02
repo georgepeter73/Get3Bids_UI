@@ -101,9 +101,9 @@ export class LockConfirmationComponent implements OnInit {
   loanLockWorkFlowStatus = "";
   compensationAdjustmentFailed = false;
   compensationAdjustmentMessage = "";
-  commentsChange = false;
   mloMarginIsDirty = false;
   commentsIsDirty = false;
+  rateLockRequestMessage = "Your rate lock has been requested and is being reviewed by the lock desk, uppon acceptance you will receive a rate lock confirmation by email."
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
     {
@@ -267,6 +267,14 @@ export class LockConfirmationComponent implements OnInit {
       'dohover': function(params) {
           return params.data.isActive === true; },
     };
+  }
+  isRateLockRequestMessage(){
+    let showMessage = false;
+    if(this.initialLockLoan.lockStatus === this.LockStatusType.pending
+      && this.initialLockLoan.lockState === this.LockStatesType.RequestRateLock){
+      showMessage = true;
+    }
+    return showMessage;
   }
 
   getLockingActions(){
@@ -518,7 +526,7 @@ export class LockConfirmationComponent implements OnInit {
        this.lockLoanSuccessful = false;
        this.initialLockLoan.lockStatus = this.LockStatusType.locked;
        this.initialLockLoan.lockState = this.LockStatesType.AcceptLockExtension;
-       this.lockLoanActionSuccessMessage = "Lock Extension accepted successfully."
+       this.lockLoanActionSuccessMessage = "Extension accepted successfully."
 
      }
      //comments change is  a dummy state dont change the state when comments change happens
@@ -551,7 +559,7 @@ export class LockConfirmationComponent implements OnInit {
       this.mainDataLoadingSpinner=false;
       this.lockLoanFailure=true;
        this.errorMessage = JSON.stringify(error);
-      this.lockLoanActionFailureMessage = "Locking action Failed. An email has been sent to admin."
+      this.lockLoanActionFailureMessage = "Locking action Failed. Email sent to admin."
       this.emitEvent();
     })
   }
@@ -614,7 +622,7 @@ export class LockConfirmationComponent implements OnInit {
       this.actionSpinnerLoading = false;
     }else if(this.mloMarginIsDirty) {
         this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
-      this.lockLoanActionSuccessMessage = "Compensation adjustment saved successfully."
+      this.lockLoanActionSuccessMessage = "Adjustment saved successfully."
     }else{
       this.actionSpinnerLoading = false;
     }

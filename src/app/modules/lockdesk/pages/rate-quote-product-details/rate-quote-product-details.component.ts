@@ -194,7 +194,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
         this.eventFire(document.getElementById('refreshButtonId'), 'click');
         setTimeout(()=>{
           this.router.navigate(['/lockdesk/lock-confirmation/' + this.loanNumber+'/'+this.selectedUserMloUUID]);
-        }, 3000);
+        }, 1000);
 
       }, error => {
         this.isRateLockRequestloading = false;

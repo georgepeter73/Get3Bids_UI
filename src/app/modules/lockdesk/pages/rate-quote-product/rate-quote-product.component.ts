@@ -212,7 +212,6 @@ export class RateQuoteProductComponent implements OnInit {
     }
     return false;
   }
-
   filterProductsByLoanType() {
     if (this.qqResRoot.obBestExResponseDTO.products && this.loanTypeSelected) {
       this.products =
