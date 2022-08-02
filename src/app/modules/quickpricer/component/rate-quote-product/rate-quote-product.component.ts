@@ -73,7 +73,9 @@ export class RateQuoteProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loanTypeList = this.globalService.loanTypeList;
     this.getQuoteResults();
+
   }
 
   getQuoteResults(){
@@ -116,6 +118,30 @@ export class RateQuoteProductComponent implements OnInit {
     $event.preventDefault();
 
   }
+  filterSelectedProductAlso(){
+    if (this.productFilterSelected) {
+      let productTypeProducts =
+        this.products.filter(p =>
+          this.isKeyAvailableInProduct(this.productFilterSelected,p)
+        );
+      if(productTypeProducts.length > 0){
+        this.products = productTypeProducts;
+      }
+      this.onSortChange(this.sortBy);
+    }
+  }
+  filterSelectedLoanTypeAlso(){
+    if (this.loanTypeSelected) {
+      let loanTypeProducts =
+        this.products.filter(
+          p => p.loanType === this.loanTypeSelected
+        );
+      if(loanTypeProducts.length>0){
+        this.products = loanTypeProducts;
+      }
+      this.onSortChange(this.sortBy);
+    }
+  }
 
   emitClickEvent(){
     // hack for data not displaying with out a mouse click
@@ -141,19 +167,21 @@ export class RateQuoteProductComponent implements OnInit {
   }
 
   filterLoanTypeFilter() {
+
     if (this.products) {
-      this.loanTypeList = this.loanTypeList.filter(keyPair =>
+        this.loanTypeList = this.loanTypeList.filter(keyPair =>
         this.isLoanTypeKeyAvailable(keyPair.key, this.products)
       );
+
       this.loanTypeSelected = '';
       this.onSortChange(this.sortBy);
     }
   }
 
   isLoanTypeKeyAvailable(key, products) {
-    if (products) {
-      for (let product of products) {
-        if (product.loanType === key) {
+   if (products) {
+      for (let i = 0; i < products.length; i++) {
+        if (products[i].loanType === key) {
           return true;
         }
       }
@@ -202,6 +230,7 @@ export class RateQuoteProductComponent implements OnInit {
         );
       this.onSortChange(this.sortBy);
     }
+    this.filterSelectedProductAlso();
   }
   filterProductsByProductType() {
     if (this.qqResRoot.obBestExResponseDTO.products && this.productFilterSelected) {
@@ -212,6 +241,7 @@ export class RateQuoteProductComponent implements OnInit {
         );
       this.onSortChange(this.sortBy);
     }
+    this.filterSelectedLoanTypeAlso();
   }
 
   investorName(investorId): Investor {
