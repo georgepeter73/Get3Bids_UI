@@ -10,7 +10,7 @@ import {TaxonomyService} from '@data/service/taxonomy.service';
 import {Taxonomy} from '@data/schema/taxonomy';
 import {LockLoan} from '@data/schema/lockdesk/lock-loan';
 import {GridOptions} from 'ag-grid-community';
-import {faLock,faUnlock,faPrint,faSave,faTrash,faCalendarMinus} from '@fortawesome/free-solid-svg-icons';
+import {faLock,faUnlock,faPrint,faSave,faTrash,faCalendarMinus,faPlus} from '@fortawesome/free-solid-svg-icons';
 import {LockLoanConfirmation} from '@data/schema/lockdesk/lock-loanconfirmation';
 import {Adjustment} from '@data/schema/lockdesk/adjustment';
 import {LockExtensionmaster} from '@data/schema/lockdesk/lock-extensionmaster';
@@ -60,6 +60,7 @@ export class LockConfirmationComponent implements OnInit {
   fasave = faSave;
   fatrash = faTrash;
   faclock = faCalendarMinus
+  faplus = faPlus;
   rowData: any ;
   lockStatusType : Taxonomy;
   lockRequestStatusType : Taxonomy;
@@ -106,6 +107,7 @@ export class LockConfirmationComponent implements OnInit {
   commentsIsDirty = false;
   loadingComments = false;
   loadingAddAdjustment = false;
+  loadingDeleteAdjustment = false;
   loadingMarginAdjustment = false;
   rateLockRequestMessage = "Your rate lock has been requested and is being reviewed by the lock desk, uppon acceptance you will receive a rate lock confirmation by email."
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
@@ -406,6 +408,7 @@ export class LockConfirmationComponent implements OnInit {
     }
   }
   saveRateLockInitialSetUps(){
+    this.mainDataLoadingSpinner = true;
     this.actionSpinnerLoading = true;
     this.lockLoanFailure = false;
     this.initialLockLoan.selectedUserMloUUID = this.selectedUserMloUUID;
@@ -567,6 +570,7 @@ export class LockConfirmationComponent implements OnInit {
       this.loadingAddAdjustment = false;
       this.loadingMarginAdjustment = false;
       this.loadingComments = false;
+      this.loadingDeleteAdjustment = false;
       this.getLockLoanHistory(this.initialLockLoan.loanNumber);
       this.getLockLoanConfirmationData(this.loanInfo.loanNumber,this.loanInfo);
       this.lockState=0;
@@ -578,6 +582,7 @@ export class LockConfirmationComponent implements OnInit {
       this.loadingComments = false;
       this.loadingMarginAdjustment = false;
       this.loadingAddAdjustment = false;
+      this.loadingDeleteAdjustment = false;
       this.lockLoanFailure=true;
        this.errorMessage = JSON.stringify(error);
       this.lockLoanActionFailureMessage = "Locking action Failed. Email sent to admin."
@@ -615,7 +620,7 @@ export class LockConfirmationComponent implements OnInit {
   }
   deleteAdjustment(i: number) {
     if (this.lockLoanConfirmationData.customInitialAndFinalAdjustments[i].initialAdjustor) {
-       this.loadingAddAdjustment = true;
+       this.loadingDeleteAdjustment = true;
        this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
        this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
     }else{
@@ -651,7 +656,7 @@ export class LockConfirmationComponent implements OnInit {
     this.mloMarginIsDirty = false;
   }
 
-  saveCustomAdjustments(i: number) {
+  saveCustomAdjustments() {
     this.loadingAddAdjustment = true;
     this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
     this.lockLoanActionSuccessMessage = "Adjustment saved successfully."

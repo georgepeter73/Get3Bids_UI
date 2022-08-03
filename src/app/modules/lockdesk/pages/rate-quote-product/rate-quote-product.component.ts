@@ -239,7 +239,10 @@ export class RateQuoteProductComponent implements OnInit {
     }
   }
   filterProductsByProductType() {
-    if (this.qqResRoot.obBestExResponseDTO.products && this.productFilterSelected) {
+    if (this.qqResRoot
+      && this.qqResRoot.obBestExResponseDTO
+      && this.qqResRoot.obBestExResponseDTO.products
+      && this.productFilterSelected) {
       this.products =
         this.qqResRoot.obBestExResponseDTO.products.filter(p =>
           this.isKeyAvailableInProduct(this.productFilterSelected,p)

@@ -1,5 +1,5 @@
 <div>
-  <nb-card id="content">
+  <nb-card id="content" accent="primary">
     <nb-card-header>
       <div class="row">
         <div class="col-lg-2 d-none d-md-inline"><a href="#" (click)="backClicked($event)">< Previous</a></div>
@@ -121,7 +121,7 @@
             <b>Check to make sure the loan parameters you entered <br>in Lending-pad LOS are accurate.</b>
           </p>
 
-          <div *ngIf="qqResRoot.obBadRequestResponsDTO">
+          <div *ngIf="qqResRoot && qqResRoot.obBadRequestResponsDTO">
             <p>Some of the issues are:</p>
             <p *ngFor="let message of qqResRoot.obBadRequestResponsDTO">
               <b>{{message.message}}</b>
@@ -131,14 +131,20 @@
         </div>
         <br>
         <br>
-        <div *ngIf="!qqResRoot.success">
-          <ng-container *ngIf="qqResRoot.obBadRequestResponsDTO[0].messages.length>0">
+        <div *ngIf="qqResRoot && !qqResRoot.success">
+          <ng-container *ngIf="qqResRoot
+          && qqResRoot.obBadRequestResponsDTO[0]
+          && qqResRoot.obBadRequestResponsDTO[0].messages
+          && qqResRoot.obBadRequestResponsDTO[0].messages.length > 0">
             <ngb-alert accent="warning">Invalid response from the server.
 
             </ngb-alert>
           </ng-container>
         </div>
-        <div *ngIf="qqResRoot.success && qqResRoot.obBestExResponseDTO.messages.length > 0">
+        <div *ngIf="qqResRoot
+        && qqResRoot.success
+        && qqResRoot.obBestExResponseDTO.messages
+        && qqResRoot.obBestExResponseDTO.messages.length > 0">
           <ng-container *ngFor="let message of qqResRoot.obBestExResponseDTO.messages[0].messages; let i=index;">
             <ngb-alert accent="warning">{{message}}.</ngb-alert>
           </ng-container>

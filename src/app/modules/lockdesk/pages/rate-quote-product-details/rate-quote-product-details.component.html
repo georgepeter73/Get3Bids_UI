@@ -1,4 +1,4 @@
-<nb-card class="dialogFS" style="width: 900px;height:100%;top: 5%;position: relative;">
+<nb-card class="dialogFS" style="width: 900px;height:100%;top: 5%;position: relative;" accent="primary">
   <nb-card-header>
     <div class="row">
       <div class="col-lg-2 d-none d-md-inline"><a href="#" (click)="backClicked($event)">< Previous</a></div>
@@ -189,7 +189,7 @@
        <div class="row ">
         <div class="col-12 text-center">
       <nb-alert accent="success"  *ngIf="isRateLockRequestComplete" size="medium" >
-        Rate Lock requested successfully.
+        {{rateLockRequestMessage}}
       </nb-alert>
       <nb-alert accent="warning"  *ngIf="isRateLockRequestFailed" size="medium" >
         Operation failed.

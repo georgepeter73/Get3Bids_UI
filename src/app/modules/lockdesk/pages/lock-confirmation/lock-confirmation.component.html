@@ -1,4 +1,4 @@
-<nb-card>
+<nb-card accent="primary">
   <nb-card-header>
     <div class="row dontprintthissection">
       <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)">
@@ -13,14 +13,14 @@
   <nb-card-body >
     <div class="row p-2 dontprintthissection" [nbSpinner]="mainDataLoadingSpinner" nbSpinnerStatus="primary">
      <div class="col-4"  *ngIf="lockRequestStatusType && lockRequestStatusType.taxonomyItems">
-     <nb-select fullWidth shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="giant"  placeholder="Locking Actions..."
+     <nb-select  status="info" filled fullWidth shape="semi-round" [(ngModel)]="lockState"    #lockRequestWF="ngModel" name="lockRequestWF" required size="giant"  placeholder="Locking Actions..."
                 id="lockRequestWFId"  (ngModelChange)="saveRateLockConfirmation(lockState)" >
        <nb-option  [disabled]="!lock_action.enabled"  *ngFor="let lock_action of lockingActions"
                    [value]="lock_action.key">{{lock_action.value}}</nb-option>
     </nb-select>
     </div>
      <div class="col-4"  *ngIf="lockState == LockStatesType.RequestLockExtension">
-        <nb-select fullWidth shape="semi-round" [(ngModel)]="lockExtensionDays"    #lockExntendDay="ngModel" name="lockExntendDay" required size="giant"  placeholder="Lock Extension Days..."
+        <nb-select status="info" filled fullWidth shape="semi-round" [(ngModel)]="lockExtensionDays"    #lockExntendDay="ngModel" name="lockExntendDay" required size="giant"  placeholder="Lock Extension Days..."
                    id="lockRequestWFId"  (ngModelChange)="saveLockExtensionConfirmation(lockState,lockExtensionDays)" >
           <nb-option    *ngFor="let lockExtensionmaster of lockExtensionMaster"
                       [value]="lockExtensionmaster.numberOfDays">{{lockExtensionmaster.description}}</nb-option>
@@ -207,8 +207,8 @@
                         type="number" nbInput fullWidth shape="rectangle" placeholder="Margin"  (keyup)="mloMarginIsDirty=true" />
 
               </div>
-              <div class="col-1 dontprintthissection">
-                <button [nbSpinner]="loadingMarginAdjustment" nbSpinnerStatus="primary" *ngIf="adjustment.reason == 'MLO Margin'" [disabled]="initialLockLoan.lockExpired"  size="tiny" nbButton (click)="saveCompensationAdjustments(i)" nbTooltip="Save" class="m-1" ><fa-icon class="m-1"  size="1x" [icon]="fasave"></fa-icon>Save</button>
+              <div class="col-1 dontprintthissection pr-1 text-right">
+                <button [nbSpinner]="loadingMarginAdjustment" nbSpinnerStatus="primary" *ngIf="adjustment.reason == 'MLO Margin'" [disabled]="initialLockLoan.lockExpired"  size="tiny" nbButton (click)="saveCompensationAdjustments(i)" nbTooltip="Save"  ><fa-icon class=""  size="1x" [icon]="fasave"></fa-icon></button>
 
               </div>
 
@@ -219,7 +219,7 @@
           </div>
           <div class="row p-2 tableheader dontprintthissection" >
             <div class="col-6 pl-3"><strong>Add Adjustments</strong></div>
-            <div class="col-6 "><button nbButton size="medium" (click)="addCustomAdjustments()" [disabled]="initialLockLoan.lockExpired" >Add Adjustments</button></div>
+            <div class="col-6 text-right pr-1"><button nbButton size="tiny" (click)="addCustomAdjustments()" [disabled]="initialLockLoan.lockExpired" ><fa-icon class=""  size="1x" [icon]="faplus"></fa-icon></button></div>
           </div>
           <div *ngIf="lockLoanConfirmationData.customInitialAndFinalAdjustments && lockLoanConfirmationData.customInitialAndFinalAdjustments.length>0" >
             <div *ngFor="let adjustment of lockLoanConfirmationData.customInitialAndFinalAdjustments ;let i = index">
@@ -231,12 +231,15 @@
                 <div class="col-3 "><input class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.initialAdjustor" #initialAdjustor{{i}}="ngModel"
 
                                            type="number" nbInput fullWidth shape="rectangle" placeholder="Adjustor" (keyup)="adjustment.finalAdjustor=adjustment.initialAdjustor" /></div>
-                <div class="col-2 "></div>
-                <div class="col-1 dontprintthissection">
-                  <button [nbSpinner]="loadingAddAdjustment" nbSpinnerStatus="primary" class="mr-1" size="tiny" nbButton (click)="saveCustomAdjustments(i)" [disabled]="initialLockLoan.lockExpired  || !adjustment.initialAdjustor" nbTooltip="Save" class="m-1" ><fa-icon class="m-1"  size="1x" [icon]="fasave"></fa-icon>Save</button>
-                  <button [nbSpinner]="loadingAddAdjustment" nbSpinnerStatus="primary"  [disabled]="initialLockLoan.lockExpired" size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete" class="m-1" ><fa-icon class="m-1" size="1x" [icon]="fatrash"></fa-icon>Delete</button>
-                </div>
+                <div class="col-3 text-right pr-1">
+                  <button  [nbSpinner]="loadingDeleteAdjustment" nbSpinnerStatus="primary"  [disabled]="initialLockLoan.lockExpired" size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete"  ><fa-icon class="" size="1x" [icon]="fatrash"></fa-icon></button>
 
+                </div>
+              </div>
+            </div>
+            <div class="row dontprintthissection">
+              <div class="col-12 text-right pr-2">
+                <button  [nbSpinner]="loadingAddAdjustment" nbSpinnerStatus="primary"  size="tiny" nbButton (click)="saveCustomAdjustments()" [disabled]="initialLockLoan.lockExpired" nbTooltip="Save"  ><fa-icon class=""  size="1x" [icon]="fasave"></fa-icon></button>&nbsp;
               </div>
             </div>
           </div>
@@ -253,8 +256,8 @@
             <div class="col-10">
               <textarea (keyup)="commentsIsDirty=true" size="large" fullWidth nbInput [(ngModel)]="lockLoanConfirmationData.initialLockLoan.comments"  #comments="ngModel" name="comments" id="commentsId"></textarea>
             </div>
-            <div class="col-1">
-              <button [nbSpinner]="loadingComments"  nbSpinnerStatus="primary"    size="tiny" nbButton (click)="saveComments()" nbTooltip="Save" class="m-1" ><fa-icon class="m-1"  size="1x" [icon]="fasave"></fa-icon>Save</button>
+            <div class="col-1 text-right pr-1">
+              <button [nbSpinner]="loadingComments"  nbSpinnerStatus="primary"    size="tiny" nbButton (click)="saveComments()" nbTooltip="Save"  ><fa-icon class=""  size="1x" [icon]="fasave"></fa-icon></button>
             </div>
           </div>
 
