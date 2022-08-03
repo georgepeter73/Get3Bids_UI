@@ -204,7 +204,7 @@
               <div class="col-3 ">
                 <input  [readOnly]="adjustment.reason == 'Corporate Margin' || adjustment.reason == 'Company Margin'" class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
 
-                        type="number" nbInput fullWidth shape="rectangle" placeholder="Margin"  (keyup)="mloMarginIsDirty=true" />
+                        type="number" nbInput fullWidth shape="rectangle" placeholder="%"  (keyup)="setMLOAdjustment(adjustment)" />
 
               </div>
             </div>
@@ -223,10 +223,11 @@
 
                                            type="text" nbInput fullWidth shape="rectangle" placeholder="Adjustment Name"
                 /></div>
-                <div class="col-3 "><input class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.initialAdjustor" #initialAdjustor{{i}}="ngModel"
+                <div class="col-3 ">
+                 <input class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.initialAdjustor" #initialAdjustor{{i}}="ngModel"
 
-                                           type="number" nbInput fullWidth shape="rectangle" placeholder="Adjustor" (keyup)="setAdjustments(adjustment)" /></div>
-                <div class="col-3 text-right pr-1">
+                                           type="number" nbInput   fullWidth shape="rectangle" placeholder="%" (keyup)="setAdjustments(adjustment)" /></div>
+                 <div class="col-3 text-right pr-1">
                  <button  [nbSpinner]="loadingDeleteAdjustment" nbSpinnerStatus="primary"  [disabled]="initialLockLoan.lockExpired" size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete"  ><fa-icon class="" size="1x" [icon]="fatrash"></fa-icon></button>
 
                 </div>
@@ -254,6 +255,8 @@
             <button [nbSpinner]="loadingComments" [disabled]="saveButtonDisable()"  nbSpinnerStatus="primary"    size="large" nbButton (click)="saveComments()" nbTooltip="Save"  ><fa-icon class="p-1"  size="1x" [icon]="fasave"></fa-icon>Save Changes</button>
           </div>
           </div>
+
+
 
         </div>
       </div>

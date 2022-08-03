@@ -10,7 +10,7 @@ import {TaxonomyService} from '@data/service/taxonomy.service';
 import {Taxonomy} from '@data/schema/taxonomy';
 import {LockLoan} from '@data/schema/lockdesk/lock-loan';
 import {GridOptions} from 'ag-grid-community';
-import {faLock,faUnlock,faPrint,faSave,faTrash,faCalendarMinus,faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faLock,faUnlock,faPrint,faSave,faTrash,faCalendarMinus,faPlus,faPercentage} from '@fortawesome/free-solid-svg-icons';
 import {LockLoanConfirmation} from '@data/schema/lockdesk/lock-loanconfirmation';
 import {Adjustment} from '@data/schema/lockdesk/adjustment';
 import {LockExtensionmaster} from '@data/schema/lockdesk/lock-extensionmaster';
@@ -61,6 +61,7 @@ export class LockConfirmationComponent implements OnInit {
   fatrash = faTrash;
   faclock = faCalendarMinus
   faplus = faPlus;
+  fapercentage = faPercentage;
   rowData: any ;
   lockStatusType : Taxonomy;
   lockRequestStatusType : Taxonomy;
@@ -607,8 +608,8 @@ export class LockConfirmationComponent implements OnInit {
 
   addCustomAdjustments() {
     let adjustment = new Adjustment();
-    adjustment.initialAdjustor = "";
-    adjustment.finalAdjustor = "";
+    adjustment.initialAdjustor = "0.000";
+    adjustment.finalAdjustor = "0.000";
     adjustment.reason = ""
     this.lockLoanConfirmationData.customInitialAndFinalAdjustments.push(adjustment);
 
@@ -636,10 +637,14 @@ export class LockConfirmationComponent implements OnInit {
     this.compensationAdjustmentFailed = false;
     const customMLOMargin = this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop();
     const originalMLOMargin = this.initialLockLoan.selectedQuote.mloLevelMargin;
+    if(!customMLOMargin.finalAdjustor){
+      this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop().finalAdjustor="0.0";
+    }
     if(parseFloat(customMLOMargin.finalAdjustor) > originalMLOMargin){
          this.compensationAdjustmentFailed = true;
         this.compensationAdjustmentMessage="Compensation adjustment can not be more than original MLO compensation."
-     }else if(this.mloMarginIsDirty) {
+     }else if(this.mloMarginIsDirty ) {
+
         this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
       this.lockLoanActionSuccessMessage = "Adjustment saved successfully."
     }
@@ -648,6 +653,14 @@ export class LockConfirmationComponent implements OnInit {
 
   saveCustomAdjustments() {
     if(this.addAdjustmentIsDirty) {
+      for(var adj of this.initialLockLoan.productDetail.customAdjustments){
+          if(!adj.finalAdjustor){
+            adj.finalAdjustor="0.000"
+          }
+        if(!adj.initialAdjustor){
+          adj.initialAdjustor="0.000"
+        }
+      }
       this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
       this.lockLoanActionSuccessMessage = "Adjustment saved successfully.";
       this.addAdjustmentIsDirty = false;
@@ -689,7 +702,12 @@ export class LockConfirmationComponent implements OnInit {
   }
 
   setAdjustments(adjustment : Adjustment) {
-    adjustment.finalAdjustor = adjustment.initialAdjustor;
+    if(adjustment.initialAdjustor) {
+      adjustment.finalAdjustor = adjustment.initialAdjustor;
+    }else{
+      adjustment.finalAdjustor="0.000";
+      adjustment.initialAdjustor ="0.000";
+    }
     this.addAdjustmentIsDirty = true;
   }
   saveButtonDisable(){
@@ -697,5 +715,12 @@ export class LockConfirmationComponent implements OnInit {
       return false
     }
     return true;
+  }
+
+  setMLOAdjustment(adjustment: Adjustment) {
+    this.mloMarginIsDirty = true;
+    if(!adjustment.finalAdjustor){
+      adjustment.finalAdjustor="0.000"
+    }
   }
 }

@@ -25,6 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {ConfirmationDialogCompComponent} from '@shared/component/confirmation-dialog-comp/confirmation-dialog-comp.component';
 
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -45,25 +46,26 @@ import {ConfirmationDialogCompComponent} from '@shared/component/confirmation-di
 
 
   ],
-  declarations: [ControlMessagesComponent, SpinnerComponent, ConfirmationDialogCompComponent],
+    declarations: [ControlMessagesComponent, SpinnerComponent, ConfirmationDialogCompComponent],
   entryComponents: [ConfirmationDialogCompComponent],
-  exports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
+    exports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
 
-    MaterialModule,
+        MaterialModule,
 
-    NgbModule,
-    FontAwesomeModule,
-    NgxMasonryModule,
-    NgxMaskModule,
+        NgbModule,
+        FontAwesomeModule,
+        NgxMasonryModule,
+        NgxMaskModule,
 
-    ControlMessagesComponent,
-    SpinnerComponent,
-    NbCardModule
-  ]
+        ControlMessagesComponent,
+        SpinnerComponent,
+        NbCardModule,
+
+    ]
 })
 export class SharedModule {
   constructor(library: FaIconLibrary) {
