@@ -502,10 +502,6 @@ export class LockConfirmationComponent implements OnInit {
         this.lockLoanSuccessful = false;
         this.initialLockLoan.lockStatus = this.LockStatusType.float;
         this.initialLockLoan.lockState = this.LockStatesType.Unlock;
-        this.initialLockLoan.lockExtensionDays=[];
-        if(this.initialLockLoan.productDetail) {
-          this.initialLockLoan.productDetail.customAdjustments = [];
-        }
         this.lockLoanActionSuccessMessage = "Un-lock successful."
 
       }
@@ -513,10 +509,6 @@ export class LockConfirmationComponent implements OnInit {
        this.lockLoanSuccessful = false;
        this.initialLockLoan.lockStatus = this.LockStatusType.float;
        this.initialLockLoan.lockState = this.LockStatesType.RejectLockRequest;
-       this.initialLockLoan.lockExtensionDays=[];
-       if(this.initialLockLoan.productDetail) {
-         this.initialLockLoan.productDetail.customAdjustments = [];
-       }
        this.lockLoanActionSuccessMessage = "Lock Request Rejected successfully."
 
      }
@@ -638,7 +630,10 @@ export class LockConfirmationComponent implements OnInit {
     const customMLOMargin = this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop();
     const originalMLOMargin = this.initialLockLoan.selectedQuote.mloLevelMargin;
     if(!customMLOMargin.finalAdjustor){
-      this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop().finalAdjustor="0.000";
+      this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop().finalAdjustor="0";
+    }
+    if(!customMLOMargin.initialAdjustor){
+      this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop().initialAdjustor="0";
     }
     if(parseFloat(customMLOMargin.finalAdjustor) > originalMLOMargin){
          this.compensationAdjustmentFailed = true;
@@ -652,13 +647,13 @@ export class LockConfirmationComponent implements OnInit {
   }
 
   saveCustomAdjustments() {
-    if(this.addAdjustmentIsDirty) {
-      for(var adj of this.initialLockLoan.productDetail.customAdjustments){
+     if(this.addAdjustmentIsDirty) {
+      for(var adj of this.lockLoanConfirmationData.customInitialAndFinalAdjustments){
           if(!adj.finalAdjustor){
-            adj.finalAdjustor="0.000"
+            adj.finalAdjustor="0"
           }
         if(!adj.initialAdjustor){
-          adj.initialAdjustor="0.000"
+          adj.initialAdjustor="0"
         }
       }
       this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
@@ -704,9 +699,6 @@ export class LockConfirmationComponent implements OnInit {
   setAdjustments(adjustment : Adjustment) {
     if(adjustment.initialAdjustor) {
       adjustment.finalAdjustor = adjustment.initialAdjustor;
-    }else{
-      adjustment.finalAdjustor="0.000";
-      adjustment.initialAdjustor ="0.000";
     }
     this.addAdjustmentIsDirty = true;
   }
@@ -719,8 +711,5 @@ export class LockConfirmationComponent implements OnInit {
 
   setMLOAdjustment(adjustment: Adjustment) {
     this.mloMarginIsDirty = true;
-    if(!adjustment.finalAdjustor){
-      adjustment.finalAdjustor="0.000"
-    }
-  }
+   }
 }
