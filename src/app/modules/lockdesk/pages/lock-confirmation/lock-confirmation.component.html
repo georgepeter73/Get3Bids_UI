@@ -201,17 +201,12 @@
             <div class="row p-2 dohover "  >
               <div class="col-6 ">{{adjustment.reason}}</div>
               <div class="col-3 ">{{adjustment.adjustor}}</div>
-              <div class="col-2 ">
+              <div class="col-3 ">
                 <input  [readOnly]="adjustment.reason == 'Corporate Margin' || adjustment.reason == 'Company Margin'" class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
 
                         type="number" nbInput fullWidth shape="rectangle" placeholder="Margin"  (keyup)="mloMarginIsDirty=true" />
 
               </div>
-              <div class="col-1 dontprintthissection pr-1 text-right">
-                <button [nbSpinner]="loadingMarginAdjustment" nbSpinnerStatus="primary" *ngIf="adjustment.reason == 'MLO Margin'" [disabled]="initialLockLoan.lockExpired"  size="tiny" nbButton (click)="saveCompensationAdjustments()" nbTooltip="Save"  ><fa-icon class=""  size="1x" [icon]="fasave"></fa-icon></button>
-
-              </div>
-
             </div>
           </div>
           <nb-alert  accent="warning" size="medium" *ngIf="compensationAdjustmentFailed" >{{compensationAdjustmentMessage}} </nb-alert>
@@ -232,16 +227,12 @@
 
                                            type="number" nbInput fullWidth shape="rectangle" placeholder="Adjustor" (keyup)="setAdjustments(adjustment)" /></div>
                 <div class="col-3 text-right pr-1">
-                  <button  [nbSpinner]="loadingDeleteAdjustment" nbSpinnerStatus="primary"  [disabled]="initialLockLoan.lockExpired" size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete"  ><fa-icon class="" size="1x" [icon]="fatrash"></fa-icon></button>
+                 <button  [nbSpinner]="loadingDeleteAdjustment" nbSpinnerStatus="primary"  [disabled]="initialLockLoan.lockExpired" size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete"  ><fa-icon class="" size="1x" [icon]="fatrash"></fa-icon></button>
 
                 </div>
               </div>
             </div>
-            <div class="row dontprintthissection">
-              <div class="col-12 text-right pr-2">
-                <button  [nbSpinner]="loadingAddAdjustment" nbSpinnerStatus="primary"  size="tiny" nbButton (click)="saveCustomAdjustments()" [disabled]="initialLockLoan.lockExpired" nbTooltip="Save"  ><fa-icon class=""  size="1x" [icon]="fasave"></fa-icon></button>&nbsp;
-              </div>
-            </div>
+
           </div>
           <br>
           <hr>
@@ -253,12 +244,15 @@
           <br>
           <div class="row p-2 dohover "  *ngIf="lockLoanConfirmationData.initialLockLoan.lockStatus">
             <div class="col-1">Comments</div>
-            <div class="col-10">
+            <div class="col-11">
               <textarea (keyup)="commentsIsDirty=true" size="large" fullWidth nbInput [(ngModel)]="lockLoanConfirmationData.initialLockLoan.comments"  #comments="ngModel" name="comments" id="commentsId"></textarea>
             </div>
-            <div class="col-1 text-right pr-1">
-              <button [nbSpinner]="loadingComments"  nbSpinnerStatus="primary"    size="tiny" nbButton (click)="saveComments()" nbTooltip="Save"  ><fa-icon class=""  size="1x" [icon]="fasave"></fa-icon></button>
-            </div>
+
+          </div>
+          <div class="row">
+          <div class="col-12 text-right pr-1">
+            <button [nbSpinner]="loadingComments" [disabled]="saveButtonDisable()"  nbSpinnerStatus="primary"    size="large" nbButton (click)="saveComments()" nbTooltip="Save"  ><fa-icon class="p-1"  size="1x" [icon]="fasave"></fa-icon>Save Changes</button>
+          </div>
           </div>
 
         </div>

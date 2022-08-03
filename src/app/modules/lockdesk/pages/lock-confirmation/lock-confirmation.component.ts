@@ -107,9 +107,7 @@ export class LockConfirmationComponent implements OnInit {
   addAdjustmentIsDirty = false;
   commentsIsDirty = false;
   loadingComments = false;
-  loadingAddAdjustment = false;
   loadingDeleteAdjustment = false;
-  loadingMarginAdjustment = false;
   rateLockRequestMessage = "Your rate lock has been requested and is being reviewed by the lock desk, uppon acceptance you will receive a rate lock confirmation by email."
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
@@ -568,9 +566,7 @@ export class LockConfirmationComponent implements OnInit {
       this.initialLockLoan = ll;
       this.lockLoanSuccessful = true;
       this.actionSpinnerLoading = false;
-      this.loadingAddAdjustment = false;
-      this.loadingMarginAdjustment = false;
-      this.loadingComments = false;
+       this.loadingComments = false;
       this.loadingDeleteAdjustment = false;
       this.getLockLoanHistory(this.initialLockLoan.loanNumber);
       this.getLockLoanConfirmationData(this.loanInfo.loanNumber,this.loanInfo);
@@ -581,8 +577,6 @@ export class LockConfirmationComponent implements OnInit {
       this.lockLoanSuccessful = false;
       this.mainDataLoadingSpinner=false;
       this.loadingComments = false;
-      this.loadingMarginAdjustment = false;
-      this.loadingAddAdjustment = false;
       this.loadingDeleteAdjustment = false;
       this.lockLoanFailure=true;
        this.errorMessage = JSON.stringify(error);
@@ -639,27 +633,21 @@ export class LockConfirmationComponent implements OnInit {
     window.print();
   }
   saveCompensationAdjustments() {
-    this.loadingMarginAdjustment = true;
     this.compensationAdjustmentFailed = false;
     const customMLOMargin = this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop();
     const originalMLOMargin = this.initialLockLoan.selectedQuote.mloLevelMargin;
     if(parseFloat(customMLOMargin.finalAdjustor) > originalMLOMargin){
          this.compensationAdjustmentFailed = true;
         this.compensationAdjustmentMessage="Compensation adjustment can not be more than original MLO compensation."
-      this.loadingMarginAdjustment = false;
-    }else if(this.mloMarginIsDirty) {
+     }else if(this.mloMarginIsDirty) {
         this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
       this.lockLoanActionSuccessMessage = "Adjustment saved successfully."
-    }else{
-      this.loadingMarginAdjustment = false;
     }
-
     this.mloMarginIsDirty = false;
   }
 
   saveCustomAdjustments() {
     if(this.addAdjustmentIsDirty) {
-      this.loadingAddAdjustment = true;
       this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
       this.lockLoanActionSuccessMessage = "Adjustment saved successfully.";
       this.addAdjustmentIsDirty = false;
@@ -688,7 +676,7 @@ export class LockConfirmationComponent implements OnInit {
       this.saveCompensationAdjustments();
       saveDone = true;
     }
-    if(this.addAdjustmentIsDirty){
+    if(!saveDone && this.addAdjustmentIsDirty){
       this.loadingComments = true;
       this.saveCustomAdjustments();
       saveDone = true;
@@ -703,5 +691,11 @@ export class LockConfirmationComponent implements OnInit {
   setAdjustments(adjustment : Adjustment) {
     adjustment.finalAdjustor = adjustment.initialAdjustor;
     this.addAdjustmentIsDirty = true;
+  }
+  saveButtonDisable(){
+    if(this.mloMarginIsDirty || this.addAdjustmentIsDirty || this.commentsIsDirty){
+      return false
+    }
+    return true;
   }
 }
