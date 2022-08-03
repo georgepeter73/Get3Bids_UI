@@ -208,7 +208,7 @@
 
               </div>
               <div class="col-1 dontprintthissection pr-1 text-right">
-                <button [nbSpinner]="loadingMarginAdjustment" nbSpinnerStatus="primary" *ngIf="adjustment.reason == 'MLO Margin'" [disabled]="initialLockLoan.lockExpired"  size="tiny" nbButton (click)="saveCompensationAdjustments(i)" nbTooltip="Save"  ><fa-icon class=""  size="1x" [icon]="fasave"></fa-icon></button>
+                <button [nbSpinner]="loadingMarginAdjustment" nbSpinnerStatus="primary" *ngIf="adjustment.reason == 'MLO Margin'" [disabled]="initialLockLoan.lockExpired"  size="tiny" nbButton (click)="saveCompensationAdjustments()" nbTooltip="Save"  ><fa-icon class=""  size="1x" [icon]="fasave"></fa-icon></button>
 
               </div>
 
@@ -230,7 +230,7 @@
                 /></div>
                 <div class="col-3 "><input class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.initialAdjustor" #initialAdjustor{{i}}="ngModel"
 
-                                           type="number" nbInput fullWidth shape="rectangle" placeholder="Adjustor" (keyup)="adjustment.finalAdjustor=adjustment.initialAdjustor" /></div>
+                                           type="number" nbInput fullWidth shape="rectangle" placeholder="Adjustor" (keyup)="setAdjustments(adjustment)" /></div>
                 <div class="col-3 text-right pr-1">
                   <button  [nbSpinner]="loadingDeleteAdjustment" nbSpinnerStatus="primary"  [disabled]="initialLockLoan.lockExpired" size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete"  ><fa-icon class="" size="1x" [icon]="fatrash"></fa-icon></button>
 

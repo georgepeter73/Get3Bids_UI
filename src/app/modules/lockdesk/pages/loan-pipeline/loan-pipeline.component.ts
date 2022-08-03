@@ -199,6 +199,7 @@ export class LoanPipelineComponent implements OnInit {
   onRowClick($event: any) {
     const userMLO = this.getSelectedUserMLO($event);
     this.globalService.setLockLoanNavStarter("loan-pipeline");
+    this.emitAClickEvent();
     this.router.navigate(['/lockdesk/lock-confirmation/' + $event.data.loanNumber + '/' + userMLO.userUUID]);
   }
 

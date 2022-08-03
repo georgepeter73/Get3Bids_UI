@@ -104,6 +104,7 @@ export class LockConfirmationComponent implements OnInit {
   compensationAdjustmentFailed = false;
   compensationAdjustmentMessage = "";
   mloMarginIsDirty = false;
+  addAdjustmentIsDirty = false;
   commentsIsDirty = false;
   loadingComments = false;
   loadingAddAdjustment = false;
@@ -637,7 +638,7 @@ export class LockConfirmationComponent implements OnInit {
     }
     window.print();
   }
-  saveCompensationAdjustments(i: number) {
+  saveCompensationAdjustments() {
     this.loadingMarginAdjustment = true;
     this.compensationAdjustmentFailed = false;
     const customMLOMargin = this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop();
@@ -657,9 +658,12 @@ export class LockConfirmationComponent implements OnInit {
   }
 
   saveCustomAdjustments() {
-    this.loadingAddAdjustment = true;
-    this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
-    this.lockLoanActionSuccessMessage = "Adjustment saved successfully."
+    if(this.addAdjustmentIsDirty) {
+      this.loadingAddAdjustment = true;
+      this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
+      this.lockLoanActionSuccessMessage = "Adjustment saved successfully.";
+      this.addAdjustmentIsDirty = false;
+    }
   }
   getLockStateDesc(state : number){
     let ret = "";
@@ -678,11 +682,26 @@ export class LockConfirmationComponent implements OnInit {
     return ret;
   }
   saveComments(){
-
-    if(this.commentsIsDirty) {
+    let saveDone = false;
+    if(this.mloMarginIsDirty){
+      this.loadingComments = true;
+      this.saveCompensationAdjustments();
+      saveDone = true;
+    }
+    if(this.addAdjustmentIsDirty){
+      this.loadingComments = true;
+      this.saveCustomAdjustments();
+      saveDone = true;
+    }
+    if(!saveDone && this.commentsIsDirty) {
        this.loadingComments = true;
        this.saveRateLock(this.LockStatesType.CommentsChange);
     }
     this.commentsIsDirty = false;
+  }
+
+  setAdjustments(adjustment : Adjustment) {
+    adjustment.finalAdjustor = adjustment.initialAdjustor;
+    this.addAdjustmentIsDirty = true;
   }
 }
