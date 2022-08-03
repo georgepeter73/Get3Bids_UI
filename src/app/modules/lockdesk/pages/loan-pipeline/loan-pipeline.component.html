@@ -39,7 +39,7 @@
       />
     </div>
 
-    <ag-grid-angular
+    <ag-grid-angular  [nbSpinner]="loadingGridData" nbSpinnerStatus="primary"
       style="width: 1025px; height: 350px;"
       #grid
       class="ag-theme-alpine"
@@ -51,8 +51,7 @@
       enableCellTextSelection=true
       (rowClicked)="onRowClick($event)"
       [quickFilterText]="searchValue"
-
-    >
+      >
     </ag-grid-angular>
 
     </div>

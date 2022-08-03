@@ -108,6 +108,7 @@ export class LoanPipelineComponent implements OnInit {
   mloUserName: any;
   userLoading: any;
   showTheGrid = false;
+  loadingGridData= false;
   currencyFormatter(currency, sign) {
     var sansDec = Number(currency).toFixed(0);
     var formatted = sansDec.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -117,6 +118,7 @@ export class LoanPipelineComponent implements OnInit {
   ngOnInit(): void {
     this.showTheGrid = false;
     if(!this.globalService.getIsLockDesk()){
+      this.loadingGridData = true;
       //scenario were mlo's are logged into the system
       this.mloUserName = this.authService.getUserEmail();
       this.loadLoansFromLendingpad();
@@ -134,9 +136,12 @@ export class LoanPipelineComponent implements OnInit {
       this.quickQuoteService.getAllUserMLO().subscribe(allMLO => {
         this.userMLOList = allMLO;
         this.globalService.setUserMLOs(allMLO);
+        this.loadingGridData = false;
+        this.emitAClickEvent();
       })
     }else{
       this.userMLOList = this.globalService.getUserMLOs();
+      this.loadingGridData = false;
     }
   }
   loadLoansFromLendingpad(){
@@ -186,6 +191,7 @@ export class LoanPipelineComponent implements OnInit {
       this.brokerCompanyLoading = false;
       this.brokerCompanyList = this.globalService.getBrokerCompanyInfos();
     }
+    this.loadingGridData = false;
   }
 
   backClicked($event: MouseEvent) {

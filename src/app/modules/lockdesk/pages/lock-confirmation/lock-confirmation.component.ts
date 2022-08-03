@@ -638,7 +638,7 @@ export class LockConfirmationComponent implements OnInit {
     const customMLOMargin = this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop();
     const originalMLOMargin = this.initialLockLoan.selectedQuote.mloLevelMargin;
     if(!customMLOMargin.finalAdjustor){
-      this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop().finalAdjustor="0.0";
+      this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop().finalAdjustor="0.000";
     }
     if(parseFloat(customMLOMargin.finalAdjustor) > originalMLOMargin){
          this.compensationAdjustmentFailed = true;
