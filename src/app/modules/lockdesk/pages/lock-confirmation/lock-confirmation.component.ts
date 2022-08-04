@@ -352,6 +352,7 @@ export class LockConfirmationComponent implements OnInit {
       })
   }
   setLockExtensionDays(){
+    this.totalLockExtensionDays = 0;
     if(this.initialLockLoan.lockExtensionDays) {
       this.initialLockLoan.lockExtensionDays.forEach(le => {
         this.totalLockExtensionDays = this.totalLockExtensionDays + le.numberOfDays;
@@ -609,6 +610,7 @@ export class LockConfirmationComponent implements OnInit {
   deleteAdjustment(i: number) {
     if (this.lockLoanConfirmationData.customInitialAndFinalAdjustments[i].initialAdjustor) {
        this.loadingDeleteAdjustment = true;
+      this.loadingComments = true;
        this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
        this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
     }else{
@@ -638,7 +640,8 @@ export class LockConfirmationComponent implements OnInit {
     if(parseFloat(customMLOMargin.finalAdjustor) > originalMLOMargin){
          this.compensationAdjustmentFailed = true;
         this.compensationAdjustmentMessage="Compensation adjustment can not be more than original MLO compensation."
-     }else if(this.mloMarginIsDirty ) {
+         this.loadingComments = false;
+    }else if(this.mloMarginIsDirty ) {
 
         this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
       this.lockLoanActionSuccessMessage = "Adjustment saved successfully."

@@ -202,9 +202,9 @@
               <div class="col-6 ">{{adjustment.reason}}</div>
               <div class="col-3 ">{{adjustment.adjustor}}</div>
               <div class="col-3 ">
-                <input  [readOnly]="adjustment.reason == 'Corporate Margin' || adjustment.reason == 'Company Margin'" class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
+                <input NumbersOnly  [readOnly]="adjustment.reason == 'Corporate Margin' || adjustment.reason == 'Company Margin'" class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
 
-                        type="number" nbInput fullWidth shape="rectangle" placeholder="%"  (keyup)="setMLOAdjustment(adjustment)" />
+                        type="text" nbInput fullWidth shape="rectangle" placeholder="%"  (keyup)="setMLOAdjustment(adjustment)" />
 
               </div>
             </div>
@@ -219,14 +219,14 @@
            <div *ngIf="lockLoanConfirmationData.customInitialAndFinalAdjustments && lockLoanConfirmationData.customInitialAndFinalAdjustments.length>0" >
             <div *ngFor="let adjustment of lockLoanConfirmationData.customInitialAndFinalAdjustments ;let i = index">
               <div class="row p-2 dohover " [ngClass]="adjustment.initialAdjustor != adjustment.finalAdjustor ? 'rowhighlight' : {'row-striped': i % 2==0}">
-                <div class="col-6 "><input class="form-control" name="adjustorName{{i}}" id="OD" [(ngModel)]="adjustment.reason" #adjustorName{{i}}="ngModel"
+                <div class="col-6 "><input  class="form-control" name="adjustorName{{i}}" id="OD" [(ngModel)]="adjustment.reason" #adjustorName{{i}}="ngModel"
 
                                            type="text" nbInput fullWidth shape="rectangle" placeholder="Adjustment Name"
                 /></div>
                 <div class="col-3 ">
-                 <input class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.initialAdjustor" #initialAdjustor{{i}}="ngModel"
+                 <input NumbersOnly class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.initialAdjustor" #initialAdjustor{{i}}="ngModel"
 
-                                           type="number" nbInput   fullWidth shape="rectangle" placeholder="%" (keyup)="setAdjustments(adjustment)" /></div>
+                                           type="text" nbInput   fullWidth shape="rectangle" placeholder="%" (keyup)="setAdjustments(adjustment)" /></div>
                  <div class="col-3 text-right pr-1">
                  <button  [nbSpinner]="loadingDeleteAdjustment" nbSpinnerStatus="primary"  [disabled]="initialLockLoan.lockExpired" size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete"  ><fa-icon class="" size="1x" [icon]="fatrash"></fa-icon></button>
 

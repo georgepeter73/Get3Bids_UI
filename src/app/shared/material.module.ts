@@ -20,9 +20,10 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatSliderModule } from "@angular/material/slider";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
+import {NumbersOnly} from '@shared/component/numbers-only';
 
 @NgModule({
-  declarations: [],
+  declarations: [NumbersOnly],
   imports: [
     MatButtonModule,
     MatToolbarModule,
@@ -65,7 +66,8 @@ import { MatNativeDateModule } from "@angular/material/core";
     MatDividerModule,
     MatSliderModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NumbersOnly
   ]
 })
 export class MaterialModule {}
