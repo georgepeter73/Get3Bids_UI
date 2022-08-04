@@ -174,14 +174,6 @@ export class RateQuoteProductDetailsComponent implements OnInit {
       this.lockLoan.lockStatus = this.LockStatusType.float;
 
     }
-    if(this.requestType === this.LockStates.Locked.toString()) {
-      this.lockLoan.lockStatus = this.LockStatusType.locked;
-
-    }
-    if(this.requestType === this.LockStates.RequestReLock.toString()) {
-      this.lockLoan.lockStatus = this.LockStatusType.locked;
-
-    }
     this.lockLoan.lockState = parseInt(this.requestType);
     this.lockLoan.loanNumber = this.loanInfo.loanNumber;
     this.lockLoan.loanInfo = this.globalService.getRQSelectedLoanInfo();
