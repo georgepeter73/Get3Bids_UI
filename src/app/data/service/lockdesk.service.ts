@@ -330,6 +330,7 @@ export class LockDeskService {
     }
     lockLoan.comments = ll['comments'];
     lockLoan.finalPrice = ll['finalPrice'];
+    lockLoan.finalBasePrice = ll['finalBasePrice'];
   }
     return lockLoan;
   }

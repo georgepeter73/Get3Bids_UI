@@ -176,16 +176,16 @@ export class LockConfirmationComponent implements OnInit {
     },
     {
       headerName: "Base Price",
-      field: "selectedQuote.basePrice",
+      field: "finalBasePrice",
       sortable: true,
       filter: true,
       checkboxSelection: false,
       resizable : true,
       minWidth: 100,
-      valueFormatter: params => params.data.selectedQuote.basePrice.toFixed(3),
+      valueFormatter: params => params.data.finalBasePrice.toFixed(3),
     },
     {
-      headerName: "Final Price",
+      headerName: "Price",
       field: "selectedQuote.finalPrice",
       sortable: true,
       filter: true,
@@ -556,6 +556,7 @@ export class LockConfirmationComponent implements OnInit {
   savelLockLoanFinal(){
     this.initialLockLoan.loanNumber = this.loanNumber;
     this.initialLockLoan.finalPrice = parseFloat(this.lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor);
+    this.initialLockLoan.finalBasePrice = parseFloat(this.lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor);
     //common code
     this.lockDeskService.saveLockLoan(this.initialLockLoan).subscribe(ll =>{
       this.initialLockLoan = ll;

@@ -35,6 +35,7 @@ export class LockLoan{
   comments : string;
   commentsUpdate : boolean;
   finalPrice : number;
+  finalBasePrice : number;
 
 
 
