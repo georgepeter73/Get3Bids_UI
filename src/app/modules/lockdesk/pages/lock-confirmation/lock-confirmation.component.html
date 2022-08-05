@@ -185,7 +185,7 @@
             <div class="col-6 "></div>
           </div>
           <div *ngFor="let adjustment of lockLoanConfirmationData.extensionsInitialAndFinalAdjustments ;let i = index">
-            <div class="row p-2 dohover " [ngClass]="adjustment.initialAdjustor != adjustment.finalAdjustor ? 'rowhighlight' : {'row-striped': i % 2==0}">
+            <div class="row p-2 dohover" >
               <div class="col-6 ">{{adjustment.reason}}</div>
               <div class="col-3 ">{{adjustment.initialAdjustor | number : '1.3-3'}}</div>
               <div class="col-3 ">{{adjustment.finalAdjustor | number : '1.3-3'}}</div>
@@ -223,11 +223,12 @@
 
                                            type="text" nbInput fullWidth shape="rectangle" placeholder="Adjustment Name"
                 /></div>
-                <div class="col-3 ">
+                <div class="col-3">{{adjustment.initialAdjustor}}</div>
+                <div class="col-2">
                  <input NumbersOnly class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
 
                                            type="text" nbInput   fullWidth shape="rectangle" placeholder="%" (keyup)="setAdjustments(adjustment)" /></div>
-                 <div class="col-3 text-right pr-1">
+                 <div class="col-1 text-right pr-1">
                  <button  [nbSpinner]="loadingDeleteAdjustment" nbSpinnerStatus="primary"  [disabled]="initialLockLoan.lockExpired" size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete"  ><fa-icon class="" size="1x" [icon]="fatrash"></fa-icon></button>
 
                 </div>
