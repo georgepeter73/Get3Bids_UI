@@ -329,6 +329,7 @@ export class LockDeskService {
       lockLoan.lockExtensionDays = ll['lockExtensionDays'];
     }
     lockLoan.comments = ll['comments'];
+    lockLoan.finalPrice = ll['finalPrice'];
   }
     return lockLoan;
   }

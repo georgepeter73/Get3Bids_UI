@@ -34,6 +34,7 @@ export class LockLoan{
   lockExtensionDays : LockLoanextension[];
   comments : string;
   commentsUpdate : boolean;
+  finalPrice : number;
 
 
 

@@ -192,7 +192,7 @@ export class LockConfirmationComponent implements OnInit {
       checkboxSelection: false,
       resizable : true,
       minWidth: 100,
-      valueFormatter: params => params.data.selectedQuote.finalPrice.toFixed(3),
+      valueFormatter: params => params.data.finalPrice.toFixed(3),
     },
 
     {
@@ -555,6 +555,7 @@ export class LockConfirmationComponent implements OnInit {
 
   savelLockLoanFinal(){
     this.initialLockLoan.loanNumber = this.loanNumber;
+    this.initialLockLoan.finalPrice = parseFloat(this.lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor);
     //common code
     this.lockDeskService.saveLockLoan(this.initialLockLoan).subscribe(ll =>{
       this.initialLockLoan = ll;

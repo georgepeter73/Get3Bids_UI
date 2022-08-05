@@ -126,7 +126,7 @@ export class LockLoanPipelineComponent implements OnInit {
       checkboxSelection: false,
       resizable : true,
       minWidth: 100,
-      valueFormatter: params => params.data.selectedQuote.price.toFixed(3),
+      valueFormatter: params => params.data.finalPrice.toFixed(3),
     },
 
     {
