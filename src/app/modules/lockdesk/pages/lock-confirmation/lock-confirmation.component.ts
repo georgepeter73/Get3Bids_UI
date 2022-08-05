@@ -339,6 +339,7 @@ export class LockConfirmationComponent implements OnInit {
          this.initialLockLoanInfo = curretnLoanInfo;
          this.finallockLoanInfo = curretnLoanInfo;
        }
+      this.calculateInitialAndFinalPrice();
         //hack for data not displaying with out a mouse click
        this.emitEvent();
        //to display the Lock Status
@@ -611,15 +612,10 @@ export class LockConfirmationComponent implements OnInit {
   }
   deleteAdjustment(i: number) {
     if (this.lockLoanConfirmationData.customInitialAndFinalAdjustments[i].initialAdjustor) {
-       this.loadingDeleteAdjustment = true;
-      this.loadingComments = true;
        this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
-       this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
-    }else{
-       this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
-    }
-    this.lockLoanActionSuccessMessage = "Adjustment deleted successfully."
-  }
+     }
+    this.calculateInitialAndFinalPrice();
+   }
 
   print() {
     if(this.initialLockLoan.loanInfo) {
@@ -702,9 +698,7 @@ export class LockConfirmationComponent implements OnInit {
   }
 
   setAdjustments(adjustment : Adjustment) {
-    if(adjustment.initialAdjustor) {
-      adjustment.finalAdjustor = adjustment.initialAdjustor;
-    }
+    this.calculateInitialAndFinalPrice();
     this.addAdjustmentIsDirty = true;
   }
   saveButtonDisable(){
@@ -716,5 +710,56 @@ export class LockConfirmationComponent implements OnInit {
 
   setMLOAdjustment(adjustment: Adjustment) {
     this.mloMarginIsDirty = true;
+    this.calculateInitialAndFinalPrice();
+   }
+   getInitialAdjustor(adjustments : Adjustment[]){
+     let adjustor = 0;
+     for(let adjustment of adjustments){
+       adjustor += parseFloat(adjustment.initialAdjustor);
+     }
+     return adjustor;
+
+   }
+  getFinalAdjustor(adjustments : Adjustment[]){
+    let adjustor = 0;
+    for(let adjustment of adjustments){
+      adjustor += parseFloat(adjustment.finalAdjustor);
+    }
+    return adjustor;
+
+  }
+   calculateInitialAndFinalPrice(){
+    let initialBasePrice = 0;
+     let finalBasePrice = 0;
+     let lockExtensionInitialAdjustments = 0;
+     let lockExtensionFinalAdjustments = 0;
+     let initialCustomMargin = 0;
+     let finalCustomMargin = 0;
+     let initialCustomAdjustments = 0;
+     let finalCustomAdjustments = 0;
+     let initialPrice = 0;
+     let finalPrice = 0;
+    if( this.lockLoanConfirmationData.initialAndFinalBasePrice) {
+      initialBasePrice = parseFloat(this.lockLoanConfirmationData.initialAndFinalBasePrice.initialAdjustor);
+      finalBasePrice = parseFloat(this.lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor);
+    }
+    if(this.lockLoanConfirmationData.extensionsInitialAndFinalAdjustments){
+      lockExtensionInitialAdjustments = this.getInitialAdjustor(this.lockLoanConfirmationData.extensionsInitialAndFinalAdjustments);
+      lockExtensionFinalAdjustments = this.getFinalAdjustor(this.lockLoanConfirmationData.extensionsInitialAndFinalAdjustments);
+    }
+    if(this.lockLoanConfirmationData.initialLockLoan.productDetail &&
+      this.lockLoanConfirmationData.initialLockLoan.productDetail.customMargins){
+       initialCustomMargin = this.getInitialAdjustor(this.lockLoanConfirmationData.initialLockLoan.productDetail.customMargins);
+       finalCustomMargin = this.getFinalAdjustor(this.lockLoanConfirmationData.initialLockLoan.productDetail.customMargins);
+    }
+    if(this.lockLoanConfirmationData.customInitialAndFinalAdjustments){
+       initialCustomAdjustments = this.getInitialAdjustor(this.lockLoanConfirmationData.customInitialAndFinalAdjustments);
+       finalCustomAdjustments = this.getFinalAdjustor(this.lockLoanConfirmationData.customInitialAndFinalAdjustments);
+    }
+    initialPrice = initialBasePrice + lockExtensionInitialAdjustments - initialCustomMargin + initialCustomAdjustments
+    finalPrice = finalBasePrice + lockExtensionFinalAdjustments - finalCustomMargin + finalCustomAdjustments;
+    this.lockLoanConfirmationData.initialAndFinalPrice.initialAdjustor = initialPrice.toFixed(3);
+    this.lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor = finalPrice.toFixed(3);
+
    }
 }

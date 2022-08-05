@@ -218,13 +218,13 @@
           </div>
            <div *ngIf="lockLoanConfirmationData.customInitialAndFinalAdjustments && lockLoanConfirmationData.customInitialAndFinalAdjustments.length>0" >
             <div *ngFor="let adjustment of lockLoanConfirmationData.customInitialAndFinalAdjustments ;let i = index">
-              <div class="row p-2 dohover " [ngClass]="adjustment.initialAdjustor != adjustment.finalAdjustor ? 'rowhighlight' : {'row-striped': i % 2==0}">
+              <div class="row p-2 dohover " >
                 <div class="col-6 "><input  class="form-control" name="adjustorName{{i}}" id="OD" [(ngModel)]="adjustment.reason" #adjustorName{{i}}="ngModel"
 
                                            type="text" nbInput fullWidth shape="rectangle" placeholder="Adjustment Name"
                 /></div>
                 <div class="col-3 ">
-                 <input NumbersOnly class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.initialAdjustor" #initialAdjustor{{i}}="ngModel"
+                 <input NumbersOnly class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
 
                                            type="text" nbInput   fullWidth shape="rectangle" placeholder="%" (keyup)="setAdjustments(adjustment)" /></div>
                  <div class="col-3 text-right pr-1">
@@ -255,12 +255,9 @@
             <button [nbSpinner]="loadingComments" [disabled]="saveButtonDisable()"  nbSpinnerStatus="primary"    size="large" nbButton (click)="saveComments()" nbTooltip="Save"  ><fa-icon class="p-1"  size="1x" [icon]="fasave"></fa-icon>Save Changes</button>
           </div>
           </div>
-
-
-
         </div>
       </div>
-    </ng-container>
+       </ng-container>
     <hr>
     <div class="row p-2 tableheader dontprintthissection">
       Lock WorkFlow
