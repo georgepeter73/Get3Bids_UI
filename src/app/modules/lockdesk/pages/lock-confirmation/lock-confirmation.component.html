@@ -201,10 +201,13 @@
             <div class="row p-2 dohover "  >
               <div class="col-6 ">{{adjustment.reason}}</div>
               <div class="col-3 ">{{adjustment.adjustor}}</div>
-              <div class="col-3 ">
+              <div class="col-3 input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text">%</span>
                 <input NumbersOnly   [readOnly]="adjustment.reason == 'Corporate Margin' || adjustment.reason == 'Company Margin'" class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
 
                         type="text" nbInput fullWidth shape="rectangle" placeholder="%"  (keyup)="setMLOAdjustment(adjustment)" />
+                </div>
 
               </div>
             </div>
@@ -224,10 +227,14 @@
                                            type="text" nbInput fullWidth shape="rectangle" placeholder="Adjustment Name"
                 /></div>
                 <div class="col-3">{{adjustment.initialAdjustor}}</div>
-                <div class="col-2">
-                 <input NumbersOnly   class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
+                <div class="col-2 input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">%</span>
+                    <input NumbersOnly   class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
 
-                                           type="text" nbInput   fullWidth shape="rectangle" placeholder="%" (keyup)="setAdjustments(adjustment)" /></div>
+                           type="text" nbInput   fullWidth shape="rectangle" placeholder="%" (keyup)="setAdjustments(adjustment)" /></div>
+                  </div>
+
                  <div class="col-1 text-right pr-1">
                  <button  [nbSpinner]="loadingDeleteAdjustment" nbSpinnerStatus="primary"  [disabled]="initialLockLoan.lockExpired" size="tiny" nbButton (click)="deleteAdjustment(i)" nbTooltip="Delete"  ><fa-icon class="" size="1x" [icon]="fatrash"></fa-icon></button>
 
@@ -258,6 +265,7 @@
           </div>
         </div>
       </div>
+
        </ng-container>
     <hr>
     <div class="row p-2 tableheader dontprintthissection">
