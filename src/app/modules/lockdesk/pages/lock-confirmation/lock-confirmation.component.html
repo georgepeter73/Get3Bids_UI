@@ -204,7 +204,7 @@
               <div class="col-2 input-group">
                 <div class="input-group-prepend">
 
-                <input NumbersOnly maxlength="5"   [readOnly]="adjustment.reason == 'Corporate Margin' || adjustment.reason == 'Company Margin'" class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
+                <input NumbersOnly maxlength="6"  mask="0.000" [dropSpecialCharacters]="false" [allowNegativeNumbers]="true"   [readOnly]="adjustment.reason == 'Corporate Margin' || adjustment.reason == 'Company Margin'" class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
 
                         type="text" nbInput fullWidth shape="rectangle" placeholder="%"  (keyup)="setMLOAdjustment(adjustment)" />
                   <span class="input-group-text">%</span>
@@ -232,7 +232,9 @@
                 <div class="col-2 input-group">
                   <div class="input-group-prepend">
 
-                    <input NumbersOnly maxlength="5"   class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
+                    <input  NumbersOnly maxlength="6" mask="9?0.000"
+                            [patterns]="customPatterns"
+                            [dropSpecialCharacters]="false" class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
 
                            type="text" nbInput   fullWidth shape="rectangle" placeholder="%" (keyup)="setAdjustments(adjustment)" />
                     <span class="input-group-text">%</span>

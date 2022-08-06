@@ -110,6 +110,12 @@ export class LockConfirmationComponent implements OnInit {
   loadingComments = false;
   loadingDeleteAdjustment = false;
   rateLockRequestMessage = "Your rate lock has been requested and is being reviewed by the lock desk, upon acceptance you will receive a rate lock confirmation by email."
+  customPatterns = {
+    '9': {pattern: new RegExp('-')},
+    '0': {pattern: new RegExp('[0-9]')}
+  }
+
+
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
     {
@@ -768,4 +774,5 @@ print() {
     this.lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor = finalPrice.toFixed(3);
 
    }
+
 }

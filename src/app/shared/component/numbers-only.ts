@@ -59,7 +59,7 @@ export class NumbersOnly {
 
     // allowed keys apart from numeric characters
     let allowedKeys = [
-      'Backspace', 'ArrowLeft', 'ArrowRight', 'Escape', 'Tab'
+      'Backspace', 'ArrowLeft', 'ArrowRight', 'Escape', 'Tab', 'Delete'
     ];
 
     // when decimals are allowed, add
@@ -165,6 +165,8 @@ export class NumbersOnly {
             return 'ArrowLeft';
           case  39:
             return 'ArrowRight';
+          case  46:
+            return 'Delete';
           case 188:
             return ',';
           case 190:
