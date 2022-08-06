@@ -612,13 +612,18 @@ export class LockConfirmationComponent implements OnInit {
   }
   deleteAdjustment(i: number) {
     if (this.lockLoanConfirmationData.customInitialAndFinalAdjustments[i].initialAdjustor) {
-       this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
-     }
-    this.addAdjustmentIsDirty = true;
+      this.loadingDeleteAdjustment = true;
+      this.loadingComments = true;
+      this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
+      this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
+    }else{
+      this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
+    }
     this.calculateInitialAndFinalPrice();
-   }
+    this.lockLoanActionSuccessMessage = "Adjustment deleted successfully."
+  }
 
-  print() {
+print() {
     if(this.initialLockLoan.loanInfo) {
       document.title = this.initialLockLoan.loanInfo.loanNumber
         + "_" + this.initialLockLoan.loanInfo.borrower.firstName + " "
