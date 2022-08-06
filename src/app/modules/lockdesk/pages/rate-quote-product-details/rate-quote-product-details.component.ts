@@ -57,7 +57,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     RequestReLock :103
   };
   private selectedUserMloUUID: string;
-  rateLockRequestMessage = "Your rate lock has been requested and is being reviewed by the lock desk, uppon acceptance you will receive a rate lock confirmation by email."
+  rateLockRequestMessage = "Your rate lock has been requested and is being reviewed by the lock desk, upon acceptance you will receive a rate lock confirmation by email."
 
 
   constructor(private route: ActivatedRoute, private lockDeskService: LockDeskService, private router: Router,

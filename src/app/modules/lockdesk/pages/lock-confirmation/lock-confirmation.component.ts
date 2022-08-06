@@ -109,7 +109,7 @@ export class LockConfirmationComponent implements OnInit {
   commentsIsDirty = false;
   loadingComments = false;
   loadingDeleteAdjustment = false;
-  rateLockRequestMessage = "Your rate lock has been requested and is being reviewed by the lock desk, uppon acceptance you will receive a rate lock confirmation by email."
+  rateLockRequestMessage = "Your rate lock has been requested and is being reviewed by the lock desk, upon acceptance you will receive a rate lock confirmation by email."
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
   columnDefs = [
     {
