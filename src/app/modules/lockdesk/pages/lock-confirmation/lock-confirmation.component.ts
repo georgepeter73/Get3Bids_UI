@@ -614,6 +614,7 @@ export class LockConfirmationComponent implements OnInit {
     if (this.lockLoanConfirmationData.customInitialAndFinalAdjustments[i].initialAdjustor) {
        this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
      }
+    this.addAdjustmentIsDirty = true;
     this.calculateInitialAndFinalPrice();
    }
 
