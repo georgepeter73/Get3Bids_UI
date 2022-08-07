@@ -774,5 +774,8 @@ print() {
     this.lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor = finalPrice.toFixed(3);
 
    }
+ clear(adjustment : Adjustment ){
+    adjustment.finalAdjustor = '' ;
+ }
 
 }
