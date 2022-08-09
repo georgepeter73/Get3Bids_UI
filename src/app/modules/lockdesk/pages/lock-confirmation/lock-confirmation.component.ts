@@ -744,6 +744,8 @@ print() {
    calculateInitialAndFinalPrice(){
     let initialBasePrice = 0;
      let finalBasePrice = 0;
+     let initialLLPAdjustors = 0;
+     let finalLLPAdjustors = 0;
      let lockExtensionInitialAdjustments = 0;
      let lockExtensionFinalAdjustments = 0;
      let initialCustomMargin = 0;
@@ -755,6 +757,10 @@ print() {
     if( this.lockLoanConfirmationData.initialAndFinalBasePrice) {
       initialBasePrice = parseFloat(this.lockLoanConfirmationData.initialAndFinalBasePrice.initialAdjustor);
       finalBasePrice = parseFloat(this.lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor);
+    }
+    if(this.lockLoanConfirmationData.initialAndFinalAdjustments) {
+      initialLLPAdjustors = this.getInitialAdjustor(this.lockLoanConfirmationData.initialAndFinalAdjustments);
+      finalLLPAdjustors = this.getFinalAdjustor(this.lockLoanConfirmationData.initialAndFinalAdjustments);
     }
     if(this.lockLoanConfirmationData.extensionsInitialAndFinalAdjustments){
       lockExtensionInitialAdjustments = this.getInitialAdjustor(this.lockLoanConfirmationData.extensionsInitialAndFinalAdjustments);
@@ -769,8 +775,8 @@ print() {
        initialCustomAdjustments = this.getInitialAdjustor(this.lockLoanConfirmationData.customInitialAndFinalAdjustments);
        finalCustomAdjustments = this.getFinalAdjustor(this.lockLoanConfirmationData.customInitialAndFinalAdjustments);
     }
-    initialPrice = initialBasePrice + lockExtensionInitialAdjustments - initialCustomMargin + initialCustomAdjustments
-    finalPrice = finalBasePrice + lockExtensionFinalAdjustments - finalCustomMargin + finalCustomAdjustments;
+    initialPrice = initialBasePrice + initialLLPAdjustors + lockExtensionInitialAdjustments - initialCustomMargin + initialCustomAdjustments
+    finalPrice = finalBasePrice + finalLLPAdjustors + lockExtensionFinalAdjustments - finalCustomMargin + finalCustomAdjustments;
     this.lockLoanConfirmationData.initialAndFinalPrice.initialAdjustor = initialPrice.toFixed(3);
     this.lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor = finalPrice.toFixed(3);
 
