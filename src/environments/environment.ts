@@ -12,7 +12,7 @@ export const environment = {
   envName: "DEV",
   API_URL: "https://uatbff.loanhouse.us",
   LOCKDESK_API_URL : "http://localhost:5000",
-  QUICK_PRICER_API_URL : "http://localhost:5000",
+  QUICK_PRICER_API_URL : "https://lhposb2bbff1uat.loanhouse.us",
   is_taxonomy_static: false,
   is_zip_static: false,
   is_common_service_static: false,

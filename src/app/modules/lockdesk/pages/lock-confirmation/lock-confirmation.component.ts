@@ -621,11 +621,12 @@ export class LockConfirmationComponent implements OnInit {
       this.loadingDeleteAdjustment = true;
       this.loadingComments = true;
       this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
+      this.calculateInitialAndFinalPrice();
       this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
     }else{
       this.lockLoanConfirmationData.customInitialAndFinalAdjustments.splice(i, 1);
+      this.calculateInitialAndFinalPrice();
     }
-    this.calculateInitialAndFinalPrice();
     this.lockLoanActionSuccessMessage = "Adjustment deleted successfully."
   }
 
