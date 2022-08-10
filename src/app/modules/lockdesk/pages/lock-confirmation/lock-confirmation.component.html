@@ -204,10 +204,10 @@
               <div class="col-2 input-group">
                 <div class="input-group-prepend">
 
-                <input autocomplete="off" NumbersOnly maxlength="6"  mask="0.000" [dropSpecialCharacters]="false" [allowNegativeNumbers]="true"   [readOnly]="adjustment.reason == 'Corporate Margin' || adjustment.reason == 'Company Margin'" class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
+                <input autocomplete="off" NumbersOnly maxlength="6"  mask="0.000" [dropSpecialCharacters]="false" [allowNegativeNumbers]="false"    class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
 
                         type="text" nbInput fullWidth shape="rectangle" placeholder="%"  (keyup)="setMLOAdjustment(adjustment)" />
-                  <button *ngIf="adjustment.reason === 'MLO Margin'" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" (click)="clear(adjustment)">
+                  <button  class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" (click)="clearComp(adjustment)">
                     <nb-icon  icon="close"></nb-icon>
                   </button>
                   <span class="input-group-text">%</span>
@@ -240,7 +240,7 @@
                             [dropSpecialCharacters]="false" class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
 
                            type="text" nbInput   fullWidth shape="rectangle" placeholder="%" (keyup)="setAdjustments(adjustment)" />
-                    <button class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" (click)="clear(adjustment)">
+                    <button class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" (click)="clearCus(adjustment)">
                      <nb-icon  icon="close"></nb-icon>
                     </button>
                     <span class="input-group-text">%</span>

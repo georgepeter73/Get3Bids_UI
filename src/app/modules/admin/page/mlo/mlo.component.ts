@@ -135,7 +135,7 @@ export class MloComponent implements OnInit {
       }
         setTimeout(() => {
           this.router.navigate(["/admin/mlo-list/"+this.userMLO.brokercompanyId]);
-        }, 100);
+        }, 1000);
     },
       error => {
         this.loading = false;

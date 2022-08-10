@@ -640,17 +640,30 @@ print() {
   }
   saveCompensationAdjustments() {
     this.compensationAdjustmentFailed = false;
-    const customMLOMargin = this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop();
-    const originalMLOMargin = this.initialLockLoan.selectedQuote.mloLevelMargin;
+    const customMLOMargin = this.initialLockLoan.productDetail.customMargins.filter(m => m.reason === 'MLO Margin').pop();
+    const customCompanyMargin = this.initialLockLoan.productDetail.customMargins.filter(m => m.reason === 'Company Margin').pop();
+    const customCorporateMargin = this.initialLockLoan.productDetail.customMargins.filter(m => m.reason === 'Corporate Margin').pop();
     if(!customMLOMargin.finalAdjustor){
-      this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop().finalAdjustor="0";
+      this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop().finalAdjustor="0.000";
     }
     if(!customMLOMargin.initialAdjustor){
-      this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop().initialAdjustor="0";
+      this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'MLO Margin').pop().initialAdjustor="0.000";
     }
-    if(parseFloat(customMLOMargin.finalAdjustor) > originalMLOMargin){
+    if(!customCompanyMargin.finalAdjustor){
+      this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'Company Margin').pop().finalAdjustor="0.000";
+    }
+    if(!customCompanyMargin.initialAdjustor){
+      this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'Company Margin').pop().initialAdjustor="0.000";
+    }
+    if(!customCorporateMargin.finalAdjustor){
+      this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'Corporate Margin').pop().finalAdjustor="0.000";
+    }
+    if(!customCorporateMargin.initialAdjustor){
+      this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'Corporate Margin').pop().initialAdjustor="0.000";
+    }
+    if(this.isFinalMarginGreaterThanInital(customMLOMargin) || this.isFinalMarginGreaterThanInital(customCompanyMargin) || this.isFinalMarginGreaterThanInital(customCorporateMargin)){
          this.compensationAdjustmentFailed = true;
-        this.compensationAdjustmentMessage="Compensation adjustment can not be more than original MLO compensation."
+        this.compensationAdjustmentMessage="Compensation adjustors can not be more than original compensation adjustors."
          this.loadingComments = false;
     }else if(this.mloMarginIsDirty ) {
 
@@ -659,22 +672,32 @@ print() {
     }
     this.mloMarginIsDirty = false;
   }
-
-  saveCustomAdjustments() {
-     if(this.addAdjustmentIsDirty) {
-      for(var adj of this.lockLoanConfirmationData.customInitialAndFinalAdjustments){
-          if(!adj.finalAdjustor){
-            adj.finalAdjustor="0"
-          }
-        if(!adj.initialAdjustor){
-          adj.initialAdjustor="0"
+  isFinalMarginGreaterThanInital(adjustment: Adjustment):boolean{
+    if(parseFloat(adjustment.finalAdjustor) > parseFloat(adjustment.initialAdjustor)){
+      return true
+    }
+    return false;
+  }
+  setCustomDefaults() {
+    if (this.addAdjustmentIsDirty) {
+      for (var adj of this.lockLoanConfirmationData.customInitialAndFinalAdjustments) {
+        if (!adj.finalAdjustor) {
+          adj.finalAdjustor = "0.000"
+        }
+        if (!adj.initialAdjustor) {
+          adj.initialAdjustor = "0.000"
         }
       }
+    }
+  }
+
+  saveCustomAdjustments() {
+      this.setCustomDefaults();
       this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
       this.lockLoanActionSuccessMessage = "Adjustment saved successfully.";
       this.addAdjustmentIsDirty = false;
     }
-  }
+
   getLockStateDesc(state : number){
     let ret = "";
     if(state && this.lockRequestStatusTypeForHistory &&  this.lockRequestStatusTypeForHistory.taxonomyItems) {
@@ -693,6 +716,7 @@ print() {
   }
   saveComments(){
     let saveDone = false;
+    this.setCustomDefaults();
     if(this.mloMarginIsDirty){
       this.loadingComments = true;
       this.saveCompensationAdjustments();
@@ -771,7 +795,7 @@ print() {
        initialCustomMargin = this.getInitialAdjustor(this.lockLoanConfirmationData.initialLockLoan.productDetail.customMargins);
        finalCustomMargin = this.getFinalAdjustor(this.lockLoanConfirmationData.initialLockLoan.productDetail.customMargins);
     }
-    if(this.lockLoanConfirmationData.customInitialAndFinalAdjustments){
+   if(this.lockLoanConfirmationData.customInitialAndFinalAdjustments){
        initialCustomAdjustments = this.getInitialAdjustor(this.lockLoanConfirmationData.customInitialAndFinalAdjustments);
        finalCustomAdjustments = this.getFinalAdjustor(this.lockLoanConfirmationData.customInitialAndFinalAdjustments);
     }
@@ -781,8 +805,13 @@ print() {
     this.lockLoanConfirmationData.initialAndFinalPrice.finalAdjustor = finalPrice.toFixed(3);
 
    }
- clear(adjustment : Adjustment ){
+ clearComp(adjustment : Adjustment ){
+    this.mloMarginIsDirty = true;
     adjustment.finalAdjustor = '' ;
  }
+  clearCus(adjustment : Adjustment ){
+    this.addAdjustmentIsDirty = true
+    adjustment.finalAdjustor = '' ;
+  }
 
 }
