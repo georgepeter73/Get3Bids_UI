@@ -50,8 +50,10 @@ export class MediaShowButtonComponent implements ICellRendererAngularComp {
 
   }
   isVideoFormat() : boolean{
-    if(this.params.value.includes("mp4") || this.params.value.includes("mp3")){
-      return true
+    if(this.params && this.params.value) {
+      if (this.params.value.includes("mp4") || this.params.value.includes("mp3")) {
+        return true
+      }
     }
   }
 }
