@@ -38,9 +38,9 @@
   <div class="form-group row mb-2">
     <label for="inputEmail1" class="label col-3 col-form-label">Email*</label>
     <div class="col-9">
-      <input [disabled]="userMLO.floifyAccountApprovalFlag" class="form-control mb-2" #userName="ngModel" name="userName" id="inputEmail1"
+      <input  class="form-control mb-2" #userName="ngModel" name="userName" id="inputEmail1"
              [(ngModel)]="userMLO.userName"
-             type="text" nbInput  shape="rectangle" placeholder="LOS/POS account email"
+             type="text" nbInput  shape="rectangle" placeholder="LOS/POS account email" [disabled]="userMLO.userId > 0"
       />
     </div>
   </div>
