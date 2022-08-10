@@ -40,7 +40,7 @@ export class RateQuoteProductDetailsComponent implements OnInit {
   productId: string;
   quoteId: string;
   searchId: string;
-  priceTesting: any;
+  priceTesting = false;
   rateIndexSelected: any;
   radioButtonrateSelected: any;
   loading = false;
