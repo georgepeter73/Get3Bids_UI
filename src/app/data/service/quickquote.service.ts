@@ -62,6 +62,16 @@ export class QuickQuoteService {
         })
       )
   }
+  public getUserByEmail(email:string): Observable<UserMlo> {
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-user-by-email?email=' + email
+      )
+      .pipe(
+        map(response => {
+          return this.gerUserMLO(<UserMlo>response);
+        })
+      )
+  }
   public getAllUserMLOByBrokerCompanyid(brokerCompanyId : number): Observable<UserMlo[]> {
     return this.http
       .get(API_URL + '/api/v1/no-auth/get-all-users-by-brokercompanyid?brokercompanyid=' + brokerCompanyId
@@ -146,26 +156,34 @@ export class QuickQuoteService {
   }
   public gerUserMLO(user : UserMlo): UserMlo {
     let user1 = new UserMlo();
-    user1.firstName = user['firstName'];
-    user1.lastName = user['lastName'];
-    user1.userName = user['userName'];
-    user1.brokercompanyId = user['brokercompanyId'];
-    user1.clientId = user['clientId'];
-    user1.enterpriseId = user['enterpriseId'];
-    user1.reportToUserId = user['reportToUserId'];
-    user1.userUUID = user['userUUID'];
-    user1.floifyTeamManagerFlag = user['floifyTeamManagerFlag'];
-    user1.floifyTeamManagerId = user['floifyTeamManagerId'];
-    user1.lastUpdatedAt = user['lastUpdatedAt'];
-    user1.lastUpdatedBy = user['lastUpdatedBy'];
-    user1.deleteFlag = user['deleteFlag'];
-    user1.loPricingId = user['loPricingId'];
-    user1.loMargin = user['loMargin'];
-    user1.userId = user['userId'];
-    user1.floifyAccountApprovalFlag = user['floifyAccountApprovalFlag'];
-    user1.userMediaList = this.getUserMedias(user['userMediaDTOList']);
-    user1.userContact = this.getUserContact(user['userContact']);
-    user1.loSiteDTO = this.getLOSite(user['loSiteDTO'])
+    if(user) {
+      user1.firstName = user['firstName'];
+      user1.lastName = user['lastName'];
+      user1.userName = user['userName'];
+      user1.brokercompanyId = user['brokercompanyId'];
+      user1.clientId = user['clientId'];
+      user1.enterpriseId = user['enterpriseId'];
+      user1.reportToUserId = user['reportToUserId'];
+      user1.userUUID = user['userUUID'];
+      user1.floifyTeamManagerFlag = user['floifyTeamManagerFlag'];
+      user1.floifyTeamManagerId = user['floifyTeamManagerId'];
+      user1.lastUpdatedAt = user['lastUpdatedAt'];
+      user1.lastUpdatedBy = user['lastUpdatedBy'];
+      user1.deleteFlag = user['deleteFlag'];
+      user1.loPricingId = user['loPricingId'];
+      user1.loMargin = user['loMargin'];
+      user1.userId = user['userId'];
+      user1.floifyAccountApprovalFlag = user['floifyAccountApprovalFlag'];
+      if (user['userMediaDTOList']) {
+        user1.userMediaList = this.getUserMedias(user['userMediaDTOList']);
+      }
+      if (user['userContact']) {
+        user1.userContact = this.getUserContact(user['userContact']);
+      }
+      if (user['loSiteDTO']) {
+        user1.loSiteDTO = this.getLOSite(user['loSiteDTO'])
+      }
+    }
     return user1;
   }
   public uploadMedia(data: FormData): Observable<MediaLocation> {

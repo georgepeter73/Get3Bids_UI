@@ -10,7 +10,7 @@
     <fieldset class="border p-2">
       <legend  class="w-auto">Mortgage Loan Officer</legend>
 <form class="container m-2" #form="ngForm"
-      (ngSubmit)="submitOrder(form)" >
+      (ngSubmit)="submitOrderFinal(form)" >
   <fieldset class="border p-2">
     <legend  class="w-auto">Personnel Info</legend>
     <div class="form-group row mb-2">
@@ -40,7 +40,7 @@
     <div class="col-9">
       <input [disabled]="userMLO.floifyAccountApprovalFlag" class="form-control mb-2" #userName="ngModel" name="userName" id="inputEmail1"
              [(ngModel)]="userMLO.userName"
-             type="text" nbInput  shape="rectangle" placeholder="Floify account email"
+             type="text" nbInput  shape="rectangle" placeholder="LOS/POS account email"
       />
     </div>
   </div>
@@ -154,7 +154,6 @@
       </div>
     </div>
   </fieldset>
-
   <div class="form-group row mb-2">
     <div class="offset-3 col-9">
       <button class="m-2" type="submit" nbButton  status="primary"
@@ -171,8 +170,11 @@
       <nb-alert accent="info"  *ngIf="errorMessage.length==0 && userMLO.userId>0" size="tiny" >
         Operation completed successfully.
       </nb-alert>
-      <nb-alert accent="info" *ngIf="errorMessage.length>0" size="tiny" >
+      <nb-alert accent="danger" *ngIf="errorMessage.length>0" size="tiny" >
         Operation failed...
+      </nb-alert>
+      <nb-alert accent="danger" *ngIf="mloEmailExist == true" size="tiny" >
+        User email exist. please try another email.
       </nb-alert>
     </div>
   </div>

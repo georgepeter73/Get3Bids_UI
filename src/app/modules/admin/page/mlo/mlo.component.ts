@@ -38,6 +38,7 @@ export class MloComponent implements OnInit {
   lendingpadChecked="";
   posTypeTaxonomy : Taxonomy;
   brokerCompanyInfo = new BrokerCompanyInfo();
+  mloEmailExist = false;
 
 
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
@@ -87,15 +88,42 @@ export class MloComponent implements OnInit {
       sessionStorage.setItem("brokerCompanyInfo1",JSON.stringify(this.brokerCompanyInfo));
     })
   }
-  submitOrder(form: NgForm) {
-    this.loading = true;
+  isMLOEmailExist(email : string){
+
+    this.quickQuoteService.getUserByEmail(email).subscribe(user => {
+      if(user.userUUID){
+        this.mloEmailExist = true;
+      }else{
+        this.mloEmailExist = false;
+      }
+    })
+  }
+  submitOrderFinal(form: NgForm){
     this.buttonPressed = true;
+    this.loading = true;
+    if (this.userMLO.userId > 0){
+      this.mloEmailExist = false;
+      this.submitOrder(form);
+    }else {
+      //check for email only during new operation
+      this.quickQuoteService.getUserByEmail(this.userMLO.userName).subscribe(user => {
+        if (user.userUUID) {
+          this.mloEmailExist = true;
+          this.loading = false;
+        } else {
+          this.mloEmailExist = false;
+          this.submitOrder(form);
+        }
+      })
+    }
+  }
+  submitOrder(form: NgForm) {
     if(this.userMLO.floifyTeamManagerFlag){
       this.userMLO.floifyTeamManagerId = 0;
     }else{
       this.userMLO.reportToUserId = this.userMLO.floifyTeamManagerId;
     }
-    if(this.crudType=='edit'){
+    if(this.userMLO.userId > 0){
       this.userMLO.lastUpdatedAt = new Date();
     }
       this.quickQuoteService.saveUserMLO(this.userMLO).subscribe(res =>{
@@ -106,8 +134,8 @@ export class MloComponent implements OnInit {
         this.buttonText = "Update MLO"
       }
         setTimeout(() => {
-          this.router.navigate(["/admin/mlo-list"]);
-        }, 1000);
+          this.router.navigate(["/admin/mlo-list/"+this.userMLO.brokercompanyId]);
+        }, 100);
     },
       error => {
         this.loading = false;
