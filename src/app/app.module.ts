@@ -51,6 +51,7 @@ import { UserEffects } from './app-state/effects';
 import { EffectsModule } from '@ngrx/effects';
 import { QuickpricerLayoutComponent } from './layout/quickpricer-layout/quickpricer-layout.component';
 import {RouterModule} from '@angular/router';
+import {QuickQuoteService} from '@data/service/quickquote.service';
 
 
 @NgModule({
@@ -127,8 +128,9 @@ import {RouterModule} from '@angular/router';
     providers: [{
       provide: HTTP_INTERCEPTORS,
       useClass: NoCacheHeadersInterceptor,
-      multi: true
-    }
+      multi: true,
+
+    }, QuickQuoteService
     ],
     exports: [
         FooterComponent

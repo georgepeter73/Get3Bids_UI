@@ -464,6 +464,16 @@ export class QuickQuoteService {
     );
   }
 
+  public getBrokerCompanyByChannelType(clientId : number, channelType : string): Observable<BrokerCompanyInfo[]> {
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-brokercompany-by-channel-type?clientId=' + clientId + '&channelType=' + channelType
+      )
+      .pipe(
+        map(response => {
+          return this.getBrokerCompanies(response);
+        })
+      )
+  }
 
   public getAllBrokerCompany(): Observable<BrokerCompanyInfo[]> {
     return this.http

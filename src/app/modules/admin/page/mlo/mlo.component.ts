@@ -11,6 +11,7 @@ import { faInfo} from "@fortawesome/free-solid-svg-icons";
 import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
 import {TaxonomyService} from '@data/service/taxonomy.service';
 import {Taxonomy} from '@data/schema/taxonomy';
+import {GlobalService} from '@app/service/global.service';
 
 @Component({
   selector: 'app-mlo',
@@ -42,7 +43,7 @@ export class MloComponent implements OnInit {
 
 
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
-              private route : ActivatedRoute, private router: Router,private taxonomyService: TaxonomyService) {
+              private route : ActivatedRoute, private router: Router,private taxonomyService: TaxonomyService,private globalService: GlobalService) {
   }
   ngOnInit(): void {
     this.crudType = this.route.snapshot.paramMap.get('crudType');
@@ -126,6 +127,7 @@ export class MloComponent implements OnInit {
     if(this.userMLO.userId > 0){
       this.userMLO.lastUpdatedAt = new Date();
     }
+      this.userMLO.clientId = this.globalService.getLoggedInUser().clientId;
       this.quickQuoteService.saveUserMLO(this.userMLO).subscribe(res =>{
       this.userMLO = res;
       this.mloLink = this.frontendurl+'/quickquote/borrower-info/'+this.userMLO.userUUID+'/website';

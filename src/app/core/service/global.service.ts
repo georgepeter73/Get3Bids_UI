@@ -88,6 +88,9 @@ export class GlobalService {
   setWelcomeFlag(welcomeFlag: string) {
     sessionStorage.setItem('welcome_flag', JSON.stringify(welcomeFlag));
   }
+  setLoggedInUser(user: UserMlo) {
+    sessionStorage.setItem('userMLO', JSON.stringify(user));
+  }
   setLOUUID(loUUID: string) {
     sessionStorage.setItem('loUUID', JSON.stringify(loUUID));
   }
@@ -97,8 +100,17 @@ export class GlobalService {
   setVideoTaxonomy(videoTaxonomy: Taxonomy) {
     sessionStorage.setItem('videoTaxonomy', JSON.stringify(videoTaxonomy));
   }
+  setSelectedChannelType(params: string) {
+    sessionStorage.setItem('channelType', JSON.stringify(params));
+  }
   getVideoTaxonomy(): Taxonomy {
     return JSON.parse(sessionStorage.getItem('videoTaxonomy'));
+  }
+  getSelectedChannelType(): string {
+    return JSON.parse(sessionStorage.getItem('channelType'));
+  }
+  getLoggedInUser(): UserMlo {
+    return JSON.parse(sessionStorage.getItem('userMLO'));
   }
 
   getWelcomeFlag(): string {

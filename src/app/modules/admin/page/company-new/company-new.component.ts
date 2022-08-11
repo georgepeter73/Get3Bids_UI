@@ -8,6 +8,7 @@ import {BrokerCompanyInfo} from '@data/schema/company/broker-company-info';
 import {Taxonomy} from '@data/schema/taxonomy';
 import { faInfo} from "@fortawesome/free-solid-svg-icons";
 import {environment} from '@env';
+import {GlobalService} from '@app/service/global.service';
 
 @Component({
   selector: 'app-company-new',
@@ -32,7 +33,7 @@ export class CompanyNewComponent implements OnInit {
   constructor(public quickQuoteService: QuickQuoteService, private _location: Location,
               private route: ActivatedRoute, private router: Router,
               private dialogService: NbDialogService,
-              private taxonomyService: TaxonomyService) {
+              private taxonomyService: TaxonomyService,private globalService : GlobalService) {
   }
 
   ngOnInit(): void {
@@ -74,6 +75,7 @@ export class CompanyNewComponent implements OnInit {
     this.loading = true;
     this.successCreation = false;
     this.failureCreation = false;
+    this.brokerCompanyInfo.clientId = this.globalService.getLoggedInUser().clientId;
       this.quickQuoteService.createNewCompany(this.brokerCompanyInfo).subscribe(res =>{
         this.brokerCompanyInfo = res;
         this.loading = false;

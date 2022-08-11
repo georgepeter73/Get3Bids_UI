@@ -10,6 +10,7 @@ import {
 import * as userActions from '../../../../app-state/actions';
 import {User} from '../../../../app-state/entity';
 import { Store } from '@ngrx/store';
+import {GlobalService} from '@app/service/global.service';
 
 @Component({
   selector: "app-login",
@@ -30,13 +31,13 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private readonly store: Store
+
   ) {
     this.buildForm();
   }
 
   async ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/admin";
-
     if (await this.authService.checkAuthenticated()) {
       if(this.authService.isAdmin()){
         this.returnUrl = "/admin";
