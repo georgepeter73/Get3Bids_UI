@@ -29,6 +29,7 @@ import {LockingActions} from '@data/schema/lockdesk/locking-actions';
 })
 export class LockConfirmationComponent implements OnInit {
   private selectedUserMloUUID: string;
+  private basePriceIsDirty = false;
 
   constructor(@Inject(LOCALE_ID) public locale: string,
               private route : ActivatedRoute,
@@ -114,6 +115,8 @@ export class LockConfirmationComponent implements OnInit {
     '9': {pattern: new RegExp('-')},
     '0': {pattern: new RegExp('[0-9]')}
   }
+  basePriceAndLLPAInitial = 0;
+  basePriceAndLLPAFinal = 0;
 
 
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
@@ -690,6 +693,11 @@ print() {
       }
     }
   }
+  saveDefaults(){
+        if (!this.lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor) {
+          this.lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor = "0.000"
+        }
+  }
 
   saveCustomAdjustments() {
       this.setCustomDefaults();
@@ -716,6 +724,7 @@ print() {
   }
   saveComments(){
     let saveDone = false;
+    this.saveDefaults();
     this.setCustomDefaults();
     if(this.mloMarginIsDirty){
       this.loadingComments = true;
@@ -739,10 +748,16 @@ print() {
     this.addAdjustmentIsDirty = true;
   }
   saveButtonDisable(){
-    if(this.mloMarginIsDirty || this.addAdjustmentIsDirty || this.commentsIsDirty){
+    if(this.mloMarginIsDirty || this.addAdjustmentIsDirty || this.commentsIsDirty ){
       return false
     }
     return true;
+  }
+  setBasePriceAdjustment(adjustment: Adjustment, event) {
+    this.addAdjustmentIsDirty = true;
+    this.calculateInitialAndFinalPrice();
+    event.focus();
+    event.select();
   }
 
   setMLOAdjustment(adjustment: Adjustment) {
@@ -765,6 +780,11 @@ print() {
     return adjustor;
 
   }
+  ParseFloat(str,val) {
+    str = str.toString();
+    str = str.slice(0, (str.indexOf(".")) + val + 1);
+    return Number(str);
+  }
    calculateInitialAndFinalPrice(){
     let initialBasePrice = 0;
      let finalBasePrice = 0;
@@ -778,7 +798,7 @@ print() {
      let finalCustomAdjustments = 0;
      let initialPrice = 0;
      let finalPrice = 0;
-    if( this.lockLoanConfirmationData.initialAndFinalBasePrice) {
+     if( this.lockLoanConfirmationData.initialAndFinalBasePrice) {
       initialBasePrice = parseFloat(this.lockLoanConfirmationData.initialAndFinalBasePrice.initialAdjustor);
       finalBasePrice = parseFloat(this.lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor);
     }
@@ -786,6 +806,10 @@ print() {
       initialLLPAdjustors = this.getInitialAdjustor(this.lockLoanConfirmationData.initialAndFinalAdjustments);
       finalLLPAdjustors = this.getFinalAdjustor(this.lockLoanConfirmationData.initialAndFinalAdjustments);
     }
+     this.basePriceAndLLPAInitial = initialBasePrice + initialLLPAdjustors;
+     this.basePriceAndLLPAFinal = finalBasePrice + finalLLPAdjustors;
+     this.basePriceAndLLPAInitial = this.ParseFloat(this.basePriceAndLLPAInitial,3);
+     this.basePriceAndLLPAFinal = this.ParseFloat(this.basePriceAndLLPAFinal,3);
     if(this.lockLoanConfirmationData.extensionsInitialAndFinalAdjustments){
       lockExtensionInitialAdjustments = this.getInitialAdjustor(this.lockLoanConfirmationData.extensionsInitialAndFinalAdjustments);
       lockExtensionFinalAdjustments = this.getFinalAdjustor(this.lockLoanConfirmationData.extensionsInitialAndFinalAdjustments);
@@ -809,6 +833,10 @@ print() {
     this.mloMarginIsDirty = true;
     adjustment.finalAdjustor = '' ;
  }
+  clearBasePrice(adjustment : Adjustment ){
+    this.addAdjustmentIsDirty = true;
+    adjustment.finalAdjustor = '' ;
+  }
   clearCus(adjustment : Adjustment ){
     this.addAdjustmentIsDirty = true
     adjustment.finalAdjustor = '' ;
