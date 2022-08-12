@@ -25,6 +25,7 @@ import {QuickQuoteService} from '@data/service/quickquote.service';
 import { LockLoanPipelineComponent } from './pages/lock-loan-pipeline/lock-loan-pipeline.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import {PermissionService} from '@modules/lockdesk/service/permission-service';
 
 
 
@@ -33,7 +34,7 @@ import { MatButtonModule } from '@angular/material/button';
     imports: [
         MatDialogModule, MatButtonModule, CommonModule, LockdeskRoutingModule, SharedModule, NbButtonModule, AgGridModule.forRoot(), NbInputModule, NbIconModule, NbSpinnerModule, NbSelectModule, RatingModule, NbRadioModule, NbAlertModule, NgbModule, NbTooltipModule
     ],
-    providers: [LockDeskService, QuickQuoteService],
+    providers: [LockDeskService, QuickQuoteService, PermissionService],
     exports: [
         RateQuoteProductComponent
     ]

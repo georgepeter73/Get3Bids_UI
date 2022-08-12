@@ -7,6 +7,7 @@ import {Location} from '@angular/common';
 import {of} from 'rxjs';
 import {Taxonomy} from '@data/schema/taxonomy';
 import {TaxonomyService} from '@data/service/taxonomy.service';
+import {GlobalService} from '@app/service/global.service';
 
 @Component({
   selector: 'app-company-list',
@@ -19,7 +20,7 @@ export class CompanyListComponent implements OnInit {
   searchValue: any;
   cart = faUser;
   rowData: any;
-  channelTypeTaxonomy : Taxonomy = null;
+  channelTypeTaxonomy : Taxonomy;
   @ViewChild("grid") companyGrid: AgGridAngular;
   columnDefs = [
     {
@@ -70,28 +71,33 @@ export class CompanyListComponent implements OnInit {
     }
 
   ];
+  channelType: string;
+  showGrid = false;
+  taxonomyLoading= false;
 
   constructor(public quickQuoteService : QuickQuoteService,
 
-              private router: Router, private _location: Location,private taxonomyService: TaxonomyService) {
+              private router: Router, private _location: Location,private taxonomyService: TaxonomyService,private globalService : GlobalService) {
   }
 
   ngOnInit(): void {
+    this.loadTaxonomy();
+    this.rowData = of([]);
+    this.showGrid = false;
+    //this is for retaining the value
+    this.channelType = this.globalService.getSelectedChannelType();
+    if(this.channelType){
+      this.loadCompany();
+    }
+   }
+  loadTaxonomy(){
+    this.taxonomyLoading = true;
     this.taxonomyService.getAllTaxonomies().subscribe(taxonomies => {
       this.channelTypeTaxonomy = taxonomies
         .filter(tax => tax.type === 'ChannelType')
         .pop();
+      this.taxonomyLoading = false;
     });
-    this.quickQuoteService.getAllBrokerCompany().subscribe(
-      clist => {
-        clist.sort((a, b) => (a.lastUpdatedAt > b.lastUpdatedAt ? -1 : 1));
-        this.rowData = of(clist);
-        setTimeout(()=>{this.companyGrid.api.sizeColumnsToFit()}, 50);
-      },
-      error => {
-        console.error(error)
-      }
-    );
   }
   channelTypeDesc(cType: string) {
     let channelType = '';
@@ -112,5 +118,21 @@ export class CompanyListComponent implements OnInit {
   backClicked($event: MouseEvent) {
     $event.preventDefault();
     this.router.navigate(["/admin/admin-dash"]);
+  }
+
+  loadCompany() {
+    this.showGrid = true;
+    this.globalService.setSelectedChannelType(this.channelType);
+    const userMLO = this.globalService.getLoggedInUser();
+    this.quickQuoteService.getBrokerCompanyByChannelType(userMLO.clientId, this.channelType).subscribe(
+      clist => {
+        clist.sort((a, b) => (a.lastUpdatedAt > b.lastUpdatedAt ? -1 : 1));
+        this.rowData = of(clist);
+        setTimeout(()=>{this.companyGrid.api.sizeColumnsToFit()}, 50);
+      },
+      error => {
+        console.error(error)
+      }
+    );
   }
 }

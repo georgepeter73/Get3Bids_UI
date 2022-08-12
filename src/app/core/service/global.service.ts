@@ -88,17 +88,41 @@ export class GlobalService {
   setWelcomeFlag(welcomeFlag: string) {
     sessionStorage.setItem('welcome_flag', JSON.stringify(welcomeFlag));
   }
+  setLoggedInUser(user: UserMlo) {
+    sessionStorage.setItem('userMLO', JSON.stringify(user));
+  }
   setLOUUID(loUUID: string) {
     sessionStorage.setItem('loUUID', JSON.stringify(loUUID));
   }
   setCampaignType(campaignType: string) {
     sessionStorage.setItem('campaignType', JSON.stringify(campaignType));
   }
+  setSelectedBrokerCompanyId(id: string) {
+    sessionStorage.setItem('brokerCompanyId', JSON.stringify(id));
+  }
+  setSelectedUserMLOUsername(id: string) {
+    sessionStorage.setItem('userMLOName', JSON.stringify(id));
+  }
+  getSelectedUserMLOUsername(): Taxonomy {
+    return JSON.parse(sessionStorage.getItem('userMLOName'));
+  }
+  getSelectedBrokerCompanyId(): Taxonomy {
+    return JSON.parse(sessionStorage.getItem('brokerCompanyId'));
+  }
   setVideoTaxonomy(videoTaxonomy: Taxonomy) {
     sessionStorage.setItem('videoTaxonomy', JSON.stringify(videoTaxonomy));
   }
+  setSelectedChannelType(params: string) {
+    sessionStorage.setItem('channelType', JSON.stringify(params));
+  }
   getVideoTaxonomy(): Taxonomy {
     return JSON.parse(sessionStorage.getItem('videoTaxonomy'));
+  }
+  getSelectedChannelType(): string {
+    return JSON.parse(sessionStorage.getItem('channelType'));
+  }
+  getLoggedInUser(): UserMlo {
+    return JSON.parse(sessionStorage.getItem('userMLO'));
   }
 
   getWelcomeFlag(): string {
@@ -161,8 +185,20 @@ export class GlobalService {
   setIsLockDesk(lockDesk: boolean) {
     sessionStorage.setItem('isLockDesk', lockDesk.toString());
   }
+  setIsMLO(lockDesk: boolean) {
+    sessionStorage.setItem('isMLO', lockDesk.toString());
+  }
+  setIsLockDeskLimited(lockDesk: boolean) {
+    sessionStorage.setItem('isLockDeskLimited', lockDesk.toString());
+  }
   getIsLockDesk(): boolean {
     return JSON.parse(sessionStorage.getItem('isLockDesk').toLowerCase());
+  }
+  getIsMLO(): boolean {
+    return JSON.parse(sessionStorage.getItem('isMLO').toLowerCase());
+  }
+  getIsLockDeskLimited(): boolean {
+    return JSON.parse(sessionStorage.getItem('isLockDeskLimited').toLowerCase());
   }
   setBrokerCompany(brokerCompanyInfo: BrokerCompanyInfo) {
     sessionStorage.setItem('brokerCompany', JSON.stringify(brokerCompanyInfo));

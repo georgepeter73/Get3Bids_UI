@@ -5,6 +5,8 @@ import { Observable } from "rxjs";
 import { ThemeService } from "app/core/service/theme.service";
 import {NbMenuService, NbSidebarService} from '@nebular/theme';
 import {Router} from '@angular/router';
+import {QuickQuoteService} from '@data/service/quickquote.service';
+import {GlobalService} from '@app/service/global.service';
 
 
 @Component({
@@ -31,6 +33,8 @@ export class HeaderComponent implements OnInit {
     private nbMenuService: NbMenuService,
     private sidebarService: NbSidebarService,
     private router: Router,
+    private quickQuoteService : QuickQuoteService,
+    private globalService : GlobalService
 
 
   ) {}
@@ -40,6 +44,7 @@ export class HeaderComponent implements OnInit {
     this.items.push({title:this.authService.getUserFullName(),icon: 'person-outline'});
     this.isDarkTheme$ = this.themeService.getDarkTheme();
     this.themeService.setDarkTheme(true);
+    this.getLoggedInUserDetails();
     this.nbMenuService
        .onItemClick()
        .subscribe(data => {
@@ -57,6 +62,13 @@ export class HeaderComponent implements OnInit {
 
 
   }
+  getLoggedInUserDetails(){
+    this.quickQuoteService.getUserByEmail(this.authService.getUserEmail()).subscribe(user =>{
+      this.globalService.setLoggedInUser(user);
+    })
+
+   }
+
 
 
 

@@ -20,6 +20,7 @@ import {ConfirmationDialogModel} from '@data/schema/ConfirmationDialogModal';
 import {ConfirmationDialogCompComponent} from '@shared/component/confirmation-dialog-comp/confirmation-dialog-comp.component';
 import {AuthService} from '@app/service/auth.service';
 import {LockingActions} from '@data/schema/lockdesk/locking-actions';
+import {PermissionService} from '@modules/lockdesk/service/permission-service';
 
 @Component({
   selector: 'app-lock-confirmation',
@@ -29,6 +30,7 @@ import {LockingActions} from '@data/schema/lockdesk/locking-actions';
 })
 export class LockConfirmationComponent implements OnInit {
   private selectedUserMloUUID: string;
+  private basePriceIsDirty = false;
 
   constructor(@Inject(LOCALE_ID) public locale: string,
               private route : ActivatedRoute,
@@ -39,6 +41,7 @@ export class LockConfirmationComponent implements OnInit {
               private taxonomyService: TaxonomyService,
               private dialog: MatDialog,
               private authService: AuthService,
+              private permissionService : PermissionService
 
              ) {
     router.events.forEach((event) => {
@@ -81,6 +84,14 @@ export class LockConfirmationComponent implements OnInit {
     pending: 103,
     expired : 104
   };
+  Fields = {
+    BasePrice: 'base_price',
+    CorporateMargin: 'corporate_margin',
+    CompanyMargin: 'company_margin',
+    MLOMargin: 'mlo_margin',
+    CustomAdjustments: 'custom_adjustment',
+
+  };
 
   LockStatesType = {
     RequestRateLock: 101,
@@ -114,6 +125,8 @@ export class LockConfirmationComponent implements OnInit {
     '9': {pattern: new RegExp('-')},
     '0': {pattern: new RegExp('[0-9]')}
   }
+  basePriceAndLLPAInitial = 0;
+  basePriceAndLLPAFinal = 0;
 
 
    @ViewChild("grid") lockLoanGrid: AgGridAngular;
@@ -222,6 +235,15 @@ export class LockConfirmationComponent implements OnInit {
   lockExtensionActionSpinner: any;
   lockExtensionDays=-1
   minDataLoadingSpinner = false;
+  role : string;
+  Roles = {
+    mlo: 'mlo',
+    lockdesk: 'lockdesk',
+    lockdeskLimited: 'lockdesk_limited',
+  };
+  isFieldReadOnly(role : string , field : string){
+     return this.permissionService.isFieldReadOnly(role, field);
+  }
 
   ngOnInit(): void {
     this.minDataLoading = false;
@@ -283,19 +305,20 @@ export class LockConfirmationComponent implements OnInit {
   isRateLockRequestMessage(){
     let showMessage = false;
     if(this.initialLockLoan.lockStatus === this.LockStatusType.pending
-      && this.initialLockLoan.lockState === this.LockStatesType.RequestRateLock && this.authService.isMLO()){
+      && this.initialLockLoan.lockState === this.LockStatesType.RequestRateLock && (this.authService.isMLO() || this.authService.isLockDeskLimited())){
       showMessage = true;
     }
     return showMessage;
   }
 
   getLockingActions(){
-    let role : string;
-    let state : number;
+     let state : number;
     if(this.authService.isMLO()){
-      role="mlo";
+      this.role= this.Roles.mlo;
     }else if(this.authService.isLockDesk()){
-      role="lockdesk";
+      this.role= this.Roles.lockdesk;
+    }else if(this.authService.isLockDeskLimited()){
+      this.role= this.Roles.lockdeskLimited;
     }
     if(!this.initialLockLoan.lockState){
       state = 100;
@@ -303,7 +326,7 @@ export class LockConfirmationComponent implements OnInit {
       state = this.initialLockLoan.lockState;
     }
     const isLockExpired = this.initialLockLoan.lockExpired!=null ? this.initialLockLoan.lockExpired : false ;
-    this.lockDeskService.getLockActionsByStateAndRole(state, role,isLockExpired).subscribe(actions =>{
+    this.lockDeskService.getLockActionsByStateAndRole(state, this.role, isLockExpired).subscribe(actions =>{
       this.lockingActions = actions;
       })
   }
@@ -398,7 +421,7 @@ export class LockConfirmationComponent implements OnInit {
         .filter(tax => tax.type === 'LockRequestStatus')
         .pop();
        //if not lock desk then filter it.
-      if(!this.globalService.getIsLockDesk()){
+      if(this.globalService.getIsMLO()){
         this.lockRequestStatusType.taxonomyItems = this.lockRequestStatusType.taxonomyItems.filter(ti => ti.key == this.LockStatesType.RequestRateLock.toString());
       }
 
@@ -690,6 +713,11 @@ print() {
       }
     }
   }
+  saveDefaults(){
+        if (!this.lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor) {
+          this.lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor = "0.000"
+        }
+  }
 
   saveCustomAdjustments() {
       this.setCustomDefaults();
@@ -716,6 +744,7 @@ print() {
   }
   saveComments(){
     let saveDone = false;
+    this.saveDefaults();
     this.setCustomDefaults();
     if(this.mloMarginIsDirty){
       this.loadingComments = true;
@@ -739,10 +768,16 @@ print() {
     this.addAdjustmentIsDirty = true;
   }
   saveButtonDisable(){
-    if(this.mloMarginIsDirty || this.addAdjustmentIsDirty || this.commentsIsDirty){
+    if(this.mloMarginIsDirty || this.addAdjustmentIsDirty || this.commentsIsDirty ){
       return false
     }
     return true;
+  }
+  setBasePriceAdjustment(adjustment: Adjustment, event) {
+    this.addAdjustmentIsDirty = true;
+    this.calculateInitialAndFinalPrice();
+    event.focus();
+    event.select();
   }
 
   setMLOAdjustment(adjustment: Adjustment) {
@@ -765,6 +800,11 @@ print() {
     return adjustor;
 
   }
+  ParseFloat(str,val) {
+    str = str.toString();
+    str = str.slice(0, (str.indexOf(".")) + val + 1);
+    return Number(str);
+  }
    calculateInitialAndFinalPrice(){
     let initialBasePrice = 0;
      let finalBasePrice = 0;
@@ -778,7 +818,7 @@ print() {
      let finalCustomAdjustments = 0;
      let initialPrice = 0;
      let finalPrice = 0;
-    if( this.lockLoanConfirmationData.initialAndFinalBasePrice) {
+     if( this.lockLoanConfirmationData.initialAndFinalBasePrice) {
       initialBasePrice = parseFloat(this.lockLoanConfirmationData.initialAndFinalBasePrice.initialAdjustor);
       finalBasePrice = parseFloat(this.lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor);
     }
@@ -786,6 +826,10 @@ print() {
       initialLLPAdjustors = this.getInitialAdjustor(this.lockLoanConfirmationData.initialAndFinalAdjustments);
       finalLLPAdjustors = this.getFinalAdjustor(this.lockLoanConfirmationData.initialAndFinalAdjustments);
     }
+     this.basePriceAndLLPAInitial = initialBasePrice + initialLLPAdjustors;
+     this.basePriceAndLLPAFinal = finalBasePrice + finalLLPAdjustors;
+     this.basePriceAndLLPAInitial = this.ParseFloat(this.basePriceAndLLPAInitial,3);
+     this.basePriceAndLLPAFinal = this.ParseFloat(this.basePriceAndLLPAFinal,3);
     if(this.lockLoanConfirmationData.extensionsInitialAndFinalAdjustments){
       lockExtensionInitialAdjustments = this.getInitialAdjustor(this.lockLoanConfirmationData.extensionsInitialAndFinalAdjustments);
       lockExtensionFinalAdjustments = this.getFinalAdjustor(this.lockLoanConfirmationData.extensionsInitialAndFinalAdjustments);
@@ -809,6 +853,10 @@ print() {
     this.mloMarginIsDirty = true;
     adjustment.finalAdjustor = '' ;
  }
+  clearBasePrice(adjustment : Adjustment ){
+    this.addAdjustmentIsDirty = true;
+    adjustment.finalAdjustor = '' ;
+  }
   clearCus(adjustment : Adjustment ){
     this.addAdjustmentIsDirty = true
     adjustment.finalAdjustor = '' ;
