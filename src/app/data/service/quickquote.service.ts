@@ -62,6 +62,16 @@ export class QuickQuoteService {
         })
       )
   }
+  public getAllUserByClientId(clientId : number): Observable<UserMlo[]> {
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-all-users-by-clientid?clientId=' + clientId
+      )
+      .pipe(
+        map(response => {
+          return this.getUser(response);
+        })
+      )
+  }
   public getUserByEmail(email:string): Observable<UserMlo> {
     return this.http
       .get(API_URL + '/api/v1/auth/get-user-by-email?email=' + email

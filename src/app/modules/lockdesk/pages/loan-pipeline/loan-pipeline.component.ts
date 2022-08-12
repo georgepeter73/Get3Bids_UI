@@ -138,7 +138,7 @@ export class LoanPipelineComponent implements OnInit {
 
   loadUserMLO(){
     if(!this.globalService.getUserMLOs()) {
-      this.quickQuoteService.getAllUserMLO().subscribe(allMLO => {
+      this.quickQuoteService.getAllUserByClientId(this.globalService.getLoggedInUser().clientId).subscribe(allMLO => {
         this.userMLOList = allMLO;
         this.globalService.setUserMLOs(allMLO);
         this.loadingGridData = false;

@@ -63,9 +63,10 @@ export class HeaderComponent implements OnInit {
 
   }
   getLoggedInUserDetails(){
+
     this.quickQuoteService.getUserByEmail(this.authService.getUserEmail()).subscribe(user =>{
       this.globalService.setLoggedInUser(user);
-    })
+     })
 
    }
 

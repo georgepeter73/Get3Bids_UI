@@ -9,6 +9,8 @@ import * as fromRoot from '../../app-state';
 import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngrx/store';
 import {User} from '../../app-state/entity';
+import {QuickQuoteService} from '@data/service/quickquote.service';
+import {GlobalService} from '@app/service/global.service';
 
 @Component({
   selector: 'app-lockdesk-header',
@@ -34,7 +36,9 @@ export class LockdeskHeaderComponent implements OnInit {
     private nbMenuService: NbMenuService,
     private sidebarService: NbSidebarService,
     private router: Router,
-    private readonly store: Store
+    private readonly store: Store,
+    private quickQuoteService : QuickQuoteService,
+    private globalService : GlobalService
 
 
   ) {
@@ -71,10 +75,17 @@ export class LockdeskHeaderComponent implements OnInit {
         }
 
       });
+    this.getLoggedInUserDetails();
     if(this.authService.isTokenExpired()){
       this.logout();
     }
 
+
+  }
+  getLoggedInUserDetails(){
+    this.quickQuoteService.getUserByEmail(this.authService.getUserEmail()).subscribe(user =>{
+      this.globalService.setLoggedInUser(user);
+    })
 
   }
   toggleTheme(checked: boolean) {
