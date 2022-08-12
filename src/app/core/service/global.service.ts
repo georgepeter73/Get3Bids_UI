@@ -97,6 +97,18 @@ export class GlobalService {
   setCampaignType(campaignType: string) {
     sessionStorage.setItem('campaignType', JSON.stringify(campaignType));
   }
+  setSelectedBrokerCompanyId(id: string) {
+    sessionStorage.setItem('brokerCompanyId', JSON.stringify(id));
+  }
+  setSelectedUserMLOUsername(id: string) {
+    sessionStorage.setItem('userMLOName', JSON.stringify(id));
+  }
+  getSelectedUserMLOUsername(): Taxonomy {
+    return JSON.parse(sessionStorage.getItem('userMLOName'));
+  }
+  getSelectedBrokerCompanyId(): Taxonomy {
+    return JSON.parse(sessionStorage.getItem('brokerCompanyId'));
+  }
   setVideoTaxonomy(videoTaxonomy: Taxonomy) {
     sessionStorage.setItem('videoTaxonomy', JSON.stringify(videoTaxonomy));
   }

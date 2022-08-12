@@ -127,8 +127,13 @@ export class LoanPipelineComponent implements OnInit {
       this.loadBrokerCompany();
       //scenario were lock desk user loggs in the mloUserName is selected by the lock desk user .
     }
-    this.brokercompanyId='-1';
-    this.mloUserName='-1';
+    this.brokercompanyId = this.globalService.getSelectedBrokerCompanyId() != null? this.globalService.getSelectedBrokerCompanyId():'-1'
+    this.mloUserName = this.globalService.getSelectedUserMLOUsername()!=null ? this.globalService.getSelectedUserMLOUsername():'-1'
+    this.userMLOList = this.globalService.getUserMLOs() != null ? this.globalService.getUserMLOs() : [];
+    if(this.mloUserName != '-1'){
+      this.loadLoansFromLendingpad();
+    }
+
   }
 
   loadUserMLO(){
@@ -170,6 +175,7 @@ export class LoanPipelineComponent implements OnInit {
     this.quickQuoteService.getAllUserMLOByBrokerCompanyid(this.brokercompanyId).subscribe(users => {
        this.userMLOList = users;
        this.userLoading = false;
+       this.globalService.setUserMLOs(users)
        this.emitAClickEvent();
 
       }
@@ -195,6 +201,9 @@ export class LoanPipelineComponent implements OnInit {
   }
 
   backClicked($event: MouseEvent) {
+    this.globalService.setSelectedBrokerCompanyId(this.brokercompanyId)
+    this.globalService.setLockLoanNavStarter("loan-pipeline");
+    this.globalService.setSelectedUserMLOUsername(this.mloUserName)
     $event.preventDefault();
     this.router.navigate(['/lockdesk/lockdeskhome'])
   }
@@ -204,7 +213,9 @@ export class LoanPipelineComponent implements OnInit {
   }
   onRowClick($event: any) {
     const userMLO = this.getSelectedUserMLO($event);
+    this.globalService.setSelectedBrokerCompanyId(this.brokercompanyId)
     this.globalService.setLockLoanNavStarter("loan-pipeline");
+    this.globalService.setSelectedUserMLOUsername(this.mloUserName)
     this.router.navigate(['/lockdesk/lock-confirmation/' + $event.data.loanNumber + '/' + userMLO.userUUID]);
   }
 
