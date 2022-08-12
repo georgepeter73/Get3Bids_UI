@@ -173,8 +173,20 @@ export class GlobalService {
   setIsLockDesk(lockDesk: boolean) {
     sessionStorage.setItem('isLockDesk', lockDesk.toString());
   }
+  setIsMLO(lockDesk: boolean) {
+    sessionStorage.setItem('isMLO', lockDesk.toString());
+  }
+  setIsLockDeskLimited(lockDesk: boolean) {
+    sessionStorage.setItem('isLockDeskLimited', lockDesk.toString());
+  }
   getIsLockDesk(): boolean {
     return JSON.parse(sessionStorage.getItem('isLockDesk').toLowerCase());
+  }
+  getIsMLO(): boolean {
+    return JSON.parse(sessionStorage.getItem('isMLO').toLowerCase());
+  }
+  getIsLockDeskLimited(): boolean {
+    return JSON.parse(sessionStorage.getItem('isLockDeskLimited').toLowerCase());
   }
   setBrokerCompany(brokerCompanyInfo: BrokerCompanyInfo) {
     sessionStorage.setItem('brokerCompany', JSON.stringify(brokerCompanyInfo));

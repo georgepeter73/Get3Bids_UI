@@ -41,9 +41,7 @@ export class LoginComponent implements OnInit {
     if (await this.authService.checkAuthenticated()) {
       if(this.authService.isAdmin()){
         this.returnUrl = "/admin";
-      }else if(this.authService.isMLO()){
-        this.returnUrl = "/lockdesk";
-      }else if(this.authService.isLockDeskOrMLO()){
+      }else if(this.authService.isMLO() || this.authService.isLockDeskOrMLO() || this.authService.isLockDeskLimited()){
         this.returnUrl = "/lockdesk";
       }
       this.store.dispatch(userActions.login({user: new User()}));
@@ -65,9 +63,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("cognitoSession", this.user["signInUserSession"]);
         if(this.authService.isAdmin()){
           this.returnUrl = "/admin";
-        }else if(this.authService.isMLO()){
-          this.returnUrl = "/lockdesk";
-        }else if(this.authService.isLockDeskOrMLO()){
+        }else if(this.authService.isMLO() || this.authService.isLockDeskOrMLO() || this.authService.isLockDeskLimited()){
           this.returnUrl = "/lockdesk";
         }
         this.router.navigate([this.returnUrl]).then(() => {

@@ -32,6 +32,18 @@ export class LockdeskHomeComponent implements OnInit {
     }else{
       this.globalService.setIsLockDesk(false);
     }
+
+    if (this.authService.getGroups().filter(g => g === 'lockdesk_limited').length>0) {
+      this.globalService.setIsLockDeskLimited(true)
+    }else{
+      this.globalService.setIsLockDeskLimited(false);
+    }
+    if (this.authService.getGroups().filter(g => g === 'mlo').length>0) {
+      this.globalService.setIsMLO(true)
+    }else{
+      this.globalService.setIsMLO(false);
+    }
+
   }
 
   adminDash() {

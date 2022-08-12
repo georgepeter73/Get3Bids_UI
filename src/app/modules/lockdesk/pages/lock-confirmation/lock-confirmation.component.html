@@ -171,11 +171,11 @@
 
             <input autocomplete="off" NumbersOnly maxlength="7"  mask="000.000" [dropSpecialCharacters]="false" [allowNegativeNumbers]="false"    class="form-control" name="basePriceNm" id="OD" [(ngModel)]="lockLoanConfirmationData.initialAndFinalBasePrice.finalAdjustor" #basePriceNm="ngModel"
 
-                   type="text" nbInput fullWidth shape="rectangle" placeholder="%"  (keyup)="setBasePriceAdjustment(lockLoanConfirmationData.initialAndFinalBasePrice,$event)" />
-            <button  class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" (click)="clearBasePrice(lockLoanConfirmationData.initialAndFinalBasePrice)">
+                   type="text" nbInput fullWidth shape="rectangle" placeholder="%"  (keyup)="setBasePriceAdjustment(lockLoanConfirmationData.initialAndFinalBasePrice,$event)" [disabled]="isFieldReadOnly(role,Fields.BasePrice)"/>
+            <button *ngIf="!isFieldReadOnly(role,Fields.BasePrice)" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" (click)="clearBasePrice(lockLoanConfirmationData.initialAndFinalBasePrice)">
               <nb-icon  icon="close"></nb-icon>
             </button>
-            <span class="input-group-text">%</span>
+            <span class="input-group-text" >%</span>
           </div>
 
         </div>
@@ -223,8 +223,8 @@
 
                 <input autocomplete="off" NumbersOnly maxlength="6"  mask="0.000" [dropSpecialCharacters]="false" [allowNegativeNumbers]="false"    class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
 
-                        type="text" nbInput fullWidth shape="rectangle" placeholder="%"  (keyup)="setMLOAdjustment(adjustment)" />
-                  <button  class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" (click)="clearComp(adjustment)">
+                        type="text" nbInput fullWidth shape="rectangle" placeholder="%"  (keyup)="setMLOAdjustment(adjustment)"  [disabled]="isFieldReadOnly(role, adjustment.reason)" />
+                  <button *ngIf="!isFieldReadOnly(role, adjustment.reason)" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" (click)="clearComp(adjustment)">
                     <nb-icon  icon="close"></nb-icon>
                   </button>
                   <span class="input-group-text">%</span>
@@ -256,8 +256,8 @@
                             [patterns]="customPatterns"
                             [dropSpecialCharacters]="false" class="form-control" name="initialAdjustor{{i}}" id="OD" [(ngModel)]="adjustment.finalAdjustor" #initialAdjustor{{i}}="ngModel"
 
-                           type="text" nbInput   fullWidth shape="rectangle" placeholder="%" (keyup)="setAdjustments(adjustment)" />
-                    <button class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" (click)="clearCus(adjustment)">
+                           type="text" nbInput   fullWidth shape="rectangle" placeholder="%" (keyup)="setAdjustments(adjustment)" [disabled]="isFieldReadOnly(role, Fields.CustomAdjustments)" />
+                    <button *ngIf="!isFieldReadOnly(role, Fields.CustomAdjustments)" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" (click)="clearCus(adjustment)">
                      <nb-icon  icon="close"></nb-icon>
                     </button>
                     <span class="input-group-text">%</span>

@@ -117,7 +117,7 @@ export class LoanPipelineComponent implements OnInit {
 
   ngOnInit(): void {
     this.showTheGrid = false;
-    if(!this.globalService.getIsLockDesk()){
+    if(this.globalService.getIsMLO()){
       this.loadingGridData = true;
       //scenario were mlo's are logged into the system
       this.mloUserName = this.authService.getUserEmail();

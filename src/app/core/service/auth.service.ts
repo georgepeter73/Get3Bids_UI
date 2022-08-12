@@ -74,6 +74,14 @@ export class AuthService {
       return false;
     }
   }
+  isLockDeskLimited(){
+
+    if (this.getGroups() && this.getGroups().filter(g => g == 'lockdesk_limited') && this.getGroups().filter(g => g == 'lockdesk_limited').length>0) {
+       return true;
+    }else{
+      return false;
+    }
+  }
   isAdmin(){
      if (this.getGroups() && this.getGroups().filter(g => g == 'admin') && this.getGroups().filter(g => g == 'admin').length>0) {
       return true;
