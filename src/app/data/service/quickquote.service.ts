@@ -484,6 +484,16 @@ export class QuickQuoteService {
         })
       )
   }
+  public getBrokerCompanyById(brokerCompanyId : number): Observable<BrokerCompanyInfo> {
+    return this.http
+      .get(API_URL + '/api/v1/auth/get-company-by-id?brokerCompanyId=' + brokerCompanyId.toString()
+      )
+      .pipe(
+        map(response => {
+          return this.getBrokerCompany(<BrokerCompanyInfo>response);
+        })
+      )
+  }
 
   public getAllBrokerCompany(): Observable<BrokerCompanyInfo[]> {
     return this.http

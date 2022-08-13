@@ -34,6 +34,23 @@
       <div class="col-4"></div>
     </div>
     </div>
+    <div *ngIf="!showDropDowns">
+      <div class="text-left p-2 row" *ngIf="channelTypeTaxonomy">
+        <label  class="col-3" ><h5>Channel Type</h5></label>
+        <div class="col-5">
+          {{channelTypeName}}
+        </div>
+        <div class="col-4"></div>
+      </div>
+      <div class="text-left p-2 row" >
+        <label  class="col-3" ><h5>Branch</h5></label>
+        <div class="col-5">
+          <label>{{brokerCompany.name}}</label>
+        </div>
+        <div class="col-4"></div>
+      </div>
+    </div>
+
 
     <br>
     <div class="text-left" *ngIf="showGrid">

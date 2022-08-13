@@ -23,11 +23,13 @@ export class MloListComponent implements OnInit {
   brokerCompanyLoading: boolean;
   brokerCompanyList: BrokerCompanyInfo[] = [];
   showGrid = false;
+  brokerCompany = new BrokerCompanyInfo();
   rowData: any;
   channelType: string;
   brokercompanyId: number;
   userLoading = false;
   showDropDowns = true;
+  channelTypeName : string;
   constructor(public quickQuoteService : QuickQuoteService,
 
               private router: Router, private _location: Location,
@@ -76,43 +78,31 @@ export class MloListComponent implements OnInit {
       resizable : true,
       minWidth: 200
     },
-    {
-      headerName: "Floify Status",
-      sortable: true,
-      filter: true,
-      checkboxSelection: false,
-      valueFormatter: params => this.approvalStatus(params.data.loSiteDTO.floifyAPIKey),
-      width : 130,
-      resizable : true,
-      minWidth: 100
-    },
-    {
-      headerName: "is Floify Manager",
-      field: "floifyTeamManagerFlag",
-      sortable: true,
-      filter: true,
-      checkboxSelection: false,
-      valueFormatter: params => params.data.floifyTeamManagerFlag === true ? 'Yes' : 'No',
-      width : 130,
-      resizable : true,
-      minWidth: 100
-    },
+
   ];
 
   ngOnInit(): void {
     this.showGrid = false;
+    this.loadTaxonomy();
     this.brokercompanyId = parseInt(this.route.snapshot.paramMap.get('brokerCompanyId'));
     if(this.brokercompanyId){
       this.showDropDowns = false;
       this.showGrid = true;
+      this.loadCompany();
       this.loadUsers();
     }
    else {
-      this.loadTaxonomy();
       this.showGrid = false;
       this.showDropDowns = true;
     }
 
+  }
+  loadCompany() {
+    this.quickQuoteService.getBrokerCompanyById( this.brokercompanyId
+     ).subscribe(c => {
+      this.brokerCompany = c;
+      this.channelTypeName = this.channelTypeTaxonomy.taxonomyItems.filter(t => t.key == this.brokerCompany.brokerCompanyDetailDTO.channelType.toString()).pop().description;
+   })
   }
   loadBrokerCompany() {
     this.brokerCompanyLoading = true;
