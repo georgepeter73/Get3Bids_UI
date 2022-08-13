@@ -110,6 +110,7 @@ export class MloListComponent implements OnInit {
    else {
       this.loadTaxonomy();
       this.showGrid = false;
+      this.showDropDowns = true;
     }
 
   }
@@ -122,6 +123,10 @@ export class MloListComponent implements OnInit {
         this.globalService.setBrokerCompanyInfos(c);
       })
    }
+  onGridReady(params) {
+    params.api.showLoadingOverlay();
+
+  }
 
   loadTaxonomy(){
     this.taxonomyLoading = true;

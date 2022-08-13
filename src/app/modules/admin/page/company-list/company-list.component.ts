@@ -135,4 +135,9 @@ export class CompanyListComponent implements OnInit {
       }
     );
   }
+
+  onGridReady(params) {
+    params.api.showLoadingOverlay();
+
+  }
 }
