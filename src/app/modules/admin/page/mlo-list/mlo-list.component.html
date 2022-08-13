@@ -1,4 +1,4 @@
-<nb-card size="large" >
+<nb-card size="giant" >
   <nb-card-header>
     <div class="text-left col-md-4 "><a href="#" (click)="backClicked($event)"><nb-icon icon="settings-outline"></nb-icon> Admin Dash</a></div>
     <div class="container col-md-8 text-center">
@@ -14,14 +14,35 @@
       </button>
     </div>
     <br>
-    <div class="text-left">
+
+    <div class="text-left p-2 row" *ngIf="channelTypeTaxonomy">
+      <label  class="col-3" ><h5>Channel Type</h5></label>
+     <div class="col-5">
+      <nb-select  fullWidth [(ngModel)]="channelType"   #channelTypeNm="ngModel" name="channelTypeNm" required size="giant"  placeholder="Channel Type" id="channelTypeId"  (ngModelChange)="loadBrokerCompany()"  [nbSpinner]="taxonomyLoading" nbSpinnerStatus="primary">
+      <nb-option *ngFor="let item of channelTypeTaxonomy.taxonomyItems" [value]="item.key">{{item.description}}</nb-option>
+     </nb-select>
+     </div>
+      <div class="col-4"></div>
+    </div>
+    <div class="text-left p-2 row" >
+      <label  class="col-3" ><h5>Branch</h5></label>
+      <div class="col-5">
+      &nbsp;<nb-select fullWidth  [(ngModel)]="brokercompanyId"   #brokerCompany="ngModel" name="brokerCompany" required size="giant"  placeholder="Select a company" id="brokerCompanyid" [nbSpinner]="brokerCompanyLoading" nbSpinnerStatus="primary" (ngModelChange)="loadUsers()" >
+        <nb-option *ngFor="let brokercompany of brokerCompanyList" [value]="brokercompany.brokercompanyId">{{brokercompany.name}}</nb-option>
+      </nb-select>
+      </div>
+      <div class="col-4"></div>
+    </div>
+
+    <br>
+    <div class="text-left" *ngIf="showGrid">
       <input class="form-control"
              [(ngModel)]="searchValue"
              type="text" nbInput  shape="rectangle" placeholder="Filter"
       />
     </div>
 
-    <ag-grid-angular
+    <ag-grid-angular *ngIf="showGrid"
       style="width: 1025px; height: 350px;"
       #grid
       class="ag-theme-alpine"
