@@ -27,6 +27,7 @@ export class MloListComponent implements OnInit {
   channelType: string;
   brokercompanyId: number;
   userLoading = false;
+  showDropDowns = true;
   constructor(public quickQuoteService : QuickQuoteService,
 
               private router: Router, private _location: Location,
@@ -101,29 +102,26 @@ export class MloListComponent implements OnInit {
   ngOnInit(): void {
     this.showGrid = false;
     this.brokercompanyId = parseInt(this.route.snapshot.paramMap.get('brokerCompanyId'));
-    this.loadTaxonomy();
-    this.brokerCompanyList = this.globalService.getBrokerCompanyInfos() != null ? this.globalService.getBrokerCompanyInfos() :  [];
-    this.channelType = this.globalService.getSelectedChannelType() != null ? this.globalService.getSelectedChannelType() : '-1';
-    if(this.globalService.getUserMLOs().length >0){
+    if(this.brokercompanyId){
+      this.showDropDowns = false;
       this.showGrid = true;
-      this.rowData = of(this.globalService.getUserMLOs())
+      this.loadUsers();
+    }
+   else {
+      this.loadTaxonomy();
+      this.showGrid = false;
     }
 
   }
   loadBrokerCompany() {
     this.brokerCompanyLoading = true;
-    if(this.brokerCompanyList.length == 0) {
-      this.quickQuoteService.getBrokerCompanyByChannelType(
+     this.quickQuoteService.getBrokerCompanyByChannelType(
         this.globalService.getLoggedInUser().clientId, this.channelType).subscribe(c => {
         this.brokerCompanyList = c;
         this.brokerCompanyLoading = false;
         this.globalService.setBrokerCompanyInfos(c);
       })
-    }else{
-      this.brokerCompanyLoading = false;
-    }
-
-  }
+   }
 
   loadTaxonomy(){
     this.taxonomyLoading = true;
@@ -150,14 +148,10 @@ export class MloListComponent implements OnInit {
 
 
   newMLO() {
-    this.globalService.setBrokerCompanyInfos(this.brokerCompanyList);
-    this.globalService.setSelectedChannelType(this.channelType);
-    this.router.navigate(["/admin/mlo-create/add/"+this.brokercompanyId]);
+     this.router.navigate(["/admin/mlo-create/add/"+this.brokercompanyId]);
   }
 
   onRowClick($event: any) {
-    this.globalService.setBrokerCompanyInfos(this.brokerCompanyList);
-    this.globalService.setSelectedChannelType(this.channelType);
     sessionStorage.setItem('userDTO', JSON.stringify(this.usersGrid.api.getSelectedRows()[0]));
     this.router.navigate(["/admin/mlo-create/edit/"+this.brokercompanyId]);
   }
@@ -174,8 +168,7 @@ export class MloListComponent implements OnInit {
     this.showGrid = true;
     this.quickQuoteService.getAllUserMLOByBrokerCompanyid(this.brokercompanyId).subscribe(res =>{
        this.rowData = of(res);
-        this.globalService.setUserMLOs(res)
-        this.userLoading = false;
+         this.userLoading = false;
       });
     }
 

@@ -14,7 +14,7 @@
       </button>
     </div>
     <br>
-
+   <div *ngIf="showDropDowns">
     <div class="text-left p-2 row" *ngIf="channelTypeTaxonomy">
       <label  class="col-3" ><h5>Channel Type</h5></label>
      <div class="col-5">
@@ -32,6 +32,7 @@
       </nb-select>
       </div>
       <div class="col-4"></div>
+    </div>
     </div>
 
     <br>
