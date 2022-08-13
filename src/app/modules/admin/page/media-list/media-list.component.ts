@@ -127,5 +127,8 @@ export class MediaListComponent implements OnInit {
   }
 
 
+  onGridReady($event: any) {
+    $event.api.showLoadingOverlay();
 
+  }
 }

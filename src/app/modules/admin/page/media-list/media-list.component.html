@@ -38,6 +38,7 @@
       (rowDoubleClicked)="onRowClick($event)"
       [frameworkComponents]="frameworkComponents"
       [enableCellTextSelection]="true"
+      (gridReady)="onGridReady($event)"
     >
     </ag-grid-angular>
     </div>
