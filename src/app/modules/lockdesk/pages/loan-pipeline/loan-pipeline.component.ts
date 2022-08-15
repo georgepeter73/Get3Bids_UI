@@ -146,7 +146,11 @@ export class LoanPipelineComponent implements OnInit {
         }, 50);
       },
       error => {
-        console.error(error)
+        this.loadingGridData = false;
+        this.rowData = of([]);
+         console.log(error);
+        this.emitAClickEvent();
+
       }
     );
   }

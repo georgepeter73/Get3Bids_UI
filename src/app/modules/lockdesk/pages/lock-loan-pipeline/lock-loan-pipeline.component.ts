@@ -169,6 +169,9 @@ export class LockLoanPipelineComponent implements OnInit {
           this.emitEvent();
         },error => {
           this.lockLoanFailure = true;
+          this.rowData = of([]);
+          console.log(error);
+          this.emitEvent();
         });
       },
       1000);
