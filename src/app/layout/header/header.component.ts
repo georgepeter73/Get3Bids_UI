@@ -44,7 +44,6 @@ export class HeaderComponent implements OnInit {
     this.items.push({title:this.authService.getUserFullName(),icon: 'person-outline'});
     this.isDarkTheme$ = this.themeService.getDarkTheme();
     this.themeService.setDarkTheme(true);
-    this.getLoggedInUserDetails();
     this.nbMenuService
        .onItemClick()
        .subscribe(data => {
@@ -62,13 +61,7 @@ export class HeaderComponent implements OnInit {
 
 
   }
-  getLoggedInUserDetails(){
 
-    this.quickQuoteService.getUserByEmail(this.authService.getUserEmail()).subscribe(user =>{
-      this.globalService.setLoggedInUser(user);
-     })
-
-   }
 
 
 

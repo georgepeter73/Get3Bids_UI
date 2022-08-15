@@ -118,12 +118,10 @@ export class LoanPipelineComponent implements OnInit {
   ngOnInit(): void {
     this.showTheGrid = false;
     if(this.globalService.getIsMLO()){
-      this.loadingGridData = true;
-      //scenario were mlo's are logged into the system
+       //scenario were mlo's are logged into the system
       this.mloUserName = this.authService.getUserEmail();
       this.loadLoansFromLendingpad();
-      this.loadUserMLO();
-    }else{
+     }else{
       this.loadBrokerCompany();
       //scenario were lock desk user loggs in the mloUserName is selected by the lock desk user .
     }
@@ -135,25 +133,13 @@ export class LoanPipelineComponent implements OnInit {
     }
 
   }
-
-  loadUserMLO(){
-    if(!this.globalService.getUserMLOs()) {
-      this.quickQuoteService.getAllUserByClientId(this.globalService.getLoggedInUser().clientId).subscribe(allMLO => {
-        this.userMLOList = allMLO;
-        this.globalService.setUserMLOs(allMLO);
-        this.loadingGridData = false;
-        this.emitAClickEvent();
-      })
-    }else{
-      this.userMLOList = this.globalService.getUserMLOs();
-      this.loadingGridData = false;
-    }
-  }
   loadLoansFromLendingpad(){
     this.showTheGrid = true;
+    this.loadingGridData = true;
      this.lockDeskService.getLoanPipeline(this.mloUserName).subscribe(
       plist => {
         this.rowData = of(plist);
+        this.loadingGridData = false;
         this.emitAClickEvent();
         setTimeout(() => {
           this.loanPipelineGrid.api.sizeColumnsToFit()
@@ -208,8 +194,12 @@ export class LoanPipelineComponent implements OnInit {
     this.router.navigate(['/lockdesk/lockdeskhome'])
   }
   getSelectedUserMLO($event: any) :UserMlo{
-    //always get the loan officer email from the loan info. should not get from the login information
-    return this.userMLOList.filter(user => user.userName === $event.data.loanOfficer.email).pop();
+    if(this.globalService.getIsMLO()){
+      return this.globalService.getLoggedInUser();
+    }else {
+      //get the loan officer email from the loan info. should not get from the login information
+      return this.userMLOList.filter(user => user.userName === $event.data.loanOfficer.email).pop();
+    }
   }
   onRowClick($event: any) {
     const userMLO = this.getSelectedUserMLO($event);

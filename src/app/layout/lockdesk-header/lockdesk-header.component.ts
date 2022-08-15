@@ -75,19 +75,13 @@ export class LockdeskHeaderComponent implements OnInit {
         }
 
       });
-    this.getLoggedInUserDetails();
-    if(this.authService.isTokenExpired()){
+     if(this.authService.isTokenExpired()){
       this.logout();
     }
 
 
   }
-  getLoggedInUserDetails(){
-    this.quickQuoteService.getUserByEmail(this.authService.getUserEmail()).subscribe(user =>{
-      this.globalService.setLoggedInUser(user);
-    })
 
-  }
   toggleTheme(checked: boolean) {
     this.themeService.setDarkTheme(checked);
   }

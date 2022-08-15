@@ -7,7 +7,7 @@
       <fieldset class="border  rounded-lg col-12 ">
         <legend  class="w-auto"><strong>Branch / Broker Company</strong></legend>
         <p>You can create or make changes to broker company here</p>
-        <button ghost nbButton status="primary" (click)="brokerCompany()" >
+        <button ghost nbButton status="primary" (click)="brokerCompany()" [nbSpinner]="loadingUser" nbSpinnerStatus="primary"  [disabled]="loadingUser">
           Branch / Mortgage Broker Company
         </button>
       </fieldset>
@@ -17,7 +17,7 @@
     <fieldset class="border  rounded-lg col-12 ">
       <legend  class="w-auto"><strong>MLO</strong></legend>
       <p>You can create or make changes to MLO's here</p>
-      <button ghost nbButton status="primary" (click)="mlo()" >
+      <button ghost nbButton status="primary" (click)="mlo()" [nbSpinner]="loadingUser" nbSpinnerStatus="primary" [disabled]="loadingUser">
         Mortgage Loan Officer
       </button>
     </fieldset>
@@ -28,7 +28,7 @@
     <fieldset class="border p-2 rounded-lg col-12 ">
       <legend  class="w-auto"><strong>Media Upload</strong></legend>
       <p>LoanHouse rate quote application video upload</p>
-      <button ghost nbButton status="primary" (click)="media()" >
+      <button ghost nbButton status="primary" (click)="media()" [disabled]="loadingUser">
         Media
       </button>
     </fieldset>

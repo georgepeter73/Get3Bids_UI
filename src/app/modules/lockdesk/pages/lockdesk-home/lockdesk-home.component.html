@@ -7,12 +7,12 @@
        <fieldset class="border  rounded-lg col-12 " *ngIf="!globalService.getIsLockDesk()">
         <div *ngIf="authService.getUserFullName().includes('George')">
         <p>Price a Loan</p>
-        <button ghost nbButton status="primary"  (click)="quickPricer()">
+        <button ghost nbButton status="primary"  (click)="quickPricer()" [nbSpinner]="loadingUser" nbSpinnerStatus="primary" [disabled]="loadingUser">
           Quick Pricer
         </button>
         </div>
         <p>Loan Pipeline has all your LendingPad Loans</p>
-        <button ghost nbButton status="primary"  (click)="loanPipeline()">
+        <button ghost nbButton status="primary"  (click)="loanPipeline()" [nbSpinner]="loadingUser" nbSpinnerStatus="primary" [disabled]="loadingUser">
           Loan Pipeline
         </button>
 
@@ -27,11 +27,11 @@
         </button>
         </div>
          <p>Loan Pipeline has loans from all MLO's</p>
-        <button ghost nbButton status="primary"  (click)="loanPipeline()">
+        <button ghost nbButton status="primary"  (click)="loanPipeline()" [nbSpinner]="loadingUser" nbSpinnerStatus="primary" [disabled]="loadingUser">
           Loan Pipeline
         </button>
         <p>Lock Desk Pipeline will have all the loans that has some lock status</p>
-        <button ghost nbButton status="primary"  (click)="lockLoanPipeline()">
+        <button ghost nbButton status="primary"  (click)="lockLoanPipeline()" [nbSpinner]="loadingUser" nbSpinnerStatus="primary" [disabled]="loadingUser">
           Lock Desk
         </button>
 
