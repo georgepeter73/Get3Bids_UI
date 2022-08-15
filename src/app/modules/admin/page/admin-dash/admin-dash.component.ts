@@ -7,7 +7,7 @@ import {GlobalService} from '@app/service/global.service';
   selector: 'app-admin-dash',
   templateUrl: './admin-dash.component.html',
   styleUrls: ['./admin-dash.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class AdminDashComponent implements OnInit {
   constructor(private router: Router,  public authService: AuthService, private quickQuoteService : QuickQuoteService,
@@ -51,7 +51,27 @@ export class AdminDashComponent implements OnInit {
      this.quickQuoteService.getUserByEmail(this.authService.getUserEmail()).subscribe(user =>{
       this.globalService.setLoggedInUser(user);
        this.loadingUser = false;
+       this.emitEvent();
     })
 
+  }
+  emitEvent(){
+    //hack for data not displaying with out a mouse click
+    this.eventFire(document.getElementById('refreshButtonId'), 'click');
+  }
+  refreshGrid($event: MouseEvent) {
+    $event.preventDefault();
+
+  }
+  eventFire(el, etype){
+    if(el) {
+      if (el.fireEvent) {
+        el.fireEvent('on' + etype);
+      } else {
+        var evObj = document.createEvent('Events');
+        evObj.initEvent(etype, true, false);
+        el.dispatchEvent(evObj);
+      }
+    }
   }
 }

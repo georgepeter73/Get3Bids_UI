@@ -19,6 +19,25 @@ export class LockdeskHomeComponent implements OnInit {
     if(!this.globalService.getLoggedInUser()) {
       this.getLoggedInUserDetails();
     }
+   }
+  emitEvent(){
+    //hack for data not displaying with out a mouse click
+    this.eventFire(document.getElementById('refreshButtonId'), 'click');
+  }
+  refreshGrid($event: MouseEvent) {
+    $event.preventDefault();
+
+  }
+  eventFire(el, etype){
+    if(el) {
+      if (el.fireEvent) {
+        el.fireEvent('on' + etype);
+      } else {
+        var evObj = document.createEvent('Events');
+        evObj.initEvent(etype, true, false);
+        el.dispatchEvent(evObj);
+      }
+    }
   }
 
   loanPipeline() {
@@ -62,6 +81,7 @@ export class LockdeskHomeComponent implements OnInit {
     this.quickQuoteService.getUserByEmail(this.authService.getUserEmail()).subscribe(user =>{
       this.globalService.setLoggedInUser(user);
       this.loadingUser = false;
+      this.emitEvent();
     })
 
   }
