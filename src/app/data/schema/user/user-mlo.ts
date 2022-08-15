@@ -24,6 +24,7 @@ export class UserMlo{
   userMediaList : UserMedia[];
   userContact : UserContact;
   loSiteDTO : LoSiteDTO;
+  externalUserFlag : boolean;
 
 
 

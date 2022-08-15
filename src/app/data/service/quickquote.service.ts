@@ -183,6 +183,7 @@ export class QuickQuoteService {
       user1.loPricingId = user['loPricingId'];
       user1.loMargin = user['loMargin'];
       user1.userId = user['userId'];
+      user1.externalUserFlag = user['externalUserFlag'];
       user1.floifyAccountApprovalFlag = user['floifyAccountApprovalFlag'];
       if (user['userMediaDTOList']) {
         user1.userMediaList = this.getUserMedias(user['userMediaDTOList']);

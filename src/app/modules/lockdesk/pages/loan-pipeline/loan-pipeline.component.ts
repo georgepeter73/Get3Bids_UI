@@ -175,6 +175,11 @@ export class LoanPipelineComponent implements OnInit {
     if(!this.globalService.getBrokerCompanyInfos()) {
       this.quickQuoteService.getAllBrokerCompany().subscribe(c => {
         this.brokerCompanyList = c;
+        //if its a external user then show only the logged in users company in the list, they cant see other companies
+        if(this.globalService.getLoggedInUser().externalUserFlag){
+          this.brokerCompanyList.filter(b => b.brokercompanyId === this.globalService.getLoggedInUser().brokercompanyId
+          )
+        }
         this.brokerCompanyLoading = false;
         this.globalService.setBrokerCompanyInfos(c);
         this.emitAClickEvent();
