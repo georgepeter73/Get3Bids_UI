@@ -167,6 +167,8 @@ export class RateQuoteProductDetailsComponent implements OnInit {
     this.lockLoan.selectedProduct = this.product;
     this.lockLoan.selectedQuote = this.rateSelected;
     this.lockLoan.productDetail = this.product_detail;
+    this.lockLoan.productDetail.quotes = [];
+    this.lockLoan.productDetail.parQuotes = [];
     this.lockLoan.adjustments = this.product_detail.adjustments;
     this.lockLoan.lockDays = this.rateSelected.lockPeriod;
     this.lockLoan.selectedUserMloUUID = this.selectedUserMloUUID;
