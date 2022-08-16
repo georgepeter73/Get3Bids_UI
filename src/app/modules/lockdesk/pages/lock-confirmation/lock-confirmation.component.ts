@@ -640,6 +640,9 @@ export class LockConfirmationComponent implements OnInit {
 
   }
   deleteAdjustment(i: number) {
+    this.setMarginDefaults();
+    this.setCustomDefaults();
+    this.saveDefaults();
     if (this.lockLoanConfirmationData.customInitialAndFinalAdjustments[i].initialAdjustor) {
       this.loadingDeleteAdjustment = true;
       this.loadingComments = true;
@@ -661,8 +664,7 @@ print() {
     }
     window.print();
   }
-  saveCompensationAdjustments() {
-    this.compensationAdjustmentFailed = false;
+  setMarginDefaults(){
     const customMLOMargin = this.initialLockLoan.productDetail.customMargins.filter(m => m.reason === 'MLO Margin').pop();
     const customCompanyMargin = this.initialLockLoan.productDetail.customMargins.filter(m => m.reason === 'Company Margin').pop();
     const customCorporateMargin = this.initialLockLoan.productDetail.customMargins.filter(m => m.reason === 'Corporate Margin').pop();
@@ -684,13 +686,19 @@ print() {
     if(!customCorporateMargin.initialAdjustor){
       this.initialLockLoan.productDetail.customMargins.filter(m =>m.reason === 'Corporate Margin').pop().initialAdjustor="0.000";
     }
+  }
+  saveCompensationAdjustments() {
+    this.setMarginDefaults();
+    const customMLOMargin = this.initialLockLoan.productDetail.customMargins.filter(m => m.reason === 'MLO Margin').pop();
+    const customCompanyMargin = this.initialLockLoan.productDetail.customMargins.filter(m => m.reason === 'Company Margin').pop();
+    const customCorporateMargin = this.initialLockLoan.productDetail.customMargins.filter(m => m.reason === 'Corporate Margin').pop();
+    this.compensationAdjustmentFailed = false;
     if(this.isFinalMarginGreaterThanInital(customMLOMargin) || this.isFinalMarginGreaterThanInital(customCompanyMargin) || this.isFinalMarginGreaterThanInital(customCorporateMargin)){
          this.compensationAdjustmentFailed = true;
         this.compensationAdjustmentMessage="Compensation adjustors can not be more than original compensation adjustors."
          this.loadingComments = false;
     }else if(this.mloMarginIsDirty ) {
-
-        this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
+      this.saveRateLock(this.LockStatesType.RequestNewAdjustment);
       this.lockLoanActionSuccessMessage = "Adjustment saved successfully."
     }
     this.mloMarginIsDirty = false;
@@ -861,5 +869,6 @@ print() {
     this.addAdjustmentIsDirty = true
     adjustment.finalAdjustor = '' ;
   }
+
 
 }
