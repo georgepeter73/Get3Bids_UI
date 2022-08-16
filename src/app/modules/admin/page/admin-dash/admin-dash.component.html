@@ -29,7 +29,7 @@
     <fieldset class="border p-2 rounded-lg col-12 ">
       <legend  class="w-auto"><strong>Media Upload</strong></legend>
       <p>LoanHouse rate quote application video upload</p>
-      <button ghost nbButton status="primary" [nbSpinner]="loadingUser" nbSpinnerStatus="primary" [disabled]="loadingUser">
+      <button ghost nbButton status="primary" (click)="media()" [nbSpinner]="loadingUser" nbSpinnerStatus="primary" [disabled]="loadingUser">
         Media
       </button>
     </fieldset>
