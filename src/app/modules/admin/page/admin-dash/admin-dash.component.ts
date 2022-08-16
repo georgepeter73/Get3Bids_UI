@@ -59,6 +59,8 @@ export class AdminDashComponent implements OnInit {
   getLoggedInUserDetails(){
     this.loadingUser = true;
      this.quickQuoteService.getUserByEmail(this.authService.getUserEmail()).subscribe(user =>{
+      user.loSiteDTO.lendingpadAPIKey="";
+      user.loSiteDTO.floifyAPIKey="";
       this.globalService.setLoggedInUser(user);
        this.loadingUser = false;
        this.emitEvent();
