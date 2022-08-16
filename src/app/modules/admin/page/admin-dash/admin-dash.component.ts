@@ -19,7 +19,17 @@ export class AdminDashComponent implements OnInit {
   ngOnInit(): void {
     if(!this.globalService.getLoggedInUser()) {
       this.getLoggedInUserDetails();
+    }else if(this.IsUserDifferent()){
+      this.getLoggedInUserDetails();
     }
+  }
+  IsUserDifferent(){
+    if(this.authService.getUserEmail() !== this.globalService.getLoggedInUser().userName){
+        return true;
+    }else{
+      return false;
+    }
+
   }
   mlo() {
     this.router.navigate(["/admin/mlo-list/0"]);

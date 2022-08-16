@@ -18,8 +18,18 @@ export class LockdeskHomeComponent implements OnInit {
     this.loadGroups();
     if(!this.globalService.getLoggedInUser()) {
       this.getLoggedInUserDetails();
+    }else if(this.IsUserDifferent()){
+      this.getLoggedInUserDetails();
     }
    }
+  IsUserDifferent(){
+    if(this.authService.getUserEmail() !== this.globalService.getLoggedInUser().userName){
+      return true;
+    }else{
+      return false;
+    }
+
+  }
   emitEvent(){
     //hack for data not displaying with out a mouse click
     this.eventFire(document.getElementById('refreshButtonId'), 'click');

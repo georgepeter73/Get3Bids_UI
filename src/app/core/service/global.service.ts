@@ -89,7 +89,7 @@ export class GlobalService {
     sessionStorage.setItem('welcome_flag', JSON.stringify(welcomeFlag));
   }
   setLoggedInUser(user: UserMlo) {
-    sessionStorage.setItem('userMLO', JSON.stringify(user));
+    localStorage.setItem('userMLO', JSON.stringify(user));
   }
   setLOUUID(loUUID: string) {
     sessionStorage.setItem('loUUID', JSON.stringify(loUUID));
@@ -122,7 +122,7 @@ export class GlobalService {
     return JSON.parse(sessionStorage.getItem('channelType'));
   }
   getLoggedInUser(): UserMlo {
-    return JSON.parse(sessionStorage.getItem('userMLO'));
+    return JSON.parse(localStorage.getItem('userMLO'));
   }
 
   getWelcomeFlag(): string {
