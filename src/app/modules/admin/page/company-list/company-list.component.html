@@ -15,10 +15,14 @@
     </div>
 
 
-    <div class="text-left p-2" *ngIf="channelTypeTaxonomy">
+    <div class="text-center p-2 row" *ngIf="channelTypeTaxonomy">
+      <label  class="col-3" ><h5>Channel Type</h5></label>
+      <div class="col-5">
       &nbsp;<nb-select   [(ngModel)]="channelType"   #channelTypeNm="ngModel" name="channelTypeNm" required size="giant"  placeholder="Channel Type" id="channelTypeId"  (ngModelChange)="loadCompany()"  [nbSpinner]="taxonomyLoading" nbSpinnerStatus="primary">
-      <nb-option *ngFor="let item of channelTypeTaxonomy.taxonomyItems" [value]="item.key">{{item.description}}</nb-option>
-    </nb-select>
+          <nb-option *ngFor="let item of channelTypeTaxonomy.taxonomyItems" [value]="item.key">{{item.description}}</nb-option>
+       </nb-select>
+      </div>
+      <div class="col-4"></div>
     </div>
 
     <br>
@@ -29,7 +33,7 @@
       />
     </div>
 
-    <ag-grid-angular *ngIf="showGrid"
+    <ag-grid-angular *ngIf="showGrid"  [nbSpinner]="loadingGridData" nbSpinnerStatus="primary"
       style="width: 1025px; height: 350px;"
       #grid
       class="ag-theme-alpine"

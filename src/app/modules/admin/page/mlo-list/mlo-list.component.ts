@@ -80,6 +80,7 @@ export class MloListComponent implements OnInit {
     },
 
   ];
+  loadingGridData = false;
 
   ngOnInit(): void {
     this.showGrid = false;
@@ -164,7 +165,9 @@ export class MloListComponent implements OnInit {
     this.quickQuoteService.getAllUserMLOByBrokerCompanyid(this.brokercompanyId).subscribe(res =>{
        this.rowData = of(res);
          this.userLoading = false;
-      });
+      },error => {
+      this.userLoading = false;
+    });
     }
 
 }

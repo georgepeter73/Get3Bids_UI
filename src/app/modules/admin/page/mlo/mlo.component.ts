@@ -40,12 +40,14 @@ export class MloComponent implements OnInit {
   posTypeTaxonomy : Taxonomy;
   brokerCompanyInfo = new BrokerCompanyInfo();
   mloEmailExist = false;
+  brokerCompanyLoading = false;
 
 
   constructor(public quickQuoteService : QuickQuoteService, private _location: Location,
               private route : ActivatedRoute, private router: Router,private taxonomyService: TaxonomyService,private globalService: GlobalService) {
   }
   ngOnInit(): void {
+    this.brokerCompanyLoading = true;
     this.crudType = this.route.snapshot.paramMap.get('crudType');
     this.brokerCompanyId = this.route.snapshot.paramMap.get('brokerCompanyId');
     this.userMLO.brokercompanyId = parseInt(this.brokerCompanyId);
@@ -85,8 +87,11 @@ export class MloComponent implements OnInit {
     );
     this.quickQuoteService.getAllBrokerCompany().subscribe(c =>{
       this.brokerCompanyList = c;
+      this.brokerCompanyLoading = false;
       this.brokerCompanyInfo = c.filter(bc => bc.brokercompanyId === this.userMLO.brokercompanyId).pop();
       sessionStorage.setItem("brokerCompanyInfo1",JSON.stringify(this.brokerCompanyInfo));
+    },error => {
+      this.brokerCompanyLoading = false;
     })
   }
   isMLOEmailExist(email : string){

@@ -73,7 +73,8 @@ export class CompanyListComponent implements OnInit {
   ];
   channelType: string;
   showGrid = false;
-  taxonomyLoading= false;
+  taxonomyLoading = false;
+  loadingGridData = false;
 
   constructor(public quickQuoteService : QuickQuoteService,
 
@@ -122,15 +123,18 @@ export class CompanyListComponent implements OnInit {
 
   loadCompany() {
     this.showGrid = true;
+    this.loadingGridData = true;
     this.globalService.setSelectedChannelType(this.channelType);
     const userMLO = this.globalService.getLoggedInUser();
     this.quickQuoteService.getBrokerCompanyByChannelType(userMLO.clientId, this.channelType).subscribe(
       clist => {
         clist.sort((a, b) => (a.lastUpdatedAt > b.lastUpdatedAt ? -1 : 1));
         this.rowData = of(clist);
+        this.loadingGridData = false;
         setTimeout(()=>{this.companyGrid.api.sizeColumnsToFit()}, 50);
       },
       error => {
+        this.loadingGridData = false;
         console.error(error)
       }
     );

@@ -60,7 +60,7 @@
       />
     </div>
 
-    <ag-grid-angular *ngIf="showGrid"
+    <ag-grid-angular *ngIf="showGrid"  [nbSpinner]="userLoading" nbSpinnerStatus="primary"
       style="width: 1025px; height: 350px;"
       #grid
       class="ag-theme-alpine"
