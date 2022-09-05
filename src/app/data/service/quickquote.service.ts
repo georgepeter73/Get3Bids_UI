@@ -527,6 +527,8 @@ export class QuickQuoteService {
       brokerCompanyInfo.lastUpdatedBy = res['lastUpdatedBy'];
       brokerCompanyInfo.companyUUID = res['companyUUID'];
       brokerCompanyInfo.companyMargin = res['companyMargin'];
+      brokerCompanyInfo.deleteFlag = res['deleteFlag'];
+
     }
     return brokerCompanyInfo;
   }

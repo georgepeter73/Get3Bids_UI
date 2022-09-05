@@ -17,5 +17,6 @@ export class BrokerCompanyInfo{
   lastUpdatedBy = '';
   companyUUID = '';
   companyMargin = 0;
+  deleteFlag = false;
 
 }
