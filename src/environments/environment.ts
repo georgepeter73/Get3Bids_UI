@@ -24,5 +24,27 @@ export const environment = {
 };
 
 export const awsmobile = {
-
+  "aws_project_region": "us-east-1",
+  "aws_cognito_identity_pool_id": "us-east-1:eaef3231-8a94-49fd-a5ce-ff19e584fe51",
+  "aws_cognito_region": "us-east-1",
+  "aws_user_pools_id": "us-east-1_rkRVNSDU5",
+  "aws_user_pools_web_client_id": "5jm1pvp2chi1pmg42f7bia7f19",
+  "oauth": {},
+  "aws_cognito_login_mechanisms": [
+    "EMAIL"
+  ],
+  "aws_cognito_signup_attributes": [
+    "EMAIL"
+  ],
+  "aws_cognito_mfa_configuration": "OFF",
+  "aws_cognito_mfa_types": [
+    "SMS"
+  ],
+  "aws_cognito_password_protection_settings": {
+    "passwordPolicyMinLength": 8,
+    "passwordPolicyCharacters": []
+  },
+  "aws_cognito_verification_mechanisms": [
+    "EMAIL"
+  ]
 };
