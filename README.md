@@ -1,4 +1,4 @@
-# POS B2B Web
+# Get 3 Bids Web
 
 POS B2B Web is an Angular 9 project. It includes nebular and bootstrap libraries.
 
