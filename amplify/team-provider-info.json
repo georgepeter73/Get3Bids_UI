@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-g3bui-dev-83858-authRole",
+      "UnauthRoleArn": "arn:aws:iam::734999520623:role/amplify-g3bui-dev-83858-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::734999520623:role/amplify-g3bui-dev-83858-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-g3bui-dev-83858-deployment",
+      "UnauthRoleName": "amplify-g3bui-dev-83858-unauthRole",
+      "StackName": "amplify-g3bui-dev-83858",
+      "StackId": "arn:aws:cloudformation:us-east-1:734999520623:stack/amplify-g3bui-dev-83858/e0546070-3297-11ed-9963-12eeac43cdcf",
+      "AmplifyAppId": "d7a8ouaz70jek"
+    },
+    "categories": {
+      "auth": {
+        "getthreebids": {}
+      }
+    }
+  }
+}
