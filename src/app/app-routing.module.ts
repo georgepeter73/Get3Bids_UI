@@ -39,18 +39,7 @@ const routes: Routes = [
       }
     ]
   },
-  {
-    path: "lockdesk",
-    component: LockdeskLayoutComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: "",
-        loadChildren: () =>
-          import("@modules/lockdesk/lockdesk.module").then(m => m.LockdeskModule)
-      }
-    ]
-  },
+
   {
     path: "auth",
     component: AuthLayoutComponent,
